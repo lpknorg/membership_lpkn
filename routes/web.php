@@ -23,3 +23,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::view('dashboard', 'dashboard');
 Route::view('abc', 'test');
+Route::get('member', function(){
+	return redirect('/home');
+});

@@ -15,6 +15,7 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+                    Member nanti duluu, ngerjain adminnya dulu yaa....
                 </div>
             </div>
         </div>
