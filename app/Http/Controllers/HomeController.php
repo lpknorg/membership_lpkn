@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\{
+    ProvinsiImport
+};
 class HomeController extends Controller
 {
     /**
@@ -24,5 +27,9 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+    public function importProvinsi(){
+        Excel::import(new ProvinsiImport, public_path('/excel/provinsi_new.xlsx'));
     }
 }

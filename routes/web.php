@@ -2,6 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Admin\{
+	ProvinsiController,
+	KotaController,
+	InstansiController,
+	LembagaPemerintahanController
+};
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+	return view('welcome');
 });
 
 Auth::routes();
@@ -25,4 +32,20 @@ Route::view('dashboard', 'dashboard');
 Route::view('abc', 'test');
 Route::get('member', function(){
 	return redirect('/home');
+});
+
+Route::get('/import_provinsi', [App\Http\Controllers\HomeController::class, 'importProvinsi']);
+
+Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+	Route::get('/provinsi/dataTables', [ProvinsiController::class, 'getDatatable'])->name('provinsi.dataTables');
+	Route::resource('/provinsi', ProvinsiController::class);
+
+	Route::get('/kota/dataTables', [KotaController::class, 'getDatatable'])->name('kota.dataTables');
+	Route::resource('/kota', KotaController::class);
+
+	Route::get('/instansi/dataTables', [InstansiController::class, 'getDatatable'])->name('instansi.dataTables');
+	Route::resource('/instansi', InstansiController::class);
+
+	Route::get('/lembaga_pemerintahan/dataTables', [LembagaPemerintahanController::class, 'getDatatable'])->name('lembaga_pemerintahan.dataTables');
+	Route::resource('/lembaga_pemerintahan', LembagaPemerintahanController::class);
 });
