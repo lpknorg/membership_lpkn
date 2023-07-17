@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="images/favicon.ico" type="image/ico" />
 
-  <title>Gentelella Alela!</title>
+  <title>Membership LPKN</title>
 
   <!-- Bootstrap -->
   <link href="{{asset('template/vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
@@ -32,7 +32,8 @@
   <link href="{{asset('template/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css')}}" rel="stylesheet">
   <link href="{{asset('template/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css')}}" rel="stylesheet">
   <link href="{{asset('template/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css')}}" rel="stylesheet">
-  <link href="{{asset('template/build/css/custom.min.css')}}" rel="stylesheet">
+  <!-- <link href="{{asset('template/build/css/custom.min.css')}}" rel="stylesheet"> -->
+  <link href="{{asset('template/build/css/custom.css')}}" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" type="text/css"/>
   <link rel="stylesheet" type="text/css" href="{{ asset('template/select2/css/select2.css') }}">
   <style>
@@ -44,6 +45,39 @@
     ::-webkit-scrollbar-thumb {
       background: #aaa;
     }
+
+    /*customepagination*/
+    .pagination{
+      /* display: block; */
+      display: flex;
+      flex-wrap: wrap;
+      background: #73879C !important;
+      padding: 5px;
+      border-radius: 50px;
+      box-shadow: 0px 10px 15px rgba(0,0,0,0.1);
+      color: #73879C !important;
+    }
+    .pagination a {
+      float: left;
+      display: block;
+      font-size: 14px;
+      text-decoration: none;
+      padding: 3px 8px;
+      color: #fff;
+      margin-left: -1px;
+      border: 1px solid transparent;
+      line-height: 1.5;
+    }
+    .pagination .current{
+      color: #fff;
+      background: #20B2AA;
+      position: relative;
+      list-style: none;
+      height: 25px;
+      width: 25px;
+      border-radius: 50%;
+    }
+    
   </style>
 </head>
 
@@ -67,6 +101,12 @@
       @include('layouts.footer')
     </div>
   </div>
+
+  <script>
+     window.onload = (event) => {
+        $(".paging_simple_numbers ").addClass('pagination')
+    };
+  </script>
 
   <!-- jQuery -->
   <script src="{{asset('template/vendors/jquery/dist/jquery.min.js')}}"></script>
