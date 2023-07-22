@@ -6,7 +6,8 @@ use App\Http\Controllers\Admin\{
 	ProvinsiController,
 	KotaController,
 	InstansiController,
-	LembagaPemerintahanController
+	LembagaPemerintahanController,
+	KategoriTempatKerjaController,
 };
 
 /*
@@ -48,4 +49,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
 	Route::get('/lembaga_pemerintahan/dataTables', [LembagaPemerintahanController::class, 'getDatatable'])->name('lembaga_pemerintahan.dataTables');
 	Route::resource('/lembaga_pemerintahan', LembagaPemerintahanController::class);
+
+	Route::get('/kategori_tempat_kerja/dataTables', [KategoriTempatKerjaController::class, 'getDatatable'])->name('kategori_tempat_kerja.dataTables');
+	Route::resource('/kategori_tempat_kerja', KategoriTempatKerjaController::class);
 });

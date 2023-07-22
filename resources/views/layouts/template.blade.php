@@ -64,7 +64,7 @@
       text-decoration: none;
       padding: 3px 8px;
       color: #fff;
-      margin-left: -1px;
+      margin-left: -1px;    
       border: 1px solid transparent;
       line-height: 1.5;
     }

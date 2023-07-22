@@ -13,7 +13,7 @@
       </div>
       <div class="profile_info">
         <span>Welcome,</span>
-        <h2>{{\Auth::user()->name}}</h2>
+        <h2>{{ Auth::user()->name }}</h2>
       </div>
     </div>
     <!-- /menu profile quick info -->
@@ -32,6 +32,7 @@
               <li><a href="{{route('admin.lembaga_pemerintahan.index')}}">Lembaga Pemerintahan</a></li>
             </ul>
           </li>
+          <li><a href="{{route('admin.kategori_tempat_kerja.index')}}"><i class="fa fa-building"></i>Kategori Tempat Kerja<span class="label label-success pull-right"></span></a></li>
         </ul>
       </div>
 
@@ -50,9 +51,14 @@
       <a data-toggle="tooltip" data-placement="top" title="Lock">
         <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
       </a>
-      <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
+      <a data-toggle="tooltip" data-placement="top" title="Logout"  href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
         <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
       </a>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+        </form>
     </div>
     <!-- /menu footer buttons -->
   </div>
