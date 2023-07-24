@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\{
 	InstansiController,
 	LembagaPemerintahanController,
 	KategoriTempatKerjaController,
+	UserController,
 };
 
 /*
@@ -52,4 +53,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
 	Route::get('/kategori_tempat_kerja/dataTables', [KategoriTempatKerjaController::class, 'getDatatable'])->name('kategori_tempat_kerja.dataTables');
 	Route::resource('/kategori_tempat_kerja', KategoriTempatKerjaController::class);
+
+	Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+	Route::resource('/user', UserController::class);
 });

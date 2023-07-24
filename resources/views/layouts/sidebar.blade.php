@@ -33,6 +33,7 @@
             </ul>
           </li>
           <li><a href="{{route('admin.kategori_tempat_kerja.index')}}"><i class="fa fa-building"></i>Kategori Tempat Kerja<span class="label label-success pull-right"></span></a></li>
+          <li><a href="{{route('admin.user.index')}}"><i class="fa fa-user"></i>User<span class="label label-success pull-right"></span></a></li>
         </ul>
       </div>
 
