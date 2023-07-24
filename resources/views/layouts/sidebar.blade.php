@@ -30,9 +30,9 @@
               <li><a href="{{route('admin.kota.index')}}">Kota</a></li>
               <li><a href="{{route('admin.instansi.index')}}">Instansi</a></li>
               <li><a href="{{route('admin.lembaga_pemerintahan.index')}}">Lembaga Pemerintahan</a></li>
+              <li><a href="{{route('admin.kategori_tempat_kerja.index')}}"><i class="fa fa-building"></i>Kategori Tempat Kerja<span class="label label-success pull-right"></span></a></li>
             </ul>
           </li>
-          <li><a href="{{route('admin.kategori_tempat_kerja.index')}}"><i class="fa fa-building"></i>Kategori Tempat Kerja<span class="label label-success pull-right"></span></a></li>
           <li><a href="{{route('admin.user.index')}}"><i class="fa fa-user"></i>User<span class="label label-success pull-right"></span></a></li>
         </ul>
       </div>
