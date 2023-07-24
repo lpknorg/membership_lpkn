@@ -2,7 +2,7 @@
 @section('breadcumb')
 <div class="col-md-12 page-title">
 	<div class="title_left">
-		<h3>Provinsi</h3>
+		<h3>User</h3>
 	</div>
 </div>
 @endsection
@@ -16,20 +16,20 @@
 					<thead>
 						<tr>
 							<th width="10px">No</th>
-							<th>Nama</th>
+							<th>name</th>
 							<th>Email</th>
 							<th width="90px">Action</th>
 						</tr>
 					</thead>
 					<tbody>
-						
+
 					</tbody>
 				</table>
 			</div>
 		</div>
 	</div>
 </div>
-@include('admin.provinsi.modal')
+@include('admin.User.modal')
 @endsection
 @section('scripts')
 <script>
@@ -47,7 +47,7 @@
 					showModal2('show', data)
 				},
 				error: function(data) {
-					showAlert("Ada kesalahan dalam melihat data provinsi", "error")
+					showAlert("Ada kesalahan dalam melihat data User", "error")
 				}
 			});
 		})
@@ -61,7 +61,7 @@
 					showModal2('edit', data)
 				},
 				error: function(data) {
-					showAlert("Ada kesalahan dalam melihat data provinsi", "error")
+					showAlert("Ada kesalahan dalam melihat data User", "error")
 				}
 			});
 		})
@@ -198,16 +198,18 @@
 		function showModal2(act, data=null){
 			if(act == 'show' || act == 'edit'){
 				$('#modalShow').modal('show')
-				$('#modalShow [name=nama]').val(data.nama)
+				$('#modalShow [name=name]').val(data.name)
+                $('#modalShow [name=email]').val(data.email)
+                $('#modalShow [name=password]').val(data.password)
 			}
 			if (act == 'add') {
 				$('#modalAdd').modal('show')
 			}else if (act == 'show') {
-				$('#modalShow .modal-title').text('Lihat Data Provinsi')
+				$('#modalShow .modal-title').text('Lihat Data User')
 				$('#modalShow #btnUpdate').hide()
 				$('#modalShow input, #modalShow textarea').attr('disabled', true)
 			}else{
-				$('#modalShow .modal-title').text('Ubah Data Provinsi')
+				$('#modalShow .modal-title').text('Ubah Data User')
 				$('#modalShow #btnUpdate').show()
 				$('#modalShow input, #modalShow textarea').attr('disabled', false)
 				$('#modalShow form').attr({
@@ -220,10 +222,10 @@
 		var table = $('#table-Datatable').DataTable({
 			processing: true,
 			serverSide: true,
-			ajax: "{{ route('admin.provinsi.dataTables') }}",
+			ajax: "{{ route('admin.user.dataTables') }}",
 			columns: [
 			{data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-			{data: 'nama', name: 'nama'},
+			{data: 'name', name: 'name'},
 			{data: 'email', name: 'email'},
 			{
 				data: 'action',

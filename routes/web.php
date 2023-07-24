@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\{
 	LembagaPemerintahanController,
 	KategoriTempatKerjaController,
 	UserController,
+    MemberController,
 };
 
 /*
@@ -55,5 +56,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 	Route::resource('/kategori_tempat_kerja', KategoriTempatKerjaController::class);
 
 	Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+    Route::get('/user/dataTables', [UserController::class, 'getDatatable'])->name('user.dataTables');
 	Route::resource('/user', UserController::class);
+
+    Route::get('/member/dataTables', [MemberController::class, 'getDatatable'])->name('member.dataTables');
+	Route::resource('/member', MemberController::class);
+
 });
