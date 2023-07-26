@@ -33,8 +33,16 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::view('dashboard', 'dashboard');
 Route::view('abc', 'test');
-Route::get('member', function(){
-	return redirect('/home');
+Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.'], function () {
+	Route::get('/', [App\Http\Controllers\Member\ProfileController::class, 'index'])->name('index');
+	Route::get('/update_profile', [App\Http\Controllers\Member\ProfileController::class, 'editProfile'])->name('update_profile.index');
+	Route::get('/menunggu_pembayaran', [App\Http\Controllers\Member\MenungguPembayaranController::class, 'index'])->name('menunggu_pembayaran.index');
+	Route::get('/event_kamu', [App\Http\Controllers\Member\EventKamuController::class, 'index'])->name('event_kamu.index');
+	Route::get('/sertifikat_kamu', [App\Http\Controllers\Member\SertifikatKamuController::class, 'index'])->name('sertifikat_kamu.index');
+	Route::get('/dokumentasi', [App\Http\Controllers\Member\DokumentasiController::class, 'index'])->name('dokumentasi.index');
+	Route::get('/voucher', [App\Http\Controllers\Member\VoucherController::class, 'index'])->name('voucher.index');
+
+	Route::get('/allevent/{id}', [App\Http\Controllers\Member\ProfileController::class, 'allEvent'])->name('allevent');
 });
 
 Route::get('/import_provinsi', [App\Http\Controllers\HomeController::class, 'importProvinsi']);

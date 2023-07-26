@@ -100,7 +100,7 @@
                     if (data.role == 'admin') {
                       location.href = '/dashboard'
                     }else{
-                      location.href = '/member'
+                      location.href = '/member_profile'
                     }
                   }, 1000);
                 }

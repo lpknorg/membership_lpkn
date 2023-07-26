@@ -15,5 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+	return $request->user();
 });
+Route::post('/daftar_member/', [App\Http\Controllers\Api\MemberController::class, 'daftar'])->name('api.daftar_member');
