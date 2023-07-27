@@ -1,4 +1,13 @@
 @extends('member.layouts.template')
+@section('styles')
+<style>
+	@media (min-width: 1200px){
+		.modal-lg {
+			max-width: 1140px !important;
+		}
+	}	
+</style>
+@endsection
 @section('content')
 <div class="tab-pane fade show active" id="pills-rekomendasievent" role="tabpanel" aria-labelledby="pills-home-tab">
 	<h5 class="font-italic">
@@ -12,7 +21,7 @@
 				<img class="card-img-top card-img-top-special" src="{{$n['brosur_img']}}" alt="Card image cap">
 				<div class="img__description_layer">
 					<p style="padding: 6px">
-						<button type="button" onclick="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Selengkapnya</button>
+						<button type="button" id="btnSelengkapnya" slug="{{$n['slug']}}" class="btn btn-primary btn-sm">Selengkapnya</button>
 					</p>
 				</div>
 			</div>
@@ -20,4 +29,16 @@
 		@endforeach
 	</div>
 </div>
+@endsection
+@section('scripts')
+@include('js/custom_script')
+<script>
+	$(document).ready(function(){
+		$('body').on('click', '[id="btnSelengkapnya"]', function(e) {
+			let sl = $(this).attr('slug')
+			$('#exampleModal').modal('show')
+			getEvent(sl)
+		})		
+	})
+</script>
 @endsection

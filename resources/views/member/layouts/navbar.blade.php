@@ -23,7 +23,7 @@
         <a href="http://localhost/member.lpkn.id/" class="nav-link">Beranda</a>
       </li>
       <li class="nav-item">
-        <a href="http://localhost/member.lpkn.id/page/allevent" class="nav-link">Event</a>
+        <a href="{{route('member_profile.allevent', ['id' => 0])}}" class="nav-link">Event</a>
       </li>
       <li class="nav-item">
         <a href="http://localhost/member.lpkn.id/page/allnews" class="nav-link">Berita</a>
