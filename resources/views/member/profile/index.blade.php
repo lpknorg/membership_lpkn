@@ -21,7 +21,7 @@
 				<img class="card-img-top card-img-top-special" src="{{$n['brosur_img']}}" alt="Card image cap">
 				<div class="img__description_layer">
 					<p style="padding: 6px">
-						<button type="button" id="btnSelengkapnya" slug="{{$n['slug']}}" class="btn btn-primary btn-sm">Selengkapnya</button>
+						<button type="button" id="btnSelengkapnya" onclick="getEvent('{{$n['slug']}}');" slug="{{$n['slug']}}" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Selengkapnya</button>
 					</p>
 				</div>
 			</div>
@@ -32,7 +32,7 @@
 @endsection
 @section('scripts')
 @include('js/custom_script')
-<script>
+<!-- <script>
 	$(document).ready(function(){
 		$('body').on('click', '[id="btnSelengkapnya"]', function(e) {
 			let sl = $(this).attr('slug')
@@ -40,5 +40,5 @@
 			getEvent(sl)
 		})		
 	})
-</script>
+</script> -->
 @endsection

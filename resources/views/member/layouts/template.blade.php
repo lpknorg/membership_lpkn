@@ -11,7 +11,6 @@
 
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.css" />
 
-
 	<title>Halaman Member</title>
 	<style>
 		.card-special {
@@ -172,30 +171,20 @@
 	</div>
 	@include('member.layouts.modals')
 
-	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-xl exampleModal" role="document"></div>
-	</div>
-
 	<!-- Optional JavaScript -->
+
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	<link href="{{asset('template/toastr/css/toastr.min.css')}}" rel="stylesheet" />
     <!-- Plugins and scripts required by this view-->
     <script src="{{asset('template/toastr/js/toastr.js')}}"></script>
     <script src="{{asset('template/toastr/js/toastr2.js')}}"></script>   
-    <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
+	
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	
 	<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.js"></script>
-	<script>
-		$(document).ready( function () {
-			$('.tableMenungguPembayaran').DataTable();
-		});
 
-		function get_event(slug) {
-			
-		}
-
-	</script> 
 	@yield('scripts')
 </body>
 </html>

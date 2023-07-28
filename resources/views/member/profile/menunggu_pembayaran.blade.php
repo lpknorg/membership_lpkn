@@ -1,4 +1,13 @@
 @extends('member.layouts.template')
+@section('styles')
+<style>
+	@media (min-width: 1200px){
+		.modal-lg {
+			max-width: 1140px !important;
+		}
+	}	
+</style>
+@endsection
 @section('content')
 <div class="tab-pane fade show active" id="pills-rekomendasievent" role="tabpanel" aria-labelledby="pills-home-tab">
 	<h5 class="font-italic">
@@ -22,7 +31,7 @@
 					<td>{{ $key+1 }}</td>
 					<td>{{ $e['judul']}}</td>
 					<td>
-						<button type="button" onclick="get_event('{{$e['slug']}}');" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-eye"></i></button>
+						<button type="button" onclick="getEvent('{{$e['slug']}}');" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-eye"></i></button>
 					</td>
 				</tr>
 				@endforeach
@@ -33,7 +42,5 @@
 </div>
 @endsection
 @section('scripts')
-<script>
-	
-</script>
+@include('js/custom_script')
 @endsection
