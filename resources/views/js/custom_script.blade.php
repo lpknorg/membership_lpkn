@@ -1,6 +1,7 @@
 <script>
 	$(document).ready( function () {
 		$('.tableMenungguPembayaran').DataTable();
+		$('.tableEventKamu').DataTable();
 	});
 
 	function getEvent(slug) {

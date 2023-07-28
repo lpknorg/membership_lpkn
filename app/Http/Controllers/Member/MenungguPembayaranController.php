@@ -5,10 +5,6 @@ namespace App\Http\Controllers\Member;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-// use Illuminate\Support\Facades\DB;
-use DataTables;
-use DB;
-
 class MenungguPembayaranController extends Controller
 {
     public function getRespApi($endpoint){
@@ -43,31 +39,4 @@ class MenungguPembayaranController extends Controller
     	$event_waiting = $this->getRespApiWithParam($datapost, 'member/event/waiting');
         return view('member.profile.menunggu_pembayaran', compact('event_waiting'));
     }
-    public function get_event(Request $request){
-        $slug = $request->slug;
-        $email = \Auth::user()->email;
-        $member = DB::table('users')
-            ->join('members', 'users.id', '=', 'members.user_id')
-            ->where('users.email', $email)->get();
-
-        $datapost = array('slug' => $slug, 'email' => $email );
-        $detail_event = $this->getRespApiWithParam($datapost, 'member/event/event_detail');
-       
-        if($detail_event['status'] == 0){
-            // return view('member.profile.modal.get_event', compact('detail_event','member'));
-        }elseif($detail_event['status'] == 1){
-            // return view('member.profile.modal.get_event_status', compact('detail_event','member')); //terdafar
-        }else{
-            // return view('member.profile.modal.get_event_lunas', compact('detail_event','member'));//lunas
-        }
-
-    }
-
-    private function upload_bukti(Request $request)
-    {
-        echo "upload";
-    }  
-
-	    
-
 }
