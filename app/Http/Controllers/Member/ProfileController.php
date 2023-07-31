@@ -23,8 +23,13 @@ class ProfileController extends Controller
         return view('member.profile.index', compact('user', 'new_event'));
     }
 
-    public function allEvent($page=null){
-        $url = 'https://event.lpkn.id/api/member/event/event_page?page='.$page;
+    public function allEvent($page=1, Request $request){
+        if ($request->keyword) {
+            $url = 'https://event.lpkn.id/api/member/event/search_event_page?page='.$page.'&keyword='.$request->keyword;
+        }else{
+            $url = 'https://event.lpkn.id/api/member/event/event_page?page='.$page;
+        }        
+        
         $event = $this->getRespApi($url);
         // dd($event);
         return view('pages.event.index', compact('event'));
@@ -61,6 +66,21 @@ class ProfileController extends Controller
         }else{
             dd('engga');
         }
+    }
+    
+    public function getVideoMateri($slug){
+        $datapost = ['slug' => $slug];
+        $client = new \GuzzleHttp\Client();
+        $endpoint = env('API_SSERTIFIKAT').'member/get_materi_by_slug';
+        $request = $client->post($endpoint, ['form_params' => $datapost]);
+        $response = $request->getBody()->getContents();
+        $data = json_decode($response, true);
+        $data = $data['materi'];
+        $_data = $data[0]['video'];
+        $arr = explode("\r\n", $_data);
+        // dd($arr);
+        echo json_encode($arr);
+        // return $data;
     }
 
     public function eventRegist($datapost){
