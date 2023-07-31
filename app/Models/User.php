@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Admin\Member;
+use App\Http\Controllers\Member\{EventKamuController, SertifikatKamuController};
 
 class User extends Authenticatable
 {
@@ -24,6 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
     ];
+    protected $appends = ['total_event'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -47,5 +49,21 @@ class User extends Authenticatable
     public function member()
     {
         return $this->belongsTo(Member::class, 'id', 'user_id');
+    }
+
+    public function getTotalEventAttribute(){
+        $email = $this->email;
+        $datapost = ['email'=>$email];
+        $n = new EventKamuController();
+        $my_event = $n->getRespApiWithParam($datapost, 'member/event/my_event');
+        return count($my_event['event']);
+    }
+
+    public function getTotalSertifikatAttribute(){
+        $email = $this->email;
+        $datapost = ['email'=>$email];
+        $n = new SertifikatKamuController();
+        $my_event = $n->getRespApiWithParam($datapost, 'member/list_sertif');
+        return count($my_event['list']);
     }
 }

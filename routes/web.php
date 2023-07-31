@@ -36,6 +36,7 @@ Route::view('abc', 'test');
 Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.'], function () {
 	Route::get('/', [App\Http\Controllers\Member\ProfileController::class, 'index'])->name('index');
 	Route::get('/page/get_event/{slug}', [App\Http\Controllers\Member\ProfileController::class, 'getEventModal'])->name('get_event.modal');
+	Route::get('/page/get_video_materi/{slug}', [App\Http\Controllers\Member\ProfileController::class, 'getVideoMateri'])->name('get_video_materi');
 	Route::post('/page/regis_event', [App\Http\Controllers\Member\ProfileController::class, 'regisEvent'])->name('regis_event');
 	Route::post('/page/upload_bukti', [App\Http\Controllers\Member\ProfileController::class, 'uploadBukti'])->name('upload_bukti');
 	Route::get('/update_profile', [App\Http\Controllers\Member\ProfileController::class, 'editProfile'])->name('update_profile.index');

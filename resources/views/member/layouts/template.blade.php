@@ -101,10 +101,10 @@
 
 						<ul class="list-group list-group-unbordered mb-3">
 							<li class="list-group-item">
-								<b>Ikut Event</b> <a class="float-right">2</a>
+								<b>Ikut Event</b> <a class="float-right">{{\Auth::user()->total_event}}</a>
 							</li>
 							<li class="list-group-item">
-								<b>Data Sertifikat</b> <a class="float-right">1</a>
+								<b>Data Sertifikat</b> <a class="float-right">{{\Auth::user()->total_sertifikat}}</a>
 							</li>
 						</ul>
 
