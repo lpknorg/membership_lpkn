@@ -2,8 +2,30 @@
 @section('content')
 <div class="tab-pane fade show active" id="pills-rekomendasievent" role="tabpanel" aria-labelledby="pills-home-tab">
 	<h5 class="font-italic">
-		Voucherrr
+		Voucher Kamu
 	</h5>
-	
+	<div class="row card-body">
+		<table class="table table-hover table-bordered table-responsive-sm tableEventKamu" id="tableEventKamu" style="width:1000px;">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">No</th>
+					<th scope="col">Nama Event</th>
+					<th scope="col">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach($detailevent as $key => $de)
+				<tr>
+					<td>{{ $key+1 }}</td>
+					<td>{{ $de['judul']}}</td>
+					<td>{{ $de['kdvcr']}}</td>
+				</tr>
+				@endforeach
+			</tbody>
+		</table>
+	</div>
 </div>
+@endsection
+@section('scripts')
+@include('js/custom_script')
 @endsection
