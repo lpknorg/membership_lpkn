@@ -4,7 +4,7 @@
 	<h5 class="font-italic">
 		Voucher Kamu
 	</h5>
-	<div class="row card-body">
+	<div class="row table-responsive card-body">
 		<table class="table table-hover table-bordered table-responsive-sm tableEventKamu" id="tableEventKamu" style="width:1000px;">
 			<thead class="thead-dark">
 				<tr>
