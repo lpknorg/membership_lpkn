@@ -31,16 +31,17 @@
       <li class="nav-item">
         <a href="http://localhost/member.lpkn.id/page/allvideo" class="nav-link">Video</a>
       </li>
-      <div class="dropdown show">
+      <li class="nav-item">
+        <a href="{{route('member_profile.peraturan')}}" class="nav-link">Peraturan</a>
+      </li>
+      <!-- <div class="dropdown show">
         <a class="nav-link  dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Dropdown 
         </a>
-
         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-          <a href="http://localhost/member.lpkn.id/page/peraturan" class="dropdown-item download-peraturan">Peraturan</a>
           <a href="http://localhost/member.lpkn.id/page/video" target="blank_" class="dropdown-item download-video">Video</a>
         </div>
-      </div>
+      </div> -->
     </ul>
     <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
      <!-- Messages Dropdown Menu -->

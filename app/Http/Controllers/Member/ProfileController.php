@@ -19,6 +19,23 @@ class ProfileController extends Controller
         return $data;
     }
 
+    public function getRespApiLpknidWithParam($datapost, $url){
+        $client = new \GuzzleHttp\Client();
+        $endpoint = env('API_LPKN_ID').$url;
+        $request = $client->post($endpoint, [
+            'form_params' => $datapost,
+            'headers' => [
+                'Authorization'  => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6ImFkbWluaXN0cmF0b3IiLCJ1c2VyX2dyb3VwIjoiYWRtaW4iLCJpYXQiOjE2NTg4MzQzMzN9.dhoLWPcm4cpXOUouX4GEMFrQBmIz5-RRaMACMUW0wxs',
+                'Cookie' => 'ci_session=e40e0d7d948983435b6949a4df8efbfaf2238c4b'
+            ]
+        ]);
+
+        $response = $request->getBody()->getContents();
+        $data = json_decode($response, true);
+        return $data;
+    }
+
+
     public function index()
     {
     	$new_event = $this->getRespApi('https://event.lpkn.id/api/member/event');
@@ -37,6 +54,18 @@ class ProfileController extends Controller
         // dd($event);
         return view('pages.event.index', compact('event'));
     }
+
+    public function peraturan(){
+        return view('pages.peraturan.index');
+    }
+
+    public function download_peraturan(Request $request){
+        $param = $request->param;
+		$datapost = ['param' => $param];
+        $result = $this->getRespApiLpknidWithParam($datapost, 'download/json_pasal');
+        $peraturans = $result['peraturans'];
+        print_r($peraturans);die;
+	}
 
     public function editProfile(){
         $user = \Auth::user();
