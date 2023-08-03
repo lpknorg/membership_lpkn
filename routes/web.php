@@ -45,7 +45,11 @@ Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.'], function
 	
 	Route::get('/event_kamu', [App\Http\Controllers\Member\EventKamuController::class, 'index'])->name('event_kamu.index');
 	Route::get('/sertifikat_kamu', [App\Http\Controllers\Member\SertifikatKamuController::class, 'index'])->name('sertifikat_kamu.index');
+	
 	Route::get('/dokumentasi', [App\Http\Controllers\Member\DokumentasiController::class, 'index'])->name('dokumentasi.index');
+	Route::post('/get_artikel', [App\Http\Controllers\Member\DokumentasiController::class, 'get_artikel'])->name('dokumentasi.get_artikel');
+	// Route::post('/count', [App\Http\Controllers\Member\DokumentasiController::class, 'count'])->name('dokumentasi.count');
+	
 	Route::get('/voucher', [App\Http\Controllers\Member\VoucherController::class, 'index'])->name('voucher.index');
 
 	Route::get('/allevent/{id}', [App\Http\Controllers\Member\ProfileController::class, 'allEvent'])->name('allevent');
