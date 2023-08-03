@@ -33,13 +33,14 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::view('dashboard', 'dashboard');
 Route::view('abc', 'test');
-Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.'], function () {
+Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middleware' => 'auth'], function () {
 	Route::get('/', [App\Http\Controllers\Member\ProfileController::class, 'index'])->name('index');
 	Route::get('/page/get_event/{slug}', [App\Http\Controllers\Member\ProfileController::class, 'getEventModal'])->name('get_event.modal');
 	Route::get('/page/get_video_materi/{slug}', [App\Http\Controllers\Member\ProfileController::class, 'getVideoMateri'])->name('get_video_materi');
 	Route::post('/page/regis_event', [App\Http\Controllers\Member\ProfileController::class, 'regisEvent'])->name('regis_event');
 	Route::post('/page/upload_bukti', [App\Http\Controllers\Member\ProfileController::class, 'uploadBukti'])->name('upload_bukti');
-	Route::get('/update_profile', [App\Http\Controllers\Member\ProfileController::class, 'editProfile'])->name('update_profile.index');
+	Route::get('/edit_profile', [App\Http\Controllers\Member\ProfileController::class, 'editProfile'])->name('edit_profile');
+	Route::post('/update_profile', [App\Http\Controllers\Member\ProfileController::class, 'updateProfile'])->name('update_profile');
 
 	Route::get('/menunggu_pembayaran', [App\Http\Controllers\Member\MenungguPembayaranController::class, 'index'])->name('menunggu_pembayaran.index');
 	

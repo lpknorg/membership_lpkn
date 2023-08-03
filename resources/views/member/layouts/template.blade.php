@@ -14,67 +14,67 @@
 	<title>Halaman Member</title>
 	<style>
 		.card-special {
-		z-index: 1;
-		border-radius: 6px 6px 6px 6px;
-		border: 1;
-		transition: 0.4s;
-	}
-	.card-wrapper-special {
-		padding: 6px;
-		/*box-shadow: 0 10px 60px 0 rgba(0, 0, 0, 0.2);*/
-	}
-	.card-special:hover {
-		transform: scale(1.1);
-		box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.4);
-		z-index: 2;
-	}
-	.card-text-special {
-		color: #fea200;
-		font-weight: 500;
-	}
-	.card-img-top-special {
-		/*border-radius: unset;*/
-		border-radius: 5px 5px 5px 5px;
-	}
+			z-index: 1;
+			border-radius: 6px 6px 6px 6px;
+			border: 1;
+			transition: 0.4s;
+		}
+		.card-wrapper-special {
+			padding: 6px;
+			/*box-shadow: 0 10px 60px 0 rgba(0, 0, 0, 0.2);*/
+		}
+		.card-special:hover {
+			transform: scale(1.1);
+			box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.4);
+			z-index: 2;
+		}
+		.card-text-special {
+			color: #fea200;
+			font-weight: 500;
+		}
+		.card-img-top-special {
+			/*border-radius: unset;*/
+			border-radius: 5px 5px 5px 5px;
+		}
 
-	.img__description_layer {
-		font-size: 14px;
-		/*font-weight: bold;*/
-		position: absolute;
-		text-align: center;
-		padding: 6px
-		top: auto;
-		/*top: 100px;*/
-		width: 100%;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		border-radius: 0px 0px 5px 5px;
-		/*background: rgba(0 0 0 / 85%);*/
-		color: white;
-		visibility: hidden;
-		opacity: 0;
-		/*display: flex;*/
-		align-items: center;
-		justify-content: bottom;
+		.img__description_layer {
+			font-size: 14px;
+			/*font-weight: bold;*/
+			position: absolute;
+			text-align: center;
+			padding: 6px
+			top: auto;
+			/*top: 100px;*/
+			width: 100%;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			border-radius: 0px 0px 5px 5px;
+			/*background: rgba(0 0 0 / 85%);*/
+			color: white;
+			visibility: hidden;
+			opacity: 0;
+			/*display: flex;*/
+			align-items: center;
+			justify-content: bottom;
 
-		/* transition effect. not necessary */
-		transition: opacity .2s, visibility .2s;
-	}
-	.img__wrap:hover .img__description_layer {
-		visibility: visible;
-		opacity: 1;
-	}
+			/* transition effect. not necessary */
+			transition: opacity .2s, visibility .2s;
+		}
+		.img__wrap:hover .img__description_layer {
+			visibility: visible;
+			opacity: 1;
+		}
 
-	/*button load_more*/
-	@media only screen and (min-width: 767px) {
-	.show-large {
-		display: block;
-	}
-	.show-mobile {
-		display: none;
-	}
-	}
+		/*button load_more*/
+		@media only screen and (min-width: 767px) {
+			.show-large {
+				display: block;
+			}
+			.show-mobile {
+				display: none;
+			}
+		}
 
 	</style>
 	@yield('styles')
@@ -150,7 +150,7 @@
 								<a class="nav-link {{$csegment > 1 && $segment[1] == 'sertifikat_kamu' ? 'active' : ''}}" href="{{route('member_profile.sertifikat_kamu.index')}}">Sertifikat Kamu</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link {{$csegment > 1 && $segment[1] == 'update_profile' ? 'active' : ''}}" href="{{route('member_profile.update_profile.index')}}">Update Profile</a>
+								<a class="nav-link {{$csegment > 1 && $segment[1] == 'edit_profile' ? 'active' : ''}}" href="{{route('member_profile.edit_profile')}}">Update Profile</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link {{$csegment > 1 && $segment[1] == 'dokumentasi' ? 'active' : ''}}" href="{{route('member_profile.dokumentasi.index')}}">Dokumentasi</a>
@@ -176,15 +176,15 @@
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<link href="{{asset('template/toastr/css/toastr.min.css')}}" rel="stylesheet" />
-    <!-- Plugins and scripts required by this view-->
-    <script src="{{asset('template/toastr/js/toastr.js')}}"></script>
-    <script src="{{asset('template/toastr/js/toastr2.js')}}"></script>   
+	<!-- Plugins and scripts required by this view-->
+	<script src="{{asset('template/toastr/js/toastr.js')}}"></script>
+	<script src="{{asset('template/toastr/js/toastr2.js')}}"></script>   
 	
 	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	
 	<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.js"></script>
-
+	<script src="{{asset('js/custom.js')}}"></script>
 	@yield('scripts')
 </body>
 </html>
