@@ -481,7 +481,7 @@
 					if (data.status == "ok") {
 						showAlert(data.messages)
 						setTimeout(function() {
-							// location.href = '/member_profile/edit_profile'
+							location.href = '/member_profile/edit_profile'
 						}, 1000);
 					}
 				},

@@ -61,11 +61,11 @@ class ProfileController extends Controller
 
     public function download_peraturan(Request $request){
         $param = $request->param;
-		$datapost = ['param' => $param];
+        $datapost = ['param' => $param];
         $result = $this->getRespApiLpknidWithParam($datapost, 'download/json_pasal');
         $peraturans = $result['peraturans'];
         print_r($peraturans);die;
-	}
+    }
 
     public function editProfile(){
         $user = \Auth::user();
@@ -218,7 +218,10 @@ class ProfileController extends Controller
             echo $e->getMessage();
             die;
         }
-        return $request->all();
+        return response()->json([
+            'status'    => "ok",
+            'messages' => "Berhasil update profile"
+        ], 200);
     }
 
     public function detailEvent($datapost){
