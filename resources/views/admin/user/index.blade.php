@@ -10,14 +10,29 @@
 <div class="row">
 	<div class="col-md-12 col-sm-12">
 		<button class="btn btn-primary btn-sm" id="btnAdd">Tambah</button>
+		<div class="row float-right">
+			<div class="col-md-12">
+				<div class="form-group">
+					<form action="{{url('import_member')}}" method="POST" enctype="multipart/form-data">
+						@csrf
+						<a href="{{route('downloadFile', ['file' =>  'template_member.xlsx', 'excel?']).rand(1, 9999)}}" class="btn btn-primary btn-sm float-right">Template import</a>
+						<label for="char">Dokumen Import</label>
+						<input type="file" class="form-control" name="dok_import_member" placeholder="Dokumen Import Member" required>
+						<button type="submit" class="btn btn-success btn-sm mt-2">Import Member</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		
 		<div class="dashboard_graph x_panel">
 			<div class="x_content">
 				<table class="table table-hover table-bordered table-responsive-sm" id="table-Datatable" style="width: 100%;">
 					<thead>
 						<tr>
 							<th width="10px">No</th>
-							<th>name</th>
+							<th>Nama Lengkap</th>
 							<th>Email</th>
+							<th>NIP</th>
 							<th width="90px">Action</th>
 						</tr>
 					</thead>
@@ -34,6 +49,9 @@
 @section('scripts')
 <script>
 	$(document).ready(function(){
+		@if(\Session::has('success_import_member'))
+        showAlert('{{\Session::get('success_import_member')}}')
+        @endif
 		$('body').on('click', '[id="btnAdd"]', function(e){
 			showModal2('add')
 		})
@@ -117,38 +135,38 @@
 			var form_data = new FormData($(this)[0]);
 		// form_data.append('photo', $('[name=photo]').prop('files')[0]);
 
-		$.ajax({
-			type: 'post',
-			url: $(this).attr("action"),
-			data: form_data,
-			dataType: 'json',
-			processData: false,
-			contentType: false,
-			beforeSend: function() {
-				sendAjax('#btnSimpan', false)
-			},
-			success: function(data) {
-				console.log(data)
-				if (data.status == "ok") {
-					showAlert(data.messages)
-					setTimeout(function() {
-						$('#modalAdd').modal('hide')
-						$('#modalAdd input:not([name=_token]), #modalAdd textarea').val('')
-					}, 1000);
-					table.ajax.reload()
+			$.ajax({
+				type: 'post',
+				url: $(this).attr("action"),
+				data: form_data,
+				dataType: 'json',
+				processData: false,
+				contentType: false,
+				beforeSend: function() {
+					sendAjax('#btnSimpan', false)
+				},
+				success: function(data) {
+					console.log(data)
+					if (data.status == "ok") {
+						showAlert(data.messages)
+						setTimeout(function() {
+							$('#modalAdd').modal('hide')
+							$('#modalAdd input:not([name=_token]), #modalAdd textarea').val('')
+						}, 1000);
+						table.ajax.reload()
+					}
+				},
+				error: function(data) {
+					var data = data.responseJSON;
+					if (data.status == "fail") {
+						showAlert(data.messages, "error")
+					}
+				},
+				complete: function() {
+					sendAjax('#btnSimpan', true, 'Simpan')
 				}
-			},
-			error: function(data) {
-				var data = data.responseJSON;
-				if (data.status == "fail") {
-					showAlert(data.messages, "error")
-				}
-			},
-			complete: function() {
-				sendAjax('#btnSimpan', true, 'Simpan')
-			}
+			});
 		});
-	});
 		$('#modalShow form').submit(function(e) {
 			e.preventDefault();
 			$.ajaxSetup({
@@ -199,8 +217,8 @@
 			if(act == 'show' || act == 'edit'){
 				$('#modalShow').modal('show')
 				$('#modalShow [name=name]').val(data.name)
-                $('#modalShow [name=email]').val(data.email)
-                $('#modalShow [name=password]').val(data.password)
+				$('#modalShow [name=email]').val(data.email)
+				$('#modalShow [name=password]').val(data.password)
 			}
 			if (act == 'add') {
 				$('#modalAdd').modal('show')
@@ -224,16 +242,17 @@
 			serverSide: true,
 			ajax: "{{ route('admin.user.dataTables') }}",
 			columns: [
-			{data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-			{data: 'name', name: 'name'},
-			{data: 'email', name: 'email'},
-			{
-				data: 'action',
-				name: 'action',
-				orderable: true,
-				searchable: true
-			},
-			]
+				{data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+				{data: 'name', name: 'name'},
+				{data: 'email', name: 'email'},
+				{data: 'nip', name: 'nip'},
+				{
+					data: 'action',
+					name: 'action',
+					orderable: true,
+					searchable: true
+				},
+				]
 		});
 	})
 </script>

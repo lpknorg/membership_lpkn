@@ -30,7 +30,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+Route::get('/download_file/{file}/{folder?}', [App\Http\Controllers\HomeController::class, 'downloadFile'])->name('downloadFile');
 Route::view('dashboard', 'dashboard');
 Route::view('abc', 'test');
 Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middleware' => 'auth'], function () {
@@ -55,6 +55,7 @@ Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middlewa
 });
 
 Route::get('/import_provinsi', [App\Http\Controllers\HomeController::class, 'importProvinsi']);
+Route::post('/import_member', [App\Http\Controllers\HomeController::class, 'importMember']);
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 	Route::get('/provinsi/dataTables', [ProvinsiController::class, 'getDatatable'])->name('provinsi.dataTables');

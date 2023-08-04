@@ -17,9 +17,7 @@ class CreateMembersTable extends Migration
             $table->id();
             $table->integer('user_id');
             $table->string('no_hp')->nullable();
-            $table->string('no_member')->nullable();
-            $table->string('nik')->nullable();
-            $table->string('nip')->nullable();
+            $table->string('no_member')->nullable();            
             $table->string('pendidikan_terakhir')->nullable();
             $table->string('nama_lengkap_gelar')->nullable();
             $table->enum('jenis_kelamin', ['L', 'P'])->nullable();

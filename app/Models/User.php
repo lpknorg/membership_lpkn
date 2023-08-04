@@ -24,6 +24,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'nik',
+        'nip',
+        'updated_at'
     ];
     protected $appends = ['total_event'];
 
