@@ -49,12 +49,17 @@
 					@if($currentPage > 1)
 						<li class="page-item"><a class="page-link" href="{{ route('member_profile.dokumentasi.index', ['page' => $currentPage - 1]) }}">Previous</a></li>
 					@endif
-					
-					@for($i = $firstPage; $i <= $lastPage; $i++)
-                        <li class="page-item {{ ($currentPage == $i) ? 'active' : '' }}">
-                            <a class="page-link" href="{{ route('member_profile.dokumentasi.index', ['page' => $i]) }}">{{ $i }}</a>
+					@foreach($paginationLinks as $page)
+						@if($page == 0)
+						<li class="page-item">
+                            <a class="page-link" href="#">...</a>
                         </li>
-                    @endfor
+						@else	
+						<li class="page-item {{ ($currentPage == $page) ? 'active' : '' }}">
+                            <a class="page-link" href="{{ route('member_profile.dokumentasi.index', ['page' => $page]) }}">{{ $page }}</a>
+                        </li>
+						@endif
+                    @endforeach
 
 					@if($currentPage < $totalPages)
 						<li class="page-item"><a class="page-link" href="{{ route('member_profile.dokumentasi.index', ['page' => $currentPage + 1]) }}">Next</a></li>

@@ -33,10 +33,45 @@ class DokumentasiController extends Controller
        
         $totalData = $this->countData();
         $totalPages = ceil($totalData / $perPage);
-        $firstPage = max(1, $currentPage - 3);
-        $lastPage = min($totalPages, $currentPage + 3);
 
-        return view('member.profile.dokumentasi', compact('dokumentasi', 'currentPage', 'totalPages', 'firstPage','lastPage'));
+        $skipPages1 = [];
+        for ($i = 1; $i <=4; $i++) {
+            if($i<3){
+                $skipPages1[] = $i;
+            }
+        }
+        $addzero = [0];
+        $skipPages1 = array_merge($skipPages1, $addzero);
+        $skipPages2 = [];
+
+        if($currentPage <= ($totalPages-2)){
+            for ($i = $currentPage ; $i <= ($currentPage+2); $i++) {
+                $skipPages2[] = $i;
+            }
+        }
+        if($currentPage < 6 ){
+            if($currentPage == 5){
+                $paginationLinks = [1,2,3,4,5,($currentPage+1), 0, ($totalPages-1),$totalPages];
+            }else{
+                $paginationLinks = [1,2,3,4,5, 0, ($totalPages-1),$totalPages];
+            }
+        }elseif($currentPage == 6){
+            $paginationLinks = [1,2,3,4,5,($currentPage),($currentPage+1),0, ($totalPages-1),$totalPages];
+        }else {
+            $paginationLinks = [1,2,3,4,5,0, ($totalPages-1),$totalPages];
+            if(($currentPage == $totalPages) || ($currentPage == ($totalPages-1)) ){
+                $skipPages3 = array_unique(array_merge($skipPages1, $skipPages2));
+                $addbefore = [($totalPages-1),($totalPages)];
+                $paginationLinks = array_merge($skipPages3, $addbefore);
+
+            }else{
+                $addbefore = [($currentPage-2),($currentPage-1)];
+                $skipPages4 = array_merge($addbefore, $skipPages2);
+                $paginationLinks = array_unique(array_merge($skipPages1, $skipPages4));
+            }
+        }
+
+        return view('member.profile.dokumentasi', compact('dokumentasi', 'currentPage', 'totalPages', 'paginationLinks'));
     }
 
     public function getRespApiWithParam($datapost, $url){
