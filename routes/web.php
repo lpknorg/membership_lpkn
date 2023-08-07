@@ -52,6 +52,7 @@ Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middlewa
 	// Route::post('/count', [App\Http\Controllers\Member\DokumentasiController::class, 'count'])->name('dokumentasi.count');
 	
 	Route::get('/voucher', [App\Http\Controllers\Member\VoucherController::class, 'index'])->name('voucher.index');
+	Route::get('/voucher2', [App\Http\Controllers\Member\VoucherController::class, 'index2'])->name('voucher.index2');
 
 	Route::get('/allevent/{id}', [App\Http\Controllers\Member\ProfileController::class, 'allEvent'])->name('allevent');
 	Route::get('/peraturan', [App\Http\Controllers\Member\ProfileController::class, 'peraturan'])->name('peraturan');

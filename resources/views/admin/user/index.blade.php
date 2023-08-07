@@ -15,7 +15,7 @@
 				<div class="form-group">
 					<form action="{{url('import_member')}}" method="POST" enctype="multipart/form-data">
 						@csrf
-						<a href="{{route('downloadFile', ['file' =>  'template_member.xlsx', 'excel?']).rand(1, 9999)}}" class="btn btn-primary btn-sm float-right">Template import</a>
+						<a href="{{route('downloadFile', ['file' =>  'template_member.xlsx', 'excel?']).rand(1, 9999)}}" class="btn btn-primary btn-sm float-right">Import Template</a>
 						<label for="char">Dokumen Import</label>
 						<input type="file" class="form-control" name="dok_import_member" placeholder="Dokumen Import Member" required>
 						<button type="submit" class="btn btn-success btn-sm mt-2">Import Member</button>
@@ -33,6 +33,7 @@
 							<th>Nama Lengkap</th>
 							<th>Email</th>
 							<th>NIP</th>
+							<th>Status</th>
 							<th width="90px">Action</th>
 						</tr>
 					</thead>
@@ -61,7 +62,6 @@
 				type: 'get',
 				url: $(this).attr("href"),
 				success: function(data) {
-					console.log(data);
 					showModal2('show', data)
 				},
 				error: function(data) {
@@ -75,7 +75,6 @@
 				type: 'get',
 				url: $(this).attr("href"),
 				success: function(data) {
-					console.log(data)
 					showModal2('edit', data)
 				},
 				error: function(data) {
@@ -108,7 +107,6 @@
 						},
 						dataType: 'json',
 						success: function(data) {
-							console.log(data)
 							if (data.status == "ok") {
 								Swal.fire('Berhasil',data.messages,'success')
 								table.ajax.reload()
@@ -133,7 +131,7 @@
 			});
 
 			var form_data = new FormData($(this)[0]);
-		// form_data.append('photo', $('[name=photo]').prop('files')[0]);
+			// form_data.append('photo', $('[name=photo]').prop('files')[0]);
 
 			$.ajax({
 				type: 'post',
@@ -146,7 +144,6 @@
 					sendAjax('#btnSimpan', false)
 				},
 				success: function(data) {
-					console.log(data)
 					if (data.status == "ok") {
 						showAlert(data.messages)
 						setTimeout(function() {
@@ -190,7 +187,6 @@
 					sendAjax('#btnUpdate', false)
 				},
 				success: function(data) {
-					console.log(data)
 					if (data.status == "ok") {
 						showAlert(data.messages)
 						setTimeout(function() {
@@ -202,7 +198,6 @@
 				},
 				error: function(data) {
 					var data = data.responseJSON;
-					console.log(data)
 					if (data.status == "fail") {
 						showAlert(data.messages, "error")
 					}
@@ -219,6 +214,12 @@
 				$('#modalShow [name=name]').val(data.name)
 				$('#modalShow [name=email]').val(data.email)
 				$('#modalShow [name=password]').val(data.password)
+				console.log(data.is_confirm)
+				if (parseInt(data.is_confirm) == 1) {
+					$('#modalShow [name=verifikasi_akun]').prop('checked', true)
+				}else{
+					$('#modalShow [name=verifikasi_akun]').prop('checked', false)
+				}
 			}
 			if (act == 'add') {
 				$('#modalAdd').modal('show')
@@ -247,10 +248,16 @@
 				{data: 'email', name: 'email'},
 				{data: 'nip', name: 'nip'},
 				{
+					data: 'status_user',
+					name: 'status_user',
+					orderable: true,
+					searchable: false
+				},
+				{
 					data: 'action',
 					name: 'action',
 					orderable: true,
-					searchable: true
+					searchable: false
 				},
 				]
 		});

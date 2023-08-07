@@ -18,6 +18,7 @@ class UserSeeder extends Seeder
         $admin = User::create([
         	'name' => 'Admin 1',
         	'email' => 'admin@mail.com',
+            'is_confirm' => 1,
         	'password' => \Hash::make(123123)
         ]);
         $admin->syncRoles('admin');
@@ -25,6 +26,7 @@ class UserSeeder extends Seeder
         $member1 = User::create([
             'name' => 'Dinda',
             'email' => 'wdinda375@gmail.com',
+            'is_confirm' => 1,
             'password' => \Hash::make(123123)
         ]);
         $m1 = Member::create([
@@ -39,6 +41,7 @@ class UserSeeder extends Seeder
         $member2 = User::create([
             'name' => 'Member 1',
             'email' => 'member@mail.com',
+            'is_confirm' => 1,
             'password' => \Hash::make(123123)
         ]);
         $m2 = Member::create([
