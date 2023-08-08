@@ -15,6 +15,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+	return $request->user();
 });
+Route::post('/daftar_member/', [App\Http\Controllers\Api\MemberController::class, 'daftar'])->name('api.daftar_member');
+
 Route::post('/general/lembaga_pemerintahan', [App\Http\Controllers\Admin\LembagaPemerintahanController::class, 'getData'])->name('api.get.lembaga_pemerintahan');
+Route::get('/general/provinsi', [App\Http\Controllers\Api\general\Provinsi::class, 'main'])->name('api.get.provinsi');
+Route::get('/general/kota', [App\Http\Controllers\Api\general\Kota::class, 'main'])->name('api.get.kota');
+Route::get('/general/kecamatan', [App\Http\Controllers\Api\general\Kecamatan::class, 'main'])->name('api.get.kecamatan');
+Route::get('/general/kelurahan', [App\Http\Controllers\Api\general\Kelurahan::class, 'main'])->name('api.get.kelurahan');
+Route::get('/general/kodepos', [App\Http\Controllers\Api\general\Kodepos::class, 'main'])->name('api.get.kodepos');

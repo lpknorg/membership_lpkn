@@ -15,24 +15,35 @@ class CreateMembersTable extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->id();
-            $table->string('no_member');
-            $table->string('nik');
-            $table->string('email');
-            $table->string('nama_lengkap');
-            $table->string('no_hp');
-            $table->text('alamat_lengkap');
-            $table->string('tempat_lahir');
-            $table->string('tgl_lahir');
-            $table->string('ref');
-            $table->string('bank_rek_ref');
-            $table->string('no_rek_ref');
-            $table->string('an_rek_ref');
-            $table->string('pp')->nullable();
-            $table->string('fb');
-            $table->string('instagram');
-            $table->integer('instansi_id');
-            $table->integer('lembaga_pemerintahan_id');
-            $table->integer('kategori_tempat_kerja_id');
+            $table->integer('user_id');
+            $table->string('no_hp')->nullable();
+            $table->string('no_member')->nullable();            
+            $table->string('pendidikan_terakhir')->nullable();
+            $table->string('nama_lengkap_gelar')->nullable();
+            $table->enum('jenis_kelamin', ['L', 'P'])->nullable();
+            $table->string('tempat_lahir')->nullable();
+            $table->string('tgl_lahir')->nullable();
+            $table->text('alamat_lengkap')->nullable();
+            $table->string('prov_id', 5)->nullable();
+            $table->string('nama_prov', 5)->nullable();
+            $table->string('kota_id', 5)->nullable();
+            $table->string('nama_kota', 5)->nullable();
+            $table->string('kecamatan_id', 5)->nullable();
+            $table->string('kelurahan_id', 5)->nullable();
+            $table->string('foto_profile')->nullable();
+            
+            $table->string('pas_foto3x4')->nullable();
+            $table->string('foto_ktp')->nullable();
+            $table->string('file_sk_pengangkatan_asn')->nullable();
+
+            $table->string('fb')->nullable();
+            $table->string('instagram')->nullable();
+
+            $table->string('ref')->nullable();
+            $table->string('bank_rek_ref')->nullable();
+            $table->string('no_rek_ref')->nullable();
+            $table->string('an_rek_ref')->nullable();
+            
             $table->string('expired_date')->nullable();
             $table->timestamps();
         });

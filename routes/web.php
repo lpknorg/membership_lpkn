@@ -30,14 +30,37 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+Route::get('/download_file/{file}/{folder?}', [App\Http\Controllers\HomeController::class, 'downloadFile'])->name('downloadFile');
 Route::view('dashboard', 'dashboard');
 Route::view('abc', 'test');
-Route::get('member', function(){
-	return redirect('/home');
+Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middleware' => 'auth'], function () {
+	Route::get('/', [App\Http\Controllers\Member\ProfileController::class, 'index'])->name('index');
+	Route::get('/page/get_event/{slug}', [App\Http\Controllers\Member\ProfileController::class, 'getEventModal'])->name('get_event.modal');
+	Route::get('/page/get_video_materi/{slug}', [App\Http\Controllers\Member\ProfileController::class, 'getVideoMateri'])->name('get_video_materi');
+	Route::post('/page/regis_event', [App\Http\Controllers\Member\ProfileController::class, 'regisEvent'])->name('regis_event');
+	Route::post('/page/upload_bukti', [App\Http\Controllers\Member\ProfileController::class, 'uploadBukti'])->name('upload_bukti');
+	Route::get('/edit_profile', [App\Http\Controllers\Member\ProfileController::class, 'editProfile'])->name('edit_profile');
+	Route::post('/update_profile', [App\Http\Controllers\Member\ProfileController::class, 'updateProfile'])->name('update_profile');
+
+	Route::get('/menunggu_pembayaran', [App\Http\Controllers\Member\MenungguPembayaranController::class, 'index'])->name('menunggu_pembayaran.index');
+	
+	Route::get('/event_kamu', [App\Http\Controllers\Member\EventKamuController::class, 'index'])->name('event_kamu.index');
+	Route::get('/sertifikat_kamu', [App\Http\Controllers\Member\SertifikatKamuController::class, 'index'])->name('sertifikat_kamu.index');
+	
+	Route::get('/dokumentasi', [App\Http\Controllers\Member\DokumentasiController::class, 'index'])->name('dokumentasi.index');
+	Route::post('/get_artikel', [App\Http\Controllers\Member\DokumentasiController::class, 'get_artikel'])->name('dokumentasi.get_artikel');
+	// Route::post('/count', [App\Http\Controllers\Member\DokumentasiController::class, 'count'])->name('dokumentasi.count');
+	
+	Route::get('/voucher', [App\Http\Controllers\Member\VoucherController::class, 'index'])->name('voucher.index');
+	Route::get('/voucher2', [App\Http\Controllers\Member\VoucherController::class, 'index2'])->name('voucher.index2');
+
+	Route::get('/allevent/{id}', [App\Http\Controllers\Member\ProfileController::class, 'allEvent'])->name('allevent');
+	Route::get('/peraturan', [App\Http\Controllers\Member\ProfileController::class, 'peraturan'])->name('peraturan');
+	Route::post('/download_peraturan', [App\Http\Controllers\Member\ProfileController::class, 'download_peraturan'])->name('download_peraturan');
 });
 
 Route::get('/import_provinsi', [App\Http\Controllers\HomeController::class, 'importProvinsi']);
+Route::post('/import_member', [App\Http\Controllers\HomeController::class, 'importMember']);
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 	Route::get('/provinsi/dataTables', [ProvinsiController::class, 'getDatatable'])->name('provinsi.dataTables');

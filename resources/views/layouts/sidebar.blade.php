@@ -24,7 +24,7 @@
     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
       <div class="menu_section">
         <ul class="nav side-menu">
-          <li><a><i class="fa fa-home"></i> Master <span class="fa fa-chevron-down"></span></a>
+          <li><a><i class="fa fa-gear"></i> Master <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
               <li><a href="{{route('admin.provinsi.index')}}">Provinsi</a></li>
               <li><a href="{{route('admin.kota.index')}}">Kota</a></li>
@@ -34,7 +34,6 @@
             </ul>
           </li>
           <li><a href="{{route('admin.user.index')}}"><i class="fa fa-user"></i>User<span class="label label-success pull-right"></span></a></li>
-          <li><a href="{{route('admin.member.index')}}"><i class="fa fa-user"></i>Member<span class="label label-success pull-right"></span></a></li>
         </ul>
       </div>
 

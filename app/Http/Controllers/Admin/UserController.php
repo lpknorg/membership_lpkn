@@ -18,7 +18,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('id')->get();
+        $users = User::orderBy('name')->get();
         return view('admin.user.index', compact('users'));
     }
 
@@ -97,8 +97,7 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name'       => ['required', 'max:255'],
-            'email'       => ['required', 'max:255'],
-            'password' => ['required']
+            'email'       => ['required', 'max:255']
         ]);
 
         if ($validator->fails()) {
@@ -111,7 +110,8 @@ class UserController extends Controller
         $us->update([
             'name'      => $request->name,
             'email'      => $request->email,
-            'password' => $request->password ? Hash::make($request->password) : $u->password,
+            'password' => $request->password ? Hash::make($request->password) : $us->password,
+            'is_confirm' => isset($request->verifikasi_akun) ? 1 : 0
         ]);
 
         return response()->json([
@@ -142,13 +142,22 @@ class UserController extends Controller
             $data = User::orderBy('updated_at', 'DESC');
             return \DataTables::of($data)
                 ->addIndexColumn()
+                ->addColumn('status_user', function($row){
+                    $s = '';
+                    if ($row->is_confirm) {
+                        $s .= '<span class="badge badge-primary">Sudah Verifikasi</span>';
+                    }else{
+                        $s .= '<span class="badge badge-warning">Menunggu Verifikasi</span>';
+                    }
+                    return $s;
+                })
                 ->addColumn('action', function ($row) {
                     $actionBtn = '<a href="' . route('admin.user.show', $row->id) . '" id="btnShow" class="btn-sm btn btn-info  mr-1 mb-2 mb-lg-2" data-toggle="tooltip" data-placement="top" title="Lihat Data"><i class="fa fa-eye"></i></a>';
                     $actionBtn .= '<a data-toggle="tooltip" data-placement="top" title="Edit Data" id="btnEdit" href="' . route('admin.user.show', $row->id) . '" class="btn-sm btn btn-warning mx-1 ml-4 ml-md-0 mb-2"><i class="fa fa-edit"></i></a>';
                     $actionBtn .= '<button type="button" class="btn-sm btn btn-danger mb-2 mb-lg-2" id="btnHapus" data-id=' . $row->id . ' action="' . route('admin.user.destroy', $row->id) . '"><i class="fa fa-trash"></i></button>';
                     return $actionBtn;
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['action', 'status_user'])
                 ->make(true);
         }
     }
