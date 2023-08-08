@@ -31,7 +31,9 @@
 						<a class="btn btn-success btn-sm disabled" disabled>Download</a>	
 						@else
 						<a class="btn btn-success btn-sm" target="blank_" href="<?=$list['download']?>">Download</a>
+						@if($list['video'])
 						<a href="javascript:void()" class="btn btn-info btn-sm" id="btnVideoMateri" data-slug="{{$list['slug']}}">Video & Materi</a>
+						@endif
 						@endif
 					</td>
 				</tr>
@@ -78,7 +80,14 @@
 					}else{
 						var cont = '<ul>'
 						$.each(matt, function(k, v){
+							console.log(v)
 							_link = v.match(/\b(http|https)?(:\/\/)?(\S*)\.(\w{2,4})(.*)/g)
+							// console.log(_link)
+							if (_link) {
+								_link = _link
+							}else{
+								_link = ''
+							}
 							_removal = v.replace(_link, '')
 							if (v != '') {
 								cont += `<li>${_removal}<a href="${_link}" target="_blank">${_link}</a></li>`
@@ -87,7 +96,6 @@
 						cont += '</ul>'
 						$('#modalMateri').modal('show')
 						$('#modalMateri .modal-body').html(cont)
-						console.log(matt)
 					}
 				},
 				error: function(e){

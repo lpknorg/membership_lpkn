@@ -4,14 +4,12 @@ namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Admin\{Instansi, LembagaPemerintahan, KategoriTempatKerja};
+use App\Models\Admin\{Instansi, LembagaPemerintahan, KategoriTempatKerja, MemberKantor};
 
 class Member extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'user_id', 'no_member', 'nik', 'email', 'nama_lengkap', 'no_hp', 'alamat_lengkap', 'tempat_lahir', 'tgl_lahir', 'ref', 'bank_rek_ref', 'no_rek_ref', 'an_rek_ref', 'pp', 'fb', 'instagram', 'instansi_id', 'lembaga_pemerintahan_id', 'kategori_tempat_kerja_id', 'expired_date'
-    ];
+    protected $guarded = [];
 
     public function instansi()
     {
@@ -26,5 +24,10 @@ class Member extends Model
     public function kategoritempatkerja()
     {
         return $this->belongsTo(KategoriTempatKerja::class, 'kategori_tempat_kerja_id', 'id');
+    }
+
+    public function memberKantor()
+    {
+        return $this->belongsTo(MemberKantor::class, 'id', 'member_id');
     }
 }
