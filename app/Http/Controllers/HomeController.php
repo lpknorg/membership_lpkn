@@ -24,12 +24,15 @@ class HomeController extends Controller
 
     /**
      * Show the application dashboard.
-     *
+    *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function welcome($page = 1)
     {
-        return view('home');
+        $url = 'https://event.lpkn.id/api/member/event/event_page?page='.$page;
+        $p = new ProfileController();
+        $event = $p->getRespApi($url);
+        return view('Frontend/index', compact('event'));
     }
 
     public function importProvinsi(){

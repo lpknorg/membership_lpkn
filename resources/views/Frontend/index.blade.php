@@ -13,7 +13,7 @@
     <title>LPKN</title>
   </head>
   <body>
-    @include('Frontend.body.header')
+    @include('member.layouts.navbar')
     @include('Frontend.slider')
     @include('Frontend.event')
     @include('Frontend.body.footer')

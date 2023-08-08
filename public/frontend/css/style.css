@@ -83,3 +83,12 @@ body{
      max-width: 1140px !important;
    }
  }
+ .pa {
+    max-width: inherit;
+    max-height: inherit;
+    height: inherit;
+    width: inherit;
+    object-fit: cover;
+    border-radius: 20px;
+    height: 40px;
+ }

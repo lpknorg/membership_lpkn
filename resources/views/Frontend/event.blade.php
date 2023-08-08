@@ -1,11 +1,7 @@
 <div class="container">
 		<div class="blog-main mt-2 mb-5">
 			<div class="row mb-2">
-				<div class="col-sm-6">
-					<h5 class="pb-4 mb-4 font-italic border-bottom">
-						Semua Event <small><a class="badge badge-primary" href="{{url('member_profile')}}">Kembali Ke Beranda</a></small>
-					</h5>
-				</div>
+
 				<div class="col-sm-6">
 					<ol class="breadcrumb float-sm-right" style="background-color: transparent;">
 						<li clayss="breadcrumb-item">
