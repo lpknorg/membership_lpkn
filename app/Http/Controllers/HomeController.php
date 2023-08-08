@@ -7,6 +7,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\{
     ProvinsiImport
 };
+use App\Http\Controllers\Member\ProfileController;
+
 class HomeController extends Controller
 {
     /**
@@ -31,5 +33,12 @@ class HomeController extends Controller
 
     public function importProvinsi(){
         Excel::import(new ProvinsiImport, public_path('/excel/provinsi_new.xlsx'));
+    }
+
+    public function welcome($page=1, Request $request){
+        $url = 'https://event.lpkn.id/api/member/event/event_page?page='.$page;
+        $p = new ProfileController();
+        $event = $p->getRespApi($url);
+        return view('Frontend/index', compact('event'));
     }
 }

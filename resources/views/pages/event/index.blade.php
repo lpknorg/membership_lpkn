@@ -122,8 +122,8 @@
                 </p>
               </div>
             </div>
-          </div>  
-          @endforeach          
+          </div>
+          @endforeach
         </div>
         <div class="ml-2">
             <nav aria-label="...">
@@ -188,17 +188,18 @@
       </aside><!-- /.blog-sidebar -->
 
     </div>
-  </div>
-  @endsection
-  @section('scripts')
-  @include('js/custom_script')
+</div>
+@endsection
+@section('scripts')
+@include('js/custom_script')
   <script>
     $(document).ready(function(){
       $('body').on('click', '[id="btnSelengkapnya"]', function(e) {
         let sl = $(this).attr('slug')
         $('#exampleModal').modal('show')
         getEvent(sl)
-      })    
+      })
     })
   </script>
   @endsection
+  {{-- ini besok --}}

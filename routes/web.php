@@ -23,9 +23,8 @@ use App\Http\Controllers\Admin\{
 |
 */
 
-Route::get('/', function () {
-	return view('welcome');
-});
+Route::get('/', [App\Http\Controllers\HomeController::class, 'welcome'])->name('welcome');
+
 
 Auth::routes();
 
@@ -42,7 +41,7 @@ Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.'], function
 	Route::get('/update_profile', [App\Http\Controllers\Member\ProfileController::class, 'editProfile'])->name('update_profile.index');
 
 	Route::get('/menunggu_pembayaran', [App\Http\Controllers\Member\MenungguPembayaranController::class, 'index'])->name('menunggu_pembayaran.index');
-	
+
 	Route::get('/event_kamu', [App\Http\Controllers\Member\EventKamuController::class, 'index'])->name('event_kamu.index');
 	Route::get('/sertifikat_kamu', [App\Http\Controllers\Member\SertifikatKamuController::class, 'index'])->name('sertifikat_kamu.index');
 	Route::get('/dokumentasi', [App\Http\Controllers\Member\DokumentasiController::class, 'index'])->name('dokumentasi.index');
