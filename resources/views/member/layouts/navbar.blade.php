@@ -1,7 +1,4 @@
-<style>
 
-}
-</style>
 <nav class="navbar navbar-expand-lg navbar-dark bg-nav">
     <div class="container">
         <a href="{{url('/')}}" class="navbar-brand">
