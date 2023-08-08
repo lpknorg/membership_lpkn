@@ -40,6 +40,11 @@ class VoucherController extends Controller
         return view('member.profile.voucher', compact('detailevent'));
     }
 
+    public function index2()
+    {
+        return view('member.profile.voucher2');
+    }
+
     public function getRespApiWithParam($datapost, $url){
         $client = new \GuzzleHttp\Client();
         $endpoint = env('API_EVENT').$url;

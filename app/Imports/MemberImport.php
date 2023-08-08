@@ -37,6 +37,7 @@ class MemberImport implements ToCollection, WithHeadingRow
                                 'name' => $value['nama_lengkap'],
                                 'email' => $value['email_aktif'],
                                 'password' => \Hash::make($_nip),
+                                'is_confirm' => 1,
                                 'updated_at' => now()
                             ]
                         );

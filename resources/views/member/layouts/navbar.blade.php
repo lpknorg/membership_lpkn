@@ -26,7 +26,7 @@
                 <a href="{{route('member_profile.allevent', ['id' => 1])}}" class="nav-link">Event</a>
             </li>
             <li class="nav-item">
-                <a href="{{url('/berita')}}" class="nav-link">Berita</a>
+                <a href="https://ilmu.lpkn.id/" class="nav-link">Berita</a>
             </li>
             <li class="nav-item">
                 <a href="{{route('member_profile.allvideo')}}" class="nav-link">Video</a>
