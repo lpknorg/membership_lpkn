@@ -18,7 +18,7 @@
 				<div class="form-group">
 					<label>NIP/NRP</label>
 					<input type="number" class="form-control" name="nip" value="{{$user->member->nip}}">
-					<span><small class="text-warning">(Non PNS siliahkan isi - )</small></span>
+					<span><small class="text-warning">Non PNS siliahkan isi -</small></span>
 				</div>
 			</div>
 			<div class="col-sm-3">
@@ -59,21 +59,21 @@
 			</div>
 			<div class="col-sm-4">
 				<div class="form-group">
-					<label>No HP</label>
+					<label>Nama Untuk Serifikat</label>
+					<input type="text" class="form-control" name="nama_untuk_sertifikat" value="{{$user->member->nama_untuk_sertifikat}}">
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label>Nomor HP</label>
 					<input type="text" class="form-control" name="no_hp" value="{{$user->member->no_hp}}">
-					<span><small class="text-warning">(Non HP harus memiliki whatsapp - )</small></span>
+					<span><small class="text-warning">Nomor HP harus memiliki whatsapp</small></span>
 				</div>
 			</div>
 			<div class="col-sm-4">
 				<div class="form-group">
-					<label>Tempat Lahir</label>
-					<input type="text" class="form-control" name="tempat_lahir" value="{{$user->member->tempat_lahir}}">
-				</div>
-			</div>
-			<div class="col-sm-4">
-				<div class="form-group">
-					<label>Tanggal Lahir</label>
-					<input type="date" class="form-control" name="tgl_lahir" value="{{$user->member->tgl_lahir}}">
+					<label>Tempat dan Lahir</label>
+					<input type="text" class="form-control" name="tempat_dan_tgl_lahir" value="{{$user->member->tempat_dan_tgl_lahir}}">
 				</div>
 			</div>
 			<div class="col-sm-4">
@@ -125,17 +125,17 @@
 		<div class="row">
 			<div class="col-sm-4">
 				<div class="form-group">
-					<label>Kategori Pekerjaan</label>
-					<select name="kategori_pekerjaan" class="form-control">
-						<option value="">Pilih Kategori Pekerjaan</option>
-						<?php $arr = ['BUMN', 'BUMD', 'ASN', 'Swasta', 'dll']; ?>
+					<label>Status Kepegawaian</label>
+					<?php $arr = ['PNS', 'SWASTA', 'TNI/POLRI', 'BUMN/BUMD', 'HONORER / KONTRAK', 'ASN', 'Swasta', 'Lainnya']; ?>
+					<select class="form-control" name="status_kepegawaian">
+						<option value="">Pilih Status Kepegawaian</option>
 						@foreach($arr as $k => $v)
-						<option value="{{$k}}" {{$k == $user->member->pendidikan_terakhir ? 'selected' : ''}}>{{$v}}</option>
+						<option value="{{$k}}" {{$k == $user->member->memberKantor->status_kepegawaian ? 'selected' : ''}}>{{$v}}</option>
 						@endforeach
 					</select>
 				</div>
 			</div>
-			<div class="col-sm-4" id="div-bumn" style="display: {{$user->member->memberKantor->kategori_pekerjaan_id == 0 ? 'block' : 'none';}};">
+			<div class="col-sm-4" id="div-bumn" style="display: {{$user->member->memberKantor->status_kepegawaian == 0 ? 'block' : 'none';}};">
 				<div class="form-group">
 					<label>Instansi</label>
 					<select name="instansi" class="form-control">
@@ -146,7 +146,7 @@
 					</select>
 				</div>
 			</div>
-			<div class="col-sm-4" id="div-bumn" style="display: {{$user->member->memberKantor->kategori_pekerjaan_id == 0 ? 'block' : 'none';}};">
+			<div class="col-sm-4" id="div-bumn" style="display: {{$user->member->memberKantor->status_kepegawaian == 0 ? 'block' : 'none';}};">
 				<div class="form-group">
 					<label>Lembaga Pemerintahan</label>
 					<select name="lembaga_pemerintahan" class="form-control">
@@ -154,7 +154,7 @@
 					</select>
 				</div>
 			</div>
-			<div class="col-sm-4" id="div-dll" style="display: {{$user->member->memberKantor->kategori_pekerjaan_id == 4 ? 'block' : 'none';}};">
+			<div class="col-sm-4" id="div-dll" style="display: {{$user->member->memberKantor->status_kepegawaian == 7 ? 'block' : 'none';}};">
 				<div class="form-group">
 					<label>Pekerjaan Lainnya</label>
 					<input type="text" class="form-control" name="pekerjaan_lainnya" value="{{$user->member->memberKantor->kategori_pekerjaan_lainnya}}">
@@ -162,18 +162,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-4">
-				<div class="form-group">
-					<label>Status Kepegawaian</label>
-					<?php $arr = ['PNS', 'SWASTA', 'TNI/POLRI', 'BUMN/BUMD', 'HONORER / KONTRAK']; ?>
-					<select class="form-control" name="status_kepegawaian">
-						<option value="">Pilih Status Kepegawaian</option>
-						@foreach($arr as $k => $v)
-						<option value="{{$k}}" {{$k == $user->member->memberKantor->status_kepegawaian ? 'selected' : ''}}>{{$v}}</option>
-						@endforeach
-					</select>
-				</div>
-			</div>
+			
 			<div class="col-sm-4">
 				<div class="form-group">
 					<label>Posisi Pelaku Pengadaan</label>
@@ -181,9 +170,10 @@
 						<?php $arr = ['PA (Pengguna Anggaran)','KPA (Kuasa Pengguna Anggaran)','PPK (Pejabat Pembuat Komitmen)','Pejabat Pengadaan','Unit Kerja Pengadaan Barang/Jasa (UKPBJ)','Pokja','Agen Pengadaan','PjPHP/PPHP','Penyelenggara Swakelola','Penyedia','Lainnya']; ?>
 						<option value="">Pilih Pelaku Pengadaan</option>
 						@foreach($arr as $k => $v)
-						<option value="{{$k}}" {{$k == $user->member->memberKantor->posisi_pelaku_pengadaan ? 'selected' : ''}}>{{$v}}</option>
+						<option value="{{$k}}" {{$user->member->memberKantor->posisi_pelaku_pengadaan && $k == $user->member->memberKantor->posisi_pelaku_pengadaan ? 'selected' : ''}}>{{$v}}</option>
 						@endforeach
 					</select>
+					<span><small class="text-warning">Boleh untuk tidak diisi</small></span>
 				</div>
 			</div>
 			<div class="col-sm-4">
@@ -200,24 +190,24 @@
 			</div>
 			<div class="col-sm-4">
 				<div class="form-group">
-					<label>Nama Jabatan (Non PNS siliahkan isi - )</label>
+					<label>Nama Jabatan</label>
 					<input type="text" class="form-control" name="nama_jabatan" value="{{$user->member->memberKantor->nama_jabatan}}">
+					<span><small class="text-warning">Non PNS siliahkan isi -</small></span>
 				</div>
 			</div>
 			<div class="col-sm-4">
 				<div class="form-group">
 					<label>Golongan Terakhir</label>
 					<input type="text" class="form-control" name="golongan_terakhir" value="{{$user->member->memberKantor->golongan_terakhir}}">
-					<span><small class="text-warning">(Non PNS siliahkan isi - )</small></span>
 				</div>
 			</div>
-			<div class="col-sm-6">
+			<div class="col-sm-4">
 				<div class="form-group">
 					<label>Tempat Kerja/Instansi</label>
 					<input type="text" class="form-control" name="tempat_kerja" value="{{$user->member->memberKantor->nama_instansi}}">
 				</div>
 			</div>
-			<div class="col-sm-6">
+			<div class="col-sm-4">
 				<div class="form-group">
 					<label>Pemerintah (Kota/Kabupaten)</label>
 					<input type="text" class="form-control" name="pemerintah_instansi" value="{{$user->member->memberKantor->pemerintah_instansi}}">
@@ -440,12 +430,12 @@
 			let _val = $(this).find(":selected").val()
 			getLembagaPemerintahan(_val, 'lembaga_pemerintahan')
 		})
-		$('body').on('change', '[name=kategori_pekerjaan]', function() {
+		$('body').on('change', '[name=status_kepegawaian]', function() {
 			let val = parseInt($(this).find(':selected').val())
 			if (val == 0) {
 				$('[id=div-dll]').hide(300)
 				$('[id=div-bumn]').show(300)
-			}else if (val == 4) {
+			}else if (val == 7) {
 				$('[id=div-bumn]').hide(300)
 				$('[id=div-dll]').show(300)
 			}else{

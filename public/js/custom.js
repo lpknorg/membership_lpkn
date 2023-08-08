@@ -30,3 +30,46 @@ function showAlert(msg, type='success'){
         toastr.info(msg)
     }
 }
+
+$('#form_update_profile').submit(function(e) {
+    e.preventDefault();
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('[name=_token]').val()
+        }
+    });
+
+    var form_data = new FormData($(this)[0]);
+    form_data.append('foto_profile', $('[name=foto_profile]').prop('files')[0]);
+
+    $.ajax({
+        type: 'post',
+        url: $(this).attr("action"),
+        data: form_data,
+        dataType: 'json',
+        processData: false,
+        contentType: false,
+        beforeSend: function() {
+            sendAjax('#btnUpdatePP', false)
+        },
+        success: function(data) {
+            console.log(data)
+            if (data.status == "ok") {
+                showAlert(data.messages)
+                setTimeout(function() {
+                    location.reload()
+                }, 1000);
+            }
+        },
+        error: function(data) {
+            var data = data.responseJSON;
+
+            if (data.status == "fail") {
+                showAlert(data.messages, "error")
+            }
+        },
+        complete: function() {
+            sendAjax('#btnUpdatePP', true, 'Simpan Foto Profile')
+        }
+    });
+});

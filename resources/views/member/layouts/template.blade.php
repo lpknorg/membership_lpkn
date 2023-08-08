@@ -88,11 +88,11 @@
 				<div class="card card-primary card-outline">
 					<div class="card-body box-profile">
 						<div class="parent_pp profile-user-img img-circle" style="padding: 0px;">
-							<img class="pp" style="margin: 0 auto 10px auto;display: block; height: 50%;width: 60%;border-radius: 50%;" src="http://localhost/member.lpkn.id/uploads/foto_profile/20230331-6426baee7b4d8.jpg" alt="User profile picture">
+							<img class="pp" style="margin: 0 auto 10px auto;display: block; height: 50%;width: 60%;border-radius: 50%;" src="{{\Helper::showImage(\Auth::user()->member->foto_profile, 'poto_profile')}}" alt="User profile picture">
 						</div>
 						<div class="text-center">
 							<button type="button" class="text-dark btn btn-transparent btn-sm" data-toggle="modal" data-target="#update_foto">
-								<i class="fa fa-camera"></i> Update foto
+								<i class="fa fa-camera"></i> Update foto profile
 							</button>
 						</div>
 

@@ -16,7 +16,7 @@ class CreateMemberKantorsTable extends Migration
         Schema::create('member_kantors', function (Blueprint $table) {
             $table->id();
             $table->integer('member_id');
-            $table->integer('kategori_pekerjaan_id')->nullable();
+            // $table->integer('kategori_pekerjaan_id')->nullable();
             $table->string('kategori_pekerjaan_lainnya')->nullable();
             $table->integer('instansi_id')->nullable();
             $table->integer('lembaga_pemerintahan_id')->nullable();

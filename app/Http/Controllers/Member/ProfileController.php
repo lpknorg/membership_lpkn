@@ -84,6 +84,31 @@ class ProfileController extends Controller
             $request['foto_ktp'] = null;
         }
 
+        if (is_null($request->pas_foto) && is_null($user->member->pas_foto3x4)) {
+            $validator = Validator::make($request->only('pas_foto'), array(
+                'pas_foto' => ["required", "mimes:jpg,png,jpeg", 'max:7000']
+            ));
+            if ($validator->fails()) {
+                return response()->json([
+                    'status'    => "fail",
+                    'messages' => $validator->errors()->first(),
+                ], 422);
+            }
+        }
+
+        if (is_null($request->foto_ktp) && is_null($user->member->foto_ktp)) {
+            $validator = Validator::make($request->only('foto_ktp'), array(
+                'foto_ktp' => ["required", "mimes:jpg,png,jpeg", 'max:7000']
+            ));
+            if ($validator->fails()) {
+                return response()->json([
+                    'status'    => "fail",
+                    'messages' => $validator->errors()->first(),
+                ], 422);
+            }
+        }
+
+
         $validator = Validator::make($request->all(), array(
             'nip' => "required|numeric",
             'nik' => "required",
@@ -92,17 +117,15 @@ class ProfileController extends Controller
             'nama_tanpa_gelar' => "required",
             'nama_dengan_gelar' => "required",
             'no_hp' => "required",
-            'tempat_lahir' => "required",
-            'tgl_lahir' => "required",
+            'tempat_dan_tgl_lahir' => "required",
             'jenis_kelamin' => "required",
             'alamat_lengkap_rumah' => "required",
             'rumah_provinsi' => "required",
             'rumah_kota' => "required",
             'rumah_kecamatan' => "required",
             'rumah_kelurahan' => "required",
-            'kategori_pekerjaan' => "required",
             'status_kepegawaian' => "required",
-            'posisi_pelaku_pengadaan' => "required",
+            // 'posisi_pelaku_pengadaan' => "required",
             'jenis_jabatan' => "required",
             'nama_jabatan' => "required",
             'golongan_terakhir' => "required",
@@ -112,9 +135,7 @@ class ProfileController extends Controller
             'kantor_provinsi' => "required",
             'kantor_kota' => "required",
             'kantor_kecamatan' => "required",
-            'kantor_kelurahan' => "required",
-            'pas_foto' => "required",
-            'foto_ktp' => "required",
+            'kantor_kelurahan' => "required"            
         ));
 
         if ($validator->fails()) {
@@ -123,7 +144,7 @@ class ProfileController extends Controller
                 'messages' => $validator->errors()->first(),
             ], 422);
         }
-        if ($request->kategori_pekerjaan == 0) {
+        if ($request->status_kepegawaian == 0) {
             $validator = Validator::make($request->only(['instansi', 'lembaga_pemerintahan']), array(
                 'instansi' => "required",
                 'lembaga_pemerintahan' => "required"
@@ -140,7 +161,7 @@ class ProfileController extends Controller
             $request['lembaga_pemerintahan'] = null;
         }
 
-        if ($request->kategori_pekerjaan == 4) {
+        if ($request->status_kepegawaian == 7) {
             $validator = Validator::make($request->only('pekerjaan_lainnya'), array(
                 'pekerjaan_lainnya' => "required"
             ));
@@ -154,8 +175,8 @@ class ProfileController extends Controller
         }else{
             $request['pekerjaan_lainnya'] = null;
         }
-        $npas_foto3x4 = null;
-        $nfoto_ktp = null;
+        $npas_foto3x4 = $user->member->pas_foto3x4;
+        $nfoto_ktp = $user->member->foto_ktp;
         $nfile_sk_pengangkatan_asn = null;
         if ($request->hasFile('pas_foto')){
             $npas_foto3x4 = \Helper::storeFile('pas_foto', $request->pas_foto);
@@ -177,8 +198,7 @@ class ProfileController extends Controller
                 'nik'=> $request->nik,
                 'nama_lengkap_gelar'=> $request->nama_dengan_gelar,
                 'no_hp'=> $request->no_hp,
-                'tempat_lahir'=> $request->tempat_lahir,
-                'tgl_lahir'=> $request->tgl_lahir,
+                'tempat_dan_tgl_lahir'=> $request->tempat_dan_tgl_lahir,
                 'pendidikan_terakhir' => $request->pendidikan_terakhir,
 
                 'jenis_kelamin'=> $request->jenis_kelamin,
@@ -193,7 +213,7 @@ class ProfileController extends Controller
                 'file_sk_pengangkatan_asn' => $nfile_sk_pengangkatan_asn,
             ]);
             $user->member->memberKantor->update([
-                'kategori_pekerjaan_id' => $request->kategori_pekerjaan,
+                // 'kategori_pekerjaan_id' => $request->kategori_pekerjaan,
                 'instansi_id' => $request->instansi,
                 'lembaga_pemerintahan_id' => $request->lembaga_pemerintahan,
                 'kategori_pekerjaan_lainnya' => $request->pekerjaan_lainnya,
@@ -221,6 +241,35 @@ class ProfileController extends Controller
         return response()->json([
             'status'    => "ok",
             'messages' => "Berhasil update profile"
+        ], 200);
+    }
+
+    public function updateFotoProfile(Request $request){
+        $Id = \Auth::user()->id;
+        $user = User::findOrFail($Id);
+        if ($request->foto_profile == "undefined") {
+            $request['foto_profile'] = null;
+        }
+        
+        $validator = Validator::make($request->only('foto_profile'), array(
+            'foto_profile' => ["required", "mimes:jpg,png,jpeg", 'max:7000']
+        ));
+        if ($validator->fails()) {
+            return response()->json([
+                'status'    => "fail",
+                'messages' => $validator->errors()->first(),
+            ], 422);
+        }
+
+        if ($request->hasFile('foto_profile')){
+            $nfoto_profile = \Helper::storeFile('poto_profile', $request->foto_profile);
+        }
+        $user->member->update([
+            'foto_profile' => $nfoto_profile
+        ]);
+        return response()->json([
+            'status'    => "ok",
+            'messages' => "Berhasil update foto profile"
         ], 200);
     }
 

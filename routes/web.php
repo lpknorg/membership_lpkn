@@ -41,6 +41,7 @@ Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middlewa
 	Route::post('/page/upload_bukti', [App\Http\Controllers\Member\ProfileController::class, 'uploadBukti'])->name('upload_bukti');
 	Route::get('/edit_profile', [App\Http\Controllers\Member\ProfileController::class, 'editProfile'])->name('edit_profile');
 	Route::post('/update_profile', [App\Http\Controllers\Member\ProfileController::class, 'updateProfile'])->name('update_profile');
+	Route::post('/update_fotoprofile', [App\Http\Controllers\Member\ProfileController::class, 'updateFotoProfile'])->name('update_fotoprofile');
 
 	Route::get('/menunggu_pembayaran', [App\Http\Controllers\Member\MenungguPembayaranController::class, 'index'])->name('menunggu_pembayaran.index');
 	

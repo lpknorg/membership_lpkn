@@ -40,7 +40,7 @@
             <li class="nav-item dropdown">
                 <a class="nav-link" style="padding-top: 0.1rem;" data-toggle="dropdown" href="#">
                     <div class="parent_pa img-avatar" style="padding: 0px;">
-                        <img class="pa" src="{{\Helper::showImage('poto_profile', \Auth::user()->member->foto_profile)}}" alt="User profile picture">
+                        <img class="pa" src="{{\Helper::showImage(\Auth::user()->member->foto_profile, 'poto_profile')}}" alt="User profile picture">
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="min-width: 200px;">
