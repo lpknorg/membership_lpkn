@@ -29,7 +29,7 @@
                 <a href="{{url('/berita')}}" class="nav-link">Berita</a>
             </li>
             <li class="nav-item">
-                <a href="{{url('/video')}}" class="nav-link">Video</a>
+                <a href="{{route('member_profile.allvideo')}}" class="nav-link">Video</a>
             </li>
             <li class="nav-item">
                 <a href="{{route('member_profile.peraturan')}}" class="nav-link">Peraturan</a>

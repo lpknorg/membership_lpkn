@@ -33,6 +33,7 @@
               <li><a href="{{route('admin.kategori_tempat_kerja.index')}}">Kategori Tempat Kerja</a></li>
             </ul>
           </li>
+          <li><a href="{{route('admin.video.index')}}"><i class="fa fa-video-camera"></i>Video<span class="label label-success pull-right"></span></a></li>
           <li><a href="{{route('admin.user.index')}}"><i class="fa fa-user"></i>User<span class="label label-success pull-right"></span></a></li>
           <li><a href="{{route('admin.member.index')}}"><i class="fa fa-user"></i>Member<span class="label label-success pull-right"></span></a></li>
         </ul>
