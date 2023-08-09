@@ -80,7 +80,7 @@
 loadData();
 function loadData(){
     $.ajax({
-        url:"{{route('member_profile.download_peraturan')}}",   
+        url:"{{route('download_peraturan')}}",   
         type: "post",   
         dataType: 'json',
         data: {

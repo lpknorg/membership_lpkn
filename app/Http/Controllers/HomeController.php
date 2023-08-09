@@ -21,20 +21,6 @@ class HomeController extends Controller
     {
         $this->middleware('auth');
     }
-
-    /**
-     * Show the application dashboard.
-    *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function welcome($page = 1)
-    {
-        $url = 'https://event.lpkn.id/api/member/event/event_page?page='.$page;
-        $p = new ProfileController();
-        $event = $p->getRespApi($url);
-        return view('Frontend/index', compact('event'));
-    }
-
     public function importProvinsi(){
         Excel::import(new ProvinsiImport, public_path('/excel/provinsi_new.xlsx'));
     }

@@ -9,8 +9,23 @@ use App\Http\Controllers\Admin\{
 	LembagaPemerintahanController,
 	KategoriTempatKerjaController,
 	UserController,
-    MemberController,
-    VideoController,
+	MemberController,
+	VideoController as VideoControllerAdmin,
+};
+use App\Http\Controllers\Member\{
+	ProfileController,
+	MenungguPembayaranController,
+	EventKamuController,
+	SertifikatKamuController,
+	DokumentasiController,
+	VoucherController,
+	VideoController as VideoControllerMember,
+};
+use App\Http\Controllers\{
+	HomeController,
+	WelcomeController,
+	EventController,
+	PeraturanController
 };
 
 /*
@@ -24,46 +39,47 @@ use App\Http\Controllers\Admin\{
 |
 */
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'welcome'])->name('welcome');
-
+Route::get('/', [WelcomeController::class, 'welcome'])->name('welcome');
+Route::get('/allevent/{id}', [EventController::class, 'allEvent'])->name('allevent');
+Route::get('/video/allvideo', [VideoControllerMember::class, 'index'])->name('allvideo');
+Route::get('/searchvideo', [VideoControllerMember::class, 'search'])->name('searchvideo');
+Route::get('/peraturan', [PeraturanController::class, 'peraturan'])->name('peraturan');
+Route::post('/download_peraturan', [PeraturanController::class, 'download_peraturan'])->name('download_peraturan');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/download_file/{file}/{folder?}', [App\Http\Controllers\HomeController::class, 'downloadFile'])->name('downloadFile');
+Route::get('/home', function(){
+	return redirect('/');
+});
+Route::get('/download_file/{file}/{folder?}', [HomeController::class, 'downloadFile'])->name('downloadFile');
 Route::view('dashboard', 'dashboard');
 Route::view('abc', 'test');
 Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middleware' => 'auth'], function () {
-	Route::get('/', [App\Http\Controllers\Member\ProfileController::class, 'index'])->name('index');
-	Route::get('/page/get_event/{slug}', [App\Http\Controllers\Member\ProfileController::class, 'getEventModal'])->name('get_event.modal');
-	Route::get('/page/get_video_materi/{slug}', [App\Http\Controllers\Member\ProfileController::class, 'getVideoMateri'])->name('get_video_materi');
-	Route::post('/page/regis_event', [App\Http\Controllers\Member\ProfileController::class, 'regisEvent'])->name('regis_event');
-	Route::post('/page/upload_bukti', [App\Http\Controllers\Member\ProfileController::class, 'uploadBukti'])->name('upload_bukti');
-	Route::get('/edit_profile', [App\Http\Controllers\Member\ProfileController::class, 'editProfile'])->name('edit_profile');
-	Route::post('/update_profile', [App\Http\Controllers\Member\ProfileController::class, 'updateProfile'])->name('update_profile');
-	Route::post('/update_fotoprofile', [App\Http\Controllers\Member\ProfileController::class, 'updateFotoProfile'])->name('update_fotoprofile');
+	Route::get('/', [ProfileController::class, 'index'])->name('index');
+	Route::get('/page/get_event/{slug}', [ProfileController::class, 'getEventModal'])->name('get_event.modal');
+	Route::get('/page/get_video_materi/{slug}', [ProfileController::class, 'getVideoMateri'])->name('get_video_materi');
+	Route::post('/page/regis_event', [ProfileController::class, 'regisEvent'])->name('regis_event');
+	Route::post('/page/upload_bukti', [ProfileController::class, 'uploadBukti'])->name('upload_bukti');
+	Route::get('/edit_profile', [ProfileController::class, 'editProfile'])->name('edit_profile');
+	Route::post('/update_profile', [ProfileController::class, 'updateProfile'])->name('update_profile');
+	Route::post('/update_fotoprofile', [ProfileController::class, 'updateFotoProfile'])->name('update_fotoprofile');
 
-	Route::get('/menunggu_pembayaran', [App\Http\Controllers\Member\MenungguPembayaranController::class, 'index'])->name('menunggu_pembayaran.index');
+	Route::get('/menunggu_pembayaran', [MenungguPembayaranController::class, 'index'])->name('menunggu_pembayaran.index');
 
-	Route::get('/event_kamu', [App\Http\Controllers\Member\EventKamuController::class, 'index'])->name('event_kamu.index');
-	Route::get('/sertifikat_kamu', [App\Http\Controllers\Member\SertifikatKamuController::class, 'index'])->name('sertifikat_kamu.index');
+	Route::get('/event_kamu', [EventKamuController::class, 'index'])->name('event_kamu.index');
+	Route::get('/sertifikat_kamu', [SertifikatKamuController::class, 'index'])->name('sertifikat_kamu.index');
 	
-	Route::get('/dokumentasi', [App\Http\Controllers\Member\DokumentasiController::class, 'index'])->name('dokumentasi.index');
-	Route::post('/get_artikel', [App\Http\Controllers\Member\DokumentasiController::class, 'get_artikel'])->name('dokumentasi.get_artikel');
-	// Route::post('/count', [App\Http\Controllers\Member\DokumentasiController::class, 'count'])->name('dokumentasi.count');
+	Route::get('/dokumentasi', [DokumentasiController::class, 'index'])->name('dokumentasi.index');
+	Route::post('/get_artikel', [DokumentasiController::class, 'get_artikel'])->name('dokumentasi.get_artikel');
+	// Route::post('/count', [DokumentasiController::class, 'count'])->name('dokumentasi.count');
 	
-	Route::get('/voucher', [App\Http\Controllers\Member\VoucherController::class, 'index'])->name('voucher.index');
-	Route::get('/voucher2', [App\Http\Controllers\Member\VoucherController::class, 'index2'])->name('voucher.index2');
-
-	Route::get('/allevent/{id}', [App\Http\Controllers\Member\ProfileController::class, 'allEvent'])->name('allevent');
-	Route::get('/peraturan', [App\Http\Controllers\Member\ProfileController::class, 'peraturan'])->name('peraturan');
-	Route::post('/download_peraturan', [App\Http\Controllers\Member\ProfileController::class, 'download_peraturan'])->name('download_peraturan');
-	Route::get('/allvideo', [App\Http\Controllers\Member\VideoController::class, 'index'])->name('allvideo');
-	Route::get('/searchvideo', [App\Http\Controllers\Member\VideoController::class, 'search'])->name('searchvideo');
+	Route::get('/voucher', [VoucherController::class, 'index'])->name('voucher.index');
+	Route::get('/voucher2', [VoucherController::class, 'index2'])->name('voucher.index2');	
 });
 
-Route::get('/import_provinsi', [App\Http\Controllers\HomeController::class, 'importProvinsi']);
-Route::post('/import_member', [App\Http\Controllers\HomeController::class, 'importMember']);
+Route::get('/import_provinsi', [HomeController::class, 'importProvinsi']);
+Route::post('/import_member', [HomeController::class, 'importMember']);
+
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 	Route::get('/provinsi/dataTables', [ProvinsiController::class, 'getDatatable'])->name('provinsi.dataTables');
@@ -82,12 +98,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 	Route::resource('/kategori_tempat_kerja', KategoriTempatKerjaController::class);
 
 	Route::get('/profile', [UserController::class, 'profile'])->name('profile');
-    Route::get('/user/dataTables', [UserController::class, 'getDatatable'])->name('user.dataTables');
+	Route::get('/user/dataTables', [UserController::class, 'getDatatable'])->name('user.dataTables');
 	Route::resource('/user', UserController::class);
 
-    Route::get('/member/dataTables', [MemberController::class, 'getDatatable'])->name('member.dataTables');
+	Route::get('/member/dataTables', [MemberController::class, 'getDatatable'])->name('member.dataTables');
 	Route::resource('/member', MemberController::class);
 
-	Route::get('/video/dataTables', [VideoController::class, 'getDatatable'])->name('video.dataTables');
-	Route::resource('/video', VideoController::class);
+	Route::get('/video/dataTables', [VideoControllerAdmin::class, 'getDatatable'])->name('video.dataTables');
+	Route::resource('/video', VideoControllerAdmin::class);
 });

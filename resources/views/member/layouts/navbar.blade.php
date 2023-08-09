@@ -1,13 +1,13 @@
 <style>
     .pa {
-     max-width: inherit;
-     max-height: inherit;
-     height: inherit;
-     width: inherit;
-     object-fit: cover;
-     border-radius: 20px;
-     height: 40px;
- }
+       max-width: inherit;
+       max-height: inherit;
+       height: inherit;
+       width: inherit;
+       object-fit: cover;
+       border-radius: 20px;
+       height: 40px;
+   }
 </style>
 <nav class="navbar navbar-expand-lg navbar-dark bg-nav" style="background-color: #343a40;">
     <div class="container">
@@ -24,18 +24,19 @@
                     <a href="{{url('/')}}" class="nav-link">Beranda</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{route('member_profile.allevent', ['id' => 1])}}" class="nav-link">Event</a>
+                    <a href="{{route('allevent', ['id' => 1])}}" class="nav-link">Event</a>
                 </li>
                 <li class="nav-item">
                     <a href="https://ilmu.lpkn.id/" class="nav-link">Berita</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{route('member_profile.allvideo')}}" class="nav-link">Video</a>
+                    <a href="{{route('allvideo')}}" class="nav-link">Video</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{route('member_profile.peraturan')}}" class="nav-link">Peraturan</a>
+                    <a href="{{route('peraturan')}}" class="nav-link">Peraturan</a>
                 </li>
             </ul>
+            @if(\Auth::check())
             <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
                 <!-- Messages Dropdown Menu -->
                 <li class="nav-item dropdown">
@@ -66,6 +67,25 @@
                     </div>
                 </li>
             </ul>
+            @else
+            <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link" style="padding-top: 0.1rem;" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user-plus" style="font-size: 25px;"></i>
+                        <span class="badge badge-danger navbar-badge" style="right: 2px; top: 2px;">Member</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="min-width: 200px;">
+                        <a href="{{route('login')}}" class="dropdown-item">
+                            <i class="fa fa-sign-in-alt mr-2"></i> Login
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{{route('register')}}" class="dropdown-item">
+                            <i class="fa fa-list mr-2"></i> Daftar
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            @endif
         </div>
     </div>
 </nav>

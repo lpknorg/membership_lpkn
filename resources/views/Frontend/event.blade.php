@@ -50,9 +50,9 @@
                     @for($i=1;$i<=$bagi;$i++)
                     <li class="page-item {{$seg == $i ? 'active' : ''}}">
                   @if(\Request::get('keyword'))
-                  <a class="page-link" href="{{route('member_profile.allevent', ['id' => $i, 'keyword' => \Request::get('keyword')])}}">
+                  <a class="page-link" href="{{route('allevent', ['id' => $i, 'keyword' => \Request::get('keyword')])}}">
                     @else
-                    <a class="page-link" href="{{route('member_profile.allevent', ['id' => $i])}}">
+                    <a class="page-link" href="{{route('allevent', ['id' => $i])}}">
                       @endif
                       {{$i}}
                       @if($seg == $i)

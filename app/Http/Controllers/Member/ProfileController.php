@@ -43,30 +43,6 @@ class ProfileController extends Controller
         return view('member.profile.index', compact('user', 'new_event'));
     }
 
-    public function allEvent($page=1, Request $request){
-        if ($request->keyword) {
-            $url = 'https://event.lpkn.id/api/member/event/search_event_page?page='.$page.'&keyword='.$request->keyword;
-        }else{
-            $url = 'https://event.lpkn.id/api/member/event/event_page?page='.$page;
-        }
-
-        $event = $this->getRespApi($url);
-        // dd($event);
-        return view('pages.event.index', compact('event'));
-    }
-
-    public function peraturan(){
-        return view('pages.peraturan.index');
-    }
-
-    public function download_peraturan(Request $request){
-        $param = $request->param;
-        $datapost = ['param' => $param];
-        $result = $this->getRespApiLpknidWithParam($datapost, 'download/json_pasal');
-        $peraturans = $result['peraturans'];
-        print_r($peraturans);die;
-    }
-
     public function editProfile(){
         $user = \Auth::user();
         $provinsi = Provinsi::select('id', 'nama')->orderBy('nama')->get();

@@ -2,7 +2,7 @@
 @section('content')
 <div class="tab-pane fade show active" id="pills-rekomendasievent" role="tabpanel" aria-labelledby="pills-home-tab">
 	<h5 class="font-italic">
-		List Sertifikat <small><a class="badge badge-primary" href="{{route('member_profile.allevent', ['id' => 0])}}">Semua Event</a></small>
+		List Sertifikat <small><a class="badge badge-primary" href="{{route('allevent', ['id' => 0])}}">Semua Event</a></small>
 	</h5>
 	<p class=" border-bottom">Sertifikat yang telah kamu peroleh di acara kami</p>
 	<div class="row card-body">

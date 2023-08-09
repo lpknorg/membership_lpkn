@@ -296,7 +296,7 @@ iframe{
             const query = searchInput.value;
             if (query.trim() !== '') {
                 $.ajax({
-                    url:"{{route('member_profile.searchvideo')}}",   
+                    url:"{{route('searchvideo')}}",   
                     type: "get",   
                     dataType: 'json',
                     data: {

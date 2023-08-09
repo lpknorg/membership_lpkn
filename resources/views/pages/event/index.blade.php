@@ -97,7 +97,7 @@
 						<li class="breadcrumb-item">
 							<form class="form-inline ml-0 ml-md-3" action="">
 								<div class="input-group">
-									<input type="text" class="form-control" placeholder="Search event" name="keyword" >
+									<input type="text" class="form-control" placeholder="Search event" name="keyword" value="{{\Request::get('keyword') ?? ''}}" >
 									<div class="input-group-append">
 										<button class="btn btn-secondary" type="button" id="serch_event">
 											<i class="fa fa-search"></i>
@@ -138,9 +138,9 @@
                 @for($i=1;$i<=$bagi;$i++)
                 <li class="page-item {{$seg == $i ? 'active' : ''}}">
                   @if(\Request::get('keyword'))
-                  <a class="page-link" href="{{route('member_profile.allevent', ['id' => $i, 'keyword' => \Request::get('keyword')])}}">
+                  <a class="page-link" href="{{route('allevent', ['id' => $i, 'keyword' => \Request::get('keyword')])}}">
                     @else
-                    <a class="page-link" href="{{route('member_profile.allevent', ['id' => $i])}}">
+                    <a class="page-link" href="{{route('allevent', ['id' => $i])}}">
                       @endif
                       {{$i}}
                       @if($seg == $i)
