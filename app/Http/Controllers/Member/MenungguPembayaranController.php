@@ -37,6 +37,7 @@ class MenungguPembayaranController extends Controller
         $email = \Auth::user()->email;
         $datapost = ['email'=>$email];
     	$event_waiting = $this->getRespApiWithParam($datapost, 'member/event/waiting');
+        // dd($event_waiting);
         return view('member.profile.menunggu_pembayaran', compact('event_waiting'));
     }
 }

@@ -20,6 +20,7 @@
 					<th scope="col">No</th>
 					<th scope="col">Nama Event</th>
 					<th scope="col">Action</th>
+					<th scope="col">Tanggal Pelaksanaan</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -27,6 +28,7 @@
 				<tr>
 					<td>{{ $key+1 }}</td>
 					<td>{{ $e['judul']}}</td>
+					<td>{{ \Helper::changeFormatDate($e['tgl_start']).' s/d '.\Helper::changeFormatDate($e['tgl_end']) }}</td>
 					<td>
 						<button type="button" onclick="getEvent('{{$e['slug']}}');" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-eye"></i></button>
 					</td>

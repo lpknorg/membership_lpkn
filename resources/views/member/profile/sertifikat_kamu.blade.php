@@ -11,6 +11,7 @@
 				<tr>
 					<th scope="col">No</th>
 					<th scope="col" width="60%">Nama Event</th>
+					<th scope="col">Tanggal Pelaksanaan</th>
 					<th scope="col">Action</th>
 				</tr>
 			</thead>
@@ -19,6 +20,7 @@
 				<tr>
 					<td>{{ $key+1 }}</td>
 					<td>{{ $list['judul']}}</td>
+					<td>{{ \Helper::changeFormatDate($list['tanggal_mulai']).' s/d '.\Helper::changeFormatDate($list['tanggal']) }}</td>
 					<td>
 						@if(!empty($list['testimoni']) && is_null($list['testimoni']))
 						<form method="POST" action="<?=$this->config->item('url_api_sertifikat').'member/testimoni_peserta/'.$list['sertifikat_id']?>" id="formTestimoni">

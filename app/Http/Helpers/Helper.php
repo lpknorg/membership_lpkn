@@ -25,4 +25,12 @@ class Helper {
 		}
 		return asset("default.png");
 	}
+
+	public static function changeFormatDate($date, $format='d-m-Y'){
+		if (is_null($date)) {
+			return '-';
+		}
+		$d = date_create($date);
+		return date_format($d, $format);
+	}
 }
