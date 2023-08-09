@@ -28,10 +28,10 @@ class CreateMemberKantorsTable extends Migration
             $table->string('nama_instansi')->nullable();
             $table->string('pemerintah_instansi')->nullable();
             $table->text('alamat_kantor_lengkap')->nullable();
-            $table->integer('kantor_prov_id', 5)->nullable();
-            $table->integer('kantor_kota_id', 5)->nullable();
-            $table->integer('kantor_kecamatan_id', 5)->nullable();
-            $table->integer('kantor_kelurahan_id', 5)->nullable();
+            $table->integer('kantor_prov_id')->nullable();
+            $table->integer('kantor_kota_id')->nullable();
+            $table->integer('kantor_kecamatan_id')->nullable();
+            $table->integer('kantor_kelurahan_id')->nullable();
             $table->string('nama_kantor_prov', 5)->nullable();
             $table->string('nama_kantor_kota', 5)->nullable();
             // $table->string('kantor_kecamatan_id', 5)->nullable();

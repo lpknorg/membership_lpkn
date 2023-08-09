@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\{
 	KategoriTempatKerjaController,
 	UserController,
     MemberController,
+    VideoController,
 };
 
 /*
@@ -23,9 +24,8 @@ use App\Http\Controllers\Admin\{
 |
 */
 
-Route::get('/', function () {
-	return view('welcome');
-});
+Route::get('/', [App\Http\Controllers\HomeController::class, 'welcome'])->name('welcome');
+
 
 Auth::routes();
 
@@ -44,7 +44,7 @@ Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middlewa
 	Route::post('/update_fotoprofile', [App\Http\Controllers\Member\ProfileController::class, 'updateFotoProfile'])->name('update_fotoprofile');
 
 	Route::get('/menunggu_pembayaran', [App\Http\Controllers\Member\MenungguPembayaranController::class, 'index'])->name('menunggu_pembayaran.index');
-	
+
 	Route::get('/event_kamu', [App\Http\Controllers\Member\EventKamuController::class, 'index'])->name('event_kamu.index');
 	Route::get('/sertifikat_kamu', [App\Http\Controllers\Member\SertifikatKamuController::class, 'index'])->name('sertifikat_kamu.index');
 	
@@ -58,6 +58,8 @@ Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middlewa
 	Route::get('/allevent/{id}', [App\Http\Controllers\Member\ProfileController::class, 'allEvent'])->name('allevent');
 	Route::get('/peraturan', [App\Http\Controllers\Member\ProfileController::class, 'peraturan'])->name('peraturan');
 	Route::post('/download_peraturan', [App\Http\Controllers\Member\ProfileController::class, 'download_peraturan'])->name('download_peraturan');
+	Route::get('/allvideo', [App\Http\Controllers\Member\VideoController::class, 'index'])->name('allvideo');
+	Route::get('/searchvideo', [App\Http\Controllers\Member\VideoController::class, 'search'])->name('searchvideo');
 });
 
 Route::get('/import_provinsi', [App\Http\Controllers\HomeController::class, 'importProvinsi']);
@@ -86,4 +88,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('/member/dataTables', [MemberController::class, 'getDatatable'])->name('member.dataTables');
 	Route::resource('/member', MemberController::class);
 
+	Route::get('/video/dataTables', [VideoController::class, 'getDatatable'])->name('video.dataTables');
+	Route::resource('/video', VideoController::class);
 });

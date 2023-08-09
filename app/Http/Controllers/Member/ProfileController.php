@@ -48,8 +48,8 @@ class ProfileController extends Controller
             $url = 'https://event.lpkn.id/api/member/event/search_event_page?page='.$page.'&keyword='.$request->keyword;
         }else{
             $url = 'https://event.lpkn.id/api/member/event/event_page?page='.$page;
-        }        
-        
+        }
+
         $event = $this->getRespApi($url);
         // dd($event);
         return view('pages.event.index', compact('event'));
@@ -301,7 +301,7 @@ class ProfileController extends Controller
             dd('engga');
         }
     }
-    
+
     public function getVideoMateri($slug){
         $datapost = ['slug' => $slug];
         $client = new \GuzzleHttp\Client();
@@ -335,8 +335,8 @@ class ProfileController extends Controller
     public function regisEvent(Request $request){
         $user = \Auth::user();
         $data = array(
-            'id_event' => $request->id_event, 
-            'email' => $user->email, 
+            'id_event' => $request->id_event,
+            'email' => $user->email,
             'nama_lengkap' => $user->name,
             'alamat_lengkap' => $user->member->alamat_lengkap,
             'ref' => null,
@@ -378,7 +378,7 @@ class ProfileController extends Controller
     public function uploadBukti(Request $request){
         if (!isset($request->bukti)) {
             $data['success'] = false;
-            $data['msg'] = "Dokumen bukti harus diupload";            
+            $data['msg'] = "Dokumen bukti harus diupload";
             return $data;
         }
         if ($request->hasFile('bukti')) {
@@ -388,7 +388,7 @@ class ProfileController extends Controller
 
             if ($validator->fails()) {
                 $data['success'] = false;
-                $data['msg'] = "File harus berupa gambar dengan format jpg atau png";            
+                $data['msg'] = "File harus berupa gambar dengan format jpg atau png";
                 return $data;
             }
         }
