@@ -1,18 +1,12 @@
-@extends('member.layouts.template')
-@section('content')
-<style>
-	.text-warning{
-		color: #f5943d!important;
-	}
-</style>
-<div class="tab-pane fade show active" id="pills-rekomendasievent" role="tabpanel" aria-labelledby="pills-home-tab">
-	<h5 class="font-italic">
-		Update Profile Member
-	</h5>
+<div class="modal-header">
+	<h5 class="modal-title">Lihat Data Member</h5>
+	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+<div class="modal-body">
 	<form method="POST" action="{{route('member_profile.update_profile')}}">
 		@csrf
-		<h4><b> Data Pribadi</b></h4>
-		<hr class="mb-2 mt-0">
 		<div class="row">
 			<div class="col-sm-3">
 				<div class="form-group">
@@ -162,7 +156,7 @@
 			</div>
 		</div>
 		<div class="row">
-			
+
 			<div class="col-sm-4">
 				<div class="form-group">
 					<label>Posisi Pelaku Pengadaan</label>
@@ -247,7 +241,7 @@
 					<option value="">Pilih Kelurahan</option>
 				</select>
 			</div>
-			
+
 			<div class="col-sm-4">
 				<div class="form-group">
 					<label>Upload Pas Foto Resmi 3x4</label>
@@ -278,216 +272,4 @@
 		</div>
 		<button type="submit" class="btn btn-primary" id="btnsubmit">Update Profile</button>
 	</form>
-	
 </div>
-@endsection
-@section('scripts')
-<script>
-	$(document).ready(function(){
-		getProvinsi('rumah_provinsi')
-		getKota('{{$user->member->prov_id}}', 'rumah_kota')
-		getKecamatan('{{$user->member->kota_id}}', 'rumah_kecamatan')
-		getKelurahan('{{$user->member->kecamatan_id}}', 'rumah_kelurahan')
-
-		getProvinsi('kantor_provinsi', '{{$user->member->memberKantor->kantor_prov_id}}')
-		getKota('{{$user->member->memberKantor->kantor_prov_id}}', 'kantor_kota', '{{$user->member->memberKantor->kantor_kota_id}}')
-		getKecamatan('{{$user->member->memberKantor->kantor_kota_id}}', 'kantor_kecamatan', '{{$user->member->memberKantor->kantor_kecamatan_id}}')
-		getKelurahan('{{$user->member->memberKantor->kantor_kecamatan_id}}', 'kantor_kelurahan', '{{$user->member->memberKantor->kantor_kelurahan_id}}')
-		getLembagaPemerintahan('{{$user->member->memberKantor->instansi_id}}', 'lembaga_pemerintahan')
-
-		function getProvinsi(selector, selected_id='{{$user->member->prov_id}}'){
-			$.ajax({
-				type: 'GET',
-				url: '{{route('api.get.provinsi')}}',
-				success: function(data) {
-					let provinsi = '<option value="">-- Pilih Provinsi --</option>'
-					$.each(data.data, function(k, v){
-						provinsi += `<option value="${v.id}" ${selected_id == v.id ? 'selected' : ''}>${v.nama}</option>`
-					})
-					$(`[name=${selector}]`).attr('disabled', false).html(provinsi)
-				},
-				error: function(data) {
-					showAlert("Ada kesalahan dalam mendapatkan data provinsi", "error")                     
-				},
-				complete: function() {
-
-				}
-			});     
-		}
-		function getKota(_val, selector, selected_id='{{$user->member->kota_id}}'){
-			$.ajax({
-				type: 'GET',
-				url: '{{route('api.get.kota')}}',
-				data: {
-					id_provinsi: _val
-				},
-				success: function(data) {
-					let kota = '<option value="">-- Pilih Kota --</option>'
-					$.each(data.data, function(k, v){
-						kota += `<option value="${v.id}" ${selected_id == v.id ? 'selected' : ''}>${v.kota}</option>`
-					})
-					$(`[name=${selector}]`).attr('disabled', false).html(kota)
-				},
-				error: function(data) {
-					showAlert("Ada kesalahan dalam mendapatkan data kota", "error")                     
-				},
-				complete: function() {
-
-				}
-			});     
-		}
-		function getKecamatan(_val, selector, selected_id='{{$user->member->kecamatan_id}}'){
-			$.ajax({
-				type: 'get',
-				url: "{{ url('api/general/kecamatan') }}",
-				data: {
-					id_kota: _val
-				},
-				success: function(data) {
-					let opt = '<option value="">Pilih Kecamatan</option>'
-					$.each(data.data, function(k, v) {
-						opt +=
-						`<option value="${v.id}" ${selected_id == v.id ? 'selected' : ''}>${v.kecamatan}</option>`
-					})
-					$(`[name=${selector}]`).prop('disabled', false).html(opt)
-				},
-				error: function(data) {
-					showAlert("Ada kesalahan dalam mendapatkan data kecamatan", "error")
-				}
-			});
-		}
-		function getKelurahan(_val, selector, selected_id='{{$user->member->kelurahan_id}}'){
-			$.ajax({
-				type: 'get',
-				url: "{{ url('api/general/kelurahan') }}",
-				data: {
-					id_kecamatan: _val
-				},
-				success: function(data) {
-					console.log(data)
-					let opt = '<option value="">Pilih Kelurahan</option>'
-					$.each(data.data, function(k, v) {
-						opt +=
-						`<option value="${v.id}" ${selected_id == v.id ? 'selected' : ''}>${v.kelurahan} - ${v.kode_pos.kode_pos}</option>`
-					})
-					$(`[name=${selector}]`).prop('disabled', false).html(opt)
-				},
-				error: function(data) {
-					showAlert("Ada kesalahan dalam mendapatkan data kelurahan", "error")
-				}
-			});
-		}
-		function getLembagaPemerintahan(_val, selector, selected_id='{{$user->member->memberKantor->lembaga_pemerintahan_id}}'){
-			$.ajaxSetup({
-				headers: {
-					'X-CSRF-TOKEN': $('[name=_token]').val()
-				}
-			});
-			$.ajax({
-				url : "{{route('api.get.lembaga_pemerintahan')}}",
-				method : "post",
-				data : {instansi_id:_val},
-				dataType : 'json',
-				success: function(data) {
-					let lp = '<option value="">-- Pilih Lembaga Pemerintahan --</option>'
-					$.each(data, function(k, v){
-						lp += `<option value="${v.id}" ${selected_id == v.id ? 'selected' : ''}>${v.nama}</option>`
-					})
-					$(`[name=${selector}]`).html(lp)
-				},
-				error: function(data) {
-					showAlert("Ada kesalahan dalam mendapatkan data lembaga pemerintahan", "error")
-				}
-			});
-		}
-		$('[name=rumah_provinsi]').change(function(){
-			let _val = $(this).find(":selected").val()
-			getKota(_val, 'rumah_kota')
-		})
-		$('[name=rumah_kota]').change(function(){
-			let _val = $(this).find(":selected").val()
-			getKecamatan(_val, 'rumah_kecamatan')
-		})
-
-		$('[name=rumah_kecamatan]').change(function(){
-			let _val = $(this).find(":selected").val()
-			getKelurahan(_val, 'rumah_kelurahan')
-		})
-
-		$('[name=kantor_provinsi]').change(function(){
-			let _val = $(this).find(":selected").val()
-			getKota(_val, 'kantor_kota')
-		})
-		$('[name=kantor_kota]').change(function(){
-			let _val = $(this).find(":selected").val()
-			getKecamatan(_val, 'kantor_kecamatan')
-		})
-
-		$('[name=kantor_kecamatan]').change(function(){
-			let _val = $(this).find(":selected").val()
-			getKelurahan(_val, 'kantor_kelurahan')
-		})
-		$('[name=instansi]').change(function(){
-			let _val = $(this).find(":selected").val()
-			getLembagaPemerintahan(_val, 'lembaga_pemerintahan')
-		})
-		$('body').on('change', '[name=status_kepegawaian]', function() {
-			let val = $(this).find(':selected').val()
-			if (val == 'BUMN/BUMD') {
-				$('[id=div-dll]').hide(300)
-				$('[id=div-bumn]').show(300)
-			}else if (val == 'Lainnya') {
-				$('[id=div-bumn]').hide(300)
-				$('[id=div-dll]').show(300)
-			}else{
-				$('[id=div-bumn]').hide(300)
-				$('[id=div-dll]').hide(300)
-			}
-		})
-		$('form').submit(function(e) {
-			e.preventDefault();
-			$.ajaxSetup({
-				headers: {
-					'X-CSRF-TOKEN': $('[name=_token]').val()
-				}
-			});
-
-			var form_data = new FormData($(this)[0]);
-			form_data.append('pas_foto', $('[name=pas_foto]').prop('files')[0]);
-			form_data.append('foto_ktp', $('[name=foto_ktp]').prop('files')[0]);
-			form_data.append('sk_pengangkatan_asn', $('[name=sk_pengangkatan_asn]').prop('files')[0]);
-
-			$.ajax({
-				type: 'post',
-				url: $(this).attr("action"),
-				data: form_data,
-				dataType: 'json',
-				processData: false,
-				contentType: false,
-				beforeSend: function() {
-					sendAjax('#btnsubmit', false)
-				},
-				success: function(data) {
-					console.log(data)
-					if (data.status == "ok") {
-						showAlert(data.messages)
-						setTimeout(function() {
-							location.href = '/member_profile/edit_profile'
-						}, 1000);
-					}
-				},
-				error: function(data) {
-					var data = data.responseJSON;
-
-					if (data.status == "fail") {
-						showAlert(data.messages, "error")
-					}
-				},
-				complete: function() {
-					sendAjax('#btnsubmit', true, 'Update Profile')
-				}
-			});
-		});
-	})
-</script>
-@endsection

@@ -152,7 +152,8 @@ class UserController extends Controller
                     return $s;
                 })
                 ->addColumn('action', function ($row) {
-                    $actionBtn = '<a href="' . route('admin.user.show', $row->id) . '" id="btnShow" class="btn-sm btn btn-info  mr-1 mb-2 mb-lg-2" data-toggle="tooltip" data-placement="top" title="Lihat Data"><i class="fa fa-eye"></i></a>';
+                    $actionBtn = '<a href="' . route('admin.user.import_biodata', $row->id) . '" class="btn-sm btn btn-info  mr-1 mb-2 mb-lg-2" data-toggle="tooltip" data-placement="top" title="Download Biodata"><i class="fa fa-download"></i></a>';
+                    $actionBtn .= '<a href="' . route('admin.user.show', $row->id) . '" id="btnShow" class="btn-sm btn btn-info  mr-1 mb-2 mb-lg-2" data-toggle="tooltip" data-placement="top" title="Lihat Data"><i class="fa fa-eye"></i></a>';
                     $actionBtn .= '<a data-toggle="tooltip" data-placement="top" title="Edit Data" id="btnEdit" href="' . route('admin.user.show', $row->id) . '" class="btn-sm btn btn-warning mx-1 ml-4 ml-md-0 mb-2"><i class="fa fa-edit"></i></a>';
                     $actionBtn .= '<button type="button" class="btn-sm btn btn-danger mb-2 mb-lg-2" id="btnHapus" data-id=' . $row->id . ' action="' . route('admin.user.destroy', $row->id) . '"><i class="fa fa-trash"></i></button>';
                     return $actionBtn;
@@ -167,5 +168,11 @@ class UserController extends Controller
         $id = \Auth::user()->id;
         $users = User::findOrFail($id);
         return view('admin.user.profile', ['users' => $users]);
+    }
+    public function importBiodata($id){
+        $data = User::findOrFail($id);
+        $pdf = \PDF::loadView('admin.user.pdf_biodata', compact('data'));
+        return $pdf->download('Biodata '.$data->name.'.pdf');
+        // return view('admin.user.pdf_biodata', compact('data'));
     }
 }

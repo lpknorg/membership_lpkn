@@ -83,6 +83,7 @@
 <body>
 	@include('member.layouts.navbar')
 	<div class="px-2 py-2">
+		
 		<div class="row" style="width: 100%;">
 			<div class="col-md-3">
 				<div class="card card-primary card-outline">
@@ -97,8 +98,6 @@
 						</div>
 
 						<h3 class="profile-username text-center">{{\Auth::user()->name}}  </h3>
-
-						<p class="text-muted text-center">-</p>
 
 						<ul class="list-group list-group-unbordered mb-3">
 							<li class="list-group-item">
@@ -125,7 +124,7 @@
 						<p class="text-muted">{{\Auth::user()->member->no_hp ?? '-'}}</p>
 						<hr>
 						<strong><i class="fa fa-building mr-1"></i> Instansi</strong>
-						<p class="text-muted">{{\Auth::user()->member->instansi->nama ?? '-'}}</p>
+						<p class="text-muted">{{\Auth::user()->member->memberKantor->nama_instansi ?? '-'}}</p>
 						<hr>
 						<strong><i class="fa fa-map-marker mr-1"></i> Alamat</strong>
 						<p class="text-muted">{{\Auth::user()->member->alamat_lengkap ?? '-'}}
@@ -134,6 +133,9 @@
 				</div>
 			</div>
 			<div class="col-md-9">
+				<div class="alert alert-info w-100">
+					Jika terdapat ketidaksesuaian data, silakan melakukan <a href="{{route('member_profile.edit_profile')}}"><b>update profile</b></a>
+				</div>
 				<div class="card card-primary card-outline">
 					<?php $segment = \Request::segments(); $csegment = count($segment); ?>
 					<div class="card-header" style="padding: 10px;">

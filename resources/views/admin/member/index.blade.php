@@ -17,8 +17,7 @@
                         <thead>
                             <tr>
                                 <th width="10px">No</th>
-                                <th width="20%">No member</th>
-                                <th width="30%">Nama lengkap</th>
+                                <th width="20%">Nama</th>
                                 <th width="30%">Email</th>
                                 <th width="90px">Action</th>
                             </tr>
@@ -35,33 +34,6 @@
 @endsection
 @section('scripts')
     <script type="text/javascript">
-        $('#modalAdd [name=nama_instansi]').select2({
-            dropdownParent: $('#modalAdd .modal-content'),
-            width: '100%'
-        })
-        $('#modalShow [name=nama_instansi]').select2({
-            dropdownParent: $('#modalShow .modal-content'),
-            width: '100%'
-        })
-
-        $('#modalAdd [name=lembaga_pemerintahan]').select2({
-            dropdownParent: $('#modalAdd .modal-content'),
-            width: '100%'
-        })
-        $('#modalShow [name=lembaga_pemerintahan]').select2({
-            dropdownParent: $('#modalShow .modal-content'),
-            width: '100%'
-        })
-
-        $('#modalAdd [name=kategori_kerja]').select2({
-            dropdownParent: $('#modalAdd .modal-content'),
-            width: '100%'
-        })
-        $('#modalShow [name=kategori_kerja]').select2({
-            dropdownParent: $('#modalShow .modal-content'),
-            width: '100%'
-        })
-
         $(document).ready(function() {
             $('body').on('click', '[id="btnHapus"]', function(e) {
                 Swal.fire({
@@ -228,46 +200,8 @@
             function showModal2(act, data = null) {
                 if (act == 'show' || act == 'edit') {
                     $('#modalShow').modal('show')
-                    $('#modalShow [name=no_member]').val(data.no_member)
-                    $('#modalShow [name=nik]').val(data.nik)
-                    $('#modalShow [name=email]').val(data.email)
-                    $('#modalShow [name=nama_lengkap]').val(data.nama_lengkap)
-                    $('#modalShow [name=no_hp]').val(data.no_hp)
-                    $('#modalShow [name=alamat_lengkap]').val(data.alamat_lengkap)
-                    $('#modalShow [name=tempat_lahir]').val(data.tempat_lahir)
-                    $('#modalShow [name=tgl_lahir]').val(data.tgl_lahir)
-                    $('#modalShow [name=ref]').val(data.ref)
-                    $('#modalShow [name=bank_rek_ref]').val(data.bank_rek_ref)
-                    $('#modalShow [name=no_rek_ref]').val(data.no_rek_ref)
-                    $('#modalShow [name=an_rek_ref]').val(data.an_rek_ref)
-                    $('#modalShow [name=fb]').val(data.fb)
-                    $('#modalShow [name=instagram]').val(data.instagram)
-                    $('#modalShow [name=expired_date]').val(data.expired_date)
-                    $('#modalShow [name=nip]').val(data.nip)
-
-                    // instansi
-                    let intansi = '<option value="">-- Pilih Intansi --</option>'
-                    $.each(data.instansi, function(k, v) {
-                        intansi +=
-                            `<option value="${v.id}" ${data.instansi_id == v.id ? 'selected' : ''} >${v.nama}</option>`
-                    })
-                    $('#modalShow [name=nama_instansi]').html(intansi)
-
-                    // kategori lembaga pemerintah
-                    let lembagapemerintah = '<option value="">-- Pilih Lembaga Pemerintahan --</option>'
-                    $.each(data.lembagapemerintah, function(j, k) {
-                        lembagapemerintah +=
-                            `<option value="${k.id}" ${data.lembaga_pemerintahan_id == k.id ? 'selected' : ''} >${k.nama}</option>`
-                    })
-                    $('#modalShow [name=lembaga_pemerintahan]').html(lembagapemerintah)
-
-                    // kategori tempat kerja
-                    let kategoritempatkerja = '<option value="">-- Pilih Kategori Tempat kerja --</option>'
-                    $.each(data.kategori_kerja, function(i, l) {
-                        kategoritempatkerja +=
-                            `<option value="${l.id}" ${data.kategori_tempat_kerja_id == l.id ? 'selected' : ''} >${l.nama}</option>`
-                    })
-                    $('#modalShow [name=kategori_kerja]').html(kategoritempatkerja)
+                    
+                    $('#modalShow #modalResponseShow').html(data)
 
                 }
                 if (act == 'add') {
@@ -280,10 +214,6 @@
                     $('#modalShow .modal-title').text('Ubah Data member')
                     $('#modalShow #btnUpdate').show()
                     $('#modalShow input, #modalShow textarea').attr('disabled', false)
-                    $('#modalShow form').attr({
-                        action: `${window.location}/${data.id}`,
-                        method: 'POST'
-                    })
                 }
             }
 
@@ -351,12 +281,8 @@
                         searchable: false
                     },
                     {
-                        data: 'no_member',
-                        name: 'no_member'
-                    },
-                    {
-                        data: 'nama_lengkap',
-                        name: 'nama_lengkap'
+                        data: 'name',
+                        name: 'name'
                     },
                     {
                         data: 'email',

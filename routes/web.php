@@ -77,7 +77,6 @@ Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middlewa
 	Route::get('/voucher2', [VoucherController::class, 'index2'])->name('voucher.index2');	
 });
 
-Route::get('/import_provinsi', [HomeController::class, 'importProvinsi']);
 Route::post('/import_member', [HomeController::class, 'importMember']);
 
 
@@ -99,6 +98,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
 	Route::get('/profile', [UserController::class, 'profile'])->name('profile');
 	Route::get('/user/dataTables', [UserController::class, 'getDatatable'])->name('user.dataTables');
+	Route::get('/user/import_biodata/{id}', [UserController::class, 'importBiodata'])->name('user.import_biodata');
+	
 	Route::resource('/user', UserController::class);
 
 	Route::get('/member/dataTables', [MemberController::class, 'getDatatable'])->name('member.dataTables');

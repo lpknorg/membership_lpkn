@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Admin\Member;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Admin\{Instansi, LembagaPemerintahan, KategoriTempatKerja};
+use App\Models\User;
+use App\Models\Admin\{Provinsi, Instansi, LembagaPemerintahan, KategoriTempatKerja};
 
 class MemberController extends Controller
 {
@@ -89,7 +90,10 @@ class MemberController extends Controller
 
     public function show($id)
     {
-        return Member::with('instansi', 'lembagapemerintah', 'kategoritempatkerja')->findOrFail($id);
+        $user = User::findOrFail($id);
+        $provinsi = Provinsi::select('id', 'nama')->orderBy('nama')->get();
+        $instansi = Instansi::orderBy('nama')->get();
+        return view('admin.member.response_data', compact('user', 'provinsi', 'instansi'));
     }
 
     public function edit($id)
@@ -172,13 +176,9 @@ class MemberController extends Controller
     public function getDatatable(Request $request)
     {
         if ($request->ajax()) {
-            $data = Member::with('instansi', 'lembagapemerintah', 'kategoritempatkerja')->orderBy('updated_at', 'ASC');
+            $data = User::orderBy('updated_at', 'ASC');
             return \DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('nama_instansi', function ($row) {
-                    return $row->instansi->nama;
-                })
-
                 ->addColumn('action', function ($row) {
                     $actionBtn = '<a href="' . route('admin.member.show', $row->id) . '" id="btnShow" class="btn-sm btn btn-info mr-1" data-toggle="tooltip" data-placement="top" title="Lihat Data"><i class="fa fa-eye"></i></a>';
                     $actionBtn .= '<a data-toggle="tooltip" data-placement="top" title="Edit Data" id="btnEdit" href="' . route('admin.member.show', $row->id) . '" class="btn-sm btn btn-warning"><i class="fa fa-edit"></i></a>';

@@ -4,10 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\{
-    ProvinsiImport,
-    MemberImport
-};
+use App\Imports\MemberImport;
 use App\Http\Controllers\Member\ProfileController;
 
 class HomeController extends Controller
@@ -20,9 +17,6 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-    }
-    public function importProvinsi(){
-        Excel::import(new ProvinsiImport, public_path('/excel/provinsi_new.xlsx'));
     }
 
     public function importMember(Request $request){

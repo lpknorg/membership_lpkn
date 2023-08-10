@@ -166,13 +166,14 @@ class ProfileController extends Controller
         try {
             DB::beginTransaction();
             $user->update([
+                'nip'=> $request->nip,
+                'nik'=> $request->nik,
                 'name' => $request->nama_tanpa_gelar,
                 'email' => $request->email
             ]);
-            $user->member->update([
-                'nip'=> $request->nip,
-                'nik'=> $request->nik,
+            $user->member->update([                
                 'nama_lengkap_gelar'=> $request->nama_dengan_gelar,
+                'nama_untuk_sertifikat'=> $request->nama_untuk_sertifikat,
                 'no_hp'=> $request->no_hp,
                 'tempat_dan_tgl_lahir'=> $request->tempat_dan_tgl_lahir,
                 'pendidikan_terakhir' => $request->pendidikan_terakhir,

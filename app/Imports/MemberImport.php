@@ -48,7 +48,7 @@ class MemberImport implements ToCollection, WithHeadingRow
                             ],
                             [
                                 'no_hp' => $value['no_hp_whatsapp_aktif'],
-                                'tempat_lahir' => $value['tempat_tanggal_lahir'],
+                                'tempat_dan_tgl_lahir' => $value['tempat_tanggal_lahir'],
                                 'pendidikan_terakhir' => $value['pendidikan_terakhir'],
                                 'pas_foto3x4' => $value['upload_pas_foto_resmi_3x4'],
                                 'file_sk_pengangkatan_asn' => $value['upload_sk_pengangkatan_asn'],
