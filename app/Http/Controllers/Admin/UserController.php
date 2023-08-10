@@ -111,8 +111,9 @@ class UserController extends Controller
             'name'      => $request->name,
             'email'      => $request->email,
             'password' => $request->password ? Hash::make($request->password) : $us->password,
-            'is_confirm' => isset($request->verifikasi_akun) ? 1 : 0
+            'is_confirm' => $request->verifikasi_akun == 1 ? 1 : 0
         ]);
+        // return $request->all();
 
         return response()->json([
             'status'   => 'ok',

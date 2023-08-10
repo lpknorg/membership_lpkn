@@ -187,6 +187,7 @@
 					sendAjax('#btnUpdate', false)
 				},
 				success: function(data) {
+					console.log(data)
 					if (data.status == "ok") {
 						showAlert(data.messages)
 						setTimeout(function() {
