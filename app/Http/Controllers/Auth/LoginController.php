@@ -55,17 +55,17 @@ class LoginController extends Controller
         }
 
         $user = User::where('email', $request->email)->first();
-
-        if($user->is_confirm == 0){
-            return response()->json([
-                'status'    => "fail",
-                'messages' => "User belum diverifikasi admin, mohon ditunggu.",
-            ], 422);
-        }
+        
         if(!$user){
             return response()->json([
                 'status'    => "fail",
                 'messages' => "User tidak terdaftar.",
+            ], 422);
+        }
+        if($user->is_confirm == 0){
+            return response()->json([
+                'status'    => "fail",
+                'messages' => "User belum diverifikasi admin, mohon ditunggu.",
             ], 422);
         }
         // $cek = Hash::check($request->password, $user->password);

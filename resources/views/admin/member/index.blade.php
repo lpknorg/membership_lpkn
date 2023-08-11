@@ -1,4 +1,4 @@
-@extends('layouts.template')
+s@extends('layouts.template')
 @section('breadcumb')
     <div class="col-md-12 page-title">
         <div class="title_left">

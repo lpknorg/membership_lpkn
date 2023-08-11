@@ -1,33 +1,50 @@
 <div class="modal-header">
-	<h5 class="modal-title">Lihat Data Member</h5>
+	<h5 class="modal-title"></h5>
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 		<span aria-hidden="true">&times;</span>
 	</button>
 </div>
 <div class="modal-body">
 	<form method="POST" action="{{route('member_profile.update_profile')}}">
+		<input type="hidden" value="{{$user->id}}" name="id_user">
 		@csrf
 		<div class="row">
-			<div class="col-sm-3">
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label>Nama Lengkap tanpa gelar</label>
+					<input type="text" class="form-control" name="nama_tanpa_gelar" value="{{$user->name}}">
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label>Email</label>
+					<input type="email" class="form-control" name="email" value="{{$user->email}}" readonly>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label>Password</label>
+					<input type="password" class="form-control" name="password">
+					<span><small class="text-warning">Jika password terisi, maka password akan terupdate</small></span>
+				</div>
+			</div>
+
+		</div>
+		<div class="row">
+			<div class="col-sm-4">
 				<div class="form-group">
 					<label>NIP/NRP</label>
 					<input type="number" class="form-control" name="nip" value="{{$user->nip}}">
 					<span><small class="text-warning">Non PNS siliahkan isi -</small></span>
 				</div>
 			</div>
-			<div class="col-sm-3">
+			<div class="col-sm-4">
 				<div class="form-group">
 					<label>NIK</label>
 					<input type="number" class="form-control" name="nik" value="{{$user->nik}}">
 				</div>
 			</div>
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label>Email</label>
-					<input type="email" class="form-control" name="email" value="{{$user->email}}" readonly>
-				</div>
-			</div>
-			<div class="col-sm-3">
+			<div class="col-sm-4">
 				<div class="form-group">
 					<label>Pendidikan Terakhir</label>
 					<select class="form-control" name="pendidikan_terakhir">
@@ -37,12 +54,6 @@
 						<option value="{{$v}}" {{$v == $user->member->pendidikan_terakhir ? 'selected' : ''}}>{{$v}}</option>
 						@endforeach
 					</select>
-				</div>
-			</div>
-			<div class="col-sm-4">
-				<div class="form-group">
-					<label>Nama Lengkap tanpa gelar</label>
-					<input type="text" class="form-control" name="nama_tanpa_gelar" value="{{$user->name}}">
 				</div>
 			</div>
 			<div class="col-sm-4">
@@ -273,3 +284,4 @@
 		<button type="submit" class="btn btn-primary" id="btnsubmit">Update Profile</button>
 	</form>
 </div>
+@include('member.profile.update_profile_js')

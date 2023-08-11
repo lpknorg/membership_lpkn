@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use App\Models\Admin\{Provinsi, Instansi};
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -72,7 +73,10 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        return User::findOrFail($id);
+        $user = User::findOrFail($id);
+        $provinsi = Provinsi::select('id', 'nama')->orderBy('nama')->get();
+        $instansi = Instansi::orderBy('nama')->get();
+        return view('admin.user.response_data', compact('user', 'provinsi', 'instansi'));
     }
 
     /**
@@ -130,6 +134,12 @@ class UserController extends Controller
     public function destroy($id)
     {
         $us = User::findOrFail($id);
+        if ($us->member->memberKantor()->exists()) {
+            $us->member->memberKantor()->delete();
+        }
+        if ($us->member()->exists()) {
+            $us->member->delete();
+        }
         $us->delete();
         return response()->json([
             'status'   => 'ok',

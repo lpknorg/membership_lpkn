@@ -210,32 +210,21 @@
 		});
 
 		function showModal2(act, data=null){
+			console.log(data)
 			if(act == 'show' || act == 'edit'){
 				$('#modalShow').modal('show')
-				$('#modalShow [name=name]').val(data.name)
-				$('#modalShow [name=email]').val(data.email)
-				$('#modalShow [name=password]').val(data.password)
-				console.log(data.is_confirm)
-				if (parseInt(data.is_confirm) == 1) {
-					$('#modalShow [name=verifikasi_akun]').prop('checked', true)
-				}else{
-					$('#modalShow [name=verifikasi_akun]').prop('checked', false)
-				}
+				$('#modalShow #modalResponseShow').html(data)
 			}
 			if (act == 'add') {
 				$('#modalAdd').modal('show')
 			}else if (act == 'show') {
-				$('#modalShow .modal-title').text('Lihat Data User')
+				$('#modalShow .modal-title').text('Lihat Data Members')
 				$('#modalShow #btnUpdate').hide()
-				$('#modalShow input, #modalShow textarea').attr('disabled', true)
+				$('#modalShow input, #modalShow textarea, #modalShow select').attr('disabled', true)
 			}else{
-				$('#modalShow .modal-title').text('Ubah Data User')
+				$('#modalShow .modal-title').text('Ubah Data Member')
 				$('#modalShow #btnUpdate').show()
-				$('#modalShow input, #modalShow textarea').attr('disabled', false)
-				$('#modalShow form').attr({
-					action: `${window.location}/${data.id}`,
-					method: 'POST'
-				})
+				$('#modalShow input, #modalShow textarea, #modalShow select').attr('disabled', false)
 			}
 		}
 

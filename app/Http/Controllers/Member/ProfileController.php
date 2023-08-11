@@ -51,7 +51,7 @@ class ProfileController extends Controller
     }
 
     public function updateProfile(Request $request){
-        $Id = \Auth::user()->id;
+        $Id = $request->id_user;
         $user = User::findOrFail($Id);
         if ($request->pas_foto == "undefined") {
             $request['pas_foto'] = null;
@@ -83,7 +83,6 @@ class ProfileController extends Controller
                 ], 422);
             }
         }
-
 
         $validator = Validator::make($request->all(), array(
             'nip' => "required|numeric",
@@ -120,7 +119,39 @@ class ProfileController extends Controller
                 'messages' => $validator->errors()->first(),
             ], 422);
         }
-        if ($request->status_kepegawaian == 0) {
+        $userEmail = User::where('email', $request->email)->where('id', '!=', $Id)->first();
+        if($userEmail){
+            return response()->json([
+                'status'    => "fail",
+                'messages' => "Email sudah digunakan",
+            ], 422);
+        }
+
+        $userNip = User::where('nip', $request->nip)->where('id', '!=', $Id)->first();
+        if($userNip){
+            return response()->json([
+                'status'    => "fail",
+                'messages' => "Nip sudah digunakan",
+            ], 422);
+        }
+
+        $userNik = User::where('nik', $request->nik)->where('id', '!=', $Id)->first();
+        if($userNik){
+            return response()->json([
+                'status'    => "fail",
+                'messages' => "Nik sudah digunakan",
+            ], 422);
+        }
+
+        $usernohp = Member::where('no_hp', $request->no_hp)->where('user_id', '!=', $Id)->first();
+        //ini $Id nya masih ngeget dari table user
+        if($usernohp){
+            return response()->json([
+                'status'    => "fail",
+                'messages' => "No HP sudah digunakan",
+            ], 422);
+        }
+        if ($request->status_kepegawaian == 'BUMN/BUMD') {
             $validator = Validator::make($request->only(['instansi', 'lembaga_pemerintahan']), array(
                 'instansi' => "required",
                 'lembaga_pemerintahan' => "required"
@@ -137,7 +168,7 @@ class ProfileController extends Controller
             $request['lembaga_pemerintahan'] = null;
         }
 
-        if ($request->status_kepegawaian == 7) {
+        if ($request->status_kepegawaian == 'Lainnya') {
             $validator = Validator::make($request->only('pekerjaan_lainnya'), array(
                 'pekerjaan_lainnya' => "required"
             ));
@@ -169,7 +200,8 @@ class ProfileController extends Controller
                 'nip'=> $request->nip,
                 'nik'=> $request->nik,
                 'name' => $request->nama_tanpa_gelar,
-                'email' => $request->email
+                'email' => $request->email,
+                'password' => $request->password ? \Hash::make($request->password) : $user->password
             ]);
             $user->member->update([                
                 'nama_lengkap_gelar'=> $request->nama_dengan_gelar,
