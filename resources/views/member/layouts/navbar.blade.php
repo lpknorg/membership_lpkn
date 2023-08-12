@@ -17,23 +17,26 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
+        <?php
+        $routes = \Route::currentRouteName();
+        // dd($routes);
+        ?>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a href="{{url('/')}}" class="nav-link">Beranda</a>
+                    <a href="{{route('welcome')}}" class="nav-link {{$routes == 'welcome' ? 'active' : ''}}">Beranda</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{route('allevent', ['id' => 1])}}" class="nav-link">Event</a>
+                    <a href="{{route('allevent', ['id' => 1])}}" class="nav-link {{$routes == 'allevent' ? 'active' : ''}}">Event</a>
                 </li>
                 <li class="nav-item">
                     <a href="https://ilmu.lpkn.id/" class="nav-link">Berita</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{route('allvideo')}}" class="nav-link">Video</a>
+                    <a href="{{route('allvideo')}}" class="nav-link {{$routes == 'allvideo' ? 'active' : ''}}">Video</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{route('peraturan')}}" class="nav-link">Peraturan</a>
+                    <a href="{{route('peraturan')}}" class="nav-link {{$routes == 'peraturan' ? 'active' : ''}}">Peraturan</a>
                 </li>
             </ul>
             @if(\Auth::check())
