@@ -38,7 +38,7 @@
     z-index: 18;
     background: #fff;
     padding: 10px;
-    border-radius: 50%;
+    border-radius: 5px;
     box-shadow: 0 2px 7px rgba(0, 0, 0, 0.15);
     overflow: hidden;
   }
@@ -81,7 +81,7 @@
   <div class="auth">
     <div class="auth__header">
       <div class="auth__logo">
-        <img height="90" src="https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/083/full/EGH_VueJS_Final.png" alt="">
+        <img height="90" src="{{asset('img/logolpkn.png')}}" alt="">
       </div>
     </div>
     <div class="auth__body">

@@ -38,7 +38,7 @@
     z-index: 18;
     background: #fff;
     padding: 10px;
-    border-radius: 50%;
+    border-radius: 5px;
     box-shadow: 0 2px 7px rgba(0, 0, 0, 0.15);
     overflow: hidden;
   }
@@ -81,12 +81,12 @@
   <div class="auth">
     <div class="auth__header">
       <div class="auth__logo">
-        <img height="90" src="https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/083/full/EGH_VueJS_Final.png" alt="">
+        <img height="90" src="{{asset('img/logolpkn.png')}}" alt="">
       </div>
     </div>
     <div class="auth__body">
-        <form method="POST" action="{{ route('login') }}" class="auth__form" autocomplete="off">
-            @csrf
+      <form method="POST" action="{{ route('login') }}" class="auth__form">
+        @csrf
         <div class="auth__form_body">
           <h3 class="auth__form_title">Login</h3>
           <div>
@@ -99,6 +99,7 @@
               <input id="password" type="password" class="form-control" name="password" placeholder="Masukkan Password">
             </div>
           </div>
+          <a href="" id="btnLupaPassword">Lupa password ? </a>
         </div>
         <div class="auth__form_actions">
           <button class="btn btn-primary btn-lg btn-block" id="loginbtn">
@@ -113,13 +114,36 @@
       </form>
     </div>
   </div>
+  <div class="modal fade" id="modalLupaPassword" tabindex="-1" role="dialog" aria-labelledby="modalLupaPasswordLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalLupaPasswordLabel">Form Lupa Password</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" action="{{route('lupa_password.send_link')}}" id="formLupaPassword">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email</label>
+              <input type="email" name="email" class="form-control" placeholder="Enter email" required>
+              <small id="emailHelp" class="form-text text-danger">Pastikan email anda sesuai</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Kirim link</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="{{asset('js/custom.js')}}"></script>
 <script>
     // Set the options that I want
-  $('form').submit(function(e) {
+  $('.auth__form').submit(function(e) {
     e.preventDefault();
     $.ajaxSetup({
       headers: {
@@ -157,6 +181,50 @@
       },
       complete: function() {
         sendAjax('#loginbtn', true, 'Login')
+      }
+    });
+  });
+  $('#btnLupaPassword').click(function(e){
+    e.preventDefault()
+    $('#modalLupaPassword').modal('show')
+  })
+  @if(\Session::get('exception_resetp'))
+  showAlert('{{\Session::get('exception_resetp')}}', "error")
+  @endif
+  $('#modalLupaPassword #formLupaPassword').submit(function(e) {
+    e.preventDefault();
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('[name=_token]').val()
+      }
+    });
+
+    $.ajax({
+      type: 'post',
+      url: $(this).attr("action"),
+      data: $(this).serialize(),
+      dataType: 'json',
+      beforeSend: function() {
+        sendAjax('#modalLupaPassword button[type=submit]', false)
+      },
+      success: function(data) {
+        console.log(data)
+        if (data.status == "ok") {
+          showAlert(data.messages)
+          setTimeout(function() {
+            window.location.reload()
+          }, 1000);
+        }
+      },
+      error: function(data) {
+        var data = data.responseJSON;
+
+        if (data.status == "fail") {
+          showAlert(data.messages, "error")
+        }
+      },
+      complete: function() {
+        sendAjax('#modalLupaPassword button[type=submit]', true, 'Kirim link')
       }
     });
   });

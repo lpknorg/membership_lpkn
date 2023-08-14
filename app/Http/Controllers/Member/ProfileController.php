@@ -203,7 +203,9 @@ class ProfileController extends Controller
                 'nik'=> $request->nik,
                 'name' => $request->nama_tanpa_gelar,
                 'email' => $request->email,
-                'password' => $request->password ? \Hash::make($request->password) : $user->password
+                'password' => $request->password ? \Hash::make($request->password) : $user->password,
+                'newuser_has_updated_data' => 1,
+                'updated_at' => now()
             ]);
             $user->member->update([                
                 'nama_lengkap_gelar'=> $request->nama_dengan_gelar,
@@ -222,6 +224,7 @@ class ProfileController extends Controller
                 'pas_foto3x4' => $npas_foto3x4,
                 'foto_ktp' => $nfoto_ktp,
                 'file_sk_pengangkatan_asn' => $nfile_sk_pengangkatan_asn,
+                'updated_at' => now()
             ]);
             $user->member->memberKantor->update([
                 // 'kategori_pekerjaan_id' => $request->kategori_pekerjaan,
@@ -242,6 +245,7 @@ class ProfileController extends Controller
                 'kantor_kota_id'=> $request->kantor_kota,
                 'kantor_kecamatan_id'=> $request->kantor_kecamatan,
                 'kantor_kelurahan_id'=> $request->kantor_kelurahan,
+                'updated_at' => now()
             ]);
             DB::commit();
         }catch (Exception $e) {
