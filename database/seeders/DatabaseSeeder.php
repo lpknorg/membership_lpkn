@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             LembagaPemerintahanSeeder::class,
             KecamatanSeeder::class,
             KelurahanSeeder::class,
-            KodePosSeeder::class
+            KodePosSeeder::class,
+            SosialMediaSeeder::class
         ]);
     }
 }
