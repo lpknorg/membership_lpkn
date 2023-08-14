@@ -14,6 +14,7 @@ class AddTokenResetPasswordToUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
+            $table->boolean('newuser_has_updated_data')->default(0);
             $table->string('token_reset_password')->nullable();
             $table->string('exp_token_reset_password')->nullable();
         });
@@ -27,6 +28,7 @@ class AddTokenResetPasswordToUsers extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('newuser_has_updated_data');
             $table->dropColumn('token_reset_password');
             $table->dropColumn('exp_token_reset_password');
         });

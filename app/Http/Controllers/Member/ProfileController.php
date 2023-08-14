@@ -202,6 +202,7 @@ class ProfileController extends Controller
                 'name' => $request->nama_tanpa_gelar,
                 'email' => $request->email,
                 'password' => $request->password ? \Hash::make($request->password) : $user->password,
+                'newuser_has_updated_data' => 1,
                 'updated_at' => now()
             ]);
             $user->member->update([                
