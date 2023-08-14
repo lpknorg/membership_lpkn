@@ -75,6 +75,8 @@ Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middlewa
 	
 	Route::get('/voucher', [VoucherController::class, 'index'])->name('voucher.index');
 	Route::get('/voucher2', [VoucherController::class, 'index2'])->name('voucher.index2');	
+	
+	Route::get('/Kta', [ProfileController::class, 'download_kta'])->name('download_kta');	
 });
 
 Route::post('/import_member', [HomeController::class, 'importMember']);

@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use App\Models\Admin\{Member, MemberKantor, Provinsi, Instansi};
 use DB;
+use PDF;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class ProfileController extends Controller
 {
@@ -420,5 +422,13 @@ class ProfileController extends Controller
         $getRes = $this->buktiUpload($data);
         return $getRes;
 
+    }
+
+    public function download_kta(){
+        $Id = \Auth::user()->id;
+        $user = User::findOrFail($Id);
+        $pdf = PDF::loadView('member.profile.kta', compact('user'));
+        // return $pdf->stream();
+        return $pdf->download('Kta_'.$user->name.'.pdf');
     }
 }
