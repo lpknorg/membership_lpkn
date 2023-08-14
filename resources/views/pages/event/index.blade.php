@@ -128,13 +128,13 @@
         <div class="ml-2">
             <nav aria-label="...">
               <ul class="pagination">
-                <li class="page-item disabled">
-                  <a class="page-link" href="#" tabindex="-1">Previous</a>
+                <li class="page-item {{\Request::segment(2) == 1 ? 'disabled' : ''}}">
+                  <a class="page-link" href="#" tabindex="-1" id="pagePrevious">Previous</a>
                 </li>
                 <!-- <li class="page-item active">
                   <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
                 </li> -->
-                <?php $bagi = round($event['count'] / 9 + 1); $seg = \Request::segment(3); ?>
+                <?php $bagi = round($event['count'] / 9 + 1); $seg = \Request::segment(2); ?>
                 @for($i=1;$i<=$bagi;$i++)
                 <li class="page-item {{$seg == $i ? 'active' : ''}}">
                   @if(\Request::get('keyword'))
@@ -151,7 +151,7 @@
                   @endfor
 
                   <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
+                    <a class="page-link" href="#" id="pageNext">Next</a>
                   </li>
                 </ul>
               </nav>
@@ -198,6 +198,29 @@
         let sl = $(this).attr('slug')
         $('#exampleModal').modal('show')
         getEvent(sl)
+      })
+      var _key = '{{\Request::get('keyword')}}'
+      $('body').on('click', '[id="pagePrevious"]', function(e) {
+        e.preventDefault()
+        let _id = '{{\Request::segment(2)}}'
+        _id = parseInt(_id)
+        _id = _id - 1
+        @if(\Request::get('keyword'))        
+        window.location = `/allevent/${_id}?keyword=${_key}`
+        @else
+        window.location = `/allevent/${_id}`
+        @endif
+      })
+      $('body').on('click', '[id="pageNext"]', function(e) {
+        e.preventDefault()
+        let _id = '{{\Request::segment(2)}}'
+        _id = parseInt(_id)
+        _id = _id + 1
+        @if(\Request::get('keyword'))        
+        window.location = `/allevent/${_id}?keyword=${_key}`
+        @else
+        window.location = `/allevent/${_id}`
+        @endif
       })
     })
   </script>

@@ -38,6 +38,13 @@ use App\Http\Controllers\{
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('ea', function(){
+	$a = env('MAIL_USERNAME');
+	dd($a);	
+});
+Route::post('/lupa_password', [App\Http\Controllers\Auth\LupaPasswordController::class, 'sendLink'])->name('lupa_password.send_link');
+Route::get('/lupa_password/{token}', [App\Http\Controllers\Auth\LupaPasswordController::class, 'showForm'])->name('lupa_password.show_form');
+Route::post('/update_lupa_password', [App\Http\Controllers\Auth\LupaPasswordController::class, 'updatePassword'])->name('lupa_password.update_password');
 
 Route::get('/', [WelcomeController::class, 'welcome'])->name('welcome');
 Route::get('/allevent/{id}', [EventController::class, 'allEvent'])->name('allevent');

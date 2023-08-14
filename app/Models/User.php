@@ -27,7 +27,9 @@ class User extends Authenticatable
         'nik',
         'nip',
         'updated_at',
-        'is_confirm'
+        'is_confirm',
+        'token_reset_password',
+        'exp_token_reset_password'
     ];
     protected $appends = ['total_event'];
 
