@@ -5,7 +5,7 @@
 	</button>
 </div>
 <div class="modal-body">
-	<form method="POST" action="{{route('member_profile.update_profile')}}">
+	<form method="POST" action="{{route('member_profile.update_profile')}}" id="formUpdateProfile">
 		<input type="hidden" value="{{$user->id}}" name="id_user">
 		@csrf
 		<div class="row">
@@ -281,6 +281,32 @@
 				</div>
 			</div>
 		</div>
+		<br>
+		@if($user->listSosialMedia()->exists())
+		<div class="card card-primary card-outline mt-2">
+			<div class="card-header" style="padding: 10px;">
+				List Sosial Media
+			</div>
+			<div class="card-body">
+				<div class="row">
+					<table class="table table-bordered table-hover">
+						<tr>
+							<th style="width:20%;">Sosial Media</th>
+							<th>Username</th>
+							<th>Aksi</th>
+						</tr>
+						@foreach($user->listSosialMedia as $s)
+						<tr>
+							<td>{{$s->sosial_media}}</td>
+							<td>{{$s->username}}</td>
+							<td><button type="button" class="btn-sm btn btn-danger" id="btnHapusSosialMedia" data-id="{{$s->id}}" action="{{route('member_profile.delete_sosial_media')}}">Hapus</button></td>
+						</tr>
+						@endforeach
+					</table>
+				</div>
+			</div>
+		</div>
+		@endif
 		<button type="submit" class="btn btn-primary" id="btnsubmit">Update Profile</button>
 	</form>
 </div>

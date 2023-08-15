@@ -9,7 +9,7 @@
 	<h5 class="font-italic">
 		Update Profile Member
 	</h5>
-	<form method="POST" action="{{route('member_profile.update_profile')}}">
+	<form method="POST" action="{{route('member_profile.update_profile')}}" id="formUpdateProfile">
 		@csrf
 		<input type="hidden" value="{{$user->id}}" name="id_user">
 		<h4><b> Data Pribadi</b></h4>
@@ -277,9 +277,77 @@
 				</div>
 			</div>
 		</div>
-		<button type="submit" class="btn btn-primary" id="btnsubmit">Update Profile</button>
+		<button type="submit" class="btn btn-primary" id="btnsubmit">Update Profile</button>		
 	</form>
-	
+	<div class="modal fade" id="modalSosialMedia" tabindex="-1" role="dialog" aria-labelledby="modalSosialMediaLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Tambah Data Sosial Media</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form method="POST" action="{{ route('member_profile.store_sosial_media') }}" id="formSosialMedia">
+					<div class="modal-body">
+						@csrf
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<input type="hidden" value="{{$user->id}}" name="user_id">
+									<label>Sosial Media</label>
+									<select name="sosial_media" class="form-control">
+										<option value="">Pilih Sosial Media</option>
+										@foreach($sosmed as $s)
+										<option value="{{$s->id}}">{{$s->nama}}</option>
+										@endforeach
+									</select>						
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label>Username</label>
+									<input type="text" class="form-control" name="username" placeholder="Masukkan Username">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary" id="btnSimpanSosmed">Simpan</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<hr>
+	<a href="#" class="btn btn-info mt-2" id="btnSosialMedia">Tambah Sosial Media</a>
+	@if($user->listSosialMedia()->exists())
+	<div class="card card-primary card-outline mt-2">
+		<div class="card-header" style="padding: 10px;">
+			List Sosial Media
+		</div>
+		<div class="card-body">
+			<div class="row">
+				<table class="table table-bordered table-hover">
+					<tr>
+						<th style="width:20%;">Sosial Media</th>
+						<th>Username</th>
+						<th>Aksi</th>
+					</tr>
+					@foreach($user->listSosialMedia as $s)
+					<tr>
+						<td>{{$s->sosial_media}}</td>
+						<td>{{$s->username}}</td>
+						<td><button type="button" class="btn-sm btn btn-danger" id="btnHapusSosialMedia" data-id="{{$s->id}}" action="{{route('member_profile.delete_sosial_media')}}">Hapus</button></td>
+					</tr>
+					@endforeach
+				</table>
+			</div>
+		</div>
+	</div>
+	@endif
+
 </div>
 @endsection
 @section('scripts')

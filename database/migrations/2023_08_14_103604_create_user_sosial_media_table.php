@@ -16,8 +16,8 @@ class CreateUserSosialMediaTable extends Migration
         Schema::create('user_sosial_media', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->integer('sosial_media_id');
-            $table->string('nama_akun');
+            $table->string('sosial_media');
+            $table->string('username');
             $table->timestamps();
         });
     }

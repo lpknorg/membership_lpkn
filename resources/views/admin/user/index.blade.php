@@ -45,7 +45,7 @@
 		</div>
 	</div>
 </div>
-@include('admin.User.modal')
+@include('admin.user.modal')
 @endsection
 @section('scripts')
 <script>

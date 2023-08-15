@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Member;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Models\User;
-use App\Models\Admin\{Member, MemberKantor, Provinsi, Instansi};
+use App\Models\{User, UserSosialMedia};
+use App\Models\Admin\{Member, MemberKantor, Provinsi, Instansi, SosialMedia};
 use DB;
 
 class ProfileController extends Controller
@@ -47,7 +47,8 @@ class ProfileController extends Controller
         $user = \Auth::user();
         $provinsi = Provinsi::select('id', 'nama')->orderBy('nama')->get();
         $instansi = Instansi::orderBy('nama')->get();
-        return view('member.profile.update_profile', compact('user', 'provinsi', 'instansi'));
+        $sosmed = SosialMedia::orderBy('nama')->get();
+        return view('member.profile.update_profile', compact('user', 'provinsi', 'instansi', 'sosmed'));
     }
 
     public function updateProfile(Request $request){
@@ -283,6 +284,49 @@ class ProfileController extends Controller
         return response()->json([
             'status'    => "ok",
             'messages' => "Berhasil update foto profile"
+        ], 200);
+    }
+
+    public function storeSosialMedia(Request $request){
+        $validator = Validator::make($request->all(), array(
+            'sosial_media' => "required",
+            'username' => "required|max:255",        
+        ));
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status'    => "fail",
+                'messages' => $validator->errors()->first(),
+            ], 422);
+        }
+        $_sosmed = SosialMedia::findOrFail($request->sosial_media);
+        UserSosialMedia::create([
+            'user_id' => $request->user_id,
+            'sosial_media' => $_sosmed->nama,
+            'username' => $request->username
+        ]);
+        return response()->json([
+            'status'    => "ok",
+            'messages' => "Berhasil menambahkan sosial media"
+        ], 200);
+    }
+
+    public function deleteSosialMedia(Request $request){
+        if (\Auth::user()->getRoleNames()[0] == "admin") {
+            UserSosialMedia::where([
+                ['user_id', $request->user_id],
+                ['id', $request->id]
+            ])->delete();
+        }else{
+            //member hanya bisa menghapus sosial media mereka saja
+            UserSosialMedia::where([
+                ['user_id', \Auth::user()->id],
+                ['id', $request->id]
+            ])->delete();
+        }
+        return response()->json([
+            'status'    => "ok",
+            'messages' => "Berhasil menghapus sosial media"
         ], 200);
     }
 

@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Admin\Member;
+use App\Models\UserSosialMedia;
 use App\Http\Controllers\Member\{EventKamuController, SertifikatKamuController};
 
 class User extends Authenticatable
@@ -71,5 +72,9 @@ class User extends Authenticatable
         $n = new SertifikatKamuController();
         $my_event = $n->getRespApiWithParam($datapost, 'member/list_sertif');
         return count($my_event['list']);
+    }
+
+    public function listSosialMedia(){
+        return $this->hasMany(UserSosialMedia::class, 'user_id', 'id');
     }
 }

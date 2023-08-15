@@ -1,3 +1,4 @@
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 	$(document).ready(function(){
 		getProvinsi('rumah_provinsi')
@@ -160,7 +161,7 @@
 				$('[id=div-dll]').hide(300)
 			}
 		})
-		$('form').submit(function(e) {
+		$('#formUpdateProfile').submit(function(e) {
 			e.preventDefault();
 			$.ajaxSetup({
 				headers: {
@@ -204,5 +205,90 @@
 				}
 			});
 		});
+		$('#btnSosialMedia').click(function(e){
+			e.preventDefault()
+			$('#modalSosialMedia').modal('show')
+		})
+		$('#formSosialMedia').submit(function(e) {
+			e.preventDefault();
+			$.ajaxSetup({
+				headers: {
+					'X-CSRF-TOKEN': $('[name=_token]').val()
+				}
+			});
+
+			$.ajax({
+				type: 'post',
+				url: $(this).attr("action"),
+				data: $(this).serialize(),
+				beforeSend: function() {
+					sendAjax('#btnSimpanSosmed', false)
+				},
+				success: function(data) {
+					console.log(data)
+					if (data.status == "ok") {
+						showAlert(data.messages)
+						setTimeout(function() {
+							location.reload()
+						}, 1000);
+					}
+				},
+				error: function(data) {
+					var data = data.responseJSON;
+
+					if (data.status == "fail") {
+						showAlert(data.messages, "error")
+					}
+				},
+				complete: function() {
+					sendAjax('#btnSimpanSosmed', true, 'Simpan')
+				}
+			});
+		});
+
+		$('body').on('click', '[id="btnHapusSosialMedia"]', function(e){
+			Swal.fire({
+				title: 'Apa anda yakin ?',
+				text: "Data akan hilang jika dihapus!",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Ya, Hapus!'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					$.ajaxSetup({
+						headers: {
+							'X-CSRF-TOKEN': $('[name=_token]').val()
+						}
+					});
+
+					$.ajax({
+						type: 'POST',
+						url: $(this).attr("action"),
+						data: {
+							id: $(this).attr('data-id'),
+							user_id : '{{$user->id}}'
+						},
+						dataType: 'json',
+						success: function(data) {
+							console.log(data)
+							if (data.status == "ok") {
+								showAlert(data.messages)
+								setTimeout(function(){
+									window.location.reload()
+								}, 1000)
+							}
+						},
+						error: function(data) {
+							var data = data.responseJSON;
+							if (data.status == "fail") {
+								showAlert(data.messages, "error")
+							}
+						}
+					});
+				}
+			})
+		})
 	})
 </script>
