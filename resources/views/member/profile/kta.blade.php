@@ -17,7 +17,11 @@
                     <table width="49%">
                         <tr>
                             <td>
-                                <img src="{{public_path('img/'.$user->member->pas_foto3x4)}}" alt="depan_cetak" style="width:60px;height:82px;padding-left:27px;padding-top:77px;">
+                                @if($user->member->pas_foto3x4)
+                                <img src="{{public_path('uploaded_files/pas_foto/'.$user->member->pas_foto3x4)}}" alt="depan_cetak" style="width:60px;height:82px;padding-left:27px;padding-top:77px;">
+                                @else
+                                <img src="{{public_path('default.png')}}" alt="depan_cetak" style="width:60px;height:82px;padding-left:27px;padding-top:77px;">
+                                @endif
                             </td>
                         </tr>
                         <tr>

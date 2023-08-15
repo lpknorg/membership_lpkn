@@ -475,6 +475,7 @@ class ProfileController extends Controller
     public function download_kta(){
         $Id = \Auth::user()->id;
         $user = User::findOrFail($Id);
+        // return view('member.profile.kta', compact('user'));
         $pdf = PDF::loadView('member.profile.kta', compact('user'));
         // return $pdf->stream();
         return $pdf->download('Kta_'.$user->name.'.pdf');
