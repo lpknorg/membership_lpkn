@@ -45,7 +45,11 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link" style="padding-top: 0.1rem;" data-toggle="dropdown" href="#">
                         <div class="parent_pa img-avatar" style="padding: 0px;">
+                            @if(\Auth::user()->member)
                             <img class="pa" src="{{\Helper::showImage(\Auth::user()->member->foto_profile, 'poto_profile')}}" alt="User profile picture">
+                            @else
+                            <img class="pa" src="{{asset('default.png')}}" alt="User profile picture">
+                            @endif
                         </div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="min-width: 200px;">

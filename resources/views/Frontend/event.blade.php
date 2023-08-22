@@ -20,7 +20,7 @@
 				</div>
 			</div>
 			<div class="blog-post">
-				<h2 class="blog-post-title">Total Event : <?= (isset($event['count'])) ? $event['count'] : ''?></h2>
+				<h2 class="blog-post-title text-light">Total Event : <?= (isset($event['count'])) ? $event['count'] : ''?></h2>
                 <h3 class="text-light text-center">JANUARI 2023</h3>
 
 				<div class="row" id="content-event">

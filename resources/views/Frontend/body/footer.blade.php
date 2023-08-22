@@ -91,7 +91,7 @@
 
     <!-- Copyright -->
     <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
-      © 2020 Copyright :
+      © {{date('Y')}} Copyright :
       <a class="text-white" href="https://lpkn.id/"> LPKN Training Center</a>
     </div>
     <!-- Copyright -->
