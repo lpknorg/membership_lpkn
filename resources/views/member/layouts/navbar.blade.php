@@ -10,7 +10,7 @@
    }
 </style>
 <nav class="navbar navbar-expand-lg navbar-dark bg-nav" style="background-color: #343a40;">
-    <div class="container">
+    <div class="container con_full">
         <a href="{{url('/')}}" class="navbar-brand">
             <img src="https://lpkn.id/front_assets/lpkn_iso_putih.png" alt="LPKN Logo" class="brand-image">
         </a>

@@ -1,26 +1,24 @@
-<div class="container">
+<div class="con_full">
 		<div class="blog-main mt-2 mb-5">
-			<div class="row mb-2">
+            <div class="d-flex justify-content-between align-items-center">
+				<h4 class="blog-post-title text-white">Total Event : <?= (isset($event['count'])) ? $event['count'] : ''?></h4>
 
-				<div class="col-sm-6">
-					<ol class="breadcrumb float-sm-right" style="background-color: transparent;">
-						<li clayss="breadcrumb-item">
-							<form class="form-inline ml-0 ml-md-3" action="">
-								<div class="input-group">
-									<input type="text" class="form-control" placeholder="Search event" name="keyword" >
-									<div class="input-group-append">
-										<button class="btn btn-secondary" type="button" id="serch_event">
-											<i class="fa fa-search"></i>
-										</button>
-									</div>
-								</div>
-							</form>
-						</li>
-					</ol>
-				</div>
-			</div>
+                <ol class="breadcrumb" style="background-color: transparent;">
+                    <li clayss="breadcrumb-item">
+                        <form class="form-inline ml-0 ml-md-3" action="">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Cari event" name="keyword" >
+                                <div class="input-group-append">
+                                    <button class="btn btn-danger" type="button" id="serch_event">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </li>
+                </ol>
+            </div>
 			<div class="blog-post">
-				<h2 class="blog-post-title">Total Event : <?= (isset($event['count'])) ? $event['count'] : ''?></h2>
                 <h3 class="text-light text-center">JANUARI 2023</h3>
 
 				<div class="row" id="content-event">

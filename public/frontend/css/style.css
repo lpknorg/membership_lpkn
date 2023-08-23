@@ -92,3 +92,64 @@ body{
     border-radius: 20px;
     height: 40px;
  }
+ .font-weight-semi-bold{
+    font-weight: 600;
+ }
+.text-white li a{
+    color: white;
+}
+.underline-white{
+    text-decoration: none;
+}
+.responsive img {
+    max-width:100%;
+    height: auto;
+}
+.icon-info{
+    width: 36px;
+}
+.icon-info:hover,.icon-follow:hover{
+    transform: scale(1.1);
+    transition: all .2s ease-in-out;
+}
+
+.icon-follow{
+    width: 28px;
+}
+.hr_footer{
+    border:1px solid white;
+    margin-top: 0px;
+}
+.btn-cari{
+    background-color: #141b29;
+    color: white;
+}
+/*  */
+
+@media (min-width: 576px){
+    .con_full, .con_full-sm {
+        max-width: 540px;
+    }
+}
+@media (min-width: 768px){
+    .con_full, .con_full-md, .con_full-sm {
+        max-width: 720px;
+    }
+}
+@media (min-width: 992px){
+    .con_full, .con_full-lg, .con_full-md, .con_full-sm {
+        max-width: 960px;
+    }
+}
+@media (min-width: 1200px){
+    .con_full, .con_full-lg, .con_full-md, .con_full-sm, .con_full-xl {
+        max-width: 1330px;
+    }
+}
+.con_full, .con_full-fluid, .con_full-lg, .con_full-md, .con_full-sm, .con_full-xl {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
