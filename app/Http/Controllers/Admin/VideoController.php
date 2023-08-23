@@ -51,7 +51,7 @@ class VideoController extends Controller
         }
         Video::create([
             'judul'       => $request->judul,
-            'link'=> $request->link,
+            'link'=> preg_replace("/\s*[a-zA-Z\/\/:\.]*youtube.com\/watch\?v=([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i","//www.youtube.com/embed/$1",$request->link),
             'keterangan'  => $request->keterangan
         ]);
 
@@ -111,7 +111,7 @@ class VideoController extends Controller
         $kota = Video::findOrFail($id);
         $kota->update([
             'judul'       => $request->judul,
-            'link'=> $request->link,
+            'link'=> preg_replace("/\s*[a-zA-Z\/\/:\.]*youtube.com\/watch\?v=([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i","//www.youtube.com/embed/$1",$request->link),
             'keterangan'  => $request->keterangan
         ]);
 

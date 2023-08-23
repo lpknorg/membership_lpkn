@@ -19,6 +19,10 @@
                 </ol>
             </div>
 			<div class="blog-post">
+<<<<<<< HEAD
+=======
+				<h2 class="blog-post-title text-light">Total Event : <?= (isset($event['count'])) ? $event['count'] : ''?></h2>
+>>>>>>> 5e1af5ce6447f371566177e4f6479f3fcff1a5fb
                 <h3 class="text-light text-center">JANUARI 2023</h3>
 
 				<div class="row" id="content-event">

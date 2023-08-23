@@ -108,7 +108,11 @@
 
     <!-- Copyright -->
     <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+<<<<<<< HEAD
       © 2023 Copyright :
+=======
+      © {{date('Y')}} Copyright :
+>>>>>>> 5e1af5ce6447f371566177e4f6479f3fcff1a5fb
       <a class="text-white" href="https://lpkn.id/"> LPKN Training Center</a>
     </div>
     <!-- Copyright -->
