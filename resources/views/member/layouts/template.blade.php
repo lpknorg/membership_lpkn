@@ -12,85 +12,21 @@
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.css" />
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" type="text/css"/>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{{asset('frontend/css/navbar.css')}}?version=0">
+    <link rel="stylesheet" href="{{asset('frontend/css/style.css')}}?version=0">
+    <link rel="stylesheet" href="{{asset('frontend/css/aside.css')}}?version=0">
 	<title>Halaman Member</title>
-	<style>
-		.card-special {
-			z-index: 1;
-			border-radius: 6px 6px 6px 6px;
-			border: 1;
-			transition: 0.4s;
-		}
-		.card-wrapper-special {
-			padding: 6px;
-			/*box-shadow: 0 10px 60px 0 rgba(0, 0, 0, 0.2);*/
-		}
-		.card-special:hover {
-			transform: scale(1.1);
-			box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.4);
-			z-index: 2;
-		}
-		.card-text-special {
-			color: #fea200;
-			font-weight: 500;
-		}
-		.card-img-top-special {
-			/*border-radius: unset;*/
-			border-radius: 5px 5px 5px 5px;
-		}
-
-		.img__description_layer {
-			font-size: 14px;
-			/*font-weight: bold;*/
-			position: absolute;
-			text-align: center;
-			padding: 6px
-			top: auto;
-			/*top: 100px;*/
-			width: 100%;
-			bottom: 0;
-			left: 0;
-			right: 0;
-			border-radius: 0px 0px 5px 5px;
-			/*background: rgba(0 0 0 / 85%);*/
-			color: white;
-			visibility: hidden;
-			opacity: 0;
-			/*display: flex;*/
-			align-items: center;
-			justify-content: bottom;
-
-			/* transition effect. not necessary */
-			transition: opacity .2s, visibility .2s;
-		}
-		.img__wrap:hover .img__description_layer {
-			visibility: visible;
-			opacity: 1;
-		}
-
-		/*button load_more*/
-		@media only screen and (min-width: 767px) {
-			.show-large {
-				display: block;
-			}
-			.show-mobile {
-				display: none;
-			}
-		}
-
-	</style>
-	@yield('styles')
 </head>
 <body>
 	@include('member.layouts.navbar')
-	<div class="px-2 py-2">
-
-		<div class="row" style="width: 100%;">
+    <div class="container con_full">
+		<div class="row mt-2">
 			<div class="col-md-3">
 				<div class="card card-primary card-outline">
 					<div class="card-body box-profile">
-						<div class="parent_pp profile-user-img img-circle" style="padding: 0px;">
-							<img class="pp" style="margin: 0 auto 10px auto;display: block; height: 50%;width: 60%;border-radius: 50%;" src="{{\Helper::showImage(\Auth::user()->member->foto_profile, 'poto_profile')}}" alt="User profile picture">
-						</div>
+                        <div class="out_img mb-2" style="padding: 0px; margin: 0 auto">
+                            <img class="in_img" src="{{\Helper::showImage(\Auth::user()->member->foto_profile, 'poto_profile')}}" alt="User profile picture">
+                        </div>
 						<div class="text-center">
 							<button type="button" class="text-dark btn btn-transparent btn-sm" data-toggle="modal" data-target="#update_foto">
 								<i class="fa fa-camera"></i> Ganti foto
@@ -171,8 +107,9 @@
 				</div>
 			</div>
 		</div>
-	</div>
+    </div>
 	@include('member.layouts.modals')
+
 
 	<!-- Optional JavaScript -->
 

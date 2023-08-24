@@ -9,7 +9,7 @@
                             <div class="input-group">
                                 <input type="text" class="form-control" placeholder="Cari event" name="keyword" >
                                 <div class="input-group-append">
-                                    <button class="btn btn-danger" type="button" id="serch_event">
+                                    <button class="btn btn-primary" type="button" id="serch_event">
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </div>
@@ -34,37 +34,37 @@
                     </div>
                     @endforeach
                 </div>
-                <div class="ml-2">
-            <nav aria-label="...">
-                <ul class="pagination">
-                    <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1">Previous</a>
-                    </li>
-                    <!-- <li class="page-item active">
-                    <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                    </li> -->
-                    <?php $bagi = round($event['count'] / 9 + 1); $seg = \Request::segment(3); ?>
-                    @for($i=1;$i<=$bagi;$i++)
-                    <li class="page-item {{$seg == $i ? 'active' : ''}}">
-                  @if(\Request::get('keyword'))
-                  <a class="page-link" href="{{route('allevent', ['id' => $i, 'keyword' => \Request::get('keyword')])}}">
-                    @else
-                    <a class="page-link" href="{{route('allevent', ['id' => $i])}}">
-                      @endif
-                      {{$i}}
-                      @if($seg == $i)
-                      <span class="sr-only">(current)</span>
-                      @endif
-                    </a>
-                  </li>
-                  @endfor
+                <div class="d-flex justify-content-center">
+                    <nav aria-label="...">
+                        <ul class="pagination">
+                            <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1">Previous</a>
+                            </li>
+                            <!-- <li class="page-item active">
+                            <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                            </li> -->
+                            <?php $bagi = round($event['count'] / 9 + 1); $seg = \Request::segment(3); ?>
+                            @for($i=1;$i<=$bagi;$i++)
+                            <li class="page-item {{$seg == $i ? 'active' : ''}}">
+                        @if(\Request::get('keyword'))
+                        <a class="page-link" href="{{route('allevent', ['id' => $i, 'keyword' => \Request::get('keyword')])}}">
+                            @else
+                            <a class="page-link" href="{{route('allevent', ['id' => $i])}}">
+                            @endif
+                            {{$i}}
+                            @if($seg == $i)
+                            <span class="sr-only">(current)</span>
+                            @endif
+                            </a>
+                        </li>
+                        @endfor
 
-                  <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
-                  </li>
-                </ul>
-            </nav>
-        </div>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                        </ul>
+                    </nav>
+                </div>
 
           </div>
       </div>

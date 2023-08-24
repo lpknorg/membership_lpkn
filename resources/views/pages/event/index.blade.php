@@ -1,89 +1,6 @@
 @extends('layouts.front.template')
-@section('styles')
-<style>
-  .card-special {
-   z-index: 1;
-   border-radius: 6px 6px 6px 6px;
-   border: 1;
-   transition: 0.4s;
- }
- .card-wrapper-special {
-   padding: 6px;
-   /*box-shadow: 0 10px 60px 0 rgba(0, 0, 0, 0.2);*/
- }
- .card-special:hover {
-   transform: scale(1.1);
-   box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.4);
-   z-index: 2;
- }
- .card-text-special {
-   color: #fea200;
-   font-weight: 500;
- }
- .card-img-top-special {
-   /*border-radius: unset;*/
-   border-radius: 5px 5px 5px 5px;
- }
-
- .img__description_layer {
-  font-size: 14px;
-  /*font-weight: bold;*/
-  position: absolute;
-  text-align: center;
-  padding: 6px
-  top: auto;
-  /*top: 100px;*/
-  width: 100%;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  border-radius: 0px 0px 5px 5px;
-  /*background: rgba(0 0 0 / 85%);*/
-  color: white;
-  visibility: hidden;
-  opacity: 0;
-  /*display: flex;*/
-  align-items: center;
-  justify-content: bottom;
-
-  /* transition effect. not necessary */
-  transition: opacity .2s, visibility .2s;
-}
-.img__wrap:hover .img__description_layer {
-  visibility: visible;
-  opacity: 1;
-}
-
-/*button load_more*/
-@media only screen and (min-width: 767px) {
-  .show-large {
-    display: block;
-  }
-  .show-mobile {
-    display: none;
-  }
-}
-
-.has-search .form-control-feedback {
-  position: absolute;
-  z-index: 2;
-  display: block;
-  width: 2.375rem;
-  height: 2.375rem;
-  line-height: 2.375rem;
-  text-align: center;
-  pointer-events: none;
-  color: #aaa;
-}
-@media (min-width: 1200px){
-  .modal-lg {
-    max-width: 1140px !important;
-  }
-}
-</style>
-@endsection
 @section('content')
-<div class="container">
+<div class="container con_full">
 	<div class="row">
 		<div class="col-md-8 blog-main mt-2 mb-5">
 			<div class="row mb-2">
@@ -99,7 +16,7 @@
 								<div class="input-group">
 									<input type="text" class="form-control" placeholder="Search event" name="keyword" value="{{\Request::get('keyword') ?? ''}}" >
 									<div class="input-group-append">
-										<button class="btn btn-secondary" type="button" id="serch_event">
+										<button class="btn btn-primary" type="button" id="serch_event">
 											<i class="fa fa-search"></i>
 										</button>
 									</div>
@@ -125,7 +42,7 @@
           </div>
           @endforeach
         </div>
-        <div class="ml-2">
+        <div class="d-flex justify-content-center">
             <nav aria-label="...">
               <ul class="pagination">
                 <li class="page-item {{\Request::segment(2) == 1 ? 'disabled' : ''}}">
@@ -160,7 +77,7 @@
           </div>
       </div>
       <aside class="col-md-4 blog-sidebar">
-        <div class="p-4 mb-3 bg-light rounded">
+        <div class="p-4 mb-3 bg-card rounded">
           <h4 class="font-italic">About</h4>
           <p class="mb-0">Lembaga Pengembangan dan Konsultasi Nasional (LPKN) merupakan lembaga Diklat resmi yang berdiri sejak tahun 2005, dan telah Terakreditasi A Oleh Lembaga Kebijakan Pengadaan Barang/ Jasa Pemerintah (LKPP) – RI, untuk kegiatan Pelaksanaan Pelatihan Pengadaan dan Sertifikasi Barang/ Jasa pemerintah. Saat ini telah memiliki Alumni sebanyak 1.300.580 orang, yang tersebar di seluruh Indonesia, LPKN juga telah medapatkan 2 Rekor MURI, dalam penyelenggaraan Webinar dengan jumlah Peserta lebih dari 100.000 orang.</p>
         </div>
@@ -188,6 +105,7 @@
       </aside><!-- /.blog-sidebar -->
 
     </div>
+    @include('Frontend.body.footer')
 </div>
 @endsection
 @section('scripts')
@@ -205,7 +123,7 @@
         let _id = '{{\Request::segment(2)}}'
         _id = parseInt(_id)
         _id = _id - 1
-        @if(\Request::get('keyword'))        
+        @if(\Request::get('keyword'))
         window.location = `/allevent/${_id}?keyword=${_key}`
         @else
         window.location = `/allevent/${_id}`
@@ -216,7 +134,7 @@
         let _id = '{{\Request::segment(2)}}'
         _id = parseInt(_id)
         _id = _id + 1
-        @if(\Request::get('keyword'))        
+        @if(\Request::get('keyword'))
         window.location = `/allevent/${_id}?keyword=${_key}`
         @else
         window.location = `/allevent/${_id}`

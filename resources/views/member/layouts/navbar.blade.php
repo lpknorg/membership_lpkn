@@ -1,15 +1,4 @@
-<style>
-    .pa {
-       max-width: inherit;
-       max-height: inherit;
-       height: inherit;
-       width: inherit;
-       object-fit: cover;
-       border-radius: 20px;
-       height: 40px;
-   }
-</style>
-<nav class="navbar navbar-expand-lg navbar-dark bg-nav" style="background-color: #343a40;">
+<nav class="navbar navbar-expand-lg navbar-dark bg_nav nav_all">
     <div class="container con_full">
         <a href="{{url('/')}}" class="navbar-brand">
             <img src="https://lpkn.id/front_assets/lpkn_iso_putih.png" alt="LPKN Logo" class="brand-image">
@@ -40,17 +29,17 @@
                 </li>
             </ul>
             @if(\Auth::check())
-            <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+            <ul class="navbar-nav navbar-no-expand ml-auto d-flex align-items-center" style="z-index: 44">
                 <!-- Messages Dropdown Menu -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link" style="padding-top: 0.1rem;" data-toggle="dropdown" href="#">
-                        <div class="parent_pa img-avatar" style="padding: 0px;">
+                    <a class="nav-link m-0 p-0 out_nav" data-toggle="dropdown" href="#">
+
                             @if(\Auth::user()->member)
-                            <img class="pa" src="{{\Helper::showImage(\Auth::user()->member->foto_profile, 'poto_profile')}}" alt="User profile picture">
+                                <img class="in_nav" src="{{\Helper::showImage(\Auth::user()->member->foto_profile, 'poto_profile')}}" alt="User profile picture" style="width:40px;height:40px;border-radius:50%;">
                             @else
-                            <img class="pa" src="{{asset('default.png')}}" alt="User profile picture">
+                            <img class="in_nav" src="{{asset('default.png')}}" alt="User profile picture">
                             @endif
-                        </div>
+
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="min-width: 200px;">
                         <span class="dropdown-header" style="padding: 0rem 1.5rem;">
@@ -95,3 +84,4 @@
         </div>
     </div>
 </nav>
+<div class="space-md"></div>

@@ -1,140 +1,6 @@
 @extends('layouts.front.template')
-@section('styles')
-<style>
-  .card-special {
-   z-index: 1;
-   border-radius: 6px 6px 6px 6px;
-   border: 1;
-   transition: 0.4s;
- }
- .card-wrapper-special {
-   padding: 6px;
-   /*box-shadow: 0 10px 60px 0 rgba(0, 0, 0, 0.2);*/
- }
- .card-special:hover {
-   transform: scale(1.1);
-   box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.4);
-   z-index: 2;
- }
- .card-text-special {
-   color: #fea200;
-   font-weight: 500;
- }
- .card-img-top-special {
-   /*border-radius: unset;*/
-   border-radius: 5px 5px 5px 5px;
- }
-
- .img__description_layer {
-  font-size: 14px;
-  /*font-weight: bold;*/
-  position: absolute;
-  text-align: center;
-  padding: 6px;
-  top: auto;
-  /*top: 100px;*/
-  width: 100%;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  border-radius: 0px 0px 5px 5px;
-  /*background: rgba(0 0 0 / 85%);*/
-  color: white;
-  visibility: hidden;
-  opacity: 0;
-  /*display: flex;*/
-  align-items: center;
-  justify-content: bottom;
-
-  /* transition effect. not necessary */
-  transition: opacity .2s, visibility .2s;
-}
-.img__wrap:hover .img__description_layer {
-  visibility: visible;
-  opacity: 1;
-}
-
-/*button load_more*/
-@media only screen and (min-width: 767px) {
-  .show-large {
-    display: block;
-  }
-  .show-mobile {
-    display: none;
-  }
-}
-
-.has-search .form-control-feedback {
-  position: absolute;
-  z-index: 2;
-  display: block;
-  width: 2.375rem;
-  height: 2.375rem;
-  line-height: 2.375rem;
-  text-align: center;
-  pointer-events: none;
-  color: #aaa;
-}
-@media (min-width: 1200px){
-  .modal-lg {
-    max-width: 1140px !important;
-  }
-}
-
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
-.video-container {
-    text-align: center;
-    margin-top: 50px;
-}
-
-/* .open-video-btn {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-} */
-
-.video-popup {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    height: 80%;
-    width: 100%;
-    max-width: 900px;
-    background-color: #fff;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-    padding: 20px;
-    text-align: center;
-    z-index: 9999;
-}
-
-.close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
-    cursor: pointer;
-}
-
-iframe{
-    height: 100%;
-    width: 100%;
-}
-
-
-</style>
-@endsection
 @section('content')
-<div class="container">
+<div class="container con_full">
 	<div class="row">
 		<div class="col-md-8 blog-main mt-2 mb-5">
 			<div class="row mb-2">
@@ -227,39 +93,39 @@ iframe{
                         <span class="close-btn">&times;</span>
                         <iframe id="playVideo" width="560" height="315" src="https://www.youtube.com/embed/CXbP8_vUIOM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                     </div>
-                </div>                
-              
+                </div>
+
           </div>
-      </div>
-      <aside class="col-md-4 blog-sidebar">
-        <div class="p-4 mb-3 bg-light rounded">
-          <h4 class="font-italic">About</h4>
-          <p class="mb-0">Lembaga Pengembangan dan Konsultasi Nasional (LPKN) merupakan lembaga Diklat resmi yang berdiri sejak tahun 2005, dan telah Terakreditasi A Oleh Lembaga Kebijakan Pengadaan Barang/ Jasa Pemerintah (LKPP) – RI, untuk kegiatan Pelaksanaan Pelatihan Pengadaan dan Sertifikasi Barang/ Jasa pemerintah. Saat ini telah memiliki Alumni sebanyak 1.300.580 orang, yang tersebar di seluruh Indonesia, LPKN juga telah medapatkan 2 Rekor MURI, dalam penyelenggaraan Webinar dengan jumlah Peserta lebih dari 100.000 orang.</p>
+        </div>
+        <aside class="col-md-4 blog-sidebar">
+        <div class="p-4 mb-3 bg-card rounded">
+            <h4 class="font-italic">About</h4>
+            <p class="mb-0">Lembaga Pengembangan dan Konsultasi Nasional (LPKN) merupakan lembaga Diklat resmi yang berdiri sejak tahun 2005, dan telah Terakreditasi A Oleh Lembaga Kebijakan Pengadaan Barang/ Jasa Pemerintah (LKPP) – RI, untuk kegiatan Pelaksanaan Pelatihan Pengadaan dan Sertifikasi Barang/ Jasa pemerintah. Saat ini telah memiliki Alumni sebanyak 1.300.580 orang, yang tersebar di seluruh Indonesia, LPKN juga telah medapatkan 2 Rekor MURI, dalam penyelenggaraan Webinar dengan jumlah Peserta lebih dari 100.000 orang.</p>
         </div>
 
         <div class="p-4">
-          <h4 class="font-italic">Kategori Event</h4>
-          <ol class="list-unstyled mb-0">
+            <h4 class="font-italic">Kategori Event</h4>
+            <ol class="list-unstyled mb-0">
             <li><a class="badge badge-primary" href="#">Pengadaan Barang & Jasa</a></li>
             <!-- <li><a class="badge badge-primary" href="#">Umum</a></li> -->
             <li><a class="badge badge-primary" href="#">Pelatihan Sertifikasi</a></li>
             <li><a class="badge badge-primary" href="#">Pelatihan Non Sertifikasi</a></li>
             <li><a class="badge badge-primary" href="#">Pendidikan </a></li>
             <li><a class="badge badge-primary" href="#">Umum</a></li>
-          </ol>
+            </ol>
         </div>
 
         <div class="p-4">
-          <h4 class="font-italic">Elsewhere</h4>
-          <ol class="list-unstyled">
+            <h4 class="font-italic">Elsewhere</h4>
+            <ol class="list-unstyled">
             <li><a class="badge badge-warning" href="#"><i class="fa fa-instagram"></i> Instagram</a></li>
             <li><a class="badge badge-danger" href="#"><i class="fa fa-youtube"></i> Youtube</a></li>
             <li><a class="badge badge-primary" href="#"><i class="fa fa-facebook"></i> Facebooks</a></li>
-          </ol>
+            </ol>
         </div>
-      </aside><!-- /.blog-sidebar -->
-
+        </aside><!-- /.blog-sidebar -->
     </div>
+    @include('Frontend.body.footer')
   </div>
   @endsection
   @section('scripts')
@@ -296,8 +162,8 @@ iframe{
             const query = searchInput.value;
             if (query.trim() !== '') {
                 $.ajax({
-                    url:"{{route('searchvideo')}}",   
-                    type: "get",   
+                    url:"{{route('searchvideo')}}",
+                    type: "get",
                     dataType: 'json',
                     data: {
                         "_token": "{{ csrf_token() }}",
