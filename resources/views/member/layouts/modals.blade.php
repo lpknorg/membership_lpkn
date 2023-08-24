@@ -8,7 +8,7 @@
         <div class="modal-content">
             <form action="{{route('member_profile.update_fotoprofile')}}" method="post" id="form_update_profile">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Update Foto Profile</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">Ganti foto profil</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -17,8 +17,8 @@
                     <input type="file" class="form-control" name="foto_profile">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="btnUpdatePP">Simpan Foto Profile</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    <button type="submit" class="btn btn-primary" id="btnUpdatePP">Simpan</button>
                 </div>
             </form>
         </div>

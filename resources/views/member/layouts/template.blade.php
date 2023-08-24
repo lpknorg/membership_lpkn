@@ -83,7 +83,7 @@
 <body>
 	@include('member.layouts.navbar')
 	<div class="px-2 py-2">
-		
+
 		<div class="row" style="width: 100%;">
 			<div class="col-md-3">
 				<div class="card card-primary card-outline">
@@ -93,7 +93,7 @@
 						</div>
 						<div class="text-center">
 							<button type="button" class="text-dark btn btn-transparent btn-sm" data-toggle="modal" data-target="#update_foto">
-								<i class="fa fa-camera"></i> Update foto profile
+								<i class="fa fa-camera"></i> Ganti foto
 							</button>
 						</div>
 
@@ -108,7 +108,7 @@
 							</li>
 						</ul>
 
-						<a href="{{ route('member_profile.download_kta') }}" class="btn btn-primary btn-block"><b>Download KTA</b></a> 
+						<a href="{{ route('member_profile.download_kta') }}" class="btn btn-primary btn-block"><b>Download KTA</b></a>
 					</div>
 					<!-- /.card-body -->
 				</div>
@@ -178,11 +178,11 @@
 
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-	
-	
+
+
 	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-	
+
 	<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 	<script src="{{asset('js/custom.js')}}"></script>
