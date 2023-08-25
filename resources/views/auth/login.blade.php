@@ -104,6 +104,12 @@
   @if(\Session::get('exception_resetp'))
   showAlert('{{\Session::get('exception_resetp')}}', "error")
   @endif
+  @if(\Session::get('success_verify_email'))
+  showAlert('{{\Session::get('success_verify_email')}}')
+  @endif
+  @if(\Session::get('exception_verify_password'))
+  showAlert('{{\Session::get('exception_verify_password')}}', "error")
+  @endif
   $('#modalLupaPassword #formLupaPassword').submit(function(e) {
     e.preventDefault();
     $.ajaxSetup({

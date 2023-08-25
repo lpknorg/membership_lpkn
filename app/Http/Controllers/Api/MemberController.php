@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Admin\{Member, MemberKantor};
+use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class MemberController extends Controller{
 	public function daftar(Request $request){
@@ -50,6 +52,7 @@ class MemberController extends Controller{
 			MemberKantor::create([
 				'member_id' => $member->id
 			]);
+			$this->sendLinkVerifRegister($request);
 			\DB::commit();
 		} catch (Exception $e) {
 			\DB::rollback();
@@ -60,8 +63,49 @@ class MemberController extends Controller{
 		}
 		return response()->json([
 			'status'       => "ok",
-			'messages'     => "Berhasil mendaftar, akun anda menunggu verifikasi dari admin.",
+			'messages'     => "Berhasil mendaftar, silakan verifikasi email anda.",
 			'data'         =>  $user
 		], 200);
 	}
+
+	public function sendLinkVerifRegister(Request $request){
+		if (is_null(env('MAIL_USERNAME'))) {
+			return response()->json([
+				'status'    => "fail",
+				'messages' => "ENV untuk email belum dikonfigurasi.",
+			], 422);
+		}
+
+		$user = User::where('email', $request->email)->first();
+
+		$user->token_verif_regist = Str::uuid();
+		$user->save();
+
+		\Mail::send('auth.verif-email', ['data' => $user], function($message) use($user){
+
+			$message->to($user->email);
+			$message->subject('Verifikasi Membership LPKN');
+		});
+
+		return response()->json([
+			'status'    => "ok",
+			'messages' => "Silakan check kembali email anda untuk verifikasi email ".$request->email
+		], 200);           
+	}
+
+	public function customSendEmailVerifRegister($user){
+		
+	}
+	public function updateVerifyEmail($token){
+		$user = User::where('token_verif_regist', $token)->first();
+		if ($user) {
+			$now = Carbon::now();
+			$user = User::where('token_verif_regist', $token)->first();
+			$user->email_verified_at = now();
+			$user->save();
+			return redirect('login')->with('success_verify_email', 'Berhasil melakukan verifikasi email');
+		}
+		return redirect('login')->with('exception_verify_password', 'Url Link verify email tidak valid');
+	}
+
 }

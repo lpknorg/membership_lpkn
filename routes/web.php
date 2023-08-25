@@ -42,6 +42,7 @@ Route::get('ea', function(){
 	$a = env('MAIL_USERNAME');
 	dd($a);	
 });
+Route::get('/verify_email/{token}', [App\Http\Controllers\Api\MemberController::class, 'updateVerifyEmail'])->name('updateVerifyEmail');
 Route::post('/lupa_password', [App\Http\Controllers\Auth\LupaPasswordController::class, 'sendLink'])->name('lupa_password.send_link');
 Route::get('/lupa_password/{token}', [App\Http\Controllers\Auth\LupaPasswordController::class, 'showForm'])->name('lupa_password.show_form');
 Route::post('/update_lupa_password', [App\Http\Controllers\Auth\LupaPasswordController::class, 'updatePassword'])->name('lupa_password.update_password');

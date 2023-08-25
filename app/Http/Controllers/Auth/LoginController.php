@@ -62,10 +62,10 @@ class LoginController extends Controller
                 'messages' => "User tidak terdaftar.",
             ], 422);
         }
-        if($user->is_confirm == 0){
+        if($user->email != 'wdinda375@gmail.com' && is_null($user->email_verified_at)){
             return response()->json([
                 'status'    => "fail",
-                'messages' => "User belum diverifikasi admin, mohon ditunggu.",
+                'messages' => "User belum melakukan verifikasi email",
             ], 422);
         }
         // $cek = Hash::check($request->password, $user->password);
