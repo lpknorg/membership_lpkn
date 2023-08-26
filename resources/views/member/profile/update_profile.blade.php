@@ -163,7 +163,7 @@
 			</div>
 		</div>
 		<div class="row">
-			
+
 			<div class="col-sm-4">
 				<div class="form-group">
 					<label>Posisi Pelaku Pengadaan</label>
@@ -248,7 +248,7 @@
 					<option value="">Pilih Kelurahan</option>
 				</select>
 			</div>
-			
+
 			<div class="col-sm-4">
 				<div class="form-group">
 					<label>Upload Pas Foto Resmi 3x4</label>
@@ -277,11 +277,11 @@
 				</div>
 			</div>
 		</div>
-		<button type="submit" class="btn btn-primary" id="btnsubmit">Update Profile</button>		
+		<button type="submit" class="btn btn-primary" id="btnsubmit">Update Profile</button>
 	</form>
 	<div class="modal fade" id="modalSosialMedia" tabindex="-1" role="dialog" aria-labelledby="modalSosialMediaLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content">
+			<div class="modal-content bg-modal">
 				<div class="modal-header">
 					<h5 class="modal-title">Tambah Data Sosial Media</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -301,7 +301,7 @@
 										@foreach($sosmed as $s)
 										<option value="{{$s->id}}">{{$s->nama}}</option>
 										@endforeach
-									</select>						
+									</select>
 								</div>
 							</div>
 							<div class="col-sm-6">
@@ -314,7 +314,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="submit" class="btn btn-primary" id="btnSimpanSosmed">Simpan</button>
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
 					</div>
 				</form>
 			</div>

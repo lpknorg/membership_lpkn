@@ -19,7 +19,7 @@
 </head>
 <body>
 	@include('member.layouts.navbar')
-    <div class="container con_full">
+    <div class="container con_full mb-4">
 		<div class="row mt-2">
 			<div class="col-md-3">
 				<div class="card card-primary card-outline">
@@ -109,6 +109,9 @@
 		</div>
     </div>
 	@include('member.layouts.modals')
+    @include('Frontend.body.footer')
+
+
 
 
 	<!-- Optional JavaScript -->

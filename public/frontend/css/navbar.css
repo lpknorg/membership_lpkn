@@ -7,12 +7,6 @@
 .bg_nav{
     background-color: #141B29;
 }
-.out_nav {
-    border: 1px solid;
-    overflow: hidden;
-    display: flex;
-    border-radius: 50%;
-}
 .in_nav {
     max-width: inherit;
     max-height: inherit;
@@ -24,6 +18,12 @@
 @media (min-width: 576px){
     .con_full, .con_full-sm {
         max-width: 540px;
+    }
+    .out_nav {
+        border: 1px solid;
+        overflow: hidden;
+        display: flex;
+        border-radius: 50%;
     }
 }
 @media (min-width: 768px){

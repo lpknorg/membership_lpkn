@@ -5,7 +5,7 @@
 <div class="modal fade" id="update_foto" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
 
-        <div class="modal-content">
+        <div class="modal-content bg-modal">
             <form action="{{route('member_profile.update_fotoprofile')}}" method="post" id="form_update_profile">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLongTitle">Ganti foto profil</h5>

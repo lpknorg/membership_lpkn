@@ -1,6 +1,6 @@
 @extends('layouts.front.template')
 @section('content')
-<div class="container con_full">
+<div class="container con_full mt-0 mt-md-4">
 	<div class="row">
 		<div class="col-md-8 blog-main mt-2 mb-5">
 			<div class="row mb-2">

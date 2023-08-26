@@ -29,7 +29,7 @@
                 </li>
             </ul>
             @if(\Auth::check())
-            <ul class="navbar-nav navbar-no-expand ml-auto d-flex align-items-center" style="z-index: 44">
+            <ul class="navbar-nav navbar-no-expand ml-auto">
                 <!-- Messages Dropdown Menu -->
                 <li class="nav-item dropdown">
                     <a class="nav-link m-0 p-0 out_nav" data-toggle="dropdown" href="#">

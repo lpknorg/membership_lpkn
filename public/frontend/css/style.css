@@ -5,6 +5,9 @@ body{
 .bg-card,.card{
     background-color: #161B27;
 }
+.bg-modal{
+    background-color: #141B29;
+}
 .list-group-item{
     background-color: #121721;
 }
