@@ -5,7 +5,7 @@ body{
 .bg-card,.card{
     background-color: #161B27;
 }
-.bg-modal{
+.modal-content{
     background-color: #141B29;
 }
 .list-group-item{
@@ -24,6 +24,9 @@ body{
     color: #FFFFFF80;
 }
 /*  */
+.current{
+    background-color: #1FAF38 !important;
+}
 .card-special {
     z-index: 1;
     border-radius: 6px 6px 6px 6px;

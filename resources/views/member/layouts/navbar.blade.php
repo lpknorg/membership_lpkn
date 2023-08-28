@@ -3,9 +3,14 @@
         <a href="{{url('/')}}" class="navbar-brand">
             <img src="https://lpkn.id/front_assets/lpkn_iso_putih.png" alt="LPKN Logo" class="brand-image">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        {{-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-        </button>
+        </button> --}}
+        @if(\Auth::user()->member)
+            <img class="in_nav navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" src="{{\Helper::showImage(\Auth::user()->member->foto_profile, 'poto_profile')}}" alt="User profile picture" style="width:40px;height:40px;border-radius:50%;padding:0px">
+        @else
+            <img class="in_nav navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" src="{{asset('default.png')}}" alt="User profile picture">
+        @endif
         <?php
         $routes = \Route::currentRouteName();
         // dd($routes);
@@ -27,11 +32,23 @@
                 <li class="nav-item">
                     <a href="{{route('peraturan')}}" class="nav-link {{$routes == 'peraturan' ? 'active' : ''}}">Peraturan</a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{route('member_profile.edit_profile')}}" class="nav-link d-md-none d-sm-block">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('member_profile.edit_profile')}}" class="nav-link d-md-none d-sm-block">Ubah Password</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-md-none d-sm-block text-danger" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                </li>
             </ul>
             @if(\Auth::check())
             <ul class="navbar-nav navbar-no-expand ml-auto">
                 <!-- Messages Dropdown Menu -->
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown d-none d-sm-block">
                     <a class="nav-link m-0 p-0 out_nav" data-toggle="dropdown" href="#">
 
                             @if(\Auth::user()->member)

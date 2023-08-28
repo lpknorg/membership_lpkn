@@ -1,22 +1,23 @@
 <div class="con_full">
 		<div class="blog-main mt-2 mb-5">
-            <div class="d-flex justify-content-between align-items-center">
-				<h4 class="blog-post-title text-white">Total Event : <?= (isset($event['count'])) ? $event['count'] : ''?></h4>
-
-                <ol class="breadcrumb" style="background-color: transparent;">
-                    <li clayss="breadcrumb-item">
-                        <form class="form-inline ml-0 ml-md-3" action="">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Cari event" name="keyword" >
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button" id="serch_event">
-                                        <i class="fa fa-search"></i>
-                                    </button>
+            <div class="d-block d-sm-flex justify-content-between align-items-center flex-wrap">
+				<h4 class="blog-post-title text-white text-center">Total Event : <?= (isset($event['count'])) ? $event['count'] : ''?></h4>
+                <div class="d-flex justify-content-center">
+                    <ol class="breadcrumb bg-transparent">
+                        <li clayss="breadcrumb-item">
+                            <form class="form-inline ml-0 ml-md-3" action="">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Cari event" name="keyword" >
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="button" id="serch_event">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
-                    </li>
-                </ol>
+                            </form>
+                        </li>
+                    </ol>
+                </div>
             </div>
 			<div class="blog-post">
                 <h3 class="text-light text-center">JANUARI 2023</h3>

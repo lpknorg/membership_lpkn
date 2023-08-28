@@ -25,24 +25,24 @@
 	                                if(date($date) < date('2022-04-01')){
 							            $diundi = "31 Maret 2022";
 							        }elseif(date($date) >= date('2022-04-01') && date($date) < date('2022-07-01') ){
-							            $diundi = "30 Juni 2022";  
+							            $diundi = "30 Juni 2022";
 							        }elseif(date($date) >= date('2022-07-01') && date($date) < date('2022-10-01') ){
-							            $diundi = "30 September 2022";  
+							            $diundi = "30 September 2022";
 							        }elseif(date($date) >= date('2022-10-01') && date($date) < date('2023-01-01') ){
-							            $diundi = "30 Desember 2022";  
+							            $diundi = "30 Desember 2022";
 							        } elseif (date($date) >= date('2023-01-01') && date($date) < date('2023-03-01')) {
                                     $diundi = "28 Februari 2023";
                                 } elseif (date($date) >= date('2023-03-01') && date($date) < date('2023-05-01')) {
-                                    $diundi = "28 April 2023"; 
+                                    $diundi = "28 April 2023";
                                 } elseif (date($date) >= date('2023-05-01') && date($date) < date('2023-07-01')) {
-                                    $diundi = "30 Juni 2023"; 
+                                    $diundi = "30 Juni 2023";
                                 } elseif (date($date) >= date('2023-07-01') && date($date) < date('2023-09-01')) {
-                                    $diundi = "31 Agustus 2023"; 
+                                    $diundi = "31 Agustus 2023";
                                 }elseif (date($date) >= date('2023-09-01') && date($date) < date('2023-11-01')) {
                             		$diundi = "31 Oktober 2023";
                             	}
 	                            ?>
-					      		<p>Anda mendapatkan Voucher Undian yang<br/>akan di undi pada tanggal : 
+					      		<p>Anda mendapatkan Voucher Undian yang<br/>akan di undi pada tanggal :
 					      			<h5>
 					      				<u>
 					      					<b>
@@ -64,7 +64,7 @@
 								WhatsApp Panitia :<br/>
 								<?php $no = 1; foreach ($detail_event['panitia'] as $row) {?>
 									<a class="btn btn-success btn-sm mb-2" style="border-radius: 40px;" target="blank_" href="https://wa.me/{{$row['phone']}}">
-										<i class="fa fa-whatsapp"></i> Panitia <?=$no++?>
+										<i class="fa-brands fa-whatsapp"></i>? Panitia <?=$no++?>
 									</a>
 								<?php } ?>
 								<br/>
