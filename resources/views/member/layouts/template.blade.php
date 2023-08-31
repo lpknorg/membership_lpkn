@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{asset('frontend/css/navbar.css')}}?version=0">
     <link rel="stylesheet" href="{{asset('frontend/css/style.css')}}?version=0">
     <link rel="stylesheet" href="{{asset('frontend/css/aside.css')}}?version=0">
+    @yield('styles')
 	<title>Halaman Member</title>
 </head>
 <body>
