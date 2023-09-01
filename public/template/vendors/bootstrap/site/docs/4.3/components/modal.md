@@ -47,7 +47,7 @@ Below is a _static_ modal example (meaning its `position` and `display` have bee
           <p>Modal body text goes here.</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
           <button type="button" class="btn btn-primary">Save changes</button>
         </div>
       </div>
@@ -69,7 +69,7 @@ Below is a _static_ modal example (meaning its `position` and `display` have bee
         <p>Modal body text goes here.</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
         <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
@@ -94,7 +94,7 @@ Toggle a working modal demo by clicking the button below. It will slide down and
         <p>Woohoo, you're reading this text in a modal!</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
         <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
@@ -127,7 +127,7 @@ Toggle a working modal demo by clicking the button below. It will slide down and
         ...
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
         <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
@@ -169,7 +169,7 @@ When modals become too long for the user's viewport or device, they scroll indep
         <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
         <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
@@ -202,7 +202,7 @@ When modals become too long for the user's viewport or device, they scroll indep
         ...
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
         <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
@@ -242,7 +242,7 @@ You can also create a scrollable modal that allows scroll the modal body by addi
         <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
         <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
@@ -275,7 +275,7 @@ You can also create a scrollable modal that allows scroll the modal body by addi
         ...
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
         <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
@@ -300,7 +300,7 @@ Add `.modal-dialog-centered` to `.modal-dialog` to vertically center the modal.
         <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
         <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
@@ -324,7 +324,7 @@ Add `.modal-dialog-centered` to `.modal-dialog` to vertically center the modal.
         <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
         <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
@@ -360,7 +360,7 @@ Add `.modal-dialog-centered` to `.modal-dialog` to vertically center the modal.
         ...
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
         <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
@@ -389,7 +389,7 @@ Add `.modal-dialog-centered` to `.modal-dialog` to vertically center the modal.
         <p><a href="#" class="tooltip-test" title="Tooltip" data-container="#exampleModalPopovers">This link</a> and <a href="#" class="tooltip-test" title="Tooltip" data-container="#exampleModalPopovers">that link</a> have tooltips on hover.</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
         <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
@@ -452,7 +452,7 @@ Utilize the Bootstrap grid system within a modal by nesting `.container-fluid` w
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
         <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
@@ -529,7 +529,7 @@ Below is a live demo followed by example HTML and JavaScript. For more informati
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
         <button type="button" class="btn btn-primary">Send message</button>
       </div>
     </div>

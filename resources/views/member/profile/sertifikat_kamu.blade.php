@@ -28,9 +28,9 @@
 							<button type="submit" class="btn btn-success btn-sm mt-1">Kirim</button> <br>
 							<span class="text-warning" style="font-size: 13px;">* download sertifikat dapat dilakukan setelah mengirim testimoni
 							</span>
-						</form>	
+						</form>
 						@elseif(!empty($list['testimoni']) && $list['testimoni'] && $list['testimoni_status'] == 0)
-						<a class="btn btn-success btn-sm disabled" disabled>Download</a>	
+						<a class="btn btn-success btn-sm disabled" disabled>Download</a>
 						@else
 						<a class="btn btn-success btn-sm" target="blank_" href="<?=$list['download']?>">Download</a>
 						@if($list['video'])
@@ -57,7 +57,7 @@
 
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
 				<button type="button" class="btn btn-primary">Save changes</button>
 			</div>
 		</div>
@@ -68,7 +68,7 @@
 @include('js/custom_script')
 <script>
 	$(document).ready(function(){
-		
+
 		$('body').on('click', '[id="btnVideoMateri"]', function(e) {
 			e.preventDefault()
 			let _sl = $(this).attr('data-slug')
@@ -93,7 +93,7 @@
 							_removal = v.replace(_link, '')
 							if (v != '') {
 								cont += `<li>${_removal}<a href="${_link}" target="_blank">${_link}</a></li>`
-							}							
+							}
 						})
 						cont += '</ul>'
 						$('#modalMateri').modal('show')

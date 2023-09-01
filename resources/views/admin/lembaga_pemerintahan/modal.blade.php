@@ -28,11 +28,11 @@
 								<input type="text" class="form-control" name="nama" placeholder="Nama">
 							</div>
 						</div>
-					</div>		
+					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button> 
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
 				</div>
 			</form>
 		</div>
@@ -55,7 +55,7 @@
 							<div class="form-group">
 								<label for="char">Instansi </label>
 								<select name="instansi" class="form-control">
-									
+
 								</select>
 							</div>
 						</div>
@@ -68,8 +68,8 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-primary" id="btnUpdate">Simpan</button> 
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary" id="btnUpdate">Simpan</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
 				</div>
 			</form>
 		</div>

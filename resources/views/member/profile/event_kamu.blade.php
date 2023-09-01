@@ -1,17 +1,5 @@
 @extends('member.layouts.template')
 @section('styles')
-<style>
-	.rating {
-		width: 180px;
-	}
-
-	.rating__star {
-		color: #dabd18b2;
-	}
-	.rating__star:hover {
-		cursor: pointer !important;
-	}
-</style>
 @endsection
 @section('content')
 <div class="tab-pane fade show active" id="pills-rekomendasievent" role="tabpanel" aria-labelledby="pills-home-tab">
@@ -52,7 +40,7 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="modalTestimoniLabel">Modal title</h5>
+				<h5 class="modal-title" id="modalTestimoniLabel">Testimoni</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -63,11 +51,10 @@
 					<input type="hidden" name="slug">
 					<input type="hidden" name="email" value="{{\Auth::user()->email}}">
 					<div class="form-group">
-						<label>Testimoni</label>
 						<textarea name="testimoni" rows="3" class="form-control" placeholder="Masukkan testimoni"></textarea>
 					</div>
 					<div class="form-group">
-						<div class="rating">
+						<div class="rating d-flex justify-content-center">
 							<input type="hidden" name="star_rating">
 							<i class="rating__star far fa-star"></i>
 							<i class="rating__star far fa-star"></i>
@@ -78,7 +65,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
 					<button type="submit" class="btn btn-primary">Kirim</button>
 				</div>
 			</form>
@@ -130,14 +117,14 @@
 				url: $(this).attr('action'),
 				data: $(this).serialize(),
 				success: function(d){
-					showAlert(d.msg)   
+					showAlert(d.msg)
 					setTimeout(function() {
 						location.reload()
 					}, 1000);
 				},
 				error: function(data){
 					var data = data.responseJSON;
-					showAlert(data.messages, "error")   
+					showAlert(data.messages, "error")
 				}
 			})
 		})

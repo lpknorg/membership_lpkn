@@ -64,7 +64,7 @@
 								WhatsApp Panitia :<br/>
 								<?php $no = 1; foreach ($detail_event['panitia'] as $row) {?>
 									<a class="btn btn-success btn-sm mb-2" style="border-radius: 40px;" target="blank_" href="https://wa.me/{{$row['phone']}}">
-										<i class="fa-brands fa-whatsapp"></i>? Panitia <?=$no++?>
+										<i class="fa-brands fa-whatsapp"></i> Panitia <?=$no++?>
 									</a>
 								<?php } ?>
 								<br/>
