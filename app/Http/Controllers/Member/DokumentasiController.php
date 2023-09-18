@@ -10,8 +10,8 @@ class DokumentasiController extends Controller
 {
     public function index(Request $request)
     {
-        
-    
+
+
         if(empty($request->id_artikel)){
             $id = 'all';
         }else{
@@ -30,7 +30,7 @@ class DokumentasiController extends Controller
 
         $dokumentasi = $this->getRespApiWithParam($datapost, 'Artikel/get_artikel');
         $dokumentasi =  $dokumentasi['artikels'];
-       
+
         $totalData = $this->countData();
         $totalPages = ceil($totalData / $perPage);
 
@@ -89,7 +89,7 @@ class DokumentasiController extends Controller
         $data = json_decode($response, true);
         return $data;
     }
-    
+
 
     public function get_artikel(Request $request){
         if(empty($request->id_artikel)){
@@ -113,7 +113,7 @@ class DokumentasiController extends Controller
                     <div class="card-body text-center">
                         <div class="text-left">
                             <h4>'.$dokumentasi['artikels']['judul'].'</h4>
-                            <small class="text-left"><a href="">Dibuat Oleh : <i class="fa fa-user"></i> '.$dokumentasi['artikels']['first_name'].'</a></small> | 
+                            <small class="text-left"><a href="">Dibuat Oleh : <i class="fa fa-user"></i> '.$dokumentasi['artikels']['first_name'].'</a></small> |
                             <small class="text-muted text-left"><i class="far fa-calendar-alt"></i> '.mediumdate_indo($dokumentasi['artikels']['create_date']).'</small>
                         </div>
                         <hr/>
@@ -124,8 +124,8 @@ class DokumentasiController extends Controller
                     </div>
                     </div>
                 </div>
-            </div>';	
-        
+            </div>';
+
             echo json_encode($html);
 	}
 

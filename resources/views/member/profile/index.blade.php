@@ -5,7 +5,7 @@
 		.modal-lg {
 			max-width: 1140px !important;
 		}
-	}	
+	}
 </style>
 @endsection
 @section('content')
@@ -38,7 +38,7 @@
 			let sl = $(this).attr('slug')
 			$('#exampleModal').modal('show')
 			getEvent(sl)
-		})		
+		})
 	})
 </script> -->
 @endsection

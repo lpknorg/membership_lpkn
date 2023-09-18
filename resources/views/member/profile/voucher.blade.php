@@ -8,7 +8,7 @@
 		<table class="table table-hover table-bordered table-responsive-sm tableEventKamu" id="tableEventKamu" style="width:1000px;">
 			<thead class="thead-dark">
 				<tr>
-					<th scope="col">No</th>
+					<th width="5%" scope="col">No</th>
 					<th scope="col">Nama Event</th>
 					<th scope="col">Action</th>
 				</tr>

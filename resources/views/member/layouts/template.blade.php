@@ -78,25 +78,25 @@
 					<div class="card-header" style="padding: 10px;">
 						<ul class="nav nav-pills" id="pills-tab" role="tablist">
 							<li class="nav-item">
-								<a class="nav-link {{$csegment == 1 ? 'active' : ''}}" href="{{route('member_profile.index')}}">Rekomendasi Event</a>
+								<a class="nav-link {{$csegment == 1 ? 'active' : ''}}" href="{{route('member_profile.index')}}">Rekomendasi</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link {{$csegment > 1 && $segment[1] == 'menunggu_pembayaran' ? 'active' : ''}}" href="{{route('member_profile.menunggu_pembayaran.index')}}">Menunggu Pembayaran</a>
+								<a class="nav-link {{$csegment > 1 && $segment[1] == 'menunggu_pembayaran' ? 'active' : ''}}" href="{{route('member_profile.menunggu_pembayaran.index')}}">Pembayaran</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link {{$csegment > 1 && $segment[1] == 'event_kamu' ? 'active' : ''}}" href="{{route('member_profile.event_kamu.index')}}">Event Kamu</a>
+								<a class="nav-link {{$csegment > 1 && $segment[1] == 'event_kamu' ? 'active' : ''}}" href="{{route('member_profile.event_kamu.index')}}">Event</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link {{$csegment > 1 && $segment[1] == 'sertifikat_kamu' ? 'active' : ''}}" href="{{route('member_profile.sertifikat_kamu.index')}}">Sertifikat Kamu</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link {{$csegment > 1 && $segment[1] == 'edit_profile' ? 'active' : ''}}" href="{{route('member_profile.edit_profile')}}">Update Profile</a>
+								<a class="nav-link {{$csegment > 1 && $segment[1] == 'sertifikat_kamu' ? 'active' : ''}}" href="{{route('member_profile.sertifikat_kamu.index')}}">Sertifikat</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link {{$csegment > 1 && $segment[1] == 'dokumentasi' ? 'active' : ''}}" href="{{route('member_profile.dokumentasi.index')}}">Dokumentasi</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link {{$csegment > 1 && $segment[1] == 'voucher' ? 'active' : ''}}" href="{{route('member_profile.voucher.index')}}">Voucher</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link {{$csegment > 1 && $segment[1] == 'edit_profile' ? 'active' : ''}}" href="{{route('member_profile.edit_profile')}}">Profile</a>
 							</li>
 						</ul>
 					</div>

@@ -23,13 +23,12 @@
                 <h3 class="text-light text-center">JANUARI 2023</h3>
 				<div class="row" id="content-event">
 					@foreach($event['event'] as $e)
-					<div class="col-lg-3 col-12 card-wrapper-special">
+                    <div class="col-lg-3 col-12 card-wrapper-special">
 						<div class="card card-special img__wrap">
 							<img class="card-img-top card-img-top-special" src="{{$e['brosur_img']}}" alt="Card image cap">
 							<div class="img__description_layer">
-								<p style="padding: 6px">
-                                    <button type="button" id="btnSelengkapnya" slug="{{$e['slug']}}" class="btn btn-primary btn-sm">Selengkapnya</button>
-                                </p>
+                                <p class="small">{{ $e['judul'] }}</p>
+							    <button type="button" id="btnSelengkapnya" slug="{{$e['slug']}}" class="btn btn-primary btn-sm mb-1">Selengkapnya</button>
                             </div>
                         </div>
                     </div>
@@ -66,9 +65,6 @@
                         </ul>
                     </nav>
                 </div>
-
           </div>
       </div>
-
-
 </div>
