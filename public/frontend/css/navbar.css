@@ -6,6 +6,7 @@
 }
 .bg_nav{
     background-color: #141B29;
+    z-index: 16;
 }
 .in_nav {
     max-width: inherit;

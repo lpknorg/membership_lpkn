@@ -81,7 +81,15 @@
                 </li>
             </ul>
             @else
-            <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+            <div class="row d-row d-md-none mb-2">
+                <div class="col-6 pr-1">
+		            <a href="{{route('register')}}" class="btn btn-danger btn-sm btn-block"><i class="fa fa-list mr-2"></i> Daftar</a>
+                </div>
+                <div class="col-6 pl-1">
+                    <a href="{{route('login')}}" class="btn btn-primary btn-sm btn-block"><i class="fa fa-sign-in-alt mr-2"></i> Login</a>
+                </div>
+            </div>
+            <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto d-none d-md-block">
                 <li class="nav-item dropdown">
                     <a class="nav-link" style="padding-top: 0.1rem;" data-toggle="dropdown" href="#">
                         <i class="fa fa-user-plus" style="font-size: 25px;"></i>

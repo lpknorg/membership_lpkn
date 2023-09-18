@@ -20,9 +20,10 @@
 			<div class="card card-special img__wrap">
 				<img class="card-img-top card-img-top-special" src="{{$n['brosur_img']}}" alt="Card image cap">
 				<div class="img__description_layer">
-					<p style="padding: 6px">
-						<button type="button" id="btnSelengkapnya" onclick="getEvent('{{$n['slug']}}');" slug="{{$n['slug']}}" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Selengkapnya</button>
-					</p>
+					<div class="img__description_layer">
+                        <p class="small pb-0">{{ $n['judul'] }}</p>
+                        <button type="button" id="btnSelengkapnya" slug="{{$n['slug']}}" class="btn btn-primary btn-sm mb-1 mb-1 py-0"><small>Selengkapnya</small></button>
+                    </div>
 				</div>
 			</div>
 		</div>

@@ -27,8 +27,8 @@
 						<div class="card card-special img__wrap">
 							<img class="card-img-top card-img-top-special" src="{{$e['brosur_img']}}" alt="Card image cap">
 							<div class="img__description_layer">
-                                <p class="small">{{ $e['judul'] }}</p>
-							    <button type="button" id="btnSelengkapnya" slug="{{$e['slug']}}" class="btn btn-primary btn-sm mb-1">Selengkapnya</button>
+                                <p class="small mb-2">{{ $e['judul'] }}</p>
+							    <button type="button" id="btnSelengkapnya" slug="{{$e['slug']}}" class="btn btn-primary btn-sm mb-1 py-0"><small>Selengkapnya</small></button></button>
                             </div>
                         </div>
                     </div>
