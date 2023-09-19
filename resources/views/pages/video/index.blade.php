@@ -1,5 +1,6 @@
 @extends('layouts.front.template')
 @section('content')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css">
 <div class="container con_full mt-0 mt-md-4">
 	<div class="row">
 		<div class="col-md-8 blog-main mt-2 mb-5">
@@ -34,7 +35,7 @@
                                 <div class="card-body">
                                 <h5 class="card-title">{{ $video->judul }}</h5>
                                     <p class="card-text">{{ $video->keterangan }}</p>
-                                    <button type="button" class="btn btn-primary btn-sm open-video-btn" onclick="openVideo('{{$video->link}}')">Open Video</button>
+                                    <a class="btn btn-primary btn-sm  popup-youtube" href="{{  str_replace('embed/', 'watch?v=', $video->link) }}">Open Video</a>
                                 </div>
                                 <div class="card-footer">
                                 <small class="text-muted">Updated at {{ mediumdate_indo($video->updated_at) }}</small>
@@ -88,10 +89,10 @@
                         @endif
                     </ul>
                     </nav>
-
+                    <div class="bg" style="display:none"></div>
                     <div class="video-popup">
                         <span class="close-btn">&times;</span>
-                        <iframe id="playVideo" width="560" height="315" src="https://www.youtube.com/embed/CXbP8_vUIOM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        <iframe id="playVideo" width="560" height="315" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                     </div>
                 </div>
 
@@ -130,26 +131,30 @@
   @endsection
   @section('scripts')
   @include('js/custom_script')
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
   <script>
-    const popup = document.querySelector('.video-popup');
-    const closeBtn = document.querySelector('.close-btn');
+    // const popup = document.querySelector('.video-popup');
+    // const closeBtn = document.querySelector('.close-btn');
 
-    function openVideo(links){
-        $('#playVideo').attr('src', links);
-        popup.style.display = 'block';
-    }
+    // function openVideo(links){
+    //     $('#playVideo').attr('src', links);
+    //     popup.style.display = 'block';
+    //     $(".video-popup").toggle();
+    // }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        closeBtn.addEventListener('click', function() {
-            popup.style.display = 'none';
-        });
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     closeBtn.addEventListener('click', function() {
+    //         popup.style.display = 'none';
+    //     });
 
-        window.addEventListener('click', function(event) {
-            if (event.target === popup) {
-                popup.style.display = 'none';
-            }
-        });
-    });
+    //     window.addEventListener('click', function(event) {
+    //         if (event.target === popup) {
+    //             popup.style.display = 'none';
+    //         }
+    //     });
+    // });
+
+    popup()
 
     document.addEventListener('DOMContentLoaded', function() {
         const searchInput = document.getElementById('searchInput');
@@ -175,6 +180,7 @@
                             html += `<h5>Video Tidak Ditemukan</h5>`;
                         }else{
                             videos.forEach(video => {
+                                let strlink = video.link.replace("embed/", "watch?v=");
                                 html += `
                                     <div class="card-deck col-md-6 mb-3">
                                         <div class="card">
@@ -182,7 +188,7 @@
                                             <div class="card-body">
                                             <h5 class="card-title">${video.judul}</h5>
                                                 <p class="card-text">${video.keterangan}</p>
-                                                <button type="button" class="btn btn-primary btn-sm open-video-btn" onclick="openVideo('${video.link}')">Open Video</button>
+                                                <a class="btn btn-primary btn-sm  popup-youtube" href="${video.link.replace("embed/", "watch?v=")}">Open Video</a>
                                             </div>
                                             <div class="card-footer">
                                             <small class="text-muted">Updated at ${video.updated_at}</small>
@@ -193,6 +199,7 @@
                         }
 
                         videoGallery.innerHTML = html;
+                        popup()
                     }
                 });
 
@@ -203,6 +210,19 @@
 
         });
     });
+
+
+    function popup(){
+        $('.popup-youtube, .popup-vimeo, .popup-gmaps').magnificPopup({
+            disableOn: 700,
+            type: 'iframe',
+            mainClass: 'mfp-fade',
+            removalDelay: 160,
+            preloader: false,
+
+            fixedContentPos: false
+        });
+    }
 
   </script>
   @endsection
