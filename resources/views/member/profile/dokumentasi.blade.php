@@ -5,7 +5,7 @@
 		.modal-lg {
 			max-width: 1140px !important;
 		}
-	}	
+	}
 </style>
 @endsection
 @section('content')
@@ -42,8 +42,8 @@
 			</div>
 		</div>
 		@endforeach
-		<div class="row ml-1">
-			<div class="col-md-12">
+		<div class="row m-0 m-auto">
+			<div class="col-md-12 p-0">
 				<!-- Custom Pagination Links -->
 				<ul class="pagination justify-content-center">
 					@if($currentPage > 1)
@@ -54,7 +54,7 @@
 						<li class="page-item">
                             <a class="page-link" href="#">...</a>
                         </li>
-						@else	
+						@else
 						<li class="page-item {{ ($currentPage == $page) ? 'active' : '' }}">
                             <a class="page-link" href="{{ route('member_profile.dokumentasi.index', ['page' => $page]) }}">{{ $page }}</a>
                         </li>
@@ -82,8 +82,8 @@
 		}
 
 		$.ajax({
-			url:"{{route('member_profile.dokumentasi.get_artikel')}}",   
-			type: "post",   
+			url:"{{route('member_profile.dokumentasi.get_artikel')}}",
+			type: "post",
 			dataType: 'json',
 			data: {
 				"_token": "{{ csrf_token() }}",

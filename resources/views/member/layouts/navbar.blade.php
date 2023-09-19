@@ -3,13 +3,12 @@
         <a href="{{url('/')}}" class="navbar-brand">
             <img src="https://lpkn.id/front_assets/lpkn_iso_putih.png" alt="LPKN Logo" class="brand-image">
         </a>
-        {{-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button> --}}
         @if(\Auth::check() && \Auth::user()->member)
             <img class="in_nav navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" src="{{\Helper::showImage(\Auth::user()->member->foto_profile, 'poto_profile')}}" alt="User profile picture" style="width:40px;height:40px;border-radius:50%;padding:0px">
-        @else
-            <img class="in_nav navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" src="{{asset('default.png')}}" alt="User profile picture">
+            @else
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
         @endif
         <?php
         $routes = \Route::currentRouteName();
@@ -32,18 +31,20 @@
                 <li class="nav-item">
                     <a href="{{route('peraturan')}}" class="nav-link {{$routes == 'peraturan' ? 'active' : ''}}">Peraturan</a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{route('member_profile.edit_profile')}}" class="nav-link d-md-none d-sm-block">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{route('member_profile.edit_profile')}}" class="nav-link d-md-none d-sm-block">Ubah Password</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link d-md-none d-sm-block text-danger" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
-                </li>
+                @if(\Auth::check() && \Auth::user()->member)
+                    <li class="nav-item">
+                        <a href="{{route('member_profile.edit_profile')}}" class="nav-link d-md-none d-sm-block">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{route('member_profile.edit_profile')}}" class="nav-link d-md-none d-sm-block">Ubah Password</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-md-none d-sm-block text-danger" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </li>
+                @endif
             </ul>
             @if(\Auth::check())
             <ul class="navbar-nav navbar-no-expand ml-auto">
@@ -80,7 +81,15 @@
                 </li>
             </ul>
             @else
-            <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+            <div class="row d-row d-md-none mb-2">
+                <div class="col-6 pr-1">
+		            <a href="{{route('register')}}" class="btn btn-danger btn-sm btn-block"><i class="fa fa-list mr-2"></i> Daftar</a>
+                </div>
+                <div class="col-6 pl-1">
+                    <a href="{{route('login')}}" class="btn btn-primary btn-sm btn-block"><i class="fa fa-sign-in-alt mr-2"></i> Login</a>
+                </div>
+            </div>
+            <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto d-none d-md-block">
                 <li class="nav-item dropdown">
                     <a class="nav-link" style="padding-top: 0.1rem;" data-toggle="dropdown" href="#">
                         <i class="fa fa-user-plus" style="font-size: 25px;"></i>
