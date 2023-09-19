@@ -14,7 +14,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class ProfileController extends Controller
 {
     public function getRespApi($endpoint){
-        $client = new \GuzzleHttp\Client();
+        $client = new \GuzzleHttp\Client(['verify' => false]);
         $request = $client->get($endpoint);
         $response = $request->getBody()->getContents();
         $data = json_decode($response, true);
@@ -41,6 +41,7 @@ class ProfileController extends Controller
     public function index()
     {
     	$new_event = $this->getRespApi('https://event.lpkn.id/api/member/event');
+        // dd($new_event);
         $user = \Auth::user();
         return view('member.profile.index', compact('user', 'new_event'));
     }
@@ -348,7 +349,6 @@ class ProfileController extends Controller
             $event = $this->detailEvent($datapost);
             $data['detail_event'] = $event;
             $data['member'] = $member;
-            // dd($event);
             if ($event['status'] == 0) {
                 return view('response.event.get_event')->with($data);
             }else if($event['status'] == 1){

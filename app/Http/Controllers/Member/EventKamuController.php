@@ -13,7 +13,6 @@ class EventKamuController extends Controller
         $email = \Auth::user()->email;
         $datapost = ['email'=>$email];
         $my_event = $this->getRespApiWithParam($datapost, 'member/event/my_event');
-        // dd($my_event);
         return view('member.profile.event_kamu', compact('my_event'));
     }
 

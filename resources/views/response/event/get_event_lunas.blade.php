@@ -14,7 +14,7 @@
 		      				<h1>Yth, {{$member['name']}}</h1>
 		      				<p>Pembayaran Anda telah dikonfirmasi<br/>Untuk mempermudah kordinasi, silahkan bergabung ke group event melalui link dibawah ini :</p>
 		      				<a href="{{$event['link_group']}}" target="_blank" class="btn btn-success"><i class="fa fa-users"></i> Gabung ke group WhatsApp</a><br/>
-		      				<a target="_blank" href="https://event.lpkn.id/event/kwitansi/{{$detail_event['id_regis']}}" class="btn btn-primary btn-sm mt-2"><i class="fa fa-file-pdf-o"></i> Download Kuitansi</a>
+		      				<a target="_blank" href="https://event.lpkn.id/event/kwitansii2/{{$detail_event['id_regis']}}" class="btn btn-primary btn-sm mt-2"><i class="fa fa-file-pdf-o"></i> Download Kuitansi</a>
 		      				<!-- <form method="post" class="regis_event" id="regis_event"> -->
 	      					<!-- <form id="regis_event" method="post"> -->
 			      				<hr style="background-color: #fff;"></hr>
