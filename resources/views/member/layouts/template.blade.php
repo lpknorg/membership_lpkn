@@ -15,13 +15,13 @@
     <link rel="stylesheet" href="{{asset('frontend/css/navbar.css')}}?version=0">
     <link rel="stylesheet" href="{{asset('frontend/css/style.css')}}?version=0">
     <link rel="stylesheet" href="{{asset('frontend/css/aside.css')}}?version=0">
-    @yield('styles')
+    <link rel="shortcut icon" type="image/x-icon" href="{{asset('frontend/images/logo_icon.png')}}">
 	<title>Halaman Member</title>
 </head>
 <body>
 	@include('member.layouts.navbar')
     <div class="container con_full mb-4">
-		<div class="row mt-2">
+		<div class="row mt-2 sm-reverse">
 			<div class="col-md-3">
 				<div class="card card-primary card-outline">
 					<div class="card-body box-profile">
@@ -69,7 +69,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-9">
+			<div class="col-md-9 mb-4 mb-md-0">
 				<div class="alert alert-info w-100">
 					Jika terdapat ketidaksesuaian data, silakan melakukan <a href="{{route('member_profile.edit_profile')}}"><b>update profile</b></a>
 				</div>

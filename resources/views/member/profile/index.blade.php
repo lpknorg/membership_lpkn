@@ -1,13 +1,4 @@
 @extends('member.layouts.template')
-@section('styles')
-<style>
-	@media (min-width: 1200px){
-		.modal-lg {
-			max-width: 1140px !important;
-		}
-	}
-</style>
-@endsection
 @section('content')
 <div class="tab-pane fade show active" id="pills-rekomendasievent" role="tabpanel" aria-labelledby="pills-home-tab">
 	<h5 class="font-italic">
