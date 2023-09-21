@@ -2,6 +2,11 @@ body{
     background-color: #121721;
     color: #fff;
 }
+@media only screen and (max-width: 767px) {
+    .sm-reverse{
+        flex-direction: column-reverse;
+    }
+}
 .bg-card,.card{
     background-color: #161B27;
 }

@@ -31,7 +31,8 @@
                         @foreach($videos as $video)
                         <div class="card-deck col-md-6 mb-3">
                             <div class="card">
-                                <iframe style="padding:5px;" src="{{ $video->link }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                                {{-- <iframe style="padding:5px;" src="{{ $video->link }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> --}}
+                                <img src="https://img.youtube.com/vi/{{substr($video->link,24)}}/maxresdefault.jpg">
                                 <div class="card-body">
                                 <h5 class="card-title">{{ $video->judul }}</h5>
                                     <p class="card-text">{{ $video->keterangan }}</p>
@@ -119,9 +120,10 @@
         <div class="p-4">
             <h4 class="font-italic">Elsewhere</h4>
             <ol class="list-unstyled">
-            <li><a class="badge badge-warning" href="#"><i class="fa fa-instagram"></i> Instagram</a></li>
-            <li><a class="badge badge-danger" href="#"><i class="fa fa-youtube"></i> Youtube</a></li>
-            <li><a class="badge badge-primary" href="#"><i class="fa fa-facebook"></i> Facebooks</a></li>
+            <li><a class="badge badge-success" href="#"><i class="fa-brands fa-whatsapp"></i> Whatsapp</a></li>
+            <li><a class="badge badge-warning" href="#"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
+            <li><a class="badge badge-danger" href="#"><i class="fa-brands fa-youtube"></i> Youtube</a></li>
+            <li><a class="badge badge-primary" href="#"><i class="fa-brands fa-facebook"></i> Facebook</a></li>
             </ol>
         </div>
         </aside><!-- /.blog-sidebar -->
