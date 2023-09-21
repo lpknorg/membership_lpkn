@@ -92,6 +92,7 @@ Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middlewa
 });
 
 Route::post('/import_member', [HomeController::class, 'importMember']);
+Route::get('/import_member2', [HomeController::class, 'importMember2']);
 
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {

@@ -34,6 +34,7 @@ class CreateMemberKantorsTable extends Migration
             $table->integer('kantor_kelurahan_id')->nullable();
             $table->string('nama_kantor_prov', 5)->nullable();
             $table->string('nama_kantor_kota', 5)->nullable();
+            $table->string('unit_kerja')->nullable();            
             // $table->string('kantor_kecamatan_id', 5)->nullable();
             // $table->string('kantor_kelurahan_id', 5)->nullable();
             $table->timestamps();

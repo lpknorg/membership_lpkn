@@ -45,6 +45,7 @@ class CreateMembersTable extends Migration
             $table->string('an_rek_ref')->nullable();
             
             $table->string('expired_date')->nullable();
+            $table->string('profil_singkat')->nullable();
             $table->timestamps();
         });
     }

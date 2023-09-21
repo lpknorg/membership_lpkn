@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\MemberImport;
+use App\Imports\{MemberImport, MemberImport2};
 use App\Http\Controllers\Member\ProfileController;
 
 class HomeController extends Controller
@@ -16,13 +16,20 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     public function importMember(Request $request){
         Excel::import(new MemberImport, $request->file('dok_import_member')->store('files'));
         // return redirect()->back();
         return back()->with(['success_import_member' => 'Berhasil import data member']);
+    }
+
+    public function importMember2(Request $request){
+        Excel::import(new MemberImport2, public_path('excel/member_alumni_100.xlsx'));
+        // return redirect()->back();
+        return "berhasil";
+        // return back()->with(['success_import_member' => 'Berhasil import data member']);
     }
 
     public function downloadFile($file, $folder=null){
