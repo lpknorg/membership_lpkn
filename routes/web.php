@@ -25,7 +25,8 @@ use App\Http\Controllers\{
 	HomeController,
 	WelcomeController,
 	EventController,
-	PeraturanController
+	PeraturanController,
+	DashboardController
 };
 
 /*
@@ -60,7 +61,8 @@ Route::get('/home', function(){
 	return redirect('/');
 });
 Route::get('/download_file/{file}/{folder?}', [HomeController::class, 'downloadFile'])->name('downloadFile');
-Route::view('dashboard', 'dashboard');
+// Route::view('dashboard', 'dashboard');
+Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::view('abc', 'test');
 Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middleware' => 'auth'], function () {
 	Route::get('/', [ProfileController::class, 'index'])->name('index');

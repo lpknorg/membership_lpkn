@@ -26,9 +26,9 @@
                         <td>{{ $e['testimoni'] ?? '-'}}</td>
                         <td>{{ \Helper::changeFormatDate($e['tgl_start']).' s/d '.\Helper::changeFormatDate($e['tgl_end']) }}</td>
                         <td>
-                            <button type="button" onclick="getEvent('{{$e['slug']}}');" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-eye"></i></button>
+                            <button type="button" onclick="getEvent('{{$e['slug']}}');" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" data-toggle="tooltip" data-placement="top" title="Lihat Event"><i class="fa fa-eye"></i></button>
                             @if(is_null($e['testimoni']))
-                            <button type="button" class="btn btn-info btn-sm" data-slug="{{$e['slug']}}" id="btnTestimoni"><i class="fa fa-book"></i></button>
+                            <button type="button" class="btn btn-info btn-sm" data-slug="{{$e['slug']}}" id="btnTestimoni" data-toggle="tooltip" data-placement="top" title="Masukan Testimoni"><i class="fa fa-book"></i></button>
                             @endif
                         </td>
                     </tr>

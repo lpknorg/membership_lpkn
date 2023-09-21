@@ -25,3 +25,6 @@ Route::get('/general/kota', [App\Http\Controllers\Api\general\Kota::class, 'main
 Route::get('/general/kecamatan', [App\Http\Controllers\Api\general\Kecamatan::class, 'main'])->name('api.get.kecamatan');
 Route::get('/general/kelurahan', [App\Http\Controllers\Api\general\Kelurahan::class, 'main'])->name('api.get.kelurahan');
 Route::get('/general/kodepos', [App\Http\Controllers\Api\general\Kodepos::class, 'main'])->name('api.get.kodepos');
+
+
+Route::get('get_member_by_lembaga_pemerintahan', [App\Http\Controllers\DashboardController::class, 'getByLembagaPemerintahan'])->name('api.getMemberByLembagaPemerintahan');
