@@ -40,11 +40,10 @@
                 <!-- Messages Dropdown Menu -->
                 <li class="nav-item dropdown d-none d-sm-block">
                     <a class="nav-link m-0 p-0 out_nav" data-toggle="dropdown" href="#">
-
                         @if(\Auth::user()->member)
-                        <img class="in_nav" src="{{\Helper::showImage(\Auth::user()->member->foto_profile, 'poto_profile')}}" alt="User profile picture" style="width:40px;height:40px;border-radius:50%;">
+                            <img class="in_nav" src="{{\Helper::showImage(\Auth::user()->member->foto_profile, 'poto_profile')}}" alt="User profile picture" style="width:40px;height:40px;border-radius:50%;">
                         @else
-                        <img class="in_nav" src="{{asset('default.png')}}" alt="User profile picture">
+                            <img class="in_nav" src="{{asset('default.png')}}" alt="User profile picture" style="width:40px;height:40px;border-radius:50%;">
                         @endif
 
                     </a>
