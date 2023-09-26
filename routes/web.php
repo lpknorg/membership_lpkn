@@ -42,7 +42,7 @@ use App\Http\Controllers\{
 */
 Route::get('ea', function(){
 	$a = env('MAIL_USERNAME');
-	dd($a);	
+	dd($a);
 });
 Route::get('/verify_email/{token}', [App\Http\Controllers\Api\MemberController::class, 'updateVerifyEmail'])->name('updateVerifyEmail');
 Route::post('/lupa_password', [App\Http\Controllers\Auth\LupaPasswordController::class, 'sendLink'])->name('lupa_password.send_link');
@@ -51,6 +51,7 @@ Route::post('/update_lupa_password', [App\Http\Controllers\Auth\LupaPasswordCont
 
 Route::get('/', [WelcomeController::class, 'welcome'])->name('welcome');
 Route::get('/allevent/{id}', [EventController::class, 'allEvent'])->name('allevent');
+Route::get('/posting', [PostingController::class, 'PostingView'])->name('posting');
 Route::get('/video/allvideo', [VideoControllerMember::class, 'index'])->name('allvideo');
 Route::get('/searchvideo', [VideoControllerMember::class, 'search'])->name('searchvideo');
 Route::get('/peraturan', [PeraturanController::class, 'peraturan'])->name('peraturan');
@@ -90,15 +91,15 @@ Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middlewa
 	Route::post('/testimoni', [EventKamuController::class, 'storeTestimoni'])->name('testimoni.storeTestimoni');
 
 	Route::get('/sertifikat_kamu', [SertifikatKamuController::class, 'index'])->name('sertifikat_kamu.index');
-	
+
 	Route::get('/dokumentasi', [DokumentasiController::class, 'index'])->name('dokumentasi.index');
 	Route::post('/get_artikel', [DokumentasiController::class, 'get_artikel'])->name('dokumentasi.get_artikel');
 	// Route::post('/count', [DokumentasiController::class, 'count'])->name('dokumentasi.count');
-	
+
 	Route::get('/voucher', [VoucherController::class, 'index'])->name('voucher.index');
-	Route::get('/voucher2', [VoucherController::class, 'index2'])->name('voucher.index2');	
-	
-	Route::get('/Kta', [ProfileController::class, 'download_kta'])->name('download_kta');	
+	Route::get('/voucher2', [VoucherController::class, 'index2'])->name('voucher.index2');
+
+	Route::get('/Kta', [ProfileController::class, 'download_kta'])->name('download_kta');
 });
 
 Route::post('/import_member', [HomeController::class, 'importMember']);
@@ -124,7 +125,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 	Route::get('/profile', [UserController::class, 'profile'])->name('profile');
 	Route::get('/user/dataTables', [UserController::class, 'getDatatable'])->name('user.dataTables');
 	Route::get('/user/import_biodata/{id}', [UserController::class, 'importBiodata'])->name('user.import_biodata');
-	
+
 	Route::resource('/user', UserController::class);
 
 	Route::get('/member/dataTables', [MemberController::class, 'getDatatable'])->name('member.dataTables');
