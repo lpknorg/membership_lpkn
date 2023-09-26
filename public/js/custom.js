@@ -73,3 +73,20 @@ $('#form_update_profile').submit(function(e) {
         }
     });
 });
+function imagesPreview(input, placeToInsertImagePreview){
+    $(placeToInsertImagePreview).html('');
+    if (input.files) {
+        var filesAmount = input.files.length;
+
+        for (i = 0; i < filesAmount; i++) {
+            var reader = new FileReader();
+            reader.onload = function(event) {
+            console.log(placeToInsertImagePreview)
+                $($.parseHTML(`<img class="imgPrv form-control" style="width: 100%;display: inline; height: 200px;">`)).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
+
+            }
+
+            reader.readAsDataURL(input.files[i]);
+        }
+    }
+}

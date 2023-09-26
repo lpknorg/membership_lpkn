@@ -17,8 +17,20 @@
 	<link rel="stylesheet" href="{{asset('frontend/css/aside.css')}}?version=0">
 	<link rel="shortcut icon" type="image/x-icon" href="{{asset('frontend/images/logo_icon.png')}}">
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">    
+	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet"> 
+	<link rel="stylesheet" href="{{asset('pckg/tagsjs/dist/use-bootstrap-tag.min.css')}}" />
+	<script src="{{asset('pckg/tagsjs/dist/use-bootstrap-tag.min.js')}}"></script>   
 	<title>Halaman Member</title>
+	<style>
+		.use-bootstrap-tag button{
+			margin-right: 5px;
+			border-radius: 5px;
+		}
+		input[name=tag] {
+			background-color: lightblue !important;
+			color: red;
+		}
+	</style>
 </head>
 <body>
 	@include('member.layouts.navbar')
@@ -27,19 +39,29 @@
 			<div class="col-md-12">
 				<div class="card card-primary card-outline">
 					<div class="card-body">
+						<h3>Tulis Artikel</h3>
+						<hr style="border: 1px solid #c1c1c1;">
 						<form method="POST" action="{{route('artikel.store')}}" enctype="multipart/form-data">
 							@csrf
 							<div class="form-group row">
 								<label for="staticEmail" class="col-sm-2 col-form-label">Cover Artikel</label>
 								<div class="col-sm-4">
-									<input type="file" class="form-control" name="cover">
+									<input type="file" class="form-control" name="cover" accept="image/png, image/jpeg">
 								</div>
+								<div class="view-cover mt-3"></div>
+							</div>
+							<div class="form-group row">
+								<label for="staticEmail" class="col-sm-2 col-form-label">Gambar Slider</label>
+								<div class="col-sm-4">
+									<input type="file" class="form-control" name="gambar_slider" accept="image/png, image/jpeg" multiple id="gambar_slider">
+								</div>
+								<div class="view-slider mt-3"></div>
 							</div>
 							<div class="form-group row">
 								<label for="staticEmail" class="col-sm-2 col-form-label">Kategori</label>
 								<div class="col-sm-4">
 									<select name="kategori" class="form-control">
-										<option value="">Pilih Kategori</option>
+										<option value="1">Pilih Kategori</option>
 									</select>
 								</div>
 							</div>
@@ -53,6 +75,13 @@
 								<label class="col-sm-2 col-form-label">Deskripsi</label>
 								<div class="col-sm-8">
 									<textarea class="form-control" name="deskripsi" cols="10"></textarea>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-2 col-form-label">Tag</label>
+								<div class="col-sm-8">
+									<input type="text" class="form-control" placeholder="Tambahkan tag ..." name="tag" id="example" data-ub-tag-max="5">
+								<span class="text-warning" style="font-size: 15px;">Tekan <i>Enter</i> untuk memisahkan Tag, gunakan maksimal 5 Tag</span>
 								</div>
 							</div>
 							<div class="form-group row">
@@ -87,14 +116,27 @@
 	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 	<script>
 		$(document).ready(function(){
+			const example = UseBootstrapTag(document.getElementById('example'))
 			$('[name=deskripsi]').summernote({
 				height: 100,
 				placeholder: 'Mulai tulis disini...'
 			});
+
+			$('body').on('change', '[name=cover]', function() {
+				imagesPreview(this, `div.view-cover`);
+			});
+			$('body').on('change', '[name=gambar_slider]', function() {
+				imagesPreview(this, `div.view-slider`);
+			});
 			$('form').submit(function(e) {
+				e.preventDefault();
+				var filesLength=document.getElementById('gambar_slider').files.length;
 				var form_data = new FormData($(this)[0]);
 				form_data.append('cover', $('[name=cover]').prop('files')[0]);
-				e.preventDefault();
+				for(var i=0;i<filesLength;i++){
+					form_data.append("gambar_slider[]", document.getElementById('gambar_slider').files[i]);
+				}
+				
 				$.ajaxSetup({
 					headers: {
 						'X-CSRF-TOKEN': $('[name=_token]').val()
@@ -109,7 +151,7 @@
 					processData: false,
 					contentType: false,
 					beforeSend: function() {
-						sendAjax('#btnSimpan')
+						sendAjax('#btnSimpan', false)
 					},
 					success: function(data) {
 						console.log(data)
@@ -122,10 +164,9 @@
 					},
 					error: function(data) {
 						var data = data.responseJSON;
-						console.log(data)
-						// if (data.status == "fail") {
-						// 	showAlert(data.messages, "error")
-						// }
+						if (data.status == "fail") {
+							showAlert(data.messages, "error")
+						}
 					},
 					complete: function() {
 						sendAjax('#btnSimpan', true, 'Simpan')

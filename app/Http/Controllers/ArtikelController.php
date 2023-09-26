@@ -5,13 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Models\{Artikel, User};
+use App\Models\{Artikel, ArtikelFoto, ArtikelTag, User};
+use DB;
 
 class ArtikelController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = Artikel::latest()->get();
+        $data = Artikel::latest()
+        ->when($request->q, function($q)use($request){
+            $q->where('judul', 'like', '%'.$request->q.'%');
+        })
+        ->paginate(5);
         return view('pages.artikel.index', compact('data'));
     }
 
@@ -21,7 +26,23 @@ class ArtikelController extends Controller
     }
 
     public function store(Request $request){
-        // return $request->all();
+        $expTags = explode(",", $request->tag);
+        $request['cover'] = null;
+        $validator = Validator::make($request->only(['cover', 'kategori', 'judul', 'deskripsi', 'tag']), [
+            'cover'    => ['required', 'file', 'mimes:jpeg,png,jpg', 'max:5000'],
+            'kategori'    => ['required'],
+            'judul'=> ['required', 'max:255'],
+            'deskripsi'=> ['required'],
+            'tag'    => ['required'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status'   => "fail",
+                'messages' => $validator->errors()->first(),
+            ], 422);
+        }
+        
         $covername = null;
         if ($request->hasFile('cover')) {
             $covername = \Helper::storeFile('artikel/cover', $request->cover);
@@ -44,18 +65,42 @@ class ArtikelController extends Controller
         }
 
         $content = $dom->saveHTML();
-        Artikel::create([
-            'slug' => \Str::slug($request->judul).rand(1,9999),
-            'user_id' => \Auth::user()->id,
-            'cover' => $covername,
-            'kategori' => 'kategori '.rand(1, 9999),
-            'judul' => $request->judul,
-            'deskripsi' => $content
-        ]);
-        return response()->json([
-            'status'    => "ok",
-            'messages' => "Berhasil menambah artikel, mohon menunggu untuk verifikasi"
-        ], 200);
+        DB::beginTransaction();
+        try {
+            $art = Artikel::create([
+                'slug' => \Str::slug($request->judul).rand(1,9999),
+                'user_id' => \Auth::user()->id,
+                'cover' => $covername,
+                'kategori' => 'kategori '.rand(1, 9999),
+                'judul' => $request->judul,
+                'deskripsi' => $content
+            ]);
+            if ($request->hasFile('gambar_slider')){
+                foreach ($request->gambar_slider as $value) {
+                    ArtikelFoto::create([
+                        'artikel_id' => $art->id,
+                        'file'      => \Helper::storeFile('artikel/gambar_slider', $value)
+                    ]);
+                }
+            }
+            foreach ($expTags as $k => $t) {
+                ArtikelTag::create([
+                    'artikel_id'=> $art->id,
+                    'nama_tag'  => $t
+                ]);
+            }
+            DB::commit();
+            return response()->json([
+                'status'    => "ok",
+                'messages' => "Berhasil menambah artikel, mohon menunggu untuk verifikasi"
+            ], 200);   
+        } catch (Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'status'    => "fail",
+                'messages'  => "Ada kesalahan dalam input artikel",
+            ],422);
+        }        
     }
 
     public function detail($uname, $slug){

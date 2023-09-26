@@ -15,4 +15,12 @@ class Artikel extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function artikelFoto(){
+        return $this->hasMany(ArtikelFoto::class, 'artikel_id', 'id');
+    }
+
+    public function artikelTags(){
+        return $this->hasMany(ArtikelTag::class, 'artikel_id', 'id');
+    }
 }

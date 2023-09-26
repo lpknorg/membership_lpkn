@@ -77,26 +77,33 @@
 				</div>
 			</div>
 			<div class="col-md-9 mb-4 mb-md-0">
-				<div class="row">
-					<div class="col">
-						<select name="kategori" class="form-control">
-							<option value="">Pilih Kategori</option>
-						</select>
+				<h3>List Artikel</h3>
+				<hr style="border: 1px solid #c1c1c1;">
+				<form action="">
+					<div class="row">
+						<div class="col">
+							<input type="text" class="form-control" name="q" placeholder="Cari disini ..." value="{{\Request::get('q')}}">
+						</div>
+						<div class="col">
+							<select name="kategori" class="form-control">
+								<option value="">Pilih Kategori</option>
+							</select>
+						</div>
+						<div class="col">
+							<select name="tahun" class="form-control">
+								<option value="">Pilih Tahun</option>
+							</select>
+						</div>
+						<!-- <div class="col">
+							<select name="kategori" class="form-control">
+								<option value="">Pilih Bulan</option>
+							</select>
+						</div> -->
+						<div class="col">
+							<button type="submit" class="btn btn-outline-primary btn-sm w-100">Tampilkan</button>
+						</div>
 					</div>
-					<div class="col">
-						<select name="kategori" class="form-control">
-							<option value="">Pilih Tahun</option>
-						</select>
-					</div>
-					<div class="col">
-						<select name="kategori" class="form-control">
-							<option value="">Pilih Bulan</option>
-						</select>
-					</div>
-					<div class="col">
-						<button class="btn btn-outline-primary btn-sm w-100">Tampilkan</button>
-					</div>
-				</div>
+				</form>
 				@foreach($data as $d)
 				<div class="card mt-3" style="width: 100%;min-height: 100px;max-height: 140px;">
 					<div class="row" id="div-artikel" style="border-radius: 15px;">
@@ -110,12 +117,15 @@
 								</a>
 								<!-- <a href="#" class="btn btn-primary btn-sm float-right">Read More</a> -->
 							</div>
-							
+
 						</div>
 
 					</div>
 				</div>
 				@endforeach
+				<div class="float-right mt-3">
+					{{$data->links()}}
+				</div>
 			</div>
 		</div>
 	</div>

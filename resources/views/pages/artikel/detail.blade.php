@@ -16,7 +16,7 @@
 	<link rel="stylesheet" href="{{asset('frontend/css/style.css')}}?version=0">
 	<link rel="stylesheet" href="{{asset('frontend/css/aside.css')}}?version=0">
 	<link rel="shortcut icon" type="image/x-icon" href="{{asset('frontend/images/logo_icon.png')}}">
-	<title>Artikel Member</title>
+	<title>{{ucfirst($artikel->judul)}}</title>
 	<style>
 		#div-artikel_terbaru a{
 			color: #fff;
@@ -48,9 +48,18 @@
 						<h3>{{ucfirst($artikel->judul)}}</h3>
 						<p>icon </p>
 						<p>{{\Helper::changeFormatDate($artikel->created_at, 'd-M-Y H:i:s')}} | Dibuat oleh : {{ucfirst($artikel->user->name)}}</p>
+						@foreach($artikel->artikelTags as $t)
+						<span class="badge badge-primary">{{$t->nama_tag}}</span>
+						@endforeach
 						<div class="alert alert-info">
 							Ini adalah platform blog. Konten ini akan menjadi tanggung jawab blogger dan tidak mewakili pandangan dari <b>Lembaga Pengembangan dan Konsultasi Nasional(LPKN)</b>
 						</div>
+					</div>
+					<div class="col-md-12 mt-3">
+						<h5>ini images slider </h5>
+						@foreach($artikel->artikelFoto as $f)
+						<img class="d-block w-100" src="{{\Helper::showImage($f->file, 'artikel/gambar_slider')}}" alt="" style="min-height: 100px;max-height: 140px;">
+						@endforeach
 					</div>
 					<div class="col-md-12 mt-3">
 						{!! $artikel->deskripsi !!}
