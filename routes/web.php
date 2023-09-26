@@ -26,7 +26,8 @@ use App\Http\Controllers\{
 	WelcomeController,
 	EventController,
 	PeraturanController,
-	DashboardController
+	DashboardController,
+	ArtikelController
 };
 
 /*
@@ -64,6 +65,13 @@ Route::get('/download_file/{file}/{folder?}', [HomeController::class, 'downloadF
 // Route::view('dashboard', 'dashboard');
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::view('abc', 'test');
+Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel.index');
+Route::get('/artikel/create', [ArtikelController::class, 'create'])->name('artikel.create');
+Route::post('/artikel/store', [ArtikelController::class, 'store'])->name('artikel.store');
+Route::group(['prefix' => 'p'], function () {
+	Route::get('/{uname}', [ArtikelController::class, 'indexProfile'])->name('artikel.indexProfile');
+	Route::get('/{uname}/{slug}', [ArtikelController::class, 'detail'])->name('artikel.detail');
+});
 Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middleware' => 'auth'], function () {
 	Route::get('/', [ProfileController::class, 'index'])->name('index');
 	Route::get('/page/get_event/{slug}', [ProfileController::class, 'getEventModal'])->name('get_event.modal');

@@ -33,4 +33,10 @@ class Helper {
 		$d = date_create($date);
 		return date_format($d, $format);
 	}
+
+	public static function getUname($user){
+		$u = strtolower($user->email);
+        $u = explode("@", $u);
+        return $u[0].'-'.$user->id;
+	}
 }
