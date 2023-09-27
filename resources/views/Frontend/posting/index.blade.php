@@ -12,7 +12,7 @@
                         <div class="posting-out-topik"><span class="posting_short_topik">PBJ</span></div>
                         <div class="d-flex align-items-center my-2">
                             <div>
-                                <a class="posting_out"><img class="in_nav" src="https://www.saveseva.com/wp-content/uploads/2015/06/Landscape.jpg" alt="User profile picture" style="width:30px;height:30px;border-radius:50%;"></a>
+                                <a class="posting_out"><img class="posting_in" src="https://www.saveseva.com/wp-content/uploads/2015/06/Landscape.jpg" alt="User profile picture"></a>
                             </div>
                             <div class="posting_short_name px-2">Ini Adalah benar toh kan</div>
                             <div class=""><i class="fa-solid fa-circle-check posting_checklist"></i></div>

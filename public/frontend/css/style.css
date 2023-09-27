@@ -131,10 +131,6 @@ background: rgba(0 0 0 / 85%);
 .underline-white{
     text-decoration: none;
 }
-.responsive img {
-    max-width:100%;
-    height: auto;
-}
 .icon-info{
     width: 36px;
 }

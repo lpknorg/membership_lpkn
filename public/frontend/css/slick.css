@@ -9,10 +9,6 @@
 .posting-card{
     margin: 0 1rem;
 }
-.posting-card img{
-    width: 100%;
-    height: 200px;
-}
 .beauty_prev{
     display: none;
     position: absolute;
@@ -58,7 +54,14 @@
 }
 .posting_out {
     overflow: hidden;
-    border-radius: 50%;
+}
+.posting_in {
+    max-width: inherit;
+    max-height: inherit;
+    object-fit: cover;
+    width:30px;
+    height:30px;
+    border-radius:50%;
 }
 .posting_short_name{
     overflow: hidden;
