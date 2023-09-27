@@ -19,6 +19,6 @@ class Kelurahan extends Model
 
     public function kodePos()
     {
-        return $this->hasOne('App\Models\Admin\Kodepos', 'id', 'id_kode_pos');
+        return $this->hasOne('App\Models\Admin\KodePos', 'id', 'id_kode_pos');
     }
 }

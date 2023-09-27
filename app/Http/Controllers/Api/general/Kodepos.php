@@ -4,7 +4,7 @@ namespace App\Http\Controllers\api\general;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Models\Admin\Kodepos as KodePosModel;
+use App\Models\Admin\KodePos as KodePosModel;
 
 class Kodepos extends Controller
 {
