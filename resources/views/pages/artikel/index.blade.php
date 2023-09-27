@@ -33,19 +33,18 @@
 				</form>
 				@foreach($data as $d)
 				<div class="card mt-3">
-					<div class="row" id="div-artikel">
-						<div class="col-sm-4">
-                            <span class="responsive">
-                                <img class="d-block" src="{{\Helper::showImage($d->cover, 'artikel/cover')}}" alt="">
-                            </span>
+					<div class="row list_artikel_card">
+						<div class="col-sm-5">
+                            <div class="list_art_out_img">
+                                <img class="list_art_in_img" src="{{\Helper::showImage($d->cover, 'artikel/cover')}}" alt="">
+                            </div>
 						</div>
-						<div class="col-sm-8">
-							<div class="card-body">
-								<a href="{{route('artikel.detail', ['uname' => \Helper::getUname($d->user) ,'slug' => $d->slug])}}">
-									<h4>{{$d->judul}}</h4>
-								</a>
-								<!-- <a href="#" class="btn btn-primary btn-sm float-right">Read More</a> -->
-							</div>
+						<div class="col-sm-7 pt-2">
+                            <a class="posting_out"><img class="posting_in" src="https://www.saveseva.com/wp-content/uploads/2015/06/Landscape.jpg" alt="User profile picture"></a>
+                            <a class="list_artikel_title" href="{{route('artikel.detail', ['uname' => \Helper::getUname($d->user) ,'slug' => $d->slug])}}">
+                                {{$d->judul}}
+                            </a>
+                            <!-- <a href="#" class="btn btn-primary btn-sm float-right">Read More</a> -->
 						</div>
 					</div>
 				</div>
@@ -53,7 +52,6 @@
 				<div class="float-right mt-3">
 					{{$data->links()}}
 				</div>
-			</div>
 		</div>
 	</div>
 	@include('Frontend.body.footer')
