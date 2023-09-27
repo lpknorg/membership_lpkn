@@ -10,6 +10,16 @@
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
 @include('template.footer')
     @include('Frontend.posting.js')
+    @include('member.layouts.modals')
+    @include('js/custom_script')
     <script  src="{{asset('frontend/js/testimoni.js')}}"></script>
+    <script>
+        // alert(123)
+        $('body').on('click', '[id="btnSelengkapnya"]', function(e) {
+        let sl = $(this).attr('slug')
+        $('#exampleModal').modal('show')
+        getEvent(sl)
+      })
+    </script>
   </body>
 </html>

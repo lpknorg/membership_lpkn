@@ -357,7 +357,7 @@ class ProfileController extends Controller
                 return view('response.event.get_event_lunas')->with($data);
             }
         }else{
-            dd('engga');
+            dd('belum login');
         }
     }
 
