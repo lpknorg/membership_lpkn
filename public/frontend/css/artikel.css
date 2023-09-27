@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
+.h_artikel{
+    font-family: 'Dancing Script', cursive;
+    line-height: normal;
+}
+.h_line{
+    border: 1px solid #c1c1c1;
+}
+.responsive img {
+    max-width: 100%;
+    height: auto;
+}
+#div-artikel{
+    transition: 0.6s;
+}
+#div-artikel:hover{
+    background-color: #515252;
+    cursor: pointer;
+}
+#div-artikel a{
+    color: #fff;
+    transition: 0.6s;
+}
