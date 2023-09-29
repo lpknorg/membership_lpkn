@@ -40,17 +40,26 @@
                             </div>
 						</div>
 						<div class="col-sm-7">
-                            <div class="p-2">
-                                <div class="d-flex align-items-center my-2">
+                            <div class="p-2 d-flex align-items-stretch flex-wrap list_artikel_sm_7">
+                                <div class="d-flex align-items-center">
                                     <div>
                                         <a class="list_artikel_out"><img class="list_artikel_in" src="https://www.saveseva.com/wp-content/uploads/2015/06/Landscape.jpg" alt="User profile picture"></a>
                                     </div>
-                                    <div class="artikel_short_name px-2">Ini Adalah bsdenar toh kan</div>
-                                    <div class=""><i class="fa-solid fa-circle-check artikel_checklist"></i></div>
+                                    <div class="">
+                                        <div class="artikel_short_name px-2">Ini Adalah bsdenar toh kan</div>
+                                        <div class="artikel_short_date px-2">29 September 2023 | 4 menit lalu</div>
+                                    </div>
                                 </div>
-                                <a class="list_artikel_title" href="{{route('artikel.detail', ['uname' => \Helper::getUname($d->user) ,'slug' => $d->slug])}}">
-                                    {{$d->judul}}
-                                </a>
+                                <div class="">
+                                    <a class="list_artikel_title" href="{{route('artikel.detail', ['uname' => \Helper::getUname($d->user) ,'slug' => $d->slug])}}">
+                                        {{$d->judul}}
+                                    </a>
+                                </div>
+                                <div class="d-flex align-items-end ml-auto">
+                                    <div class="text-67"> <i class="fa-regular fa-eye"></i> 123</div>
+                                    <div class="text-67 mx-4"> <i class="fa-solid fa-heart"></i> 456</div>
+                                    <div class="text-67"> <i class="fa-solid fa-message"></i> 7890</div>
+                                </div>
                             </div>
                             <!-- <a href="#" class="btn btn-primary btn-sm float-right">Read More</a> -->
 						</div>
