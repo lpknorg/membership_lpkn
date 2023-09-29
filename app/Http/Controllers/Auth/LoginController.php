@@ -41,7 +41,7 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function login(Request $request){
+    public function login(Request $request){        
         $validator = Validator::make($request->all(), array(
             'email' => "required",
             'password' => "required"
@@ -78,10 +78,20 @@ class LoginController extends Controller
 
 
         if (auth()->attempt(array('email' => $request->email, 'password' => $request->password))){
+            if ($request->slug_log) {
+                session(['key_slug' => $request->slug_log]);
+                $redirect = '/';
+            }else{
+                if (\Auth::user()->getRoleNames()[0] == 'admin') {
+                    $redirect = '/dashboard';
+                }else{
+                    $redirect = '/member_profile';
+                }
+            }
             return response()->json([
                 'status'    => "ok",
                 'messages' => "Sukses login",
-                'role' => \Auth::user()->getRoleNames()[0]
+                'redirect_to' => $redirect
             ], 200);
         }else{
             return response()->json([

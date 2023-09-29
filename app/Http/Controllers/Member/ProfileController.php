@@ -357,7 +357,10 @@ class ProfileController extends Controller
                 return view('response.event.get_event_lunas')->with($data);
             }
         }else{
-            dd('belum login');
+            $datapost = ['slug' => $slug, 'email' => null];
+            $data['member']['ref'] = null;
+            $data['detail_event'] = $this->detailEvent($datapost);
+            return view('response.event.get_event')->with($data);
         }
     }
 
