@@ -39,11 +39,19 @@
                                 <img class="list_art_in_img" src="{{\Helper::showImage($d->cover, 'artikel/cover')}}" alt="">
                             </div>
 						</div>
-						<div class="col-sm-7 pt-2">
-                            <a class="posting_out"><img class="posting_in" src="https://www.saveseva.com/wp-content/uploads/2015/06/Landscape.jpg" alt="User profile picture"></a>
-                            <a class="list_artikel_title" href="{{route('artikel.detail', ['uname' => \Helper::getUname($d->user) ,'slug' => $d->slug])}}">
-                                {{$d->judul}}
-                            </a>
+						<div class="col-sm-7">
+                            <div class="p-2">
+                                <div class="d-flex align-items-center my-2">
+                                    <div>
+                                        <a class="list_artikel_out"><img class="list_artikel_in" src="https://www.saveseva.com/wp-content/uploads/2015/06/Landscape.jpg" alt="User profile picture"></a>
+                                    </div>
+                                    <div class="artikel_short_name px-2">Ini Adalah bsdenar toh kan</div>
+                                    <div class=""><i class="fa-solid fa-circle-check artikel_checklist"></i></div>
+                                </div>
+                                <a class="list_artikel_title" href="{{route('artikel.detail', ['uname' => \Helper::getUname($d->user) ,'slug' => $d->slug])}}">
+                                    {{$d->judul}}
+                                </a>
+                            </div>
                             <!-- <a href="#" class="btn btn-primary btn-sm float-right">Read More</a> -->
 						</div>
 					</div>
