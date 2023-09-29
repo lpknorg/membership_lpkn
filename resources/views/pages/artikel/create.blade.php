@@ -15,11 +15,13 @@
 	<link rel="stylesheet" href="{{asset('frontend/css/navbar.css')}}?version=0">
 	<link rel="stylesheet" href="{{asset('frontend/css/style.css')}}?version=0">
 	<link rel="stylesheet" href="{{asset('frontend/css/aside.css')}}?version=0">
+    <link rel="stylesheet" href="{{asset('frontend/css/artikel/list.css')}}?version=0">
+    <link rel="stylesheet" href="{{asset('frontend/css/artikel/create.css')}}?version=0">
 	<link rel="shortcut icon" type="image/x-icon" href="{{asset('frontend/images/logo_icon.png')}}">
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet"> 
+	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="{{asset('pckg/tagsjs/dist/use-bootstrap-tag.min.css')}}" />
-	<script src="{{asset('pckg/tagsjs/dist/use-bootstrap-tag.min.js')}}"></script>   
+	<script src="{{asset('pckg/tagsjs/dist/use-bootstrap-tag.min.js')}}"></script>
 	<title>Halaman Member</title>
 	<style>
 		.use-bootstrap-tag button{
@@ -39,7 +41,7 @@
 			<div class="col-md-12">
 				<div class="card card-primary card-outline">
 					<div class="card-body">
-						<h3>Tulis Artikel</h3>
+						<h1 class="h_artikel">Tulis Artikel</h1>
 						<hr style="border: 1px solid #c1c1c1;">
 						<form method="POST" action="{{route('artikel.store')}}" enctype="multipart/form-data">
 							@csrf
@@ -136,7 +138,7 @@
 				for(var i=0;i<filesLength;i++){
 					form_data.append("gambar_slider[]", document.getElementById('gambar_slider').files[i]);
 				}
-				
+
 				$.ajaxSetup({
 					headers: {
 						'X-CSRF-TOKEN': $('[name=_token]').val()
@@ -158,7 +160,7 @@
 						if (data.status == "ok") {
 							showAlert(data.messages)
 							setTimeout(function() {
-								
+
 							}, 1000);
 						}
 					},

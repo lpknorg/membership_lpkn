@@ -1,0 +1,7 @@
+.note-editor{
+    color: black;
+    background-color: white;
+}
+.use-bootstrap-tag-target:not(:disabled)+.use-bootstrap-tag {
+    background-color: white;
+}

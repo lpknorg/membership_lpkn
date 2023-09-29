@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="{{asset('frontend/css/style.css')}}?version=0">
     <link rel="stylesheet" href="{{asset('frontend/css/testimoni.css')}}?version=0">
     <link rel="stylesheet" href="{{asset('frontend/css/slick.css')}}?version=0">
-    <link rel="stylesheet" href="{{asset('frontend/css/artikel_list.css')}}?version=0">
+    <link rel="stylesheet" href="{{asset('frontend/css/artikel/list.css')}}?version=0">
     <link rel="stylesheet" href="{{asset('frontend/css/aside.css')}}?version=0">
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('frontend/images/logo_icon.png')}}">
     <!-- start slick -->
