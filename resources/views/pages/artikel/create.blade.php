@@ -37,66 +37,62 @@
 <body>
 	@include('member.layouts.navbar')
 	<div class="container con_full mb-4">
-		<div class="row mt-2 sm-reverse">
-			<div class="col-md-12">
-				<div class="card card-primary card-outline">
-					<div class="card-body">
-						<h1 class="h_artikel">Tulis Artikel</h1>
-						<hr style="border: 1px solid #c1c1c1;">
-						<form method="POST" action="{{route('artikel.store')}}" enctype="multipart/form-data">
-							@csrf
-							<div class="form-group row">
-								<label for="staticEmail" class="col-sm-2 col-form-label">Cover Artikel</label>
-								<div class="col-sm-4">
-									<input type="file" class="form-control" name="cover" accept="image/png, image/jpeg">
-								</div>
-								<div class="view-cover mt-3"></div>
-							</div>
-							<div class="form-group row">
-								<label for="staticEmail" class="col-sm-2 col-form-label">Gambar Slider</label>
-								<div class="col-sm-4">
-									<input type="file" class="form-control" name="gambar_slider" accept="image/png, image/jpeg" multiple id="gambar_slider">
-								</div>
-								<div class="view-slider mt-3"></div>
-							</div>
-							<div class="form-group row">
-								<label for="staticEmail" class="col-sm-2 col-form-label">Kategori</label>
-								<div class="col-sm-4">
-									<select name="kategori" class="form-control">
-										<option value="1">Pilih Kategori</option>
-									</select>
-								</div>
-							</div>
-							<div class="form-group row">
-								<label class="col-sm-2 col-form-label">Judul</label>
-								<div class="col-sm-8">
-									<input type="text" class="form-control" placeholder="Judul" name="judul">
-								</div>
-							</div>
-							<div class="form-group row">
-								<label class="col-sm-2 col-form-label">Deskripsi</label>
-								<div class="col-sm-8">
-									<textarea class="form-control" name="deskripsi" cols="10"></textarea>
-								</div>
-							</div>
-							<div class="form-group row">
-								<label class="col-sm-2 col-form-label">Tag</label>
-								<div class="col-sm-8">
-									<input type="text" class="form-control" placeholder="Tambahkan tag ..." name="tag" id="example" data-ub-tag-max="5">
-								<span class="text-warning" style="font-size: 15px;">Tekan <i>Enter</i> untuk memisahkan Tag, gunakan maksimal 5 Tag</span>
-								</div>
-							</div>
-							<div class="form-group row">
-								<div class="col-sm-8">
-									<button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
-								</div>
-							</div>
-						</form>
-					</div>
-					<!-- /.card-body -->
-				</div>
-			</div>
-		</div>
+        <div class="card card-primary card-outline">
+            <div class="card-body">
+                <h1 class="h_artikel">Tulis Artikel</h1>
+                <hr style="border: 1px solid #c1c1c1;">
+                <form method="POST" action="{{route('artikel.store')}}" enctype="multipart/form-data">
+                    @csrf
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-2 col-form-label">Cover Artikel</label>
+                        <div class="col-sm-4">
+                            <input type="file" class="form-control" name="cover" accept="image/png, image/jpeg">
+                            <div class="view-cover list_artikel_out"></div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-2 col-form-label">Gambar Slider</label>
+                        <div class="col-sm-4">
+                            <input type="file" class="form-control" name="gambar_slider" accept="image/png, image/jpeg" multiple id="gambar_slider">
+                        </div>
+                        <div class="view-slider list_artikel_out"></div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-2 col-form-label">Kategori</label>
+                        <div class="col-sm-4">
+                            <select name="kategori" class="form-control">
+                                <option value="1">Pilih Kategori</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Judul</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" placeholder="Judul" name="judul">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Deskripsi</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" name="deskripsi" cols="10"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Tag</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" placeholder="Tambahkan tag ..." name="tag" id="example" data-ub-tag-max="5">
+                        <span class="text-warning" style="font-size: 15px;">Tekan <i>Enter</i> untuk memisahkan Tag, gunakan maksimal 5 Tag</span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-8">
+                            <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- /.card-body -->
+        </div>
 	</div>
 	@include('Frontend.body.footer')
 

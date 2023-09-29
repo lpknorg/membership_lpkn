@@ -82,7 +82,7 @@ function imagesPreview(input, placeToInsertImagePreview){
             var reader = new FileReader();
             reader.onload = function(event) {
             console.log(placeToInsertImagePreview)
-                $($.parseHTML(`<img class="imgPrv form-control" style="width: 100%;display: inline; height: 200px;">`)).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
+                $($.parseHTML(`<img class="imgPrv create_cover_in col-4">`)).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
 
             }
 
