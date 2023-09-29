@@ -35,7 +35,14 @@
 					      		<input type="hidden" id="biaya" name="biaya" value="1">
 					      		<?php } ?>
 					      		<input type="hidden" name="slug" value="{{$event['slug']}}">
+					      		@if(\Auth::check())
 					      		<button type="submit" class="btn btn-primary mb-2">Daftar Sekarang</button>
+					      		@else
+					      		<div class="alert alert-warning">
+					      			Silakan melakukan login terlebih dahulu untuk melakukan pendaftaran.
+					      		</div>
+					      		Menuju halaman <a href="{{url('login').'?slug='.$event['slug'] }}"><i><b>Login</b></i></a>
+					      		@endif
 					      		@if($member['ref'])
 
 					      		<br/>
