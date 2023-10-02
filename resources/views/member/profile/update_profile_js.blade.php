@@ -170,7 +170,7 @@
 			});
 
 			var form_data = new FormData($(this)[0]);
-			form_data.append('pas_foto', $('[name=pas_foto]').prop('files')[0]);
+			// form_data.append('pas_foto', $('[name=pas_foto]').prop('files')[0]);
 			form_data.append('foto_ktp', $('[name=foto_ktp]').prop('files')[0]);
 			form_data.append('sk_pengangkatan_asn', $('[name=sk_pengangkatan_asn]').prop('files')[0]);
 

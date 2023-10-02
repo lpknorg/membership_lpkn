@@ -57,24 +57,24 @@ class ProfileController extends Controller
     public function updateProfile(Request $request){
         $Id = $request->id_user;
         $user = User::findOrFail($Id);
-        if ($request->pas_foto == "undefined") {
-            $request['pas_foto'] = null;
-        }
         if ($request->foto_ktp == "undefined") {
             $request['foto_ktp'] = null;
         }
 
-        if (is_null($request->pas_foto) && is_null($user->member->pas_foto3x4)) {
-            $validator = Validator::make($request->only('pas_foto'), array(
-                'pas_foto' => ["required", "mimes:jpg,png,jpeg", 'max:7000']
-            ));
-            if ($validator->fails()) {
-                return response()->json([
-                    'status'    => "fail",
-                    'messages' => $validator->errors()->first(),
-                ], 422);
-            }
-        }
+        // if ($request->pas_foto == "undefined") {
+        //     $request['pas_foto'] = null;
+        // }
+        // if (is_null($request->pas_foto) && is_null($user->member->pas_foto3x4)) {
+        //     $validator = Validator::make($request->only('pas_foto'), array(
+        //         'pas_foto' => ["required", "mimes:jpg,png,jpeg", 'max:7000']
+        //     ));
+        //     if ($validator->fails()) {
+        //         return response()->json([
+        //             'status'    => "fail",
+        //             'messages' => $validator->errors()->first(),
+        //         ], 422);
+        //     }
+        // }
 
         if (is_null($request->foto_ktp) && is_null($user->member->foto_ktp)) {
             $validator = Validator::make($request->only('foto_ktp'), array(
@@ -131,13 +131,18 @@ class ProfileController extends Controller
             ], 422);
         }
 
-        $userNip = User::where('nip', $request->nip)->where('id', '!=', $Id)->first();
-        if($userNip){
-            return response()->json([
-                'status'    => "fail",
-                'messages' => "Nip sudah digunakan",
-            ], 422);
-        }
+        if ($request->nip != 0) {
+            $userNip = User::where([
+                ['nip', $request->nip],
+                ['id', '!=', $Id]
+            ])->first();
+            if($userNip){
+                return response()->json([
+                    'status'    => "fail",
+                    'messages' => "Nip sudah digunakan",
+                ], 422);
+            }
+        }        
 
         $userNik = User::where('nik', $request->nik)->where('id', '!=', $Id)->first();
         if($userNik){
@@ -186,12 +191,12 @@ class ProfileController extends Controller
         }else{
             $request['pekerjaan_lainnya'] = null;
         }
-        $npas_foto3x4 = $user->member->pas_foto3x4;
+        // $npas_foto3x4 = $user->member->pas_foto3x4;
         $nfoto_ktp = $user->member->foto_ktp;
         $nfile_sk_pengangkatan_asn = null;
-        if ($request->hasFile('pas_foto')){
-            $npas_foto3x4 = \Helper::storeFile('pas_foto', $request->pas_foto);
-        }
+        // if ($request->hasFile('pas_foto')){
+        //     $npas_foto3x4 = \Helper::storeFile('pas_foto', $request->pas_foto);
+        // }
         if ($request->hasFile('foto_ktp')){
             $nfoto_ktp = \Helper::storeFile('foto_ktp', $request->foto_ktp);
         }
@@ -223,7 +228,7 @@ class ProfileController extends Controller
                 'kecamatan_id'=> $request->rumah_kecamatan,
                 'kelurahan_id'=> $request->rumah_kelurahan,
                 // 'kelurahan_id'=> $request->rumah_kelurahan,
-                'pas_foto3x4' => $npas_foto3x4,
+                // 'pas_foto3x4' => $npas_foto3x4,
                 'foto_ktp' => $nfoto_ktp,
                 'file_sk_pengangkatan_asn' => $nfile_sk_pengangkatan_asn,
                 'updated_at' => now()
@@ -479,12 +484,12 @@ class ProfileController extends Controller
         $Id = \Auth::user()->id;
         // $user = User::findOrFail($Id);
         $users = DB::table('member_kantors')
-                ->select('instansis.nama as nama_instansi', 'users.id','users.name as nama_member', 'users.created_at', 'members.pas_foto3x4','members.foto_profile')
-                ->leftJoin('instansis', 'member_kantors.instansi_id', '=', 'instansis.id')
-                ->leftJoin('users', 'member_kantors.member_id', '=', 'users.id')
-                ->leftJoin('members', 'member_kantors.member_id', '=', 'members.user_id')
-                ->where('member_kantors.member_id', $Id)
-                ->get();
+        ->select('instansis.nama as nama_instansi', 'users.id','users.name as nama_member', 'users.created_at', 'members.pas_foto3x4','members.foto_profile')
+        ->leftJoin('instansis', 'member_kantors.instansi_id', '=', 'instansis.id')
+        ->leftJoin('users', 'member_kantors.member_id', '=', 'users.id')
+        ->leftJoin('members', 'member_kantors.member_id', '=', 'members.user_id')
+        ->where('member_kantors.member_id', $Id)
+        ->get();
         
         $pdf = PDF::loadView('member.profile.kta', compact('users'));
         // return $pdf->stream();

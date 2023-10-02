@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Artikel;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Models\{Artikel, ArtikelFoto, ArtikelTag, User};
+use App\Models\Artikel\{Artikel, ArtikelFoto, ArtikelTag};
+use App\Models\User;
 use DB;
 
 class ArtikelController extends Controller
