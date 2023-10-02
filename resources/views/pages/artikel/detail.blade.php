@@ -12,11 +12,8 @@
 			<div class="col-md-8">
 				<div class="row">
 					<div class="col-md-12">
-						<div class="card card-primary card-outline">
-							<div class="card-body">
-								INI PROFIL PENULIS
-							</div>
-						</div>
+						<h1 class="h_artikel">Ini Profil Penulis</h1>
+				        <hr class="h_line mt-0">
 					</div>
 					<div class="col-md-12 mt-3">
 						<div class="card card-primary card-outline">

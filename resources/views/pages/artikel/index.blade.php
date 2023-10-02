@@ -36,7 +36,12 @@
 					<div class="row list_artikel_card">
 						<div class="col-sm-5">
                             <div class="list_art_out_img">
-                                <img class="list_art_in_img" src="{{\Helper::showImage($d->cover, 'artikel/cover')}}" alt="">
+                                <img class="list_art_in_img position-relative" src="{{\Helper::showImage($d->cover, 'artikel/cover')}}" alt="">
+                                <div class="position-absolute" style="bottom: 20px;">
+                                    <span class="list_artikel_category">
+                                        Kategori Disini
+                                    </span>
+                                </div>
                             </div>
 						</div>
 						<div class="col-sm-7">
