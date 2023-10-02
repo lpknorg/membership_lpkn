@@ -5,3 +5,20 @@
 .use-bootstrap-tag-target:not(:disabled)+.use-bootstrap-tag {
     background-color: white;
 }
+.create_cover_out {
+    overflow: hidden;
+}
+.create_cover_in {
+    margin-top: 8px;
+    max-width: inherit;
+    max-height: inherit;
+    width:200px;
+    height:200px;
+    object-fit: cover;
+}
+@media (max-width: 520px) {
+    .create_cover_in {
+        width:78px;
+        height:78px;
+    }
+}

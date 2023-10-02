@@ -13,30 +13,30 @@
             </div>
         </div>
         <div class="col-sm-5 mb-4">
-            <div id="carouselTestimoni" class="carousel slide" data-ride="carousel">
+            <div id="carouselTesti" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <a href="https://lpkn.id/upload/testimoni/testimoni40.jpg" class="testimoni-popup">
-                            <img class="testi_img" src="https://lpkn.id/upload/testimoni/testimoni40.jpg" alt="your image">
+                        <a href="https://lpkn.id/upload/testimoni/testimoni32.jpg" class="testimoni-popup" >
+                            <img class="testi_img d-block w-100" src="https://lpkn.id/upload/testimoni/testimoni32.jpg" alt="Image 1">
                         </a>
                     </div>
                     <div class="carousel-item">
-                        <a href="https://lpkn.id/upload/testimoni/testimoni39.jpg" class="testimoni-popup">
-                            <img class="testi_img" src="https://lpkn.id/upload/testimoni/testimoni39.jpg" alt="your image">
+                        <a href="https://lpkn.id/upload/testimoni/testimoni31.jpg" class="testimoni-popup" >
+                            <img class="testi_img d-block w-100" src="https://lpkn.id/upload/testimoni/testimoni31.jpg" alt="Image 1">
                         </a>
                     </div>
                     <div class="carousel-item">
-                        <a href="https://lpkn.id/upload/testimoni/testimoni38.jpg" class="testimoni-popup">
-                            <img class="testi_img" src="https://lpkn.id/upload/testimoni/testimoni38.jpg" alt="your image">
+                        <a href="https://lpkn.id/upload/testimoni/testimoni30.jpg" class="testimoni-popup" >
+                            <img class="testi_img d-block w-100" src="https://lpkn.id/upload/testimoni/testimoni30.jpg" alt="Image 1">
                         </a>
                     </div>
                 </div>
-                <button class="carousel-control-prev" type="button" data-target="#carouselTestimoni" data-slide="prev">
-                    <span class="carousel-control-prev-icon py-3" aria-hidden="true"></span>
+                <button class="carousel-control-prev" type="button" data-target="#carouselTesti" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
                 </button>
-                <button class="carousel-control-next" type="button" data-target="#carouselTestimoni" data-slide="next">
-                    <span class="carousel-control-next-icon py-3" aria-hidden="true"></span>
+                <button class="carousel-control-next" type="button" data-target="#carouselTesti" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="sr-only">Next</span>
                 </button>
             </div>
