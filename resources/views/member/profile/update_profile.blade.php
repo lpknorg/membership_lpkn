@@ -19,7 +19,7 @@
 				<div class="form-group">
 					<label>NIP/NRP</label>
 					<input type="number" class="form-control" name="nip" value="{{$user->nip}}">
-					<span><small class="text-warning">Non PNS siliahkan isi -</small></span>
+					<span><small class="text-warning">Non PNS siliahkan isi 0</small></span>
 				</div>
 			</div>
 			<div class="col-sm-3">
@@ -249,7 +249,7 @@
 				</select>
 			</div>
 
-			<div class="col-sm-4">
+			<!-- <div class="col-sm-4">
 				<div class="form-group">
 					<label>Upload Pas Foto Resmi 3x4</label>
 					<input type="file" name="pas_foto">
@@ -257,8 +257,8 @@
 					<img src="{{\Helper::showImage($user->member->pas_foto3x4, 'pas_foto')}}" class="img-fluid mt-2" alt="">
 					@endif
 				</div>
-			</div>
-			<div class="col-sm-4">
+			</div> -->
+			<div class="col-sm-4 mt-4">
 				<div class="form-group">
 					<label>Upload Foto KTP</label>
 					<input type="file" name="foto_ktp">
@@ -267,7 +267,7 @@
 					@endif
 				</div>
 			</div>
-			<div class="col-sm-4">
+			<div class="col-sm-4 mt-4">
 				<div class="form-group">
 					<label>Upload SK Pengangkatan ASN</label>
 					<input type="file" name="sk_pengangkatan_asn">

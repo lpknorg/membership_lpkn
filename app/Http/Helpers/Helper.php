@@ -36,7 +36,11 @@ class Helper {
 
 	public static function getUname($user){
 		$u = strtolower($user->email);
-        $u = explode("@", $u);
-        return $u[0].'-'.$user->id;
+		$u = explode("@", $u);
+		return $u[0].'-'.$user->id;
+	}
+
+	public static function get_client_ip($ip = null, $deep_detect = TRUE){
+		return gethostname();
 	}
 }

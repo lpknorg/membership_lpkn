@@ -26,8 +26,11 @@ use App\Http\Controllers\{
 	WelcomeController,
 	EventController,
 	PeraturanController,
-	DashboardController,
-	ArtikelController
+	DashboardController	
+};
+use App\Http\Controllers\Artikel\{
+	ArtikelController,
+	ArtikelKomentarController
 };
 
 /*
@@ -66,9 +69,13 @@ Route::get('/download_file/{file}/{folder?}', [HomeController::class, 'downloadF
 // Route::view('dashboard', 'dashboard');
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::view('abc', 'test');
-Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel.index');
-Route::get('/artikel/create', [ArtikelController::class, 'create'])->name('artikel.create');
-Route::post('/artikel/store', [ArtikelController::class, 'store'])->name('artikel.store');
+Route::group(['prefix' => 'artikel', 'as' => 'artikel.'], function () {
+	Route::get('/', [ArtikelController::class, 'index'])->name('index');
+	Route::get('/create', [ArtikelController::class, 'create'])->name('create');
+	Route::post('/store', [ArtikelController::class, 'store'])->name('store');
+	Route::get('/komentar_store', [ArtikelKomentarController::class, 'store'])->name('komentar.store');
+	Route::get('/komentar_list', [ArtikelKomentarController::class, 'getKomentar'])->name('komentar.getKomentar');
+});
 Route::group(['prefix' => 'p'], function () {
 	Route::get('/{uname}', [ArtikelController::class, 'indexProfile'])->name('artikel.indexProfile');
 	Route::get('/{uname}/{slug}', [ArtikelController::class, 'detail'])->name('artikel.detail');

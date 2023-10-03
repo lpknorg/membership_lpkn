@@ -69,7 +69,7 @@ $('#form_update_profile').submit(function(e) {
             }
         },
         complete: function() {
-            sendAjax('#btnUpdatePP', true, 'Simpan Foto Profile')
+            sendAjax('#btnUpdatePP', true, 'Simpan')
         }
     });
 });
