@@ -36,98 +36,15 @@
     <title>{{ucfirst($artikel->judul)}}</title>
 </head>
 <body>
-	@include('member.layouts.navbar')
-	<div class="container con_full mb-4">
-		<div class="row mt-3">
-			<div class="col-md-8">
-				<div class="row">
-					<div class="col-md-12">
-						<h1 class="h_artikel">  </h1>
-				        <hr class="h_line mt-0">
-					</div>
-					<div class="col-md-12 mt-3">
-						<div class="card card-primary card-outline">
-							<div class="card-body">
-								INI Iklan lagi
-							</div>
-						</div>
-					</div>
-					<div class="col-md-12 mt-3">
-						<span class="detail_artikel_title">{{ucfirst($artikel->judul)}}</span>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex">
-                                <a href="" class="bg-twitter d-flex justify-content-center align-items-center">
-                                    <i class="fa-brands fa-x-twitter"></i>
-                                </a>
-                                <a href="" class="mx-2 bg-facebook d-flex justify-content-center align-items-center">
-                                    <i class="fa-brands fa-facebook-f"></i>
-                                </a>
-                                <a href="" class="bg-linked d-flex justify-content-center align-items-center">
-                                    <i class="fa-brands fa-linkedin-in"></i>
-                                </a>
-                                <a href="" class="mx-2 bg-wa d-flex justify-content-center align-items-center">
-                                    <i class="fa-brands fa-whatsapp"></i>
-                                </a>
-                                <a href="" class="bg-tele d-flex justify-content-center align-items-center">
-                                    <i class="fa-solid fa-paper-plane"></i>
-                                </a>
-                            </div>
-                            <div class="d-flex justify-content-center align-items-center">
-                                <span class="HeartDetail"></span>
-                                <span style="margin-left: -24px">2001</span>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-between flex-wrap mt-2">
-                            <p class="small">{{\Helper::changeFormatDate($artikel->created_at, 'd-M-Y H:i:s')}} |
-                                Dibuat oleh : {{ucfirst($artikel->user->name)}}
-                            </p>
-                            <p class="small">
-                                <span class="mr-2"><i class="fa-regular fa-eye"></i> 123</span>
-                                <a href="#add_comment" class="text-decoration-none"><i class="fa-solid fa-message"></i> 7890</a>
-                            </p>
-                        </div>
-						@foreach($artikel->artikelTags as $t)
-						<a href="" class="badge badge-secondary px-4 rounded-0 py-2 mb-2">{{$t->nama_tag}}</a>
-						@endforeach
-						<div class="alert alert-info">
-							Ini adalah platform blog. Konten ini akan menjadi tanggung jawab blogger dan tidak mewakili pandangan dari <b>Lembaga Pengembangan dan Konsultasi Nasional(LPKN)</b>
-						</div>
-					</div>
-					<div class="col-md-12 mt-3">
-                        <div id="carouselTesti" class="carousel slide" data-ride="carousel">
-                            <div class="carousel-inner">
-                                @foreach($artikel->artikelFoto as $k => $f)
-                                <div class="carousel-item {{ $k == 0 ? 'active' : '' }}">
-                                    <a href="{{\Helper::showImage($f->file, 'artikel/gambar_slider')}}" class="testimoni-popup artikel_detail_out_slider">
-                                        <img class="testi_img d-block w-100 artikel_detail_in_slider" src="{{\Helper::showImage($f->file, 'artikel/gambar_slider')}}" alt="Image 1">
-                                    </a>
-                                </div>
-                                @endforeach
-                            </div>
-                            <button class="carousel-control-prev" type="button" data-target="#carouselTesti" data-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-target="#carouselTesti" data-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Next</span>
-                            </button>
-                        </div>
-						{{-- @foreach($artikel->artikelFoto as $f)
-						<img class="d-block w-100" src="{{\Helper::showImage($f->file, 'artikel/gambar_slider')}}" alt="" style="min-height: 100px;max-height: 140px;">
-						@endforeach --}}
-					</div>
-					<div class="col-md-12 mt-3">
-						{!! $artikel->deskripsi !!}
-					</div>
-				</div>
-                <div class="card card-primary px-4 py-2" id="add_comment">
-                    <div class="text-center my-2">Beri Komentar</div>
-                    <div class="row">
-                        <div class="col-sm-2 col-3"></div>
-                        <div class="col-sm-10 mb-1">
-                            Sugeng Marga Abdi Maya Pada
-                        </div>
+
+    @include('member.layouts.navbar')
+    <div class="container con_full mb-4">
+        <div class="row mt-3">
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="h_artikel">  </h1>
+                        <hr class="h_line mt-0">
                     </div>
                     <div class="col-md-12 mt-3">
                       <div class="card card-primary card-outline">
@@ -167,7 +84,7 @@
                 </p>
                 <p class="small">
                     <span class="mr-2"><i class="fa-regular fa-eye"></i> 123</span>
-                    <span><i class="fa-solid fa-message"></i> {{$artikel->artikelKomens->count()}}</span>
+                    <a href="#add_comment" class="text-decoration-none"><i class="fa-solid fa-message"></i> {{$artikel->artikelKomens->count()}}</a>
                 </p>
             </div>
             @foreach($artikel->artikelTags as $t)
@@ -178,13 +95,12 @@
            </div>
        </div>
        <div class="col-md-12 mt-3">
-          <h5>ini images slider </h5>
           <div id="carouselTesti" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 @foreach($artikel->artikelFoto as $k => $f)
                 <div class="carousel-item {{ $k == 0 ? 'active' : '' }}">
-                    <a href="{{\Helper::showImage($f->file, 'artikel/gambar_slider')}}" class="testimoni-popup" >
-                        <img class="testi_img d-block w-100" src="{{\Helper::showImage($f->file, 'artikel/gambar_slider')}}" alt="Image 1">
+                    <a href="{{\Helper::showImage($f->file, 'artikel/gambar_slider')}}" class="testimoni-popup artikel_detail_out_slider">
+                        <img class="testi_img d-block w-100 artikel_detail_in_slider" src="{{\Helper::showImage($f->file, 'artikel/gambar_slider')}}" alt="Image 1">
                     </a>
                 </div>
                 @endforeach
@@ -206,7 +122,7 @@
       {!! $artikel->deskripsi !!}
   </div>
 </div>
-<div class="card card-primary px-4 py-2">
+<div class="card card-primary px-4 py-2" id="add_comment">
     @if(\Auth::check())
     <div class="text-center my-2">Beri Komentar</div>
     <div class="row">
@@ -238,13 +154,13 @@
         Anda harus <b><a href="{{url('login').'?slug_artikel='.$artikel->slug}}">login</a></b> agar dapat berkomentar
     </div>
     @endif
-    @csrf
+    @csrf   
     <br>
     <hr class="hr_footer">
-
+    
     <div id="divKomentar">
 
-    </div>
+    </div>        
 
 </div>
 
@@ -321,11 +237,11 @@
             },
             success: function(data) {
                 console.log(data)
-                $('#divKomentar').html(data)
+                $('#divKomentar').html(data)                
             },
             error: function(data) {
                 var data = data.responseJSON;
-
+                
             },
             complete: function() {
                 // sendAjax('#btnKomentar', true, 'Simpan')
