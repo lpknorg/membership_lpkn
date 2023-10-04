@@ -73,8 +73,8 @@ Route::group(['prefix' => 'artikel', 'as' => 'artikel.'], function () {
 	Route::get('/', [ArtikelController::class, 'index'])->name('index');
 	Route::get('/create', [ArtikelController::class, 'create'])->name('create');
 	Route::post('/store', [ArtikelController::class, 'store'])->name('store');
-	Route::get('/komentar_store', [ArtikelKomentarController::class, 'store'])->name('komentar.store');
-	Route::get('/komentar_list', [ArtikelKomentarController::class, 'getKomentar'])->name('komentar.getKomentar');
+	Route::post('/komentar_store', [ArtikelKomentarController::class, 'store'])->name('komentar.store');
+	Route::post('/komentar_list', [ArtikelKomentarController::class, 'getKomentar'])->name('komentar.getKomentar');
 });
 Route::group(['prefix' => 'p'], function () {
 	Route::get('/{uname}', [ArtikelController::class, 'indexProfile'])->name('artikel.indexProfile');

@@ -8,6 +8,7 @@
   <form method="POST" action="{{ route('login') }}" class="auth__form login-card-form">
     @csrf
     <input type="hidden" name="slug_log" value="{{\Request::get('slug')}}">
+    <input type="hidden" name="slug_artikel" value="{{\Request::get('slug_artikel')}}">
     <div class="input-group">
       <input type="text" id="email" placeholder="Masukkan email" name="email" value="{{ old('email') }}" autofocus>
       <i class="m-i fa-regular fa-envelope"></i>

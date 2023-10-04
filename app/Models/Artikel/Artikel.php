@@ -23,4 +23,7 @@ class Artikel extends Model
     public function artikelTags(){
         return $this->hasMany(ArtikelTag::class, 'artikel_id', 'id');
     }
+    public function artikelKomens(){
+        return $this->hasMany(ArtikelKomentar::class, 'artikel_id', 'id');
+    }
 }
