@@ -57,19 +57,20 @@
               <span class="detail_artikel_title">{{ucfirst($artikel->judul)}}</span>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="d-flex">
-                    <a href="" class="bg-twitter d-flex justify-content-center align-items-center">
+                    <?php $fullUrl = url()->full(); ?>
+                    <a target="_blank" href='{{"https://twitter.com/intent/tweet?text={$artikel->judul}&url={$fullUrl}"}}' class="bg-twitter d-flex justify-content-center align-items-center">
                         <i class="fa-brands fa-x-twitter"></i>
                     </a>
-                    <a href="" class="mx-2 bg-facebook d-flex justify-content-center align-items-center">
+                    <a target="_blank" href='{{"https://www.facebook.com/sharer/sharer.php?u={$fullUrl}"}}' class="mx-2 bg-facebook d-flex justify-content-center align-items-center">
                         <i class="fa-brands fa-facebook-f"></i>
                     </a>
-                    <a href="" class="bg-linked d-flex justify-content-center align-items-center">
+                    <a target="_blank" href='{{"https://www.linkedin.com/sharing/share-offsite?mini=true&url={$fullUrl}&title={$artikel->judul}&summary="}}' class="bg-linked d-flex justify-content-center align-items-center">
                         <i class="fa-brands fa-linkedin-in"></i>
                     </a>
-                    <a href="" class="mx-2 bg-wa d-flex justify-content-center align-items-center">
+                    <a target="_blank" href='{{"https://wa.me/?text={$fullUrl}"}}' class="mx-2 bg-wa d-flex justify-content-center align-items-center">
                         <i class="fa-brands fa-whatsapp"></i>
                     </a>
-                    <a href="" class="bg-tele d-flex justify-content-center align-items-center">
+                    <a target="_blank" href='{{"https://telegram.me/share/url?url={$fullUrl}&text={$artikel->judul}"}}' class="bg-tele d-flex justify-content-center align-items-center">
                         <i class="fa-solid fa-paper-plane"></i>
                     </a>
                 </div>
