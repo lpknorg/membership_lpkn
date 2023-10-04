@@ -97,9 +97,9 @@
         <div class="p-4">
           <h4 class="font-italic">Elsewhere</h4>
           <ol class="list-unstyled">
-            <li><a class="badge badge-warning" href="#"><i class="fa fa-instagram"></i> Instagram</a></li>
-            <li><a class="badge badge-danger" href="#"><i class="fa fa-youtube"></i> Youtube</a></li>
-            <li><a class="badge badge-primary" href="#"><i class="fa fa-facebook"></i> Facebooks</a></li>
+            <li><a class="badge badge-warning" href="#"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
+            <li><a class="badge badge-danger" href="#"><i class="fa-brands fa-youtube"></i> Youtube</a></li>
+            <li><a class="badge badge-primary" href="#"><i class="fa-brands fa-facebook-f"></i> Facebooks</a></li>
           </ol>
         </div>
       </aside><!-- /.blog-sidebar -->
