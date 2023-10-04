@@ -49,7 +49,7 @@
                                 </div>
                                 <div class="">
                                     <div class="artikel_short_name px-2">Ini Adalah bsdenar toh kan</div>
-                                    <div class="artikel_short_date px-2">29 September 2023 | 4 menit lalu</div>
+                                    <div class="artikel_short_date px-2">29 September 2023 | {{$d->updated_at->diffForHumans()}}</div>
                                 </div>
                             </div>
                             <div class="">

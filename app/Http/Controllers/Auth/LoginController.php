@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{Hash,Validator};
 use App\Models\User;
+use App\Models\Artikel\Artikel;
 
 class LoginController extends Controller
 {
@@ -81,6 +82,13 @@ class LoginController extends Controller
             if ($request->slug_log) {
                 session(['key_slug' => $request->slug_log]);
                 $redirect = '/';
+            }elseif($request->slug_artikel){
+                $artikel = Artikel::where('slug', $request->slug_artikel)->first();
+                if (is_null($artikel)) {
+                    $redirect = '/';
+                }
+                $uname = \Helper::getUname($artikel->user);
+                $redirect = "/p/{$uname}/$artikel->slug";
             }else{
                 if (\Auth::user()->getRoleNames()[0] == 'admin') {
                     $redirect = '/dashboard';
