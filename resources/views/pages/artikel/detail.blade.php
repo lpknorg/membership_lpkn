@@ -84,7 +84,7 @@
                             </p>
                             <p class="small">
                                 <span class="mr-2"><i class="fa-regular fa-eye"></i> 123</span>
-                                <span><i class="fa-solid fa-message"></i> 7890</span>
+                                <a href="#add_comment" class="text-decoration-none"><i class="fa-solid fa-message"></i> 7890</a>
                             </p>
                         </div>
 						@foreach($artikel->artikelTags as $t)
@@ -95,13 +95,12 @@
 						</div>
 					</div>
 					<div class="col-md-12 mt-3">
-						<h5>ini images slider </h5>
                         <div id="carouselTesti" class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
                                 @foreach($artikel->artikelFoto as $k => $f)
                                 <div class="carousel-item {{ $k == 0 ? 'active' : '' }}">
-                                    <a href="{{\Helper::showImage($f->file, 'artikel/gambar_slider')}}" class="testimoni-popup" >
-                                        <img class="testi_img d-block w-100" src="{{\Helper::showImage($f->file, 'artikel/gambar_slider')}}" alt="Image 1">
+                                    <a href="{{\Helper::showImage($f->file, 'artikel/gambar_slider')}}" class="testimoni-popup artikel_detail_out_slider">
+                                        <img class="testi_img d-block w-100 artikel_detail_in_slider" src="{{\Helper::showImage($f->file, 'artikel/gambar_slider')}}" alt="Image 1">
                                     </a>
                                 </div>
                                 @endforeach
@@ -123,7 +122,7 @@
 						{!! $artikel->deskripsi !!}
 					</div>
 				</div>
-                <div class="card card-primary px-4 py-2">
+                <div class="card card-primary px-4 py-2" id="add_comment">
                     <div class="text-center my-2">Beri Komentar</div>
                     <div class="row">
                         <div class="col-sm-2 col-3"></div>

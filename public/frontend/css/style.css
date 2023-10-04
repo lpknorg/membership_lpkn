@@ -163,3 +163,10 @@ background: rgba(0 0 0 / 85%);
 .rating__star:hover {
     cursor: pointer !important;
 }
+.text-decoration-none{
+    color: white;
+}
+.text-decoration-none:hover{
+    color: white;
+    opacity: .6;
+}
