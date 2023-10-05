@@ -10,6 +10,7 @@ class Artikel extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $appends = ['is_liked_artikel'];
 
     public function user()
     {
@@ -25,5 +26,12 @@ class Artikel extends Model
     }
     public function artikelKomens(){
         return $this->hasMany(ArtikelKomentar::class, 'artikel_id', 'id');
+    }
+    public function artikelLikes(){
+        return $this->hasMany(ArtikelLike::class, 'artikel_id', 'id');
+    }
+
+    public function getIsLikedArtikelAttribute(){
+        return $this->artikelLikes()->where('user_id', \Auth::user()->id)->count();
     }
 }

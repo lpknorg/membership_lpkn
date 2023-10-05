@@ -28,7 +28,7 @@ class ArtikelController extends Controller
 
     public function store(Request $request){
         $expTags = explode(",", $request->tag);
-        $request['cover'] = null;
+        $request['cover'] = null;        
         $validator = Validator::make($request->only(['cover', 'kategori', 'judul', 'deskripsi', 'tag']), [
             'cover'    => ['required', 'file', 'mimes:jpeg,png,jpg', 'max:5000'],
             'kategori'    => ['required'],
@@ -41,6 +41,12 @@ class ArtikelController extends Controller
             return response()->json([
                 'status'   => "fail",
                 'messages' => $validator->errors()->first(),
+            ], 422);
+        }
+        if (strlen($request->judul) < 25) {
+            return response()->json([
+                'status'   => 'fail',
+                'messages' => "Judul Artikel harus lebih dari 25 karakter.",
             ], 422);
         }
         

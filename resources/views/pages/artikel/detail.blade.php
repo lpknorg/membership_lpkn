@@ -75,8 +75,12 @@
                     </a>
                 </div>
                 <div class="d-flex justify-content-center align-items-center">
+                    @if($artikel->is_liked_artikel > 0)
+                    <span class="HeartDetail detail_animate"></span>
+                    @else
                     <span class="HeartDetail"></span>
-                    <span style="margin-left: -24px">2001</span>
+                    @endif
+                    <span style="margin-left: -24px" id="countLikes">{{$artikel->artikelLikes->count()}}</span>
                 </div>
             </div>
             <div class="d-flex justify-content-between flex-wrap mt-2">
@@ -85,7 +89,7 @@
                 </p>
                 <p class="small">
                     <span class="mr-2"><i class="fa-regular fa-eye"></i> 123</span>
-                    <a href="#add_comment" class="text-decoration-none"><i class="fa-solid fa-message"></i> {{$artikel->artikelKomens->count()}}</a>
+                    <a href="#add_comment" class="text-decoration-none"><i class="fa-solid fa-message"></i><span id="countKomentar"></span></a>
                 </p>
             </div>
             @foreach($artikel->artikelTags as $t)
@@ -217,7 +221,34 @@
 <script>
     $(function() {
         $(".HeartDetail").click(function() {
-            $(this).toggleClass("detail_animate");
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('[name=_token]').val()
+                }
+            });
+            $.ajax({
+                type: 'post',
+                url: '{{route('artikel.like.store')}}',
+                data: {
+                    slug: '{{$artikel->slug}}'
+                },
+                beforeSend: function() {
+                    
+                },
+                success: function(data) {
+                    $('.HeartDetail').toggleClass("detail_animate");
+                    $('#countLikes').text(data.count_likes)
+                    showAlert(data.messages)
+                },
+                error: function(data) {
+                    var data = data.responseJSON;
+
+                },
+                complete: function() {
+                // sendAjax('#btnKomentar', true, 'Simpan')
+                }                
+            });
+            
         });
     });
     getKomentar()
@@ -234,11 +265,13 @@
                 slug: '{{$artikel->slug}}'
             },
             beforeSend: function() {
+                $('#countKomentar').text(`...`)
                 $('#divKomentar').html('<img src="https://media4.giphy.com/media/5AtXMjjrTMwvK/giphy.gif?cid=ecf05e47au9l8paxaixjszowz9rnldzpgpikefgxrqfqilz6&ep=v1_stickers_search&rid=giphy.gif&ct=s" alt="" style="width: 60px;">')
             },
             success: function(data) {
                 console.log(data)
-                $('#divKomentar').html(data)                
+                $('#divKomentar').html(data.view)    
+                $('#countKomentar').text(` ${data.count_komens}`)
             },
             error: function(data) {
                 var data = data.responseJSON;

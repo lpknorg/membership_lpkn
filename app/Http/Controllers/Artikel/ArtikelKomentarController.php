@@ -44,6 +44,8 @@ class ArtikelKomentarController extends Controller
 	public function getKomentar(Request $request){
 		$b = Artikel::where('slug', $request->slug)->first();
 		$data = ArtikelKomentar::where('artikel_id', $b->id)->with('user')->latest()->get();
-		return view('pages.artikel.response_komentar', compact('data'))->render();
+		$d['view'] = view('pages.artikel.response_komentar', compact('data'))->render();
+		$d['count_komens'] = count($data);
+		return $d;
 	}
 }

@@ -69,6 +69,7 @@
                         <label class="col-sm-2 col-form-label">Judul</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" placeholder="Judul" name="judul">
+                        <span class="text-warning" style="font-size: 14px;">Judul Artikel harus lebih dari 25 karakter</span>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -81,7 +82,7 @@
                         <label class="col-sm-2 col-form-label">Tag</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" placeholder="Tambahkan tag ..." name="tag" id="example" data-ub-tag-max="5">
-                        <span class="text-warning" style="font-size: 15px;">Tekan <i>Enter</i> untuk memisahkan Tag, gunakan maksimal 5 Tag</span>
+                        <span class="text-warning" style="font-size: 14px;">Tekan <i>Enter</i> untuk memisahkan Tag, gunakan maksimal 5 Tag</span>
                         </div>
                     </div>
                     <div class="form-group row">

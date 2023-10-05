@@ -30,7 +30,8 @@ use App\Http\Controllers\{
 };
 use App\Http\Controllers\Artikel\{
 	ArtikelController,
-	ArtikelKomentarController
+	ArtikelKomentarController,
+	ArtikelLikeController
 };
 
 /*
@@ -75,6 +76,7 @@ Route::group(['prefix' => 'artikel', 'as' => 'artikel.'], function () {
 	Route::post('/store', [ArtikelController::class, 'store'])->name('store');
 	Route::post('/komentar_store', [ArtikelKomentarController::class, 'store'])->name('komentar.store');
 	Route::post('/komentar_list', [ArtikelKomentarController::class, 'getKomentar'])->name('komentar.getKomentar');
+	Route::post('/like_store', [ArtikelLikeController::class, 'store'])->name('like.store');
 });
 Route::group(['prefix' => 'p'], function () {
 	Route::get('/{uname}', [ArtikelController::class, 'indexProfile'])->name('artikel.indexProfile');
