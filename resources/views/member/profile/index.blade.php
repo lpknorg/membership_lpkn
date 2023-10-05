@@ -24,7 +24,7 @@
 @endsection
 @section('scripts')
 @include('js/custom_script')
-<!-- <script>
+<script>
 	$(document).ready(function(){
 		$('body').on('click', '[id="btnSelengkapnya"]', function(e) {
 			let sl = $(this).attr('slug')
@@ -32,5 +32,5 @@
 			getEvent(sl)
 		})
 	})
-</script> -->
+</script>
 @endsection
