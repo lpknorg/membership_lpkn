@@ -4,6 +4,7 @@
             <h1 class="h_artikel">List Artikel</h1>
             <hr class="h_line mt-0">
             <form action="">
+                @csrf
                 <div class="row align-items-center">
                     <div class="col-12 col-sm-3 mb-2 mb-md-0">
                         <input type="text" class="form-control" name="q" placeholder="Cari disini ..." value="{{\Request::get('q')}}">
@@ -45,11 +46,11 @@
                         <div class="p-2 d-flex align-items-stretch flex-wrap list_artikel_sm_7">
                             <div class="d-flex align-items-center">
                                 <div>
-                                    <a class="list_artikel_out"><img class="list_artikel_in" src="https://www.saveseva.com/wp-content/uploads/2015/06/Landscape.jpg" alt="User profile picture"></a>
+                                    <a class="list_artikel_out"><img class="list_artikel_in" src="{{\Helper::showImage($d->user->member->foto_profile, 'poto_profile')}}" alt="User profile picture"></a>
                                 </div>
                                 <div class="">
-                                    <div class="artikel_short_name px-2">Ini Adalah bsdenar toh kan</div>
-                                    <div class="artikel_short_date px-2">29 September 2023 | {{$d->updated_at->diffForHumans()}}</div>
+                                    <div class="artikel_short_name px-2">{{$d->user->name}}</div>
+                                    <div class="artikel_short_date px-2">{{$d->created_at}} | {{$d->updated_at->diffForHumans()}}</div>
                                 </div>
                             </div>
                             <div class="">
@@ -59,8 +60,14 @@
                             </div>
                             <div class="d-flex align-items-end ml-auto">
                                 <div class="text-67"> <i class="fa-regular fa-eye"></i> 123</div>
-                                <div class="text-67 mx-4"> <i class="fa-solid fa-heart"></i> 456</div>
-                                <div class="text-67"> <i class="fa-solid fa-message"></i> 7890</div>
+                                <div class="text-67 mx-4">
+                                    @if($d->is_liked_artikel > 0)
+                                    <i class="fa-solid fa-heart" data-slug="{{$d->slug}}" style="color: #ff5f5f"></i>
+                                    @else
+                                    <i class="fa-solid fa-heart" data-slug="{{$d->slug}}"></i>
+                                    @endif
+                                    <span data-liketotal_slug="{{$d->slug}}">{{$d->artikelLikes->count()}}</span></div>
+                                <div class="text-67"> <i class="fa-solid fa-message"></i> {{$d->artikelKomens->count()}}</div>
                             </div>
                         </div>
                         <!-- <a href="#" class="btn btn-primary btn-sm float-right">Read More</a> -->

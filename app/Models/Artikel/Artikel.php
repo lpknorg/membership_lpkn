@@ -32,6 +32,9 @@ class Artikel extends Model
     }
 
     public function getIsLikedArtikelAttribute(){
+        if (!\Auth::check()) {
+            return 0;
+        }
         return $this->artikelLikes()->where('user_id', \Auth::user()->id)->count();
     }
 }

@@ -233,7 +233,7 @@
                     slug: '{{$artikel->slug}}'
                 },
                 beforeSend: function() {
-                    
+
                 },
                 success: function(data) {
                     $('.HeartDetail').toggleClass("detail_animate");
@@ -242,6 +242,9 @@
                 },
                 error: function(data) {
                     var data = data.responseJSON;
+                    if (data.status == "fail") {
+                        showAlert(data.messages, "error")
+                    }
 
                 },
                 complete: function() {

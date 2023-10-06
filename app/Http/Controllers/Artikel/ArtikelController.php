@@ -23,6 +23,9 @@ class ArtikelController extends Controller
 
     public function create()
     {
+        if (!\Auth::check()) {
+            return redirect('/');
+        }
         return view('pages.artikel.create');
     }
 

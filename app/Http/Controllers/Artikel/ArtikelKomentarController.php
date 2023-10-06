@@ -9,6 +9,12 @@ use App\Models\Artikel\{Artikel, ArtikelKomentar};
 class ArtikelKomentarController extends Controller
 {
 	public function store(Request $request){
+		if (!\Auth::user()) {
+            return response()->json([
+                'status'   => 'fail',
+                'messages' => "Anda belum melakukan login.",
+            ], 422);
+        }
 		if (is_null($request->isi_komentar)) {
 			return response()->json([
 				'status'   => 'fail',
