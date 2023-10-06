@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Admin\Member;
 use App\Models\UserSosialMedia;
+use Carbon\Carbon;
 use App\Http\Controllers\Member\{EventKamuController, SertifikatKamuController};
 
 class User extends Authenticatable
@@ -30,9 +31,10 @@ class User extends Authenticatable
         'updated_at',
         'is_confirm',
         'token_reset_password',
-        'exp_token_reset_password'
+        'exp_token_reset_password',
+        'deskripsi_diri'
     ];
-    protected $appends = ['total_event'];
+    protected $appends = ['total_event', 'tgl_bergabung'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -76,5 +78,8 @@ class User extends Authenticatable
 
     public function listSosialMedia(){
         return $this->hasMany(UserSosialMedia::class, 'user_id', 'id');
+    }
+    public function getTglBergabungAttribute(){
+        return Carbon::parse($this->created_at)->timezone('Asia/Jakarta')->format('d-M-Y');
     }
 }

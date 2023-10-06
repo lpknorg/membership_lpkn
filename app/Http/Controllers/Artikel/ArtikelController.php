@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Artikel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Artikel\{Artikel, ArtikelFoto, ArtikelTag};
+use App\Models\Artikel\{Artikel, ArtikelLike, ArtikelFoto, ArtikelTag};
 use App\Models\User;
 use DB;
 
@@ -19,6 +19,27 @@ class ArtikelController extends Controller
         })
         ->paginate(5);
         return view('pages.artikel.index', compact('data'));
+    }
+
+    public function indexProfile(Request $request)
+    {
+        $sl_user = \Request::segment(2);
+        $sl_user = explode("-", $sl_user);
+        $curr_user = User::where([
+            ['email', 'like', "{$sl_user[0]}%"],
+            ['id', $sl_user[1]]
+        ])->first();
+        if (!$curr_user) {
+            abort(404);
+        }
+        $data = Artikel::latest()
+        ->when($request->q, function($q)use($request){
+            $q->where('judul', 'like', '%'.$request->q.'%');
+        })
+        ->where('user_id', $curr_user->id)
+        ->paginate(5);
+        $datalike = ArtikelLike::where('user_id', $curr_user->id)->select('id')->count();
+        return view('pages.artikel.index_profile', compact('data', 'curr_user', 'datalike'));
     }
 
     public function create()

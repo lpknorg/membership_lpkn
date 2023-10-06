@@ -146,7 +146,7 @@
             <form method="POST" action="{{route('artikel.komentar.store')}}" class="text-end" id="formKomentar">
                 <input type="hidden" name="slug" value="{{$artikel->slug}}">
                 @csrf
-                <textarea class="comment-input-beauty" type="text" placeholder="Masukkan Komentar disini" name="isi_komentar"></textarea>
+                <textarea class="comment-input-beauty" type="text" placeholder="Masukkan Komentar disini" name="isi_komentar" rows="10"></textarea>
                 <div class="d-flex justify-content-between">
                     <button class="btn btn-primary" type="submit" id="btnKomentar">Kirim</button>
                     <p id="charNum" class="small">500</p>

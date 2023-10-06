@@ -32,7 +32,7 @@
                     <a href="{{route('peraturan')}}" class="nav-link {{$routes == 'peraturan' ? 'active' : ''}}">Peraturan</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{route('artikel.index')}}" class="nav-link {{$routes == 'artikel.index' ? 'active' : ''}}">Artikel</a>
+                    <a href="{{route('artikel.index')}}" class="nav-link {{$routes == 'artikel.index' || $routes == 'artikel.detail' ? 'active' : ''}}">Artikel</a>
                 </li>
             </ul>
             @if(\Auth::check())

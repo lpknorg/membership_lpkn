@@ -119,6 +119,13 @@
 					<option value="">Pilih Kelurahan</option>
 				</select>
 			</div>
+			<div class="col-sm-12">
+				<div class="form-group">
+					<label>Deskripsikan diri anda</label>
+					<textarea type="textarea" class="form-control" name="deskripsi_diri"
+					placeholder="Deskripsikan diri Anda lebih lanjut (hobi/kepribadian/topik konten favorit/dsb)" rows="3">{{$user->deskripsi_diri}}</textarea>
+				</div>
+			</div>
 		</div>
 		<br>
 		<h4><b> Data Kantor</b></h4>
