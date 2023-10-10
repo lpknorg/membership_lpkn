@@ -24,7 +24,8 @@ class DatabaseSeeder extends Seeder
             KecamatanSeeder::class,
             KelurahanSeeder::class,
             KodePosSeeder::class,
-            SosialMediaSeeder::class
+            SosialMediaSeeder::class,
+            ArtikelKategoriSeeder::class
         ]);
     }
 }

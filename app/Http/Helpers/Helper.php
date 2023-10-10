@@ -43,4 +43,12 @@ class Helper {
 	public static function get_client_ip($ip = null, $deep_detect = TRUE){
 		return gethostname();
 	}
+
+	public static function cutString($text, $limit=60, $use_dot=true){
+		if (strlen($text) > $limit) {
+			return $use_dot ? substr($text, 0, $limit).'...' : substr($text, 0, $limit);
+		}else{
+			return $text;
+		}
+	}
 }

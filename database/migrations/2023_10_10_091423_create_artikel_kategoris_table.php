@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateArtikelsTable extends Migration
+class CreateArtikelKategorisTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,9 @@ class CreateArtikelsTable extends Migration
      */
     public function up()
     {
-        Schema::create('artikels', function (Blueprint $table) {
+        Schema::create('artikel_kategoris', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->string('slug');
-            $table->string('cover');
-            $table->string('kategori');
-            $table->string('judul');
-            $table->longText('deskripsi');
+            $table->string('nama');
             $table->timestamps();
         });
     }
@@ -32,6 +27,6 @@ class CreateArtikelsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('artikels');
+        Schema::dropIfExists('artikel_kategoris');
     }
 }

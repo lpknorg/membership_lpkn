@@ -17,6 +17,11 @@ class Artikel extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    public function kategoris()
+    {
+        return $this->belongsTo(ArtikelKategori::class, 'kategori', 'id');
+    }
+
     public function artikelFoto(){
         return $this->hasMany(ArtikelFoto::class, 'artikel_id', 'id');
     }

@@ -7,14 +7,14 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<form method="POST" action="{{route('admin.kategori_tempat_kerja.store')}}">
+			<form method="POST" action="{{route('admin.artikel_kategori.store')}}">
 				<div class="modal-body">
 					@csrf
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group">
 								<label for="nama">Nama </label>
-								<input type="text" class="form-control" name="nama" id="nama" placeholder="Nama Tempat Kerja">
+								<input type="text" class="form-control" name="nama" id="nama" placeholder="Nama Kategori">
 							</div>
 						</div>
 					</div>
@@ -44,7 +44,7 @@
 						<div class="col-md-12">
 							<div class="form-group">
 								<label for="nama">Nama </label>
-								<input type="text" class="form-control" name="nama" id="nama" placeholder="Nama kategori_tempat_kerja">
+								<input type="text" class="form-control" name="nama" id="nama" placeholder="Nama Kategori">
 							</div>
 						</div>
 					</div>

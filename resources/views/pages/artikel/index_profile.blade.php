@@ -70,6 +70,9 @@
             <div class="col-6 col-sm-3">
               <select name="kategori" class="form-control">
                 <option value="">Pilih Kategori</option>
+                @foreach($kategori as $a)
+                <option value="{{$a->id}}">{{$a->nama}}</option>
+                @endforeach
               </select>
             </div>
             <div class="col-6 col-sm-3">
@@ -90,7 +93,7 @@
                 <img class="list_art_in_img position-relative" src="{{\Helper::showImage($d->cover, 'artikel/cover')}}" alt="">
                 <div class="position-absolute" style="bottom: 20px;">
                   <span class="list_artikel_category">
-                    Kategori Disini
+                    {{$d->kategoris->nama ?? '-'}}
                   </span>
                 </div>
               </div>
@@ -103,7 +106,7 @@
                   </div>
                   <div class="">
                     <div class="artikel_short_name px-2">{{$d->user->name}}</div>
-                    <div class="artikel_short_date px-2">{{$d->created_at}} | {{$d->updated_at->diffForHumans()}}</div>
+                    <div class="artikel_short_date px-2">{{$d->created_at}} | {{$d->created_at->diffForHumans()}}</div>
                   </div>
                 </div>
                 <div class="">

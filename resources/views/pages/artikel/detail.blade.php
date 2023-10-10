@@ -44,7 +44,6 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h1 class="h_artikel">  </h1>
-                        <hr class="h_line mt-0">
                     </div>
                     <div class="col-md-12 mt-3">
                       <div class="card card-primary card-outline">
@@ -52,6 +51,37 @@
                         INI Iklan lagi
                     </div>
                 </div>
+            </div>
+            <div class="col-md-12">
+                @if(\Auth::check() && $artikel->user_id == \Auth::user()->id)
+
+                @if($artikel->status_id == 0)
+                <div class="alert alert-info">
+                    Artikel sedang diverifikasi, mohon menunggu 1x24 jam.
+                </div>
+                @elseif($artikel->status_id == 1 || $artikel->status_id == 6)
+                <div class="alert alert-success">
+                    Artikel berhasil tayang.
+                </div>
+                @elseif($artikel->status_id == 2 || $artikel->status_id == 5)
+                <div class="alert alert-danger">
+                    Artikel ditolak, dengan alasan : <b>{{$artikel->alasan_tolak}}</b>
+                </div>
+                @elseif($artikel->status_id == 3)
+                <div class="alert alert-warning">
+                    Artikel sedang pengajuan edit, mohon menunggu 1x24 jam.
+                </div>
+                @elseif($artikel->status_id == 4)
+                <div class="alert alert-info">
+                    Artikel sedang diverifikasi pengajuan edit, mohon menunggu 1x24 jam.
+                </div>
+                @elseif($artikel->status_id == 7)
+                <div class="alert alert-info">
+                    Artikel sedang diajukan kembali dengan alasan : <b>{{$artikel->sanggah_perbaikan}}.</b> Mohon menunggu 1x24 jam.
+                </div>
+                @endif
+
+                @endif
             </div>
             <div class="col-md-12 mt-3">
               <span class="detail_artikel_title">{{ucfirst($artikel->judul)}}</span>
