@@ -81,7 +81,7 @@ $.ajax({
     }
     },
     complete: function() {
-    sendAjax('#loginbtn', true, 'Login')
+    sendAjax('#loginbtn', true, 'Daftar')
     }
 });
 });

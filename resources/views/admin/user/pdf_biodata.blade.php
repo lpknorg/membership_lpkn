@@ -46,8 +46,8 @@
 				<td>{{$data->nik}}</td>
 			</tr>
 			<tr>
-				<th>TEMPAT / TINGGAL LAHIR</th>
-				<td>{{$data->member->tempat_dan_tgl_lahir}}</td>
+				<th>TEMPAT / TANGGAL LAHIR</th>
+				<td>{{$data->member->tempat_lahir.' / '.$data->member->tgl_lahir}}</td>
 			</tr>
 			<tr>
 				<th>INSTANSI ASAL</th>
