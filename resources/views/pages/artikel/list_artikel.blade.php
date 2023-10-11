@@ -12,6 +12,9 @@
                     <div class="col-6 col-sm-3">
                         <select name="kategori" class="form-control">
                             <option value="">Pilih Kategori</option>
+                            @foreach($kategori as $a)
+                            <option value="{{$a->id}}">{{$a->nama}}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col-6 col-sm-3">
@@ -36,9 +39,7 @@
                         <div class="list_art_out_img">
                             <img class="list_art_in_img position-relative" src="{{\Helper::showImage($d->cover, 'artikel/cover')}}" alt="">
                             <div class="position-absolute" style="bottom: 20px;">
-                                <span class="list_artikel_category">
-                                    Kategori Disini
-                                </span>
+                                <span class="list_artikel_category">{{$d->kategoris->nama ?? '-'}}</span>
                             </div>
                         </div>
                     </div>
@@ -46,11 +47,19 @@
                         <div class="p-2 d-flex align-items-stretch flex-wrap list_artikel_sm_7">
                             <div class="d-flex align-items-center">
                                 <div>
-                                    <a class="list_artikel_out"><img class="list_artikel_in" src="{{\Helper::showImage($d->user->member->foto_profile, 'poto_profile')}}" alt="User profile picture"></a>
+                                    <a class="list_artikel_out">
+                                        @if($d->user->member)
+                                        <img class="list_artikel_in" src="{{\Helper::showImage($d->user->member->foto_profile, 'poto_profile')}}" alt="User profile picture">
+                                        @else
+                                        <img class="list_artikel_in" src="{{\Helper::showImage(123123, 'poto_profile')}}" alt="User profile picture">
+                                        @endif
+                                    </a>
                                 </div>
                                 <div class="">
-                                    <div class="artikel_short_name px-2">{{$d->user->name}}</div>
-                                    <div class="artikel_short_date px-2">{{$d->created_at}} | {{$d->updated_at->diffForHumans()}}</div>
+                                    <div class="artikel_short_name px-2">
+                                        <a href="{{route('artikel.indexProfile', ['uname' => \Helper::getUname($d->user)])}}" style="color: #fff" target="_blank">{{$d->user->name}}</a>
+                                    </div>
+                                    <div class="artikel_short_date px-2">{{$d->created_at}} | {{$d->created_at->diffForHumans()}}</div>
                                 </div>
                             </div>
                             <div class="">

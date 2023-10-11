@@ -13,7 +13,7 @@ class MemberController extends Controller{
 	public function daftar(Request $request){
 		$validator = Validator::make($request->all(),[
 			'nama_lengkap'    => 'required|string|max:255',
-			'no_hp' => 'required|string|max:255',
+			'no_hp' => 'required|string|max:13',
 			'email'    => 'required|string|max:255',
 			'password' => 'required|string|max:255'
 		]);
@@ -53,6 +53,93 @@ class MemberController extends Controller{
 				'member_id' => $member->id
 			]);
 			$this->sendLinkVerifRegister($request);
+			\DB::commit();
+		} catch (Exception $e) {
+			\DB::rollback();
+			return response()->json([
+				'status'    => "fail",
+				'messages' => "Ada kesalahan dalam proses daftar",
+			], 422);
+		}
+		return response()->json([
+			'status'       => "ok",
+			'messages'     => "Berhasil mendaftar, silakan verifikasi email anda.",
+			'data'         =>  $user
+		], 200);
+	}
+
+	public function daftarLpkn(Request $request){
+		$validator = Validator::make($request->all(),[
+			'nama_lengkap'    => 'required|string|max:255',
+			'tanggal_lahir'    => 'required|string|max:255',
+			'kota'    => 'required|string|max:255',
+			'domisili_lengkap'    => 'required|string|max:255',
+			'pendidikan_terakhir'    => 'required|string|max:255',
+			'instansi'    => 'required|string|max:255',
+			'jabatan'    => 'required|string|max:255',
+			'unit_kerja'    => 'required|string|max:255',
+			'email'    => 'required|string|max:255',
+			'password' => 'required|string|max:255',
+			'no_hp' => 'required|string|max:13',
+			'profil_singkat' => 'required|string|max:1000',
+			// 'tema_kegiatan' => 'required|string|max:255',
+			'upload_foto' => 'required',
+			// 'bintang' => 'required|string',
+			// 'testimoni' => 'required|string|max:500',
+		]);
+
+		if($validator->fails()) {
+			return response()->json([
+				'status'    => "fail",
+				'messages'  => $validator->errors()->first(),
+			],422);
+		}
+		$userm = Member::where('no_hp', $request['no_hp'])->first();
+		if($userm){
+			return response()->json([
+				'status'    => "fail",
+				'messages' => "No handphone sudah digunakan",
+			], 422);
+		}
+
+		$user = User::where('email', $request['email'])->first();
+		if($user){
+			return response()->json([
+				'status'    => "fail",
+				'messages' => "Email sudah digunakan",
+			], 422);
+		}
+
+
+		$request['name'] = $request->nama_lengkap;
+		$request['password'] = \Hash::make($request->password);
+		\DB::beginTransaction();
+		try {
+			$user = User::create($request->only('name', 'email', 'password'));
+			$user->syncRoles('member');
+			$reqMember['no_hp'] = $request->no_hp;
+			$reqMember['user_id'] = $user->id;
+			$reqMember['no_member'] = $request->no_member;
+			$reqMember['pendidikan_terakhir'] = $request->pendidikan_terakhir;
+			$reqMember['nama_lengkap_gelar'] = $request->nama_lengkap;
+			$reqMember['tgl_lahir'] = $request->tanggal_lahir;
+			$reqMember['alamat_lengkap'] = $request->domisili_lengkap;
+			$reqMember['nama_kota'] = $request->kota;
+			$reqMember['foto_profile'] = null;
+			if ($request->hasFile('foto_profile')) {
+				$reqMember['foto_profile'] = \Helper::storeFile('foto_profile', $request->foto_profile);
+			}
+			$reqMember['profil_singkat'] = $request->profil_singkat;
+
+
+			$member = Member::create($reqMember);
+			MemberKantor::create([
+				'member_id' => $member->id,
+				'nama_jabatan' => $request->jabatan,
+				'nama_instansi' => $request->instansi,
+				'unit_kerja' => $request->unit_kerja
+			]);
+			// $this->sendLinkVerifRegister($request);
 			\DB::commit();
 		} catch (Exception $e) {
 			\DB::rollback();

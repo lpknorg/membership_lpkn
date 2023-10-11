@@ -69,7 +69,7 @@ class MemberImport2 implements ToCollection, WithHeadingRow
                             ],
                             [
                                 'no_hp' => $value['no_hp'],
-                                'tempat_dan_tgl_lahir' => $_tgllahir,
+                                'tgl_lahir' => $_tgllahir,
                                 'pendidikan_terakhir' => $value['pendidikan_terakhir'],
                                 'alamat_lengkap' => $value['domisili'],
                                 'profil_singkat' => $value['profil_singkat']

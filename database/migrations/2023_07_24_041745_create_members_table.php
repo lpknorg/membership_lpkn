@@ -22,12 +22,13 @@ class CreateMembersTable extends Migration
             $table->string('nama_lengkap_gelar')->nullable();
             $table->string('nama_untuk_sertifikat')->nullable();
             $table->enum('jenis_kelamin', ['L', 'P'])->nullable();
-            $table->string('tempat_dan_tgl_lahir')->nullable();
+            $table->string('tempat_lahir')->nullable();
+            $table->string('tgl_lahir')->nullable();
             $table->text('alamat_lengkap')->nullable();
             $table->string('prov_id', 5)->nullable();
-            $table->string('nama_prov', 5)->nullable();
+            $table->string('nama_prov', 50)->nullable();
             $table->string('kota_id', 5)->nullable();
-            $table->string('nama_kota', 5)->nullable();
+            $table->string('nama_kota', 50)->nullable();
             $table->string('kecamatan_id', 5)->nullable();
             $table->string('kelurahan_id', 5)->nullable();
             $table->string('foto_profile')->nullable();

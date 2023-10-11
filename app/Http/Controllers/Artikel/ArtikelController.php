@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Artikel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Artikel\{Artikel, ArtikelLike, ArtikelFoto, ArtikelTag};
+use App\Models\Artikel\{Artikel, ArtikelLike, ArtikelKategori, ArtikelFoto, ArtikelTag};
 use App\Models\User;
 use DB;
 
@@ -17,8 +17,13 @@ class ArtikelController extends Controller
         ->when($request->q, function($q)use($request){
             $q->where('judul', 'like', '%'.$request->q.'%');
         })
+        ->when($request->kategori, function($q)use($request){
+            $q->where('kategori', $request->kategori);
+        })
+        ->whereIn('status_id', [1, 6])
         ->paginate(5);
-        return view('pages.artikel.index', compact('data'));
+        $kategori = ArtikelKategori::orderBy('nama')->get();
+        return view('pages.artikel.index', compact('data', 'kategori'));
     }
 
     public function indexProfile(Request $request)
@@ -36,10 +41,14 @@ class ArtikelController extends Controller
         ->when($request->q, function($q)use($request){
             $q->where('judul', 'like', '%'.$request->q.'%');
         })
+        ->when($request->kategori, function($q)use($request){
+            $q->where('kategori', $request->kategori);
+        })
         ->where('user_id', $curr_user->id)
         ->paginate(5);
         $datalike = ArtikelLike::where('user_id', $curr_user->id)->select('id')->count();
-        return view('pages.artikel.index_profile', compact('data', 'curr_user', 'datalike'));
+        $kategori = ArtikelKategori::orderBy('nama')->get();
+        return view('pages.artikel.index_profile', compact('data', 'curr_user', 'datalike', 'kategori'));
     }
 
     public function create()
@@ -47,7 +56,8 @@ class ArtikelController extends Controller
         if (!\Auth::check()) {
             return redirect('/');
         }
-        return view('pages.artikel.create');
+        $kategori = ArtikelKategori::orderBy('nama')->get();
+        return view('pages.artikel.create', compact('kategori'));
     }
 
     public function store(Request $request){
@@ -102,7 +112,7 @@ class ArtikelController extends Controller
                 'slug' => \Str::slug($request->judul).rand(1,9999),
                 'user_id' => \Auth::user()->id,
                 'cover' => $covername,
-                'kategori' => 'kategori '.rand(1, 9999),
+                'kategori' => $request->kategori_id,
                 'judul' => $request->judul,
                 'deskripsi' => $content
             ]);
@@ -123,7 +133,8 @@ class ArtikelController extends Controller
             DB::commit();
             return response()->json([
                 'status'    => "ok",
-                'messages' => "Berhasil menambah artikel, mohon menunggu untuk verifikasi"
+                'messages' => "Berhasil menambah artikel, mohon menunggu untuk verifikasi",
+                'link' => route('artikel.detail', ['uname' => \Helper::getUname(\Auth::user()), 'slug' => $art->slug])
             ], 200);   
         } catch (Exception $e) {
             DB::rollback();
@@ -148,6 +159,14 @@ class ArtikelController extends Controller
         $artikel = Artikel::where('slug', $slug)->first();
         if (is_null($artikel)) {
             abort(404);
+        }
+        if($artikel->status_id != 1 && $artikel->status_id != 6){
+            if (!\Auth::check()) {
+                abort(403);
+            }
+            if($artikel->user_id != \Auth::user()->id){
+                abort(404);
+            }
         }
         $artikel_terbaru = Artikel::latest()->where('slug', '!=', $slug)->limit(5)->get();
         return view('pages.artikel.detail', compact('artikel', 'artikel_terbaru'));

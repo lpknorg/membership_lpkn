@@ -7,10 +7,11 @@ use App\Http\Controllers\Admin\{
 	KotaController,
 	InstansiController,
 	LembagaPemerintahanController,
-	KategoriTempatKerjaController,
+	ArtikelKategoriController,
 	UserController,
 	MemberController,
 	VideoController as VideoControllerAdmin,
+	ArtikelController as ArtikelAdminController
 };
 use App\Http\Controllers\Member\{
 	ProfileController,
@@ -55,7 +56,6 @@ Route::post('/update_lupa_password', [App\Http\Controllers\Auth\LupaPasswordCont
 
 Route::get('/', [WelcomeController::class, 'welcome'])->name('welcome');
 Route::get('/allevent/{id}', [EventController::class, 'allEvent'])->name('allevent');
-Route::get('/posting', [PostingController::class, 'PostingView'])->name('posting');
 Route::get('/video/allvideo', [VideoControllerMember::class, 'index'])->name('allvideo');
 Route::get('/searchvideo', [VideoControllerMember::class, 'search'])->name('searchvideo');
 Route::get('/peraturan', [PeraturanController::class, 'peraturan'])->name('peraturan');
@@ -128,8 +128,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 	Route::get('/lembaga_pemerintahan/dataTables', [LembagaPemerintahanController::class, 'getDatatable'])->name('lembaga_pemerintahan.dataTables');
 	Route::resource('/lembaga_pemerintahan', LembagaPemerintahanController::class);
 
-	Route::get('/kategori_tempat_kerja/dataTables', [KategoriTempatKerjaController::class, 'getDatatable'])->name('kategori_tempat_kerja.dataTables');
-	Route::resource('/kategori_tempat_kerja', KategoriTempatKerjaController::class);
+	Route::get('/artikel_kategori/dataTables', [ArtikelKategoriController::class, 'getDatatable'])->name('artikel_kategori.dataTables');
+	Route::resource('/artikel_kategori', ArtikelKategoriController::class);
+
+	Route::get('/artikel/dataTables', [ArtikelAdminController::class, 'getDatatable'])->name('artikel.dataTables');
+	Route::resource('/artikel', ArtikelAdminController::class);
 
 	Route::get('/profile', [UserController::class, 'profile'])->name('profile');
 	Route::get('/user/dataTables', [UserController::class, 'getDatatable'])->name('user.dataTables');

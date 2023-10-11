@@ -30,7 +30,12 @@
               <li><a href="{{route('admin.kota.index')}}">Kota</a></li>
               <li><a href="{{route('admin.instansi.index')}}">Instansi</a></li>
               <li><a href="{{route('admin.lembaga_pemerintahan.index')}}">Lembaga Pemerintahan</a></li>
-              <li><a href="{{route('admin.kategori_tempat_kerja.index')}}">Kategori Tempat Kerja</a></li>
+            </ul>
+          </li>
+          <li><a><i class="fa fa-book"></i> Artikel <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li><a href="{{route('admin.artikel_kategori.index')}}">Kategori</a></li>
+              <li><a href="{{route('admin.artikel.index')}}">List Artikel</a></li>
             </ul>
           </li>
           <li><a href="{{route('admin.video.index')}}"><i class="fa fa-video-camera"></i>Video<span class="label label-success pull-right"></span></a></li>

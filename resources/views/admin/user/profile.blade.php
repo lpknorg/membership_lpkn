@@ -79,6 +79,6 @@
         </div>
     </div>
 </div>
-@include('admin.kategori_tempat_kerja.modal')
+@include('admin.artikel_kategori.modal')
 @endsection
 @section('scripts')

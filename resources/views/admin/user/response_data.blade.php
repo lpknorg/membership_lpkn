@@ -75,10 +75,16 @@
 					<span><small class="text-warning">Nomor HP harus memiliki whatsapp</small></span>
 				</div>
 			</div>
-			<div class="col-sm-4">
+			<div class="col-sm-2">
 				<div class="form-group">
-					<label>Tempat dan Tanggal Lahir</label>
-					<input type="text" class="form-control" name="tempat_dan_tgl_lahir" value="{{$user->member->tempat_dan_tgl_lahir}}">
+					<label>Tempat Lahir</label>
+					<input type="text" class="form-control" name="tempat_lahir" value="{{$user->member->tempat_lahir}}">
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<div class="form-group">
+					<label>Tanggal Lahir</label>
+					<input type="date" class="form-control" name="tgl_lahir" value="{{$user->member->tgl_lahir}}">
 				</div>
 			</div>
 			<div class="col-sm-4">

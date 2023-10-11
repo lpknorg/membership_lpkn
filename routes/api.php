@@ -18,6 +18,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 	return $request->user();
 });
 Route::post('/daftar_member/', [App\Http\Controllers\Api\MemberController::class, 'daftar'])->name('api.daftar_member');
+Route::post('/daftar_member_lpkn/', [App\Http\Controllers\Api\MemberController::class, 'daftarLpkn'])->name('api.daftar_member_lpkn');
 
 Route::post('/general/lembaga_pemerintahan', [App\Http\Controllers\Admin\LembagaPemerintahanController::class, 'getData'])->name('api.get.lembaga_pemerintahan');
 Route::get('/general/provinsi', [App\Http\Controllers\Api\general\Provinsi::class, 'main'])->name('api.get.provinsi');
