@@ -110,12 +110,28 @@ class MemberController extends Controller{
 			], 422);
 		}
 
+		$userNik = User::where('nik', $request['nik'])->first();
+		if($userNik && $request->nik){
+			return response()->json([
+				'status'    => "fail",
+				'messages' => "nik sudah digunakan",
+			], 422);
+		}
+
+		$usernip = User::where('nip', $request['nip'])->first();
+		if($usernip && $request->nip){
+			return response()->json([
+				'status'    => "fail",
+				'messages' => "nip sudah digunakan",
+			], 422);
+		}
+
 
 		$request['name'] = $request->nama_lengkap;
 		$request['password'] = \Hash::make($request->password);
 		\DB::beginTransaction();
 		try {
-			$user = User::create($request->only('name', 'email', 'password'));
+			$user = User::create($request->only('name', 'email', 'password', 'nik', 'nip'));
 			$user->syncRoles('member');
 			$reqMember['no_hp'] = $request->no_hp;
 			$reqMember['user_id'] = $user->id;
@@ -126,6 +142,7 @@ class MemberController extends Controller{
 			$reqMember['alamat_lengkap'] = $request->domisili_lengkap;
 			$reqMember['nama_kota'] = $request->kota;
 			$reqMember['foto_profile'] = null;
+			$reqMember['no_member'] = $request->no_member;
 			if ($request->hasFile('foto_profile')) {
 				$reqMember['foto_profile'] = \Helper::storeFile('foto_profile', $request->foto_profile);
 			}
@@ -137,9 +154,11 @@ class MemberController extends Controller{
 				'member_id' => $member->id,
 				'nama_jabatan' => $request->jabatan,
 				'nama_instansi' => $request->instansi,
-				'unit_kerja' => $request->unit_kerja
+				'unit_kerja' => $request->unit_kerja,
+				'pemerintah_instansi' => $request->tempat_kerja
 			]);
 			// $this->sendLinkVerifRegister($request);
+			$_user = User::whereId($user->id)->with('member.memberKantor')->first();
 			\DB::commit();
 		} catch (Exception $e) {
 			\DB::rollback();
@@ -150,8 +169,8 @@ class MemberController extends Controller{
 		}
 		return response()->json([
 			'status'       => "ok",
-			'messages'     => "Berhasil mendaftar, silakan verifikasi email anda.",
-			'data'         =>  $user
+			'messages'     => "Berhasil mendaftar dari LPKN",
+			'data'         =>  $_user
 		], 200);
 	}
 
