@@ -132,7 +132,7 @@ class MemberController extends Controller{
 		$request['email_verified_at'] = now();
 		\DB::beginTransaction();
 		try {
-			$user = User::create($request->only('name', 'email', 'password', 'nik', 'nip'));
+			$user = User::create($request->only('name', 'email', 'password', 'nik', 'nip', 'email_verified_at'));
 			$user->syncRoles('member');
 			$reqMember['no_hp'] = $request->no_hp;
 			$reqMember['user_id'] = $user->id;
