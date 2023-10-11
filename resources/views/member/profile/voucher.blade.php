@@ -10,7 +10,7 @@
 				<tr>
 					<th width="5%" scope="col">No</th>
 					<th scope="col">Nama Event</th>
-					<th scope="col">Action</th>
+					<th scope="col">Kode Voucher</th>
 				</tr>
 			</thead>
 			<tbody>
