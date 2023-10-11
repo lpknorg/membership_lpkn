@@ -7,7 +7,7 @@ class Helper {
 		if ($file) {
 			$time = time();
 			$filename = "{$time}_{$file->getClientOriginalName()}";
-			$userId = \Auth::user()->id;
+			// $userId = \Auth::user()->id;
 			$file->move(public_path("uploaded_files/{$folder}"), $filename);
 			return $filename;
 		}

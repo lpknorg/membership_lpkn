@@ -6,7 +6,7 @@
 			</div>
 			<div class="text-center">
 				<button type="button" class="text-dark btn btn-transparent btn-sm" data-toggle="modal" data-target="#update_foto">
-					<i class="fa fa-camera"></i> Ganti foto
+					<i class="fa fa-camera"></i> Ganti fotos
 				</button>
 			</div>
 

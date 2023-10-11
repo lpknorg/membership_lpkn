@@ -75,13 +75,13 @@ class MemberController extends Controller{
 			'kota'    => 'required|string|max:255',
 			'domisili_lengkap'    => 'required|string|max:255',
 			'pendidikan_terakhir'    => 'required|string|max:255',
-			'instansi'    => 'required|string|max:255',
-			'jabatan'    => 'required|string|max:255',
-			'unit_kerja'    => 'required|string|max:255',
+			// 'instansi'    => 'required|string|max:255',
+			// 'jabatan'    => 'required|string|max:255',
+			// 'unit_kerja'    => 'required|string|max:255',
 			'email'    => 'required|string|max:255',
 			'password' => 'required|string|max:255',
 			'no_hp' => 'required|string|max:13',
-			'profil_singkat' => 'required|string|max:1000',
+			// 'profil_singkat' => 'required|string|max:1000',
 			// 'tema_kegiatan' => 'required|string|max:255',
 			'upload_foto' => 'required',
 			// 'bintang' => 'required|string',
@@ -129,6 +129,7 @@ class MemberController extends Controller{
 
 		$request['name'] = $request->nama_lengkap;
 		$request['password'] = \Hash::make($request->password);
+		$request['email_verified_at'] = now();
 		\DB::beginTransaction();
 		try {
 			$user = User::create($request->only('name', 'email', 'password', 'nik', 'nip'));
@@ -144,7 +145,7 @@ class MemberController extends Controller{
 			$reqMember['foto_profile'] = null;
 			$reqMember['no_member'] = $request->no_member;
 			if ($request->hasFile('foto_profile')) {
-				$reqMember['foto_profile'] = \Helper::storeFile('foto_profile', $request->foto_profile);
+				$reqMember['foto_profile'] = \Helper::storeFile('poto_profile', $request->foto_profile);
 			}
 			$reqMember['profil_singkat'] = $request->profil_singkat;
 
