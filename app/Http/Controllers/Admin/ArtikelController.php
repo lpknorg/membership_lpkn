@@ -66,7 +66,7 @@ class ArtikelController extends Controller
      */
     public function show($id)
     {
-        $artikel = Artikel::whereSlug($id)->first();
+        $artikel = Artikel::whereId($id)->first();
         if (!$artikel) {
             abort(404);
         }
@@ -151,11 +151,7 @@ class ArtikelController extends Controller
                 }elseif ($row->status_id == 2 || $row->status_id == 5) {
                     $c = '<span class="badge badge-danger">Ditolak</span>';
                 }elseif ($row->status_id == 3) {
-                    $c = '<span class="badge badge-info">Pengajuan Edit</span>';
-                }elseif ($row->status_id == 4) {
                     $c = '<span class="badge badge-warning">Pending Edit</span>';
-                }elseif ($row->status_id == 7) {
-                    $c = '<span class="badge badge-warning">Pengajuan Kembali</span>';
                 }
                 return $c;
             })

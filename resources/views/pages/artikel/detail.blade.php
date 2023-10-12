@@ -59,25 +59,17 @@
                 <div class="alert alert-info">
                     Artikel sedang diverifikasi, mohon menunggu 1x24 jam.
                 </div>
-                @elseif($artikel->status_id == 1 || $artikel->status_id == 6)
+                @elseif($artikel->status_id == 1)
                 <div class="alert alert-success">
                     Artikel berhasil tayang.
                 </div>
-                @elseif($artikel->status_id == 2 || $artikel->status_id == 5)
+                @elseif($artikel->status_id == 2)
                 <div class="alert alert-danger">
                     Artikel ditolak, dengan alasan : <b>{{$artikel->alasan_tolak}}</b>
                 </div>
                 @elseif($artikel->status_id == 3)
-                <div class="alert alert-warning">
-                    Artikel sedang pengajuan edit, mohon menunggu 1x24 jam.
-                </div>
-                @elseif($artikel->status_id == 4)
                 <div class="alert alert-info">
-                    Artikel sedang diverifikasi pengajuan edit, mohon menunggu 1x24 jam.
-                </div>
-                @elseif($artikel->status_id == 7)
-                <div class="alert alert-info">
-                    Artikel sedang diajukan kembali dengan alasan : <b>{{$artikel->sanggah_perbaikan}}.</b> Mohon menunggu 1x24 jam.
+                    Artikel sedang diverifikasi kembali, mohon menunggu 1x24 jam.
                 </div>
                 @endif
 

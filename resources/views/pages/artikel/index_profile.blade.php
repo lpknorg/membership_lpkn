@@ -116,8 +116,12 @@
                             <i class="fa-solid fa-caret-down"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                          <button class="dropdown-item" type="button">Ubah</button>
-                          <button class="dropdown-item" type="button">Hapus</button>
+                          <!-- <button class="dropdown-item" type="button">Ubah</button>
+                          <button class="dropdown-item" type="button">Hapus</button> -->
+                          @if($d->status_id == 1 || $d->status_id == 2)
+                          <a href="{{route('artikel.edit', ['uname' => \Helper::getUname($d->user) ,'slug' => $d->slug])}}" class="dropdown-item">Ubah</a>
+                          @endif
+                          <a href="" class="dropdown-item">Hapus</a>
                         </div>
                     </div>
                 </div>
@@ -127,9 +131,15 @@
                   </a>
                 </div>
                 <div class="d-flex align-items-end mr-auto">
+                    @if($d->status_id == 0)
+                    <span class="list_artikel_status_up bg-pending">Pending</span>
+                    @elseif($d->status_id == 1)
                     <span class="list_artikel_status_up bg-tayang">Tayang</span>
-                    {{-- <span class="list_artikel_status_up bg-pending">Pending</span>
-                    <span class="list_artikel_status_up bg-gagal-tayang">Gagal Tayang</span> --}}
+                    @elseif($d->status_id == 2)
+                    <span class="list_artikel_status_up bg-gagal-tayang">Gagal Tayang</span>
+                    @elseif($d->status_id == 3)
+                    <span class="list_artikel_status_up bg-pending">Pending Edit</span>
+                    @endif
                 </div>
                 <div class="d-flex align-items-end ml-auto">
                   <div class="text-67"> <i class="fa-regular fa-eye"></i> 123</div>

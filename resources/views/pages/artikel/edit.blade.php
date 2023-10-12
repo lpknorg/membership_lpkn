@@ -23,7 +23,7 @@
 	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="{{asset('pckg/tagsjs/dist/use-bootstrap-tag.min.css')}}" />
 	<script src="{{asset('pckg/tagsjs/dist/use-bootstrap-tag.min.js')}}"></script>
-	<title>Halaman Member - Buat Artikel</title>
+	<title>Halaman Member - Ubah Artikel {{$artikel->judul}} </title>
 	<style>
 		.use-bootstrap-tag button{
 			margin-right: 5px;
@@ -42,17 +42,29 @@
 <body>
 	@include('member.layouts.navbar')
 	<div class="container con_full mb-4">
+		@if($artikel->status_id == 2)
+		<div class="alert alert-danger">
+			Artikel ditolak, dengan alasan : <b>{{$artikel->alasan_tolak}}</b>
+		</div>
+		@else
+		<div class="alert alert-info">
+			Perubahan artikel akan diverifikasi kembali sebelum artikel ditayangkan.
+		</div>
+		@endif
 		<div class="card card-primary card-outline">
 			<div class="card-body">
-				<h1 class="h_artikel">Tulis Artikel</h1>
+				<h1 class="h_artikel">Ubah Artikel</h1>
 				<hr style="border: 1px solid #c1c1c1;">
-				<form method="POST" action="{{route('artikel.store')}}" enctype="multipart/form-data">
+				<form method="POST" action="{{route('artikel.update', ['id' => $artikel->id])}}" enctype="multipart/form-data">
+					<input type="hidden" name="id" value="{{$artikel->id}}">
 					@csrf
 					<div class="form-group row">
 						<label for="staticEmail" class="col-sm-2 col-form-label">Cover Artikel</label>
 						<div class="col-sm-4">
 							<input type="file" class="form-control" name="cover" accept="image/png, image/jpeg">
-							<div class="view-cover list_artikel_out"></div>
+							<div class="view-cover list_artikel_out">
+								<img src="{{\Helper::showImage($artikel->cover, 'artikel/cover')}}" alt="Image cover">
+							</div>
 						</div>
 					</div>
 					<div class="form-group row">
@@ -60,7 +72,14 @@
 						<div class="col-sm-4">
 							<input type="file" class="form-control" name="gambar_slider" accept="image/png, image/jpeg" multiple id="gambar_slider">
 						</div>
-						<div class="view-slider list_artikel_out"></div>
+						<br>
+						<div class="view-slider list_artikel_out">
+							<div>
+								@foreach($artikel->artikelFoto as $k => $f)
+								<img class="imgPrv create_cover_in mx-1" src="{{\Helper::showImage($f->file, 'artikel/gambar_slider')}}" alt="Image Artikel">
+								@endforeach
+							</div>
+						</div>
 					</div>
 					<div class="form-group row">
 						<label for="staticEmail" class="col-sm-2 col-form-label">Kategori</label>
@@ -68,7 +87,7 @@
 							<select name="kategori" class="form-control">
 								<option value="1">Pilih Kategori</option>
 								@foreach($kategori as $k)
-								<option value="{{$k->id}}">{{$k->nama}}</option>
+								<option value="{{$k->id}}" {{$k->id == $artikel->kategori ? 'selected' : ''}}>{{$k->nama}}</option>
 								@endforeach
 							</select>
 						</div>
@@ -76,20 +95,20 @@
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label">Judul</label>
 						<div class="col-sm-8">
-							<input type="text" class="form-control" placeholder="Judul" name="judul">
+							<input type="text" class="form-control" placeholder="Judul" name="judul" value="{{$artikel->judul}}">
 							<span class="text-warning" style="font-size: 14px;">Judul Artikel harus lebih dari 25 karakter</span>
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label">Deskripsi</label>
 						<div class="col-sm-8">
-							<textarea class="form-control" name="deskripsi" cols="10"></textarea>
+							<textarea class="form-control" name="deskripsi" cols="10">{!! $artikel->deskripsi !!}</textarea>
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label">Tag</label>
 						<div class="col-sm-8">
-							<input type="text" class="form-control" placeholder="Tambahkan tag ..." name="tag" id="example" data-ub-tag-max="5">
+							<input type="text" class="form-control" placeholder="Tambahkan tag ..." name="tag" id="example" data-ub-tag-max="5" value="{{$artikelTag}}">
 							<span class="text-warning" style="font-size: 14px;">Tekan <i>Enter</i> untuk memisahkan Tag, gunakan maksimal 5 Tag</span>
 						</div>
 					</div>
@@ -110,7 +129,7 @@
 
 	<!-- Optional JavaScript -->
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="{{ asset('template/select2/js/select2.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('template/select2/js/select2.js') }}"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 
 

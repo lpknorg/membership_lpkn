@@ -156,11 +156,7 @@
 				<option value="0" ${data.status_id == 0 ? 'selected' : ''}>Pending</option>
 				<option value="1" ${data.status_id == 1 ? 'selected' : ''}>Setuju</option>
 				<option value="2" ${data.status_id == 2 ? 'selected' : ''}>Tolak</option>
-				<option value="3" ${data.status_id == 3 ? 'selected' : ''}>Pengajuan Edit</option>
 				<option value="4" ${data.status_id == 4 ? 'selected' : ''}>Pending Edit</option>
-				<option value="5" ${data.status_id == 5 ? 'selected' : ''}>Tolak Edit</option>
-				<option value="6" ${data.status_id == 6 ? 'selected' : ''}>Setuju Edit</option>
-				<option value="7" ${data.status_id == 7 ? 'selected' : ''}>Pengajuan Ulang</option>
 				</select>`								
 				$('#modalShow #div-ubahstatus').html(_cont)
 
