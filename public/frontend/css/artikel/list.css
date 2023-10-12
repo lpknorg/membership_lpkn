@@ -97,6 +97,33 @@
     line-clamp: 1;
     -webkit-box-orient: vertical;
 }
+
+.list_artikel_drop{
+    background-color: #159ED9;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.list_artikel_drop i{
+    color: white;
+}
+
+.list_artikel_status_up{
+    font-family: 'Open Sans', sans-serif;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 14px;
+}
+.bg-tayang{
+    background-color: green;
+}
+.bg-pending{
+    background-color: #D9C515;
+}
+.bg-gagal-tayang{
+    background-color: red;
+}
 @media (max-width: 520px) {
     .artikel_short_name{
         font-size: 14px;

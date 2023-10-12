@@ -109,10 +109,27 @@
                     <div class="artikel_short_date px-2">{{$d->created_at}} | {{$d->created_at->diffForHumans()}}</div>
                   </div>
                 </div>
+
+                <div class="d-flex align-items-start ml-auto mt-2">
+                    <div class="btn-group">
+                        <a class="list_artikel_drop text-center" data-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-caret-down"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <button class="dropdown-item" type="button">Ubah</button>
+                          <button class="dropdown-item" type="button">Hapus</button>
+                        </div>
+                    </div>
+                </div>
                 <div class="">
                   <a class="list_artikel_title" href="{{route('artikel.detail', ['uname' => \Helper::getUname($d->user) ,'slug' => $d->slug])}}">
                     {{$d->judul}}
                   </a>
+                </div>
+                <div class="d-flex align-items-end mr-auto">
+                    <span class="list_artikel_status_up bg-tayang">Tayang</span>
+                    {{-- <span class="list_artikel_status_up bg-pending">Pending</span>
+                    <span class="list_artikel_status_up bg-gagal-tayang">Gagal Tayang</span> --}}
                 </div>
                 <div class="d-flex align-items-end ml-auto">
                   <div class="text-67"> <i class="fa-regular fa-eye"></i> 123</div>
@@ -184,7 +201,7 @@
               },
               complete: function() {
                 // sendAjax('#btnKomentar', true, 'Simpan')
-              }                
+              }
             });
           })
         })

@@ -34,6 +34,9 @@
                 <li class="nav-item">
                     <a href="{{route('artikel.index')}}" class="nav-link {{$routes == 'artikel.index' || $routes == 'artikel.detail' || $routes == 'artikel.indexProfile' ? 'active' : ''}}">Artikel</a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{route('artikel.index')}}" class="nav-link {{$routes == 'artikel.index' || $routes == 'artikel.detail' || $routes == 'artikel.indexProfile' ? 'active' : ''}}">Artikel Saya</a>
+                </li>
             </ul>
             @if(\Auth::check())
             <ul class="navbar-nav navbar-no-expand ml-auto">
@@ -56,7 +59,7 @@
                             <i class="fa fa-user mr-2"></i> Profile
                         </a>
                         <a href="{{route('artikel.indexProfile', ['uname' => \Helper::getUname(\Auth::user())])}}" class="dropdown-item">
-                            <i class="fa fa-user mr-2"></i> Artikel Saya
+                            <i class="fa-regular fa-newspaper mr-2"></i> Artikel Saya
                         </a>
                         <a href="{{route('member_profile.edit_profile')}}" class="dropdown-item">
                             <i class="fa fa-key mr-2"></i> Ubah Password
