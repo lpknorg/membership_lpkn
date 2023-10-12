@@ -38,13 +38,13 @@
                 <div class="dropdown-divider"></div>
                 <div class="d-block d-md-none">
                     <li class="nav-item">
-                        <a href="{{route('member_profile.edit_profile')}}" class="nav-link {{$routes == 'artikel.index' || $routes == 'artikel.detail' || $routes == 'artikel.indexProfile' ? 'active' : ''}}">Profile</a>
+                        <a href="{{route('member_profile.edit_profile')}}" class="nav-link {{$routes == 'member_profile.edit_profile' ? 'active' : ''}}">Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{route('artikel.indexProfile', ['uname' => \Helper::getUname(\Auth::user())])}}" class="nav-link {{$routes == 'artikel.index' || $routes == 'artikel.detail' || $routes == 'artikel.indexProfile' ? 'active' : ''}}">Artikel Saya</a>
+                        <a href="{{route('artikel.indexProfile', ['uname' => \Helper::getUname(\Auth::user())])}}" class="nav-link {{$routes == 'artikel.indexProfile' || $routes == 'artikel.detail' || $routes == 'artikel.indexProfile' ? 'active' : ''}}">Artikel Saya</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('member_profile.edit_profile')}}">Ubah Password</a>
+                        <a href="{{route('member_profile.edit_profile')}}" class="nav-link {{$routes == 'member_profile.edit_profile' ? 'active' : ''}}">Ubah Password</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-danger" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
