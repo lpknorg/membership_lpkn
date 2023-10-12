@@ -34,9 +34,26 @@
                 <li class="nav-item">
                     <a href="{{route('artikel.index')}}" class="nav-link {{$routes == 'artikel.index' || $routes == 'artikel.detail' || $routes == 'artikel.indexProfile' ? 'active' : ''}}">Artikel</a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{route('artikel.index')}}" class="nav-link {{$routes == 'artikel.index' || $routes == 'artikel.detail' || $routes == 'artikel.indexProfile' ? 'active' : ''}}">Artikel Saya</a>
-                </li>
+                @if(\Auth::check())
+                <div class="dropdown-divider"></div>
+                <div class="d-block d-md-none">
+                    <li class="nav-item">
+                        <a href="{{route('member_profile.edit_profile')}}" class="nav-link {{$routes == 'member_profile.edit_profile' ? 'active' : ''}}">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{route('artikel.indexProfile', ['uname' => \Helper::getUname(\Auth::user())])}}" class="nav-link {{$routes == 'artikel.indexProfile' || $routes == 'artikel.detail' || $routes == 'artikel.indexProfile' ? 'active' : ''}}">Artikel Saya</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{route('member_profile.edit_profile')}}" class="nav-link {{$routes == 'member_profile.edit_profile' ? 'active' : ''}}">Ubah Password</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </li>
+                </div>
+                @endif
             </ul>
             @if(\Auth::check())
             <ul class="navbar-nav navbar-no-expand ml-auto">
