@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{asset('frontend/css/style.css')}}?version=0">
     <link rel="stylesheet" href="{{asset('frontend/css/aside.css')}}?version=0">
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('frontend/images/logo_icon.png')}}">
+    @yield('styles')
 	<title>Halaman Member</title>
 </head>
 <body>
