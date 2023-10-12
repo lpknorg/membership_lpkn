@@ -97,6 +97,7 @@ Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middlewa
 	Route::get('/menunggu_pembayaran', [MenungguPembayaranController::class, 'index'])->name('menunggu_pembayaran.index');
 
 	Route::get('/event_kamu', [EventKamuController::class, 'index'])->name('event_kamu.index');
+	Route::post('/event_kamu/transfer_event', [EventKamuController::class, 'transferEvent'])->name('event_kamu.transferEvent');
 	Route::post('/testimoni', [EventKamuController::class, 'storeTestimoni'])->name('testimoni.storeTestimoni');
 
 	Route::get('/sertifikat_kamu', [SertifikatKamuController::class, 'index'])->name('sertifikat_kamu.index');
