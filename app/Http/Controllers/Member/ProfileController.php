@@ -39,9 +39,8 @@ class ProfileController extends Controller
 
 
     public function index()
-    {
-    	$new_event = $this->getRespApi('https://event.lpkn.id/api/member/event');
-        // dd($new_event);
+    {        
+    	$new_event = $this->getRespApi(env('API_EVENT').'member/event');
         $user = \Auth::user();
         return view('member.profile.index', compact('user', 'new_event'));
     }

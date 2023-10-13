@@ -6,7 +6,7 @@
 			<div class="row mb-2">
 				<div class="col-sm-6">
 					<h5 class="pb-4 mb-4 font-italic border-bottom">
-						Semua Event <small><a class="badge badge-primary" href="{{url('member_profile')}}">Kembali Ke Beranda</a></small>
+						Semua Event <small><a class="badge badge-primary" href="{{url('/')}}">Kembali Ke Beranda</a></small>
 					</h5>
 				</div>
 				<div class="col-sm-6">
@@ -51,7 +51,14 @@
                 <!-- <li class="page-item active">
                   <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
                 </li> -->
-                <?php $bagi = round($event['count'] / 9 + 1); $seg = \Request::segment(2); ?>
+                <?php
+                $sisabagi = (int)fmod($event['count'], 9);
+                if ($sisabagi > 0) {
+                  $bagi = (int)$event['count'] / 9 + 1;
+                }else{
+                  $bagi = (int)$event['count'] / 9;
+                }
+                $seg = \Request::segment(2); ?>
                 @for($i=1;$i<=$bagi;$i++)
                 <li class="page-item {{$seg == $i ? 'active' : ''}}">
                   @if(\Request::get('keyword'))
@@ -67,7 +74,7 @@
                   </li>
                   @endfor
 
-                  <li class="page-item">
+                  <li class="page-item {{\Request::segment(2) == (int)$bagi ? 'disabled' : ''}}">
                     <a class="page-link" href="#" id="pageNext">Next</a>
                   </li>
                 </ul>
