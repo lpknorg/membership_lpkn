@@ -85,6 +85,7 @@
             </div>
           </div>
         </form>
+        <a href="{{route('artikel.create')}}" class="btn btn-outline-primary btn-sm mt-2 w-25">Buat Artikel</a>
         @foreach($data as $d)
         <div class="card mt-3">
           <div class="row list_artikel_card">
@@ -116,12 +117,10 @@
                             <i class="fa-solid fa-caret-down"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                          <!-- <button class="dropdown-item" type="button">Ubah</button>
-                          <button class="dropdown-item" type="button">Hapus</button> -->
                           @if($d->status_id == 1 || $d->status_id == 2)
                           <a href="{{route('artikel.edit', ['uname' => \Helper::getUname($d->user) ,'slug' => $d->slug])}}" class="dropdown-item">Ubah</a>
                           @endif
-                          <a href="" class="dropdown-item">Hapus</a>
+                          <a href="{{route('artikel.delete', ['id' => $d->id])}}" class="dropdown-item">Hapus</a>
                         </div>
                     </div>
                 </div>
@@ -142,7 +141,7 @@
                     @endif
                 </div>
                 <div class="d-flex align-items-end ml-auto">
-                  <div class="text-67"> <i class="fa-regular fa-eye"></i> 123</div>
+                  <div class="text-67"> <i class="fa-regular fa-eye"></i> {{$d->views}}</div>
                   <div class="text-67 mx-4">
                     @if($d->is_liked_artikel > 0)
                     <i class="fa-solid fa-heart" data-slug="{{$d->slug}}" style="color: #ff5f5f"></i>

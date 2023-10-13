@@ -32,6 +32,7 @@
                     </div>
                 </div>
             </form>
+            <a href="{{route('artikel.create')}}" class="btn btn-outline-primary btn-sm mt-2 w-25">Buat Artikel</a>
             @foreach($data as $d)
             <div class="card mt-3">
                 <div class="row list_artikel_card">
@@ -68,7 +69,7 @@
                                 </a>
                             </div>
                             <div class="d-flex align-items-end ml-auto">
-                                <div class="text-67"> <i class="fa-regular fa-eye"></i> 123</div>
+                                <div class="text-67"> <i class="fa-regular fa-eye"></i> {{$d->views}}</div>
                                 <div class="text-67 mx-4">
                                     @if($d->is_liked_artikel > 0)
                                     <i class="fa-solid fa-heart" data-slug="{{$d->slug}}" style="color: #ff5f5f"></i>

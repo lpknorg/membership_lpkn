@@ -83,6 +83,7 @@ Route::group(['prefix' => 'p'], function () {
 	Route::get('/{uname}/{slug}', [ArtikelController::class, 'detail'])->name('artikel.detail');
 	Route::get('/{uname}/{slug}/edit', [ArtikelController::class, 'edit'])->name('artikel.edit');
 	Route::post('/artikel/update/{id}', [ArtikelController::class, 'update'])->name('artikel.update');
+	Route::get('/artikel/delete/{id}', [ArtikelController::class, 'delete'])->name('artikel.delete');
 });
 Route::get('member_profile/page/get_event/{slug}', [ProfileController::class, 'getEventModal'])->name('member_profile.get_event.modal');
 Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middleware' => 'auth'], function () {

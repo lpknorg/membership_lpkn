@@ -57,7 +57,7 @@
                             Dibuat oleh : {{ucfirst($artikel->user->name)}}
                         </p>
                         <p class="small">
-                            <span class="mr-2"><i class="fa-regular fa-eye"></i> 123</span>
+                            <span class="mr-2"><i class="fa-regular fa-eye"></i> {{$artikel->views}}</span>
                             <a href="#add_comment" class="text-decoration-none"><i class="fa-solid fa-message"></i><span id="countKomentar">&nbsp;{{$artikel->artikelKomens->count()}}</span></a>
                             <span class="ml-1"><i class="fa-regular fa-heart">&nbsp;</i>{{$artikel->artikelLikes->count()}}</span>
                         </p>

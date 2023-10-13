@@ -2,14 +2,13 @@
 @section('breadcumb')
 <div class="col-md-12 page-title">
 	<div class="title_left">
-		<h3>Artikel Kategori</h3>
+		<h3>List Artikel</h3>
 	</div>
 </div>
 @endsection
 @section('content')
 <div class="row">
 	<div class="col-md-12 col-sm-12">
-		<button class="btn btn-primary btn-sm" id="btnAdd">Tambah</button>
 		<div class="dashboard_graph x_panel">
 			<div class="x_content">
 				<table class="table table-hover table-bordered table-responsive-sm" id="table-Datatable" style="width: 100%;">
