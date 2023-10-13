@@ -58,11 +58,7 @@ class EventKamuController extends Controller
         $client = new \GuzzleHttp\Client();
         $endpoint = env('API_EVENT')."member/Event/checking_event";
         $request = $client->post($endpoint, [
-            'form_params' => $datapost,
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-            ]
+            'form_params' => $datapost
         ]);
 
         $response = $request->getBody()->getContents();

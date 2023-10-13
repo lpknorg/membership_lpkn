@@ -222,12 +222,12 @@
 				success: function(d){
 					console.log(d)
 					if (d.status == 'Failed') {
-						showAlert("Terdapat kesalahan pada saat transfer event ke akun anda.", "error")
+						showAlert(d.message, "error")
 					}else{
 						showAlert("Berhasil transfer event ke akun anda.")
 					}
 					setTimeout(function() {
-						// location.reload()
+						location.reload()
 					}, 1000);
 				},
 				error: function(data){
