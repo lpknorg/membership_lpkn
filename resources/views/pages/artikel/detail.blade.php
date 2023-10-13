@@ -47,81 +47,81 @@
                     </div>
                     <div class="col-md-12 mt-3">
                       <div class="card card-primary card-outline">
-                       <div class="card-body">
-                        INI Iklan lagi
+                         <div class="card-body">
+                            INI Iklan lagi
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-12">
-                @if(\Auth::check() && $artikel->user_id == \Auth::user()->id)
+                <div class="col-md-12">
+                    @if(\Auth::check() && $artikel->user_id == \Auth::user()->id)
 
-                @if($artikel->status_id == 0)
-                <div class="alert alert-info">
-                    Artikel sedang diverifikasi, mohon menunggu 1x24 jam.
-                </div>
-                @elseif($artikel->status_id == 1)
-                <div class="alert alert-success">
-                    Artikel berhasil tayang.
-                </div>
-                @elseif($artikel->status_id == 2)
-                <div class="alert alert-danger">
-                    Artikel ditolak, dengan alasan : <b>{{$artikel->alasan_tolak}}</b>
-                </div>
-                @elseif($artikel->status_id == 3)
-                <div class="alert alert-info">
-                    Artikel sedang diverifikasi kembali, mohon menunggu 1x24 jam.
-                </div>
-                @endif
-
-                @endif
-            </div>
-            <div class="col-md-12 mt-3">
-              <span class="detail_artikel_title">{{ucfirst($artikel->judul)}}</span>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="d-flex">
-                    <?php $fullUrl = url()->full(); ?>
-                    <a target="_blank" href='{{"https://twitter.com/intent/tweet?text={$artikel->judul}&url={$fullUrl}"}}' class="bg-twitter d-flex justify-content-center align-items-center">
-                        <i class="fa-brands fa-x-twitter"></i>
-                    </a>
-                    <a target="_blank" href='{{"https://www.facebook.com/sharer/sharer.php?u={$fullUrl}"}}' class="mx-2 bg-facebook d-flex justify-content-center align-items-center">
-                        <i class="fa-brands fa-facebook-f"></i>
-                    </a>
-                    <a target="_blank" href='{{"https://www.linkedin.com/sharing/share-offsite?mini=true&url={$fullUrl}&title={$artikel->judul}&summary="}}' class="bg-linked d-flex justify-content-center align-items-center">
-                        <i class="fa-brands fa-linkedin-in"></i>
-                    </a>
-                    <a target="_blank" href='{{"https://wa.me/?text={$fullUrl}"}}' class="mx-2 bg-wa d-flex justify-content-center align-items-center">
-                        <i class="fa-brands fa-whatsapp"></i>
-                    </a>
-                    <a target="_blank" href='{{"https://telegram.me/share/url?url={$fullUrl}&text={$artikel->judul}"}}' class="bg-tele d-flex justify-content-center align-items-center">
-                        <i class="fa-solid fa-paper-plane"></i>
-                    </a>
-                </div>
-                <div class="d-flex justify-content-center align-items-center">
-                    @if($artikel->is_liked_artikel > 0)
-                    <span class="HeartDetail detail_animate"></span>
-                    @else
-                    <span class="HeartDetail"></span>
+                    @if($artikel->status_id == 0)
+                    <div class="alert alert-info">
+                        Artikel sedang diverifikasi, mohon menunggu 1x24 jam.
+                    </div>
+                    @elseif($artikel->status_id == 1)
+                    <div class="alert alert-success">
+                        Artikel berhasil tayang.
+                    </div>
+                    @elseif($artikel->status_id == 2)
+                    <div class="alert alert-danger">
+                        Artikel ditolak, dengan alasan : <b>{{$artikel->alasan_tolak}}</b>
+                    </div>
+                    @elseif($artikel->status_id == 3)
+                    <div class="alert alert-info">
+                        Artikel sedang diverifikasi kembali, mohon menunggu 1x24 jam.
+                    </div>
                     @endif
-                    <span style="margin-left: -24px" id="countLikes">{{$artikel->artikelLikes->count()}}</span>
+
+                    @endif
                 </div>
-            </div>
-            <div class="d-flex justify-content-between flex-wrap mt-2">
-                <p class="small">{{\Helper::changeFormatDate($artikel->created_at, 'd-M-Y H:i:s')}} |
-                    Dibuat oleh : {{ucfirst($artikel->user->name)}}
-                </p>
-                <p class="small">
-                    <span class="mr-2"><i class="fa-regular fa-eye"></i> 123</span>
-                    <a href="#add_comment" class="text-decoration-none"><i class="fa-solid fa-message"></i><span id="countKomentar"></span></a>
-                </p>
-            </div>
-            @foreach($artikel->artikelTags as $t)
-            <a href="" class="badge badge-secondary px-4 rounded-0 py-2 mb-2">{{$t->nama_tag}}</a>
-            @endforeach
-            <div class="alert alert-info">
-               Ini adalah platform blog. Konten ini akan menjadi tanggung jawab blogger dan tidak mewakili pandangan dari <b>Lembaga Pengembangan dan Konsultasi Nasional(LPKN)</b>
-           </div>
-       </div>
-       <div class="col-md-12 mt-3">
+                <div class="col-md-12 mt-3">
+                  <span class="detail_artikel_title">{{ucfirst($artikel->judul)}}</span>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex">
+                        <?php $fullUrl = url()->full(); ?>
+                        <a target="_blank" href='{{"https://twitter.com/intent/tweet?text={$artikel->judul}&url={$fullUrl}"}}' class="bg-twitter d-flex justify-content-center align-items-center">
+                            <i class="fa-brands fa-x-twitter"></i>
+                        </a>
+                        <a target="_blank" href='{{"https://www.facebook.com/sharer/sharer.php?u={$fullUrl}"}}' class="mx-2 bg-facebook d-flex justify-content-center align-items-center">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a target="_blank" href='{{"https://www.linkedin.com/sharing/share-offsite?mini=true&url={$fullUrl}&title={$artikel->judul}&summary="}}' class="bg-linked d-flex justify-content-center align-items-center">
+                            <i class="fa-brands fa-linkedin-in"></i>
+                        </a>
+                        <a target="_blank" href='{{"https://wa.me/?text={$fullUrl}"}}' class="mx-2 bg-wa d-flex justify-content-center align-items-center">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </a>
+                        <a target="_blank" href='{{"https://telegram.me/share/url?url={$fullUrl}&text={$artikel->judul}"}}' class="bg-tele d-flex justify-content-center align-items-center">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </a>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center">
+                        @if($artikel->is_liked_artikel > 0)
+                        <span class="HeartDetail detail_animate"></span>
+                        @else
+                        <span class="HeartDetail"></span>
+                        @endif
+                        <span style="margin-left: -24px" id="countLikes">{{$artikel->artikelLikes->count()}}</span>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between flex-wrap mt-2">
+                    <p class="small">{{\Helper::changeFormatDate($artikel->created_at, 'd-M-Y H:i:s')}} |
+                        Dibuat oleh : {{ucfirst($artikel->user->name)}}
+                    </p>
+                    <p class="small">
+                        <span class="mr-2"><i class="fa-regular fa-eye"></i> {{$artikel->views}}</span>
+                        <a href="#add_comment" class="text-decoration-none"><i class="fa-solid fa-message"></i><span id="countKomentar"></span></a>
+                    </p>
+                </div>
+                @foreach($artikel->artikelTags as $t)
+                <a href="" class="badge badge-secondary px-4 rounded-0 py-2 mb-2">{{$t->nama_tag}}</a>
+                @endforeach
+                <div class="alert alert-info">
+                 Ini adalah platform blog. Konten ini akan menjadi tanggung jawab blogger dan tidak mewakili pandangan dari <b>Lembaga Pengembangan dan Konsultasi Nasional(LPKN)</b>
+             </div>
+         </div>
+         <div class="col-md-12 mt-3">
           <div id="carouselTesti" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 @foreach($artikel->artikelFoto as $k => $f)
@@ -195,29 +195,29 @@
 </div>
 <div class="col-md-4">
     <div class="row">
-     <div class="col-md-12">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati omnis deserunt porro asperiores a velit incidunt, iste. Nisi ab veritatis alias provident, repudiandae porro, exercitationem! Commodi recusandae adipisci optio, corporis.
-      INI IKLAN NANTI
-  </div>
-  <div class="col-md-12 mt-4" id="div-artikel_terbaru">
-      <div class="card">
-       <div class="card-body">
-        <h5>Artikel Terbaru</h5>
-        <ol>
-         @foreach($artikel_terbaru as $tb)
-         <li>
-          <a href="{{route('artikel.detail', ['uname' => \Helper::getUname($tb->user) ,'slug' => $tb->slug])}}">
-           <h6 class="mb-0">{{ucfirst($tb->judul)}}</h6>
-       </a>
-       <p class="mb-2">{{ucfirst($tb->user->name)}}</p>
-   </li>
-   @endforeach
-</ol>
-<a href="{{route('artikel.index')}}" class="btn btn-primary w-100">Lihat Semua</a>
-</div>
-</div>
-</div>
-</div>
+        <div class="col-md-12">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati omnis deserunt porro asperiores a velit incidunt, iste. Nisi ab veritatis alias provident, repudiandae porro, exercitationem! Commodi recusandae adipisci optio, corporis. INI IKLAN NANTI
+        </div>
+        @if(count($artikel_terbaru) > 0)
+        <div class="col-md-12 mt-4" id="div-artikel_terbaru">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Artikel Terbaru</h5>
+                    <ol>
+                        @foreach($artikel_terbaru as $tb)
+                        <li>
+                            <a href="{{route('artikel.detail', ['uname' => \Helper::getUname($tb->user) ,'slug' => $tb->slug])}}">
+                                <h6 class="mb-0">{{ucfirst($tb->judul)}}</h6>
+                            </a>
+                            <p class="mb-2">{{ucfirst($tb->user->name)}}</p>
+                        </li>
+                        @endforeach
+                    </ol>
+                    <a href="{{route('artikel.index')}}" class="btn btn-primary w-100">Lihat Semua</a>
+                </div>
+            </div>
+        </div>
+        @endif
+    </div>
 
 </div>
 </div>

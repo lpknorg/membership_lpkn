@@ -26,6 +26,12 @@ class ArtikelController extends Controller
         return view('pages.artikel.index', compact('data', 'kategori'));
     }
 
+    public function delete($id){
+        $art = Artikel::findOrFail($id);
+        $art->delete();
+        return back();        
+    }
+
     public function indexProfile(Request $request)
     {
         $sl_user = \Request::segment(2);
@@ -290,6 +296,7 @@ class ArtikelController extends Controller
     }
 
     public function detail($uname, $slug){
+        
         $expl = explode('-', $uname);
         $email = $expl[0];
         $id = $expl[1];
@@ -304,6 +311,11 @@ class ArtikelController extends Controller
         if (is_null($artikel)) {
             abort(404);
         }
+        if (\Auth::check()) {
+            $artikel->views += 1;
+            $artikel->save();   
+        }
+        
         if($artikel->status_id != 1 && $artikel->status_id != 6){
             if (!\Auth::check()) {
                 abort(403);
@@ -312,7 +324,7 @@ class ArtikelController extends Controller
                 abort(404);
             }
         }
-        $artikel_terbaru = Artikel::latest()->where('slug', '!=', $slug)->limit(5)->get();
+        $artikel_terbaru = Artikel::latest()->where('slug', '!=', $slug)->whereIn('status_id', [1, 6])->limit(5)->get();
         return view('pages.artikel.detail', compact('artikel', 'artikel_terbaru'));
     }
 
