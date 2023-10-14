@@ -44,7 +44,7 @@
                         <a href="{{route('artikel.indexProfile', ['uname' => \Helper::getUname(\Auth::user())])}}" class="nav-link {{$routes == 'artikel.indexProfile' || $routes == 'artikel.detail' || $routes == 'artikel.indexProfile' ? 'active' : ''}}">Artikel Saya</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{route('member_profile.edit_profile')}}" class="nav-link {{$routes == 'member_profile.edit_profile' ? 'active' : ''}}">Ubah Password</a>
+                        <a href="{{route('member_profile.edit_password')}}" class="nav-link {{$routes == 'member_profile.edit_password' ? 'active' : ''}}">Ubah Password</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-danger" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
@@ -78,7 +78,7 @@
                         <a href="{{route('artikel.indexProfile', ['uname' => \Helper::getUname(\Auth::user())])}}" class="dropdown-item">
                             <i class="fa-regular fa-newspaper mr-2"></i> Artikel Saya
                         </a>
-                        <a href="{{route('member_profile.edit_profile')}}" class="dropdown-item">
+                        <a href="{{route('member_profile.edit_password')}}" class="dropdown-item">
                             <i class="fa fa-key mr-2"></i> Ubah Password
                         </a>
                         <div class="dropdown-divider"></div>

@@ -52,6 +52,10 @@ class ProfileController extends Controller
         $sosmed = SosialMedia::orderBy('nama')->get();
         return view('member.profile.update_profile', compact('user', 'provinsi', 'instansi', 'sosmed'));
     }
+    public function editPassword(){
+        $user = \Auth::user();
+        return view('member.profile.update_password', compact('user'));
+    }
 
     public function updateProfile(Request $request){
         $Id = $request->id_user;
@@ -114,7 +118,7 @@ class ProfileController extends Controller
             'kantor_provinsi' => "required",
             'kantor_kota' => "required",
             'kantor_kecamatan' => "required",
-            'kantor_kelurahan' => "required"            
+            'kantor_kelurahan' => "required"
         ));
 
         if ($validator->fails()) {
@@ -142,7 +146,7 @@ class ProfileController extends Controller
                     'messages' => "Nip sudah digunakan",
                 ], 422);
             }
-        }        
+        }
 
         $userNik = User::where('nik', $request->nik)->where('id', '!=', $Id)->first();
         if($userNik){
@@ -215,7 +219,7 @@ class ProfileController extends Controller
                 'deskripsi_diri' => $request->deskripsi_diri,
                 'updated_at' => now()
             ]);
-            $user->member->update([                
+            $user->member->update([
                 'nama_lengkap_gelar'=> $request->nama_dengan_gelar,
                 'nama_untuk_sertifikat'=> $request->nama_untuk_sertifikat,
                 'no_hp'=> $request->no_hp,
@@ -274,7 +278,7 @@ class ProfileController extends Controller
         if ($request->foto_profile == "undefined") {
             $request['foto_profile'] = null;
         }
-        
+
         $validator = Validator::make($request->only('foto_profile'), array(
             'foto_profile' => ["required", "mimes:jpg,png,jpeg", 'max:7000']
         ));
@@ -300,7 +304,7 @@ class ProfileController extends Controller
     public function storeSosialMedia(Request $request){
         $validator = Validator::make($request->all(), array(
             'sosial_media' => "required",
-            'username' => "required|max:255",        
+            'username' => "required|max:255",
         ));
 
         if ($validator->fails()) {
@@ -492,7 +496,7 @@ class ProfileController extends Controller
         ->leftJoin('members', 'member_kantors.member_id', '=', 'members.user_id')
         ->where('member_kantors.member_id', $Id)
         ->get();
-        
+
         $pdf = PDF::loadView('member.profile.kta', compact('users'));
         // return $pdf->stream();
         return $pdf->download('Kta_'.$users[0]->nama_member.'.pdf');

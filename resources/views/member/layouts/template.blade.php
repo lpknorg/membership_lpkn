@@ -99,7 +99,7 @@
 							<li class="nav-item">
 								<a class="nav-link {{$csegment > 1 && $segment[1] == 'edit_profile' ? 'active' : ''}}" href="{{route('member_profile.edit_profile')}}">Profile</a>
 							</li>
-							
+
 						</ul>
 					</div>
 					<div class="card-body">
