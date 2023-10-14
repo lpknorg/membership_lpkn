@@ -69,6 +69,7 @@ class MemberController extends Controller{
 	}
 
 	public function daftarLpkn(Request $request){
+		// return $request->all();
 		$validator = Validator::make($request->all(),[
 			'nama_lengkap'    => 'required|string|max:255',
 			'tanggal_lahir'    => 'required|string|max:255',
@@ -144,8 +145,8 @@ class MemberController extends Controller{
 			$reqMember['nama_kota'] = $request->kota;
 			$reqMember['foto_profile'] = null;
 			$reqMember['no_member'] = $request->no_member;
-			if ($request->hasFile('foto_profile')) {
-				$reqMember['foto_profile'] = \Helper::storeFile('poto_profile', $request->foto_profile);
+			if ($request->hasFile('upload_foto')) {
+				$reqMember['foto_profile'] = \Helper::storeFile('poto_profile', $request->upload_foto);
 			}
 			$reqMember['profil_singkat'] = $request->profil_singkat;
 

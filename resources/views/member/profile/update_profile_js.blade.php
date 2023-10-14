@@ -90,7 +90,7 @@
 					$(`[name=${selector}]`).prop('disabled', false).html(opt)
 				},
 				error: function(data) {
-					showAlert("Ada kesalahan dalam mendapatkan data kelurahan", "error")
+					// showAlert("Ada kesalahan dalam mendapatkan data kelurahan", "error")
 				}
 			});
 		}
