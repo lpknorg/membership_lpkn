@@ -26,15 +26,14 @@
 			<div class="col-md-3">
 				<div class="card card-primary card-outline">
 					<div class="card-body box-profile">
-                        <div class="out_img mb-2" style="padding: 0px; margin: 0 auto">
-                            <img class="in_img" src="{{\Helper::showImage(\Auth::user()->member->foto_profile, 'poto_profile')}}" alt="User profile picture">
+                        <div class="">
+                            <div class="out_img mb-2" style="padding: 0px; margin: 0 auto;position: relative">
+                                <img class="in_img" src="{{\Helper::showImage(\Auth::user()->member->foto_profile, 'poto_profile')}}" alt="User profile picture">
+                                <button type="button" class="btn_change_image_profile btn btn-sm" data-toggle="modal" data-target="#update_foto">
+                                        <i class="fa fa-camera"></i>
+                                </button>
+                            </div>
                         </div>
-						<div class="text-center">
-							<button type="button" class="text-dark btn btn-transparent btn-sm" data-toggle="modal" data-target="#update_foto">
-								<i class="fa fa-camera"></i> Ganti foto
-							</button>
-						</div>
-
 						<h3 class="profile-username text-center">{{\Auth::user()->name}}  </h3>
 
 						<ul class="list-group list-group-unbordered mb-3">
