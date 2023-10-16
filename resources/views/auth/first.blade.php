@@ -7,14 +7,14 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" type="text/css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="{{asset('frontend/css/login.css')}}?version=0">
-  <title>Login</title>
+  @include('meta')
 </head>
 <body class="bg-all">
     <div class="login-wrap">
         <div class="login-image">
             <nav class="login-image-nav">
                 <ul>
-                    <li><a class="logo" href="#"><img src="https://event.lpkn.id/assets_page/images/logo/logolpkn_putih.png" alt=""></a></li>
+                    <li><a class="logo" href="{{url('/')}}"><img src="https://event.lpkn.id/assets_page/images/logo/logolpkn_putih.png" alt=""></a></li>
                 </ul>
             </nav>
             <div class="login-image-text">

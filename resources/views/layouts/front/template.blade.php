@@ -12,8 +12,7 @@
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.css" />
     <link rel="stylesheet" href="{{asset('frontend/css/navbar.css')}}?version=0">
     <link rel="stylesheet" href="{{asset('frontend/css/style.css')}}?version=0">
-
-	<title>Membership LPKN</title>
+	@include('meta')
 
 </head>
 <body>

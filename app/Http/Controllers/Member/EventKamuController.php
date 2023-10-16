@@ -14,6 +14,7 @@ class EventKamuController extends Controller
         $datapost = ['email'=>$email];
         $my_event = $this->getRespApiWithParam($datapost, 'member/event/my_event');
         $list_event = $this->getRespApiWithParam($datapost, 'member/event/list_all_event');
+        dd($list_event);
         return view('member.profile.event_kamu', compact('my_event', 'list_event'));
     }
 

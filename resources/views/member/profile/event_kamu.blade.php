@@ -39,7 +39,7 @@
 							<select name="event" class="form-control">
 								<option value="">Pilih Event</option>
 								@foreach($list_event as $l)
-								<option value="{{$l['id']}}" data-brosur="{{$l['brosur_img']}}">{{$l['judul'].', '.\Helper::changeFormatDate($l['tgl_start'], 'd-M-Y').' s/d '.\Helper::changeFormatDate($l['tgl_end'], 'd-M-Y').' - '.$l['id'] }}</option>
+								<option value="{{$l['id']}}" data-brosur="{{$l['brosur_img']}}" data-judul="{{$l['judul']}}" >{{$l['judul'].', '.\Helper::changeFormatDate($l['tgl_start'], 'd-M-Y').' s/d '.\Helper::changeFormatDate($l['tgl_end'], 'd-M-Y').' - '.$l['id'] }}</option>
 								@endforeach
 							</select>
 							<div id="div-detailEvent" style="display: none;">

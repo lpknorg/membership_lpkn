@@ -12,12 +12,12 @@
                     <div>
                         <a href="{{route('artikel.indexProfile', ['uname' => \Helper::getUname($d->user)])}}" class="posting_out"><img class="posting_in" src="{{\Helper::showImage($d->user->member->foto_profile, 'poto_profile')}}" alt="User profile picture"></a>
                     </div>
-                    <a href="" style="color: #fff">
+                    <a href="{{route('artikel.indexProfile', ['uname' => \Helper::getUname($d->user)])}}" style="color: #fff">
                         <div class="posting_short_name px-2">{{ucfirst(\Helper::cutString($d->user->name, 50))}}</div>
                     </a>
                     <div class=""><i class="fa-solid fa-circle-check posting_checklist"></i></div>
                 </div>
-                <a href="{{route('artikel.indexProfile', ['uname' => \Helper::getUname($d->user)])}}" class="posting_short_desc">{{\Helper::cutString($d->judul, 70)}}</a>
+                <a href="{{route('artikel.detail', ['uname' => \Helper::getUname($d->user), 'slug' => $d->slug])}}" class="posting_short_desc">{{\Helper::cutString($d->judul, 70)}}</a>
             </div>
         </div>
     </div>

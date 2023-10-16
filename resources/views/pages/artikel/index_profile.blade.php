@@ -23,7 +23,7 @@
       color: #eb3e3e;
     }
   </style>
-  <title>Artikel</title>
+  @include('meta', ['title' => 'List Artikel Membership LPKN'])
 </head>
 <body>
 

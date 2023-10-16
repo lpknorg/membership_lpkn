@@ -6,7 +6,9 @@
         </div>
     </div>
     <div class="col-10 col-sm-11">
-        <div class="small">{{$d->user->name}}</div>
+        <a href="{{route('artikel.indexProfile', ['uname' => \Helper::getUname($d->user)])}}" style="color: #fff;">
+            <div class="small">{{$d->user->name}}</div>
+        </a>
         <div class="artikel_short_date px-2">{{$d->created_at}} | {{$d->updated_at->diffForHumans()}}</div>
         <div>{{$d->isi_komentar}}</div>
     </div>

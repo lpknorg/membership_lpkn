@@ -8,12 +8,12 @@ use App\Models\Artikel\Artikel;
 
 class WelcomeController extends Controller
 {
-    public function welcome($page = 1)
+    public function welcome(Request $request)
     {
-        $url = 'https://event.lpkn.id/api/member/event/event_page?page='.$page;
+        $url = 'https://lpkn.id/api/produk/'.$request->keyword;
         $p = new ProfileController();
         $event = $p->getRespApi($url);
-        $artikel = Artikel::limit(10)->latest()->get();
+        $artikel = Artikel::limit(10)->whereIn('status_id', [1, 6])->latest()->get();
         return view('Frontend/index', compact('event', 'artikel'));
     }
 }

@@ -68,9 +68,7 @@ class MemberController extends Controller{
 		], 200);
 	}
 
-	public function daftarLpkn(Request $request){		
-		
-		return $file_ktp;
+	public function daftarLpkn(Request $request){
 		$validator = Validator::make($request->all(),[
 			'nama_lengkap'    => 'required|string|max:255',
 			'tanggal_lahir'    => 'required|string|max:255',

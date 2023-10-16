@@ -33,7 +33,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.css"/>
     <!-- end slick -->
-    <title>{{ucfirst($artikel->judul)}}</title>
+    @include('meta', ['title' => ucfirst($artikel->judul)])
 </head>
 <body>
 
