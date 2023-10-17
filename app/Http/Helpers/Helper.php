@@ -22,8 +22,9 @@ class Helper {
 		}
 		if (substr($file, 0, 5) == "data:") {
 			$ext       = explode('/', mime_content_type($file))[1];
-			$image     = str_replace("data:image/{$ext};base64,", '', $file);
-			$image     = str_replace(' ', '+', $image);
+			//$image     = str_replace("data:image/{$ext};base64,", '', $file);
+			$image = explode(',', $file);
+			$image = $image[1];
 			if($namaFile){
 				$imageName = $namaFile.'.'.$ext;
 			}else{

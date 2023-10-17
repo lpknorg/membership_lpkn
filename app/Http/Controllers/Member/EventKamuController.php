@@ -14,7 +14,7 @@ class EventKamuController extends Controller
         $datapost = ['email'=>$email];
         $my_event = $this->getRespApiWithParam($datapost, 'member/event/my_event');
         $list_event = $this->getRespApiWithParam($datapost, 'member/event/list_all_event');
-        dd($list_event);
+        // dd($list_event);
         return view('member.profile.event_kamu', compact('my_event', 'list_event'));
     }
 
@@ -44,7 +44,9 @@ class EventKamuController extends Controller
 
         $validator = Validator::make($request->all(), array(
             'email' => ["required"],
-            'event' => ["required"]
+            'event' => ["required"],
+            'judul' => ["required"],
+            'tgl_end' => ["required"],
         ));
         if ($validator->fails()) {
             return response()->json([
@@ -54,8 +56,11 @@ class EventKamuController extends Controller
         $datapost = [
             'email_lama'=>$request->email,
             'email_baru' => $request->email_baru,
+            'judul' => $request->judul,
+            'tgl_end' => $request->tgl_end,
             'id_kelas_event' => $request->event
         ];
+        // return $datapost;
         $client = new \GuzzleHttp\Client();
         $endpoint = env('API_EVENT')."member/Event/checking_event";
         $request = $client->post($endpoint, [
@@ -63,8 +68,8 @@ class EventKamuController extends Controller
         ]);
 
         $response = $request->getBody()->getContents();
+        print_r($response);
         $data = json_decode($response, true);
-        return $data;
     }
 
     public function storeTestimoni(Request $request){

@@ -36,10 +36,12 @@
 						</div>
 						<div class="form-group">
 							<label for="exampleFormControlInput1">Event</label>
+							<input type="hidden" name="judul">
+							<input type="hidden" name="tgl_end">
 							<select name="event" class="form-control">
 								<option value="">Pilih Event</option>
 								@foreach($list_event as $l)
-								<option value="{{$l['id']}}" data-brosur="{{$l['brosur_img']}}" data-judul="{{$l['judul']}}" >{{$l['judul'].', '.\Helper::changeFormatDate($l['tgl_start'], 'd-M-Y').' s/d '.\Helper::changeFormatDate($l['tgl_end'], 'd-M-Y').' - '.$l['id'] }}</option>
+								<option value="{{$l['id']}}" data-brosur="{{$l['brosur_img']}}" data-judul="{{$l['judul']}}" data-tgl_end="{{$l['tgl_end']}}" >{{$l['judul'].', '.\Helper::changeFormatDate($l['tgl_start'], 'd-M-Y').' s/d '.\Helper::changeFormatDate($l['tgl_end'], 'd-M-Y').' - '.$l['id'] }}</option>
 								@endforeach
 							</select>
 							<div id="div-detailEvent" style="display: none;">
@@ -134,17 +136,23 @@
 		$('body').on('change', '[name=event]', function(e) {
 			let v = $(this).find(':selected').text()
 			let _img = $(this).find(':selected').data('brosur')
+			let _judul = $(this).find(':selected').data('judul')
+			let _tgl_end = $(this).find(':selected').data('tgl_end')
 			v = v.split(',')
 			if (v.length > 1) {
 				$('#div-detailEvent').show(300)
 				$('#div-detailEvent a').attr('href', _img)
 				$('#p-judul').text(v[0])
 				$('#p-tgl').text(v[1])
+				$('[name=judul]').val(_judul)
+				$('[name=tgl_end]').val(_tgl_end)
 			}else{
 				$('#div-detailEvent').hide(300)
 				$('#div-detailEvent a').attr('href', '#')
 				$('#p-judul').text('')
 				$('#p-tgl').text('')
+				$('[name=judul]').val(null)
+				$('[name=judul]').val(null)
 			}
 
 		})
@@ -227,7 +235,7 @@
 						showAlert("Berhasil transfer event ke akun anda.")
 					}
 					setTimeout(function() {
-						location.reload()
+						// location.reload()
 					}, 1000);
 				},
 				error: function(data){
