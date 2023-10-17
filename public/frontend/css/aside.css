@@ -13,6 +13,23 @@
     width: inherit;
     object-fit: cover;
 }
+.btn_change_image_profile{
+    width:100%;
+    border-radius: 50%;
+    position: absolute;
+    bottom:0;
+    background-color: black;
+    opacity: .8;
+    border: 0;
+    color: white;
+}
+.btn_change_image_profile:hover{
+    transition: .8s;
+    background-color: white;
+    opacity: .8;
+    color: black;
+}
+
 /*  */
 .card-special {
     z-index: 1;
