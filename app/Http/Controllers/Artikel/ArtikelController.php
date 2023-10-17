@@ -43,6 +43,7 @@ class ArtikelController extends Controller
         if (!$curr_user) {
             abort(404);
         }
+        $curr_login = \Auth::user();
         $data = Artikel::latest()
         ->when($request->q, function($q)use($request){
             $q->where('judul', 'like', '%'.$request->q.'%');
@@ -51,6 +52,17 @@ class ArtikelController extends Controller
             $q->where('kategori', $request->kategori);
         })
         ->where('user_id', $curr_user->id)
+        ->when(!is_null($curr_login), function($q)use($curr_user){
+            $curr_login = \Auth::user();
+            if ($curr_login->id != $curr_user->id) {
+                $q->whereIn('status_id', [1, 6]);
+            }else if ($curr_login->id == $curr_user->id) {
+                $q->where('status_id', '>=', 0);
+            }
+        })
+        ->when(is_null($curr_login), function($q)use($curr_user){
+            $q->whereIn('status_id', [1, 6]);
+        })
         ->paginate(5);
         $datalike = ArtikelLike::where('user_id', $curr_user->id)->select('id')->count();
         $kategori = ArtikelKategori::orderBy('nama')->get();

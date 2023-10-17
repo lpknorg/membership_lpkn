@@ -93,6 +93,7 @@ Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middlewa
 	Route::post('/page/upload_bukti', [ProfileController::class, 'uploadBukti'])->name('upload_bukti');
 	Route::get('/edit_profile', [ProfileController::class, 'editProfile'])->name('edit_profile');
 	Route::get('/edit_password', [ProfileController::class, 'editPassword'])->name('edit_password');
+	Route::post('/update_password', [ProfileController::class, 'updatePassword'])->name('update_password');
 	Route::post('/update_profile', [ProfileController::class, 'updateProfile'])->name('update_profile');
 	Route::post('/add_sosial_media', [ProfileController::class, 'storeSosialMedia'])->name('store_sosial_media');
 	Route::post('/remove_sosial_media', [ProfileController::class, 'deleteSosialMedia'])->name('delete_sosial_media');

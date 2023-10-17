@@ -62,7 +62,6 @@
         <h1 class="h_artikel">List Artikel</h1>
         <hr class="h_line mt-0">
         <form action="">
-          @csrf
           <div class="row align-items-center">
             <div class="col-12 col-sm-3 mb-2 mb-md-0">
               <input type="text" class="form-control" name="q" placeholder="Cari disini ..." value="{{\Request::get('q')}}">
@@ -112,6 +111,7 @@
                 </div>
 
                 <div class="d-flex align-items-start ml-auto mt-2">
+                  @if(\Auth::check() && $d->user_id == \Auth::user()->id)
                     <div class="btn-group">
                         <a class="list_artikel_drop text-center" data-toggle="dropdown" aria-expanded="false">
                             <i class="fa-solid fa-caret-down"></i>
@@ -123,6 +123,7 @@
                           <a href="{{route('artikel.delete', ['id' => $d->id])}}" class="dropdown-item">Hapus</a>
                         </div>
                     </div>
+                    @endif
                 </div>
                 <div class="">
                   <a class="list_artikel_title" href="{{route('artikel.detail', ['uname' => \Helper::getUname($d->user) ,'slug' => $d->slug])}}">

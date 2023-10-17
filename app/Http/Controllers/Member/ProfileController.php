@@ -10,6 +10,7 @@ use App\Models\Admin\{Member, MemberKantor, Provinsi, Instansi, SosialMedia};
 use DB;
 use PDF;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use App\Http\Controllers\Member\SertifikatKamuController;
 
 class ProfileController extends Controller
 {
@@ -55,6 +56,37 @@ class ProfileController extends Controller
     public function editPassword(){
         $user = \Auth::user();
         return view('member.profile.update_password', compact('user'));
+    }
+
+    public function updatePassword(Request $request){
+        $validator = Validator::make($request->all(), array(
+            'password_lama'       => ['required'],
+            'password_baru'       => ['required', 'min:8'],
+            'password_konfirmasi' => ['required', 'min:8', 'same:password_baru']
+        ));
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status'   => "fail",
+                'messages' => $validator->errors()->first(),
+            ], 422);
+        }
+        $cek = \Hash::check($request->password_lama, \Auth::user()->password);
+        if (!$cek) {
+            return response()->json([
+                'status'   => "fail",
+                'messages' => "Password saat ini salah.",
+            ], 422);
+        }
+
+        $user = User::findOrFail(\Auth::user()->id);
+        $user->update([
+            'password' => \Hash::make($request->password_baru)
+        ]);
+        return response()->json([
+            'status'   => "ok",
+            'messages' => "Berhasil melakukan update password.",
+        ], 200);
     }
 
     public function updateProfile(Request $request){
@@ -127,7 +159,7 @@ class ProfileController extends Controller
                 'messages' => $validator->errors()->first(),
             ], 422);
         }
-        $userEmail = User::where('email', $request->email)->where('id', '!=', $Id)->first();
+        $userEmail = User::where('email', \Auth::user()->email)->where('id', '!=', $Id)->first();
         if($userEmail){
             return response()->json([
                 'status'    => "fail",
@@ -213,7 +245,7 @@ class ProfileController extends Controller
                 'nip'=> $request->nip,
                 'nik'=> $request->nik,
                 'name' => $request->nama_tanpa_gelar,
-                'email' => $request->email,
+                'email' => \Auth::user()->email,
                 'password' => $request->password ? \Hash::make($request->password) : $user->password,
                 'newuser_has_updated_data' => 1,
                 'deskripsi_diri' => $request->deskripsi_diri,
@@ -260,6 +292,14 @@ class ProfileController extends Controller
                 'kantor_kelurahan_id'=> $request->kantor_kelurahan,
                 'updated_at' => now()
             ]);
+            $sertif = new SertifikatKamuController();
+            $datapost = [
+                'email'=> \Auth::user()->email,
+                'nama' => $user->member->nama_untuk_sertifikat,
+                'hp' => $user->member->no_hp,
+                'instansi' => $user->member->memberKantor->instansi->nama
+            ];
+            $list_sertif = $sertif->getRespApiWithParam($datapost, 'Member/updateMembership');
             DB::commit();
         }catch (Exception $e) {
             DB::rollback();
