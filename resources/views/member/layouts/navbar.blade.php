@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg_nav nav_all">
     <div class="container con_full">
         <a href="{{url('/')}}" class="navbar-brand">
-            <img src="https://lpkn.id/front_assets/lpkn_iso_putih.png" alt="LPKN Logo" class="brand-image">
+            <img src="{{asset('frontend/images/logo_putih.png')}}" alt="LPKN Logo" class="brand-image">
         </a>
         @if(\Auth::check() && \Auth::user()->member)
         <img class="in_nav navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" src="{{\Helper::showImage(\Auth::user()->member->foto_profile, 'poto_profile')}}" alt="User profile picture" style="width:40px;height:40px;border-radius:50%;padding:0px">
