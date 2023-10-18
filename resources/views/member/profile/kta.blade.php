@@ -55,15 +55,15 @@ $nomor_kta = "LPKN-".$users->id.date('d',$date).date('m',$date).date('Y',$date)
                                                             <tr>
                                                                 <td width="230%"></td>
                                                                 <td width="60%">
-                                                                    <div style="padding: 5px 5px 5px 5px;">
-                                                                        <div style="padding:3px 3px 3px 3px;background:#fff;border-style: solid;">
-                                                                                {!! DNS2D::getBarcodeHTML($users->name, 'QRCODE',1.9, 2) !!}
-                                                                        </div>                                                                
+                                                                    <div style="padding: 5px 0 0 10px;">
+                                                                        <div style="padding: 3px;background:#fff;border-style: solid;">
+                                                                                {!! DNS2D::getBarcodeHTML($users->name, 'QRCODE',1.5, 1.5) !!}
+                                                                        </div>
                                                                     </div>
                                                                 </td>
                                                                 <td width="10%"></td>
                                                             </tr>
-                                                        </table>                                                        
+                                                        </table>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -71,14 +71,14 @@ $nomor_kta = "LPKN-".$users->id.date('d',$date).date('m',$date).date('Y',$date)
                                     </tr>
                                 </table>
                             </td>
-                        </tr>               
+                        </tr>
                     </table>
                 </td>
                 <td  width="50%">
                 </td>
             </tr>
             <tr>
-                
+
             </tr>
         </table>
         <table >
@@ -89,5 +89,5 @@ $nomor_kta = "LPKN-".$users->id.date('d',$date).date('m',$date).date('Y',$date)
                 <td  width="50%">
                 </td>
             </tr>
-        </table>            
+        </table>
    </body>
