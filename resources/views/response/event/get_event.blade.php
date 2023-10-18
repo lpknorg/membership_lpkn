@@ -36,7 +36,7 @@
 					      		<?php } ?>
 					      		<input type="hidden" name="slug" value="{{$event['slug']}}">
 					      		@if(\Auth::check())
-					      		<button type="submit" class="btn btn-primary mb-2">Daftar Sekarang</button>
+					      		<button type="submit" id="btndaftarsekarang" class="btn btn-primary mb-2">Daftar Sekarang</button>
 					      		@else
 					      		<div class="alert alert-warning">
 					      			Silakan melakukan login terlebih dahulu untuk melakukan pendaftaran.
@@ -105,6 +105,9 @@
                 processData: false,
                 type: 'POST',
                 dataType: "json",
+                beforeSend: function(){
+                	$('#btndaftarsekarang').attr('disabled', true).text('Load ...')
+                }
             })
             .done(function(res) {
             	console.log(res)
