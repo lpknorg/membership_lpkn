@@ -40,6 +40,8 @@
                                     $diundi = "31 Agustus 2023";
                                 }elseif (date($date) >= date('2023-09-01') && date($date) < date('2023-11-01')) {
                             		$diundi = "31 Oktober 2023";
+                            	}elseif (date($date) >= date('2023-11-01') && date($date) < date('2023-12-31')) {
+                            		$diundi = "30 Desember 2023";
                             	}
 	                            ?>
 					      		<p>Anda mendapatkan Voucher Undian yang<br/>akan di undi pada tanggal :

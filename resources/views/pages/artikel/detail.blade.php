@@ -150,7 +150,7 @@
   </div>
 </div>
 <div class="card card-primary px-4 py-2" id="add_comment">
-    @if(\Auth::check())
+    @if(\Auth::check() && $artikel->status_id == 1)
     <div class="text-center my-2">Beri Komentar</div>
     <div class="row">
         <div class="col-sm-2 col-3"></div>
@@ -175,6 +175,10 @@
                 </div>
             </form>
         </div>
+    </div>
+    @elseif(\Auth::check() && $artikel->status_id != 1)
+    <div class="alert alert-info">
+        Artikel sedang diverifikasi, mohon menunggu 1x24 jam.
     </div>
     @else
     <div class="alert alert-info">
@@ -243,6 +247,7 @@
 <script>
     $(function() {
         $(".HeartDetail").click(function() {
+            @if(\Auth::check() && $artikel->status_id == 1)
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('[name=_token]').val()
@@ -273,6 +278,7 @@
                 // sendAjax('#btnKomentar', true, 'Simpan')
                 }                
             });
+            @endif
             
         });
     });

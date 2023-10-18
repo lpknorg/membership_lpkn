@@ -63,12 +63,12 @@ class LoginController extends Controller
                 'messages' => "User tidak terdaftar.",
             ], 422);
         }
-        // if($user->email != 'wdinda375@gmail.com' && is_null($user->email_verified_at) && $user->email != 'admin@mail.com'){
-        //     return response()->json([
-        //         'status'    => "fail",
-        //         'messages' => "User belum melakukan verifikasi email",
-        //     ], 422);
-        // }
+        if($user->email != 'wdinda375@gmail.com' && is_null($user->email_verified_at) && $user->email != 'admin@mail.com'){
+             return response()->json([
+                 'status'    => "fail",
+                 'messages' => "User belum melakukan verifikasi email",
+             ], 422);
+         }
         // $cek = Hash::check($request->password, $user->password);
         // if ($cek && $user->roles->pluck('name')[0] == 'member inactive') {
         //     return response()->json([
