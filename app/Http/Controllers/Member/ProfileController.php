@@ -527,18 +527,10 @@ class ProfileController extends Controller
     }
 
     public function download_kta(){
-        $Id = \Auth::user()->id;
-        // $user = User::findOrFail($Id);
-        $users = DB::table('member_kantors')
-        ->select('instansis.nama as nama_instansi', 'users.id','users.name as nama_member', 'users.created_at', 'members.pas_foto3x4','members.foto_profile')
-        ->leftJoin('instansis', 'member_kantors.instansi_id', '=', 'instansis.id')
-        ->leftJoin('users', 'member_kantors.member_id', '=', 'users.id')
-        ->leftJoin('members', 'member_kantors.member_id', '=', 'members.user_id')
-        ->where('member_kantors.member_id', $Id)
-        ->get();
+        $users = \Auth::user();
 
         $pdf = PDF::loadView('member.profile.kta', compact('users'));
         // return $pdf->stream();
-        return $pdf->download('Kta_'.$users[0]->nama_member.'.pdf');
+        return $pdf->download('Kta_'.$users->name.'.pdf');
     }
 }

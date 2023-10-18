@@ -107,7 +107,7 @@ Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middlewa
 
 	Route::get('/sertifikat_kamu', [SertifikatKamuController::class, 'index'])->name('sertifikat_kamu.index');
 
-	Route::get('/dokumentasi', [DokumentasiController::class, 'index'])->name('dokumentasi.index');
+	// Route::get('/dokumentasi', [DokumentasiController::class, 'index'])->name('dokumentasi.index');
 	Route::post('/get_artikel', [DokumentasiController::class, 'get_artikel'])->name('dokumentasi.get_artikel');
 	// Route::post('/count', [DokumentasiController::class, 'count'])->name('dokumentasi.count');
 

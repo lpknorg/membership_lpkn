@@ -24,7 +24,7 @@
 							<input type="hidden" name="id_regis" value="{{$detail_event['id_regis']}}">
 							<h5> {{$detail_event['bukti'] == null ? 'Upload' : 'Upload Ulang'}} Bukti</h5>
 							<input type="file" name="bukti" class="form-control"><br/>
-							<button type="submit" class="btn btn-primary">
+							<button type="submit" class="btn btn-primary" id="btnupload">
 								Upload {{$detail_event['bukti'] == null ? '' : 'Ulang'}}
 							</button>
 						</form>
@@ -69,6 +69,12 @@
         		processData: false,
         		type: 'POST',
         		dataType: "json",
+        		beforeSend: function(){
+                	$('#btnupload').attr('disabled', true).text('Load ...')
+                },
+                complete: function(){
+                	$('#btnupload').attr('disabled', false).text('Upload')
+                }
         	})
         	.done(function(res) {
         		if(res.success) {

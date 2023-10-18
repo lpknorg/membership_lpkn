@@ -17,7 +17,8 @@ class VoucherController extends Controller
     {
         $email = \Auth::user()->email;
         $datapost = ['email'=>$email];
-    	$my_event = $this->getRespApiWithParam($datapost, 'member/event/my_event');
+        $my_event = $this->getRespApiWithParam($datapost, 'member/event/my_event');
+
 
         $detailevent = [];
         foreach($my_event['event'] as $myevent){
@@ -25,18 +26,24 @@ class VoucherController extends Controller
             $event = $this->getRespApiWithParam($datapost2, 'member/event/event_detail');
             $datevoucher = $event['eventregis']['create_date'];
             $dv = $this->expld($datevoucher);
-            if(date("Y") == $dv[0]){
-                $detailevent[] = array(
-                    'judul' => $event['event']['judul'],
-                    'kdvcr' =>$event['eventregis']['kode_vocher'],                  
-                    'create_date' => $datevoucher,                  
-                );
-            }else{
-                $detailevent = [];
-            }
+            // print_r(\Helper::changeFormatDate($event['event']['tgl_start']).' s/d '.\Helper::changeFormatDate($event['event']['tgl_end']).'====');
+            // if(date("Y") == $dv[0]){
+            //     $detailevent[] = array(
+            //         'judul' => $event['event']['judul'],
+            //         'kdvcr' =>$event['eventregis']['kode_vocher'],                  
+            //         'create_date' => $datevoucher,                  
+            //     );
+            // }else{
+            //     $detailevent = [];
+            // }
+            $detailevent[] = array(
+                'judul' => $event['event']['judul'],
+                'kdvcr' =>$event['eventregis']['kode_vocher'],                  
+                'create_date' => $datevoucher, 
+                'waktu_event' => \Helper::changeFormatDate($event['event']['tgl_start']).' s/d '.\Helper::changeFormatDate($event['event']['tgl_end'])
+            );
         }
-
-
+        // dd($detailevent);
         return view('member.profile.voucher', compact('detailevent'));
     }
 

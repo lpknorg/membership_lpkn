@@ -172,7 +172,7 @@ class ArtikelController extends Controller
                 'slug' => \Str::slug($request->judul).rand(1,9999),
                 'user_id' => \Auth::user()->id,
                 'cover' => $covername,
-                'kategori' => $request->kategori_id,
+                'kategori' => $request->kategori,
                 'judul' => $request->judul,
                 'deskripsi' => $content
             ]);

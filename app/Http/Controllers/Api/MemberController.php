@@ -52,7 +52,7 @@ class MemberController extends Controller{
 			MemberKantor::create([
 				'member_id' => $member->id
 			]);
-			$this->sendLinkVerifRegister($request);
+			// $this->sendLinkVerifRegister($request);
 			\DB::commit();
 		} catch (Exception $e) {
 			\DB::rollback();
@@ -63,7 +63,7 @@ class MemberController extends Controller{
 		}
 		return response()->json([
 			'status'       => "ok",
-			'messages'     => "Berhasil mendaftar, silakan verifikasi email anda.",
+			'messages'     => "Berhasil mendaftar",
 			'data'         =>  $user
 		], 200);
 	}

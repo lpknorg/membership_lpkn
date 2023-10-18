@@ -10,6 +10,7 @@
 				<tr>
 					<th width="5%" scope="col">No</th>
 					<th scope="col">Nama Event</th>
+					<th scope="col">Tanggal Pelaksanaan</th>
 					<th scope="col">Kode Voucher</th>
 				</tr>
 			</thead>
@@ -18,6 +19,7 @@
 				<tr>
 					<td>{{ $key+1 }}</td>
 					<td>{{ $de['judul']}}</td>
+					<td>{{ $de['waktu_event']}}</td>
 					<td>{{ $de['kdvcr']}}</td>
 				</tr>
 				@endforeach
