@@ -55,15 +55,15 @@ $nomor_kta = "LPKN-".$users[0]->id.date('d',$date).date('m',$date).date('Y',$dat
                                                             <tr>
                                                                 <td width="230%"></td>
                                                                 <td width="60%">
-                                                                    <div style="padding: 5px 5px 5px 5px;">
-                                                                        <div style="padding:3px 3px 3px 3px;background:#fff;border-style: solid;">
-                                                                                {!! DNS2D::getBarcodeHTML($users[0]->nama_member, 'QRCODE',1.9, 2) !!}
-                                                                        </div>                                                                
+                                                                    <div style="padding: 5px 0 0 10px;">
+                                                                        <div style="padding: 3px;background:#fff;border-style: solid;">
+                                                                                {!! DNS2D::getBarcodeHTML($users[0]->nama_member, 'QRCODE',1.5, 1.5) !!}
+                                                                        </div>
                                                                     </div>
                                                                 </td>
                                                                 <td width="10%"></td>
                                                             </tr>
-                                                        </table>                                                        
+                                                        </table>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -71,14 +71,14 @@ $nomor_kta = "LPKN-".$users[0]->id.date('d',$date).date('m',$date).date('Y',$dat
                                     </tr>
                                 </table>
                             </td>
-                        </tr>               
+                        </tr>
                     </table>
                 </td>
                 <td  width="50%">
                 </td>
             </tr>
             <tr>
-                
+
             </tr>
         </table>
         <table >
@@ -89,5 +89,5 @@ $nomor_kta = "LPKN-".$users[0]->id.date('d',$date).date('m',$date).date('Y',$dat
                 <td  width="50%">
                 </td>
             </tr>
-        </table>            
+        </table>
    </body>
