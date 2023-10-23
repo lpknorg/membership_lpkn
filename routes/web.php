@@ -61,6 +61,9 @@ Route::get('/searchvideo', [VideoControllerMember::class, 'search'])->name('sear
 Route::get('/peraturan', [PeraturanController::class, 'peraturan'])->name('peraturan');
 Route::post('/download_peraturan', [PeraturanController::class, 'download_peraturan'])->name('download_peraturan');
 
+Route::view('notification', 'notification')->name('notification');
+
+
 Auth::routes();
 
 Route::get('/home', function(){
