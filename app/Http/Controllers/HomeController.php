@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\{MemberImport, MemberImport2};
 use App\Http\Controllers\Member\ProfileController;
+use App\Models\User;
+use App\Models\Admin\{Member, MemberKantor};
 
 class HomeController extends Controller
 {
@@ -26,8 +28,56 @@ class HomeController extends Controller
     }
 
     public function importMember2(Request $request){
-        Excel::import(new MemberImport2, public_path('excel/member_alumni_100.xlsx'));
-        // return redirect()->back();
+        // echo date('d-m-Y H:i:s');
+        ini_set('max_execution_time', 5000); // 10 minutes
+        $client = new \GuzzleHttp\Client();
+        $endpoint = env('API_LPKN_ID').'Member/member_accept';
+        $request = $client->get($endpoint, [
+            'form_params' => ['tgl' => date('d')],
+            'headers' => [
+                'Authorization'  => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6ImFkbWluaXN0cmF0b3IiLCJ1c2VyX2dyb3VwIjoiYWRtaW4iLCJpYXQiOjE2NTg4MzQzMzN9.dhoLWPcm4cpXOUouX4GEMFrQBmIz5-RRaMACMUW0wxs',
+                'Cookie' => 'ci_session=e40e0d7d948983435b6949a4df8efbfaf2238c4b'
+            ]
+        ]);
+
+        $response = $request->getBody()->getContents();
+        $data = json_decode($response, true);
+        return $data;
+        foreach($data as $d){
+            $user = User::updateOrCreate(
+                [
+                    'email' => $d['email']
+                ],
+                [
+                    'name' => $d['nama_lengkap'],
+                    'nik' => $d['nik'],
+                    'nip' => $d['nip'],
+                    'password' => \Hash::make($d['encrypt_pass']),
+                    'updated_at' => now()
+                ]
+            );
+            $member = Member::updateOrCreate(
+                ['user_id' => $user->id],
+                [
+                    'no_hp' => $d['no_hp'],
+                    'no_member' => $d['no_member'],
+                    'pendidikan_terakhir' => $d['pendidikan_terakhir'],
+                    'tgl_lahir' => $d['tgl_lahir'],
+                    'profil_singkat' => $d['profil_singkat'],
+                    'updated_at' => now()
+                ]
+            );
+            $memberK = MemberKantor::updateOrCreate(
+                ['member_id' => $member->id],
+                [
+                    'nama_jabatan' => $d['jabatan'],
+                    'nama_instansi' => $d['tempat_kerja'],
+                    'unit_kerja' => $d['unit_kerja'],
+                    'updated_at' => now()
+                ]
+            );
+            echo $d['id'].'<br>';
+        }
         return "berhasil";
         // return back()->with(['success_import_member' => 'Berhasil import data member']);
     }
