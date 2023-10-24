@@ -176,7 +176,7 @@
             </form>
         </div>
     </div>
-    @elseif(\Auth::check() && $artikel->status_id 1= 1)
+    @elseif(\Auth::check() && $artikel->status_id != 1)
     <div class="alert alert-info">
         Artikel sedang diverifikasi, mohon menunggu 1x24 jam.
     </div>

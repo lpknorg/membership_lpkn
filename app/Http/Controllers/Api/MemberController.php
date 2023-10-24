@@ -52,7 +52,7 @@ class MemberController extends Controller{
 			MemberKantor::create([
 				'member_id' => $member->id
 			]);
-			// $this->sendLinkVerifRegister($request);
+			$this->sendLinkVerifRegister($request);
 			\DB::commit();
 		} catch (Exception $e) {
 			\DB::rollback();

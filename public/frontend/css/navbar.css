@@ -52,3 +52,21 @@
 .space-md{
     height: 60px;
 }
+/* notif start */
+.notif-number{
+    top:-6px;
+    left:8px;
+    width: 20px;
+    text-align: center;
+    background-color:red;
+    border-radius:50%;
+    color:white;
+    font-size:12px;
+}
+.notif_before_read{
+ color:white !important;
+ background-color: #121721;
+}
+.notif_before_read:hover{
+    background-color: #161B27;
+}

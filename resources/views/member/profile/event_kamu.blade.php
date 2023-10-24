@@ -42,6 +42,7 @@
 								<option value="">Pilih Event</option>
 								@foreach($list_event as $l)
 								<option value="{{$l['id']}}" data-brosur="{{$l['brosur_img']}}" data-judul="{{$l['judul']}}" data-tgl_end="{{$l['tgl_end']}}" >{{$l['judul'].', '.\Helper::changeFormatDate($l['tgl_start'], 'd-M-Y').' s/d '.\Helper::changeFormatDate($l['tgl_end'], 'd-M-Y').' - '.$l['id'] }}</option>
+								<!-- <option value="{{$l['id']}}" data-brosur="{{$l['brosur_img']}}" data-judul="{{$l['judul']}}" data-tgl_end="{{$l['tgl_end']}}" >{{$l['judul'].', '.\Helper::changeFormatDate($l['tgl_start'], 'd-M-Y').' s/d '.\Helper::changeFormatDate($l['tgl_end'], 'd-M-Y') }}</option> -->
 								@endforeach
 							</select>
 							<div id="div-detailEvent" style="display: none;">
@@ -156,10 +157,10 @@
 			}
 
 		})
-		// $('#modalTransferEvent [name=event]').select2({
-		// 	dropdownParent: $('#modalTransferEvent .modal-content'),
-		// 	width : '100%'
-		// })
+		$('#modalTransferEvent [name=event]').select2({
+			dropdownParent: $('#modalTransferEvent .modal-content'),
+			width : '100%'
+		})
 		$('body').on('click', '#btnTestimoni', function(){
 			let _slug = $(this).attr('data-slug')
 			// alert(_slug)
