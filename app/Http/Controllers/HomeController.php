@@ -28,8 +28,8 @@ class HomeController extends Controller
     }
 
     public function importMember2(Request $request){
-        // echo date('d-m-Y H:i:s');
-        ini_set('max_execution_time', 5000); // 10 minutes
+       echo date('d-m-Y H:i:s');
+        ini_set('max_execution_time', 7000); // 10 minutes
         $client = new \GuzzleHttp\Client();
         $endpoint = env('API_LPKN_ID').'Member/member_accept';
         $request = $client->get($endpoint, [
@@ -42,7 +42,7 @@ class HomeController extends Controller
 
         $response = $request->getBody()->getContents();
         $data = json_decode($response, true);
-        return $data;
+        //dd($data);
         foreach($data as $d){
             $user = User::updateOrCreate(
                 [
