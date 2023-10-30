@@ -43,8 +43,9 @@ class MemberController extends Controller{
 
 		$request['name'] = $request->nama_lengkap;
 		$request['password'] = \Hash::make($request->password);
+		$request['email_verified_at'] = now();
 		try {
-			$user = User::create($request->only('name', 'email', 'password'));
+			$user = User::create($request->only('name', 'email', 'password', 'email_verified_at'));
 			$user->syncRoles('member');
 			$request['user_id'] = $user->id;
 
@@ -52,7 +53,7 @@ class MemberController extends Controller{
 			MemberKantor::create([
 				'member_id' => $member->id
 			]);
-			$this->sendLinkVerifRegister($request);
+			// $this->sendLinkVerifRegister($request);
 			\DB::commit();
 		} catch (Exception $e) {
 			\DB::rollback();

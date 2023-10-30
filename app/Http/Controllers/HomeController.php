@@ -53,6 +53,7 @@ class HomeController extends Controller
                     'nik' => $d['nik'],
                     'nip' => $d['nip'],
                     'password' => \Hash::make($d['encrypt_pass']),
+                    'email_verified_at' => now(),
                     'updated_at' => now()
                 ]
             );
