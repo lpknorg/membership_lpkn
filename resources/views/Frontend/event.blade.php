@@ -26,10 +26,10 @@
                     @foreach($evt['data'] as $e)
                     <div class="col-lg-3 col-12 card-wrapper-special">
                         <div class="card card-special img__wrap">
-                            <img class="card-img-top card-img-top-special" src="{{'https://lpkn.id/upload/produk/'.$e['brosur']}}" alt="Card image cap">
+                            <img class="card-img-top card-img-top-special" src="{{$e['brosur_img']}}" alt="Card image cap">
                             <div class="img__description_layer">
-                                <p class="small mb-2">{{ $e['nama_produk'] }}</p>
-                                <button type="button" id="btnSelengkapnya" slug="{{$e['blank_link']}}" class="btn btn-primary btn-sm mb-1 py-0"><small>Selengkapnya</small></button></button>
+                                <p class="small mb-2">{{ $e['judul'] }}</p>
+                                <button type="button" id="btnSelengkapnya" slug="{{$e['slug']}}" class="btn btn-primary btn-sm mb-1 py-0"><small>Selengkapnya</small></button></button>
                             </div>
                         </div>
                     </div>

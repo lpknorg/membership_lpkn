@@ -10,7 +10,7 @@ class WelcomeController extends Controller
 {
     public function welcome(Request $request)
     {
-        $url = 'https://lpkn.id/api/produk/'.$request->keyword;
+        $url = env('API_EVENT').'member/event/welcome';
         $p = new ProfileController();
         $event = $p->getRespApi($url);
         $artikel = Artikel::limit(10)->whereIn('status_id', [1, 6])->latest()->get();

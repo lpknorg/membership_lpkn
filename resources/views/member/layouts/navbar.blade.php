@@ -145,45 +145,7 @@
             @if(\Auth::check())
             <ul class="navbar-nav navbar-no-expand ml-auto">
                 <!-- Messages Dropdown Menu -->
-                <li class="nav-item dropdown d-none d-lg-block mt-2 mr-4">
-                    <a class="nav-link m-0 p-0 mt-1" data-toggle="dropdown" href="#">
-                        <div class="position-relative" class="bg-succees">
-                            <i class="fa-solid fa-bell" style="font-size: 20px;"></i>
-                        </div>
-                        <span class="position-absolute notif-number">4</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="min-width: 200px;">
-                        <div class="dropdown-divider m-0"></div>
-                        <a href="" class="dropdown-item notif_before_read">
-                            <span>asdasd asd asd asdasdsdsad asdas dasd</span> <br>
-                            <p class="m-0 text-right small">2023-08-14 13:48:09</p>
-                        </a>
-                        <div class="dropdown-divider m-0"></div>
-                        <a href="" class="dropdown-item notif_before_read">
-                            <span>Ini belum dibaca</span> <br>
-                            <p class="m-0 text-right small">2023-08-14 13:48:09</p>
-                        </a>
-                        <div class="dropdown-divider m-0"></div>
-                        <a href="" class="dropdown-item notif_before_read">
-                            <span>Ini belum dibaca</span> <br>
-                            <p class="m-0 text-right small">2023-08-14 13:48:09</p>
-                        </a>
-                        <div class="dropdown-divider m-0"></div>
-                        <a href="" class="dropdown-item">
-                            <span>Ini belum dibaca</span> <br>
-                            <p class="m-0 text-right small">2023-08-14 13:48:09</p>
-                        </a>
-                        <div class="dropdown-divider m-0"></div>
-                        <a href="" class="dropdown-item">
-                            <span>Ini sudah dibaca</span> <br>
-                            <p class="m-0 text-right small">2023-08-14 13:48:09</p>
-                        </a>
-                        <div class="dropdown-divider mt-0"></div>
-                        <a href="{{route('notification')}}" class="dropdown-item text-center">
-                            Lihat Semua
-                        </a>
-                    </div>
-                </li>
+                
                 <li class="nav-item dropdown d-none d-lg-block">
                     <a class="nav-link m-0 p-0 out_nav" data-toggle="dropdown" href="#">
                         @if(\Auth::user()->member)
