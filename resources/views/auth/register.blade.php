@@ -5,6 +5,7 @@
         <h1 class="font-weight-bold text-white">Buat Akunmu</h1>
     </div>
     <p class="text-muted">Daftar & mulai sekarang</p>
+    <a class="mt-1" href="{{route('downloadFile', ['file' => 'manual-book.pdf', 'folder' => 'modul'])}}">Download Manual Book</a>
     <form method="POST" action="{{ route('api.daftar_member') }}" class="auth__form login-card-form" autocomplete="off">
         @csrf
         <div class="input-group">
@@ -33,7 +34,7 @@
     </form>
     <a href="{{route('login')}}" class="btn-flat mt-4">
         Login
-    </a>
+    </a>    
     <div class="login-card-footer">
         <p class="text-muted">&copy; 2023 Copyright : LPKN Training Center</p>
     </div>

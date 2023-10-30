@@ -5,6 +5,7 @@
     <h1 class="font-weight-bold text-white">Selamat Datang</h1>
   </div>
   <p class="text-muted">Dapatkan Ilmunya Raih Hadiahnya</p>
+  <a class="mt-1" href="{{route('downloadFile', ['file' => 'manual-book.pdf', 'folder' => 'modul'])}}">Download Manual Book</a>
   <form method="POST" action="{{ route('login') }}" class="auth__form login-card-form">
     @csrf
     <input type="hidden" name="slug_log" value="{{\Request::get('slug')}}">
