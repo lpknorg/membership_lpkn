@@ -338,7 +338,13 @@ class ProfileController extends Controller
     }
 
     public function updateFotoProfile(Request $request){
-        $Id = \Auth::user()->id;
+        if(\Auth::check()){
+            $Id = \Auth::user()->id;
+        }else{
+            $u = User::where('email', $request->email)->first();
+            $Id = $u->id;
+        }
+        
         $user = User::findOrFail($Id);
         if ($request->foto_profile == "undefined") {
             $request['foto_profile'] = null;
@@ -360,7 +366,9 @@ class ProfileController extends Controller
         $user->member->update([
             'foto_profile' => $nfoto_profile
         ]);
+        $_user = User::where('id', $Id)->with(['member.alamatProvinsi', 'member.alamatKota', 'member.alamatKecamatan', 'member.alamatKelurahan', 'member.memberKantor'])->first();
         return response()->json([
+            'data' => $_user,
             'status'    => "ok",
             'messages' => "Berhasil update foto profile"
         ], 200);

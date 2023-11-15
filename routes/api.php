@@ -22,6 +22,7 @@ Route::post('/daftar_member_lpkn/', [App\Http\Controllers\Api\MemberController::
 Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('api.login');
 Route::post('/update_profile/', [App\Http\Controllers\Member\ProfileController::class, 'updateProfile'])->name('api.update_profile');
 Route::post('/update_password/', [App\Http\Controllers\Member\ProfileController::class, 'updatePassword'])->name('api.update_password');
+Route::post('/update_fotoprofile', [App\Http\Controllers\Member\ProfileController::class, 'updateFotoProfile'])->name('update_fotoprofile');
 
 Route::get('/get_video_materi/{slug}', [App\Http\Controllers\Member\ProfileController::class, 'getVideoMateri'])->name('get_video_materi');
 
