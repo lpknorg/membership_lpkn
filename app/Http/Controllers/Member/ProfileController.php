@@ -111,7 +111,7 @@ class ProfileController extends Controller
     public function updateProfile(Request $request){
         $Id = $request->id_user;
         $user = User::with('member')->findOrFail($Id);
-        if ($request->foto_ktp == "undefined") {
+        if ($request->foto_ktp == "undefined" && is_null($user->member->foto_ktp)) {
             $request['foto_ktp'] = null;
         }
 
@@ -559,11 +559,22 @@ class ProfileController extends Controller
 
     }
 
-    public function download_kta(){
-        $users = \Auth::user();
+    public function download_kta(Request $request){
+        if($request->id_user){
+            $users = User::findOrFail($request->id_user);
+        }else{
+            $users = \Auth::user();
+        }        
 
         $pdf = PDF::loadView('member.profile.kta', compact('users'));
+
         // return $pdf->stream();
-        return $pdf->download('Kta_'.$users->name.'.pdf');
+        $headers = [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => "attachment; filename=Kta_{$users->name}.pdf",
+        ];
+        return \Response::make($pdf->output())->withHeaders($headers);
+        //return $pdf->download('Kta_'.$users->name.'.pdf');
+        //return $pdf->download('Kta_'.$users->name.'.pdf');
     }
 }
