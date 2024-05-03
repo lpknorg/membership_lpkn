@@ -117,7 +117,7 @@ Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middlewa
 	Route::get('/voucher', [VoucherController::class, 'index'])->name('voucher.index');
 	Route::get('/voucher2', [VoucherController::class, 'index2'])->name('voucher.index2');	
 });
-Route::get('member_profile/Kta', [ProfileController::class, 'download_kta'])->name('download_kta');
+Route::get('member_profile/Kta', [ProfileController::class, 'download_kta'])->name('member_profile.download_kta');
 
 Route::post('/import_member', [HomeController::class, 'importMember']);
 Route::get('/import_member2', [HomeController::class, 'importMember2']);

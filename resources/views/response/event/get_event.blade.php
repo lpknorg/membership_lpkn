@@ -36,7 +36,9 @@
 					      		<?php } ?>
 					      		<input type="hidden" name="slug" value="{{$event['slug']}}">
 					      		@if(\Auth::check())
-					      		<button type="submit" id="btndaftarsekarang" class="btn btn-primary mb-2">Daftar Sekarang</button>
+								  <a href="{{env('URL_EVENT').'event/'.$event['slug'] }}" style="display: block;color: #fff;
+								  font-size: 16px;text-decoration: underline;">Lihat Detail Event</a>
+					      		<button type="submit" id="btndaftarsekarang" class="btn btn-primary my-2">Daftar Sekarang</button>
 					      		@else
 					      		<div class="alert alert-warning">
 					      			Silakan melakukan login terlebih dahulu untuk melakukan pendaftaran.
@@ -52,7 +54,7 @@
 						      	@endif
 					      		</div>
 					      	</form>
-				      		<hr style="background-color: #fff;"></hr>
+				      		<!-- <hr style="background-color: #fff;"></hr>
 				      		<p>
 								<b>WAKTU</b><br/>
 								e- Learning : 8 - 15 Agustus 2022<br/>
@@ -71,7 +73,7 @@
 								- Tas dan Kelengkapannya<br/>
 								- Makan Siang, coffe/snack<br/>
 								- Sarapan dan Makan Malam (bagi yang menginap)
-				      		</p>
+				      		</p> -->
 				      		<hr style="background-color: #fff;"></hr>
 					      	<p class="modal-title w-100 text-center">
 								WhatsApp Panitia :<br/>
