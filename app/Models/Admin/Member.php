@@ -5,11 +5,22 @@ namespace App\Models\Admin;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Admin\{MemberKantor, Kelurahan, Provinsi, Kecamatan, KodePos, Kota};
+use App\Models\User;
 
 class Member extends Model
 {
     use HasFactory;
     protected $guarded = [];    
+
+    protected $appends = ['nama_lengkap'];
+
+    public function getNamaLengkapAttribute(){
+        return $this->userDetail->name;
+    }
+
+    public function userDetail(){
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
 
     public function memberKantor()
     {

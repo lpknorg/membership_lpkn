@@ -42,7 +42,7 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function login(Request $request){        
+    public function login(Request $request){    
         $validator = Validator::make($request->all(), array(
             'email' => "required",
             'password' => "required"
@@ -96,8 +96,9 @@ class LoginController extends Controller
                     $redirect = '/member_profile';
                 }
             }
+            $_user = User::where('email', $request->email)->with(['member.alamatProvinsi', 'member.alamatKota', 'member.alamatKecamatan', 'member.alamatKelurahan', 'member.memberKantor'])->first();
             return response()->json([
-                'data' => \Auth::user()->with('member'),
+                'data' => $_user,
                 'status'    => "ok",
                 'messages' => "Sukses login",
                 'redirect_to' => $redirect

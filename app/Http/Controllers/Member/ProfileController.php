@@ -71,19 +71,38 @@ class ProfileController extends Controller
                 'messages' => $validator->errors()->first(),
             ], 422);
         }
-        $cek = \Hash::check($request->password_lama, \Auth::user()->password);
+        //ini api user
+        if(\Auth::check()){
+            $_Id = \Auth::user()->id;
+            $cek = \Hash::check($request->password_lama, \Auth::user()->password);
+            $cek_baru = \Hash::check($request->password_baru, \Auth::user()->password);
+        }else{
+            $u = User::where('email', $request->email)->first();
+            $_Id = $u->id;
+            $cek = \Hash::check($request->password_lama, $u->password);
+            $cek_baru = \Hash::check($request->password_baru, $u->password);
+        }
         if (!$cek) {
             return response()->json([
                 'status'   => "fail",
                 'messages' => "Password saat ini salah.",
             ], 422);
         }
+        if ($cek_baru) {
+            return response()->json([
+                'status'   => "fail",
+                'messages' => "Password tidak boleh sama seperti sebelumnya.",
+            ], 422);
+        }
 
-        $user = User::findOrFail(\Auth::user()->id);
+        $user = User::findOrFail($_Id);
         $user->update([
             'password' => \Hash::make($request->password_baru)
         ]);
+        $_user = User::where('id', $_Id)->with(['member.alamatProvinsi', 'member.alamatKota', 'member.alamatKecamatan', 'member.alamatKelurahan', 'member.memberKantor'])->first();
+        
         return response()->json([
+            'data' => $_user,
             'status'   => "ok",
             'messages' => "Berhasil melakukan update password.",
         ], 200);
@@ -91,8 +110,8 @@ class ProfileController extends Controller
 
     public function updateProfile(Request $request){
         $Id = $request->id_user;
-        $user = User::findOrFail($Id);
-        if ($request->foto_ktp == "undefined") {
+        $user = User::with('member')->findOrFail($Id);
+        if ($request->foto_ktp == "undefined" && is_null($user->member->foto_ktp)) {
             $request['foto_ktp'] = null;
         }
 
@@ -159,7 +178,12 @@ class ProfileController extends Controller
                 'messages' => $validator->errors()->first(),
             ], 422);
         }
-        $userEmail = User::where('email', \Auth::user()->email)->where('id', '!=', $Id)->first();
+        if(\Auth::check()){
+            $_email = \Auth::user()->email;
+        }else{
+            $_email = $request->email;
+        }
+        $userEmail = User::where('email', $_email)->where('id', '!=', $Id)->first();
         if($userEmail){
             return response()->json([
                 'status'    => "fail",
@@ -245,7 +269,7 @@ class ProfileController extends Controller
                 'nip'=> $request->nip,
                 'nik'=> $request->nik,
                 'name' => $request->nama_tanpa_gelar,
-                'email' => \Auth::user()->email,
+                'email' => $_email,
                 'password' => $request->password ? \Hash::make($request->password) : $user->password,
                 'newuser_has_updated_data' => 1,
                 'deskripsi_diri' => $request->deskripsi_diri,
@@ -294,10 +318,10 @@ class ProfileController extends Controller
             ]);
             $sertif = new SertifikatKamuController();
             $datapost = [
-                'email'=> \Auth::user()->email,
+                'email'=> $_email,
                 'nama' => $user->member->nama_untuk_sertifikat,
                 'hp' => $user->member->no_hp,
-                'instansi' => $user->member->memberKantor->instansi->nama
+                'instansi' => $request->tempat_kerja
             ];
             $list_sertif = $sertif->getRespApiWithParam($datapost, 'Member/updateMembership');
             DB::commit();
@@ -308,12 +332,19 @@ class ProfileController extends Controller
         }
         return response()->json([
             'status'    => "ok",
-            'messages' => "Berhasil update profile"
+            'messages' => "Berhasil update profile",
+            'data' => $user
         ], 200);
     }
 
     public function updateFotoProfile(Request $request){
-        $Id = \Auth::user()->id;
+        if(\Auth::check()){
+            $Id = \Auth::user()->id;
+        }else{
+            $u = User::where('email', $request->email)->first();
+            $Id = $u->id;
+        }
+        
         $user = User::findOrFail($Id);
         if ($request->foto_profile == "undefined") {
             $request['foto_profile'] = null;
@@ -335,7 +366,9 @@ class ProfileController extends Controller
         $user->member->update([
             'foto_profile' => $nfoto_profile
         ]);
+        $_user = User::where('id', $Id)->with(['member.alamatProvinsi', 'member.alamatKota', 'member.alamatKecamatan', 'member.alamatKelurahan', 'member.memberKantor'])->first();
         return response()->json([
+            'data' => $_user,
             'status'    => "ok",
             'messages' => "Berhasil update foto profile"
         ], 200);
@@ -526,11 +559,22 @@ class ProfileController extends Controller
 
     }
 
-    public function download_kta(){
-        $users = \Auth::user();
+    public function download_kta(Request $request){
+        if($request->id_user){
+            $users = User::findOrFail($request->id_user);
+        }else{
+            $users = \Auth::user();
+        }        
 
         $pdf = PDF::loadView('member.profile.kta', compact('users'));
+
         // return $pdf->stream();
-        return $pdf->download('Kta_'.$users->name.'.pdf');
+        $headers = [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => "attachment; filename=Kta_{$users->name}.pdf",
+        ];
+        return \Response::make($pdf->output())->withHeaders($headers);
+        //return $pdf->download('Kta_'.$users->name.'.pdf');
+        //return $pdf->download('Kta_'.$users->name.'.pdf');
     }
 }

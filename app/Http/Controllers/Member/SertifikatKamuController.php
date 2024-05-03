@@ -13,7 +13,7 @@ class SertifikatKamuController extends Controller
         $email = \Auth::user()->email;
         $datapost = ['email'=>$email];
         $list_sertif = $this->getRespApiWithParam($datapost, 'member/list_sertif');
-        // dd($list_sertif);
+        //dd($list_sertif);
         return view('member.profile.sertifikat_kamu', compact('list_sertif'));
     }
 

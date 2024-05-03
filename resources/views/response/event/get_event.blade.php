@@ -36,8 +36,9 @@
 					      		<?php } ?>
 					      		<input type="hidden" name="slug" value="{{$event['slug']}}">
 					      		@if(\Auth::check())
-					      		<a href="" class="btn btn-outline-primary">Lihat Detail Event</a>
-					      		<button type="submit" id="btndaftarsekarang" class="btn btn-primary mb-2">Daftar Sekarang</button>
+					      		<a href="{{env('URL_EVENT').'event/'.$event['slug'] }}" style="display: block;color: #fff;
+								  font-size: 16px;text-decoration: underline;">Lihat Detail Event</a>
+					      		<button type="submit" id="btndaftarsekarang" class="btn btn-primary my-2">Daftar Sekarang</button>
 					      		@else
 					      		<div class="alert alert-warning">
 					      			Silakan melakukan login terlebih dahulu untuk melakukan pendaftaran.
@@ -53,6 +54,29 @@
 						      	@endif
 					      		</div>
 					      	</form>
+<<<<<<< HEAD
+=======
+				      		<!-- <hr style="background-color: #fff;"></hr>
+				      		<p>
+								<b>WAKTU</b><br/>
+								e- Learning : 8 - 15 Agustus 2022<br/>
+								Pelatihan : 23 - 24 Agustus 2022<br/>
+								Ujian : 25 Agustus 2022<br/><br/>
+
+								<b>FASILITAS PESERTA</b><br/>
+								- Mengikuti Kelas Kompetensi<br/>
+								- Materi Pelatihan<br/>
+								- 6 Modul Hardcopy dan Softcopy<br/>
+								- 6 Modul Latihan<br/>
+								- SKKNI dan Perpres Pengadaan<br/>
+								- Sertifikat Pelatihan Kompetensi<br/>
+								- Sertifikat Komptensi BNSP (jika telah dinyatakan lulus)<br/>
+								- Gelar Profesi Non akademik (CPOf)<br/>
+								- Tas dan Kelengkapannya<br/>
+								- Makan Siang, coffe/snack<br/>
+								- Sarapan dan Makan Malam (bagi yang menginap)
+				      		</p> -->
+>>>>>>> 565c77212394aacdba019c1aa775464dc08a6533
 				      		<hr style="background-color: #fff;"></hr>
 					      	<p class="modal-title w-100 text-center">
 								WhatsApp Panitia :<br/>

@@ -10,6 +10,7 @@
 			slug = slug.substring(28,l);
 		}
 		var url = "{{url('member_profile/page/get_event')}}" + `/${slug}`
+		console.log(url)
 		$('.exampleModal').load(url);
 	}
 </script>
