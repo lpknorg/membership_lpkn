@@ -97,6 +97,7 @@ class LoginController extends Controller
                 }
             }
             return response()->json([
+                'data' => \Auth::user()->with('member'),
                 'status'    => "ok",
                 'messages' => "Sukses login",
                 'redirect_to' => $redirect

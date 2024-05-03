@@ -5,7 +5,7 @@
     <h1 class="font-weight-bold text-white">Selamat Datang</h1>
   </div>
   <p class="text-muted">Dapatkan Ilmunya Raih Hadiahnya</p>
-  <a class="mt-1" href="{{route('downloadFile', ['file' => 'manual-book.pdf', 'folder' => 'modul'])}}">Download Manual Book</a>
+  <!-- <a class="mt-1" href="{{route('downloadFile', ['file' => 'manual-book.pdf', 'folder' => 'modul'])}}">Download Manual Book</a> -->
   <form method="POST" action="{{ route('login') }}" class="auth__form login-card-form">
     @csrf
     <input type="hidden" name="slug_log" value="{{\Request::get('slug')}}">
@@ -22,7 +22,7 @@
       <a href="" id="btnLupaPassword" class="btn-flat">Lupa password</a>
     </div>
     <div class="mt-4">
-      <button type="submit" id="loginbtn" vlaue="Submit" class="btn btn-primary">Masuk</button>
+      <button type="submit" id="loginbtn" value="Submit" class="btn btn-primary">Masuk</button>
     </div>
   </form>
   <a href="{{route('register')}}" class="btn-flat mt-4">

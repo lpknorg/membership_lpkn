@@ -14,7 +14,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        view()->composer(
+            'member.layouts.navbar',
+            'App\Http\ViewComposers\NotifikasiComposer'
+        );
     }
 
     /**
