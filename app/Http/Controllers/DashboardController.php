@@ -102,8 +102,9 @@ class DashboardController extends Controller
         return Excel::download(new EventExport($eventData),"event_{$now}.xlsx");
     }
 
-    public function detailUser($email){
+    public function detailAlumni ($email){
         $user = User::where('email', $email)->first();
+        dd($user);
         $eventKamu = new EventKamuController();
         $my_event = $eventKamu->getRespApiWithParam([], 'member/event/dashboard_detail_alumni?email='.$email, 'get');
         return view('admin.user.detail_user', compact('user', 'my_event'));

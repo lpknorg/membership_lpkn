@@ -108,48 +108,44 @@
 </div>
 @endsection
 @section('scripts')
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js"></script>
 <script src="{{asset('js/chart.js')}}"></script>
 <script>
-	$(document).ready(function(){
-		$('[name=tanggal_awal]').change(function(){
-			tableEvent.draw()
-		})
-		$('[name=tanggal_akhir]').change(function(){
-			tableEvent.draw()
-		})
-		$('[name=kategori_event]').change(function(){
-			tableEvent.draw()
-		})
-		$('[name=jenis_event]').change(function(){
-			tableEvent.draw()
-		})
-		var tableEvent = $('#table-DatatableEvent').DataTable({
-			processing: true,
-			serverSide: true,
-			ajax: {
-				"url": "{{ route('dashboard2.dataTableEvent') }}",
-				data: function(d){
-					d.tanggal_awal = $('[name=tanggal_awal]').val()
-					d.tanggal_akhir = $('[name=tanggal_akhir]').val()
-					d.kategori_event = $('[name=kategori_event]').find(":selected").val()
-					d.jenis_event = $('[name=jenis_event]').find(":selected").val()
-				}
-			},
-			columns: [
-				{data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-				{data: 'jenis', name: 'jenis'},
-				{data: 'link_list_alumni', name: 'judul'},
-				{data: 'tgl_start', name: 'tgl_start'},
-				{data: 'tgl_end', name: 'tgl_end'},
-				{data: 'img_brosur', searchable: false},
-				{data: 'nama_panitia', name: 'nama_panitia'},
-				{data: 'link_event', searchable: false},
-				{data: 'lokasi_event', name: 'lokasi_event'},
-				]
-		});
+	$('[name=tanggal_awal]').change(function(){
+		tableEvent.draw()
+	})
+	$('[name=tanggal_akhir]').change(function(){
+		tableEvent.draw()
+	})
+	$('[name=kategori_event]').change(function(){
+		tableEvent.draw()
+	})
+	$('[name=jenis_event]').change(function(){
+		tableEvent.draw()
+	})
+	var tableEvent = $('#table-DatatableEvent').DataTable({
+		processing: true,
+		serverSide: true,
+		ajax: {
+			"url": "{{ route('dashboard2.dataTableEvent') }}",
+			data: function(d){
+				d.tanggal_awal = $('[name=tanggal_awal]').val()
+				d.tanggal_akhir = $('[name=tanggal_akhir]').val()
+				d.kategori_event = $('[name=kategori_event]').find(":selected").val()
+				d.jenis_event = $('[name=jenis_event]').find(":selected").val()
+			}
+		},
+		columns: [
+			{data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+			{data: 'jenis', name: 'jenis'},
+			{data: 'link_list_alumni', name: 'judul'},
+			{data: 'tgl_start', name: 'tgl_start'},
+			{data: 'tgl_end', name: 'tgl_end'},
+			{data: 'img_brosur', searchable: false},
+			{data: 'nama_panitia', name: 'nama_panitia'},
+			{data: 'link_event', searchable: false},
+			{data: 'lokasi_event', name: 'lokasi_event'},
+			]
 	});
 	// const ctx_tipee = document.getElementById('chartTipe');
 	// new Chart(ctx_tipee, {

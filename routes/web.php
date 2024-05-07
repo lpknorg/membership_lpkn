@@ -77,7 +77,7 @@ Route::group(['prefix' => 'dashboard2', 'as' => 'dashboard2.'], function () {
 	Route::get('/', [DashboardController::class, 'index2'])->name('index');
 	Route::get('/dataTableEvent', [DashboardController::class, 'dataTableEvent'])->name('dataTableEvent');
 	Route::get('/exportExcelEvent', [DashboardController::class, 'exportExcelEvent'])->name('exportExcelEvent');
-	Route::get('/detail_alumni/{name}', [DashboardController::class, 'detailUser'])->name('detail_alumni');
+	Route::get('/detail_alumni/{name}', [DashboardController::class, 'detailAlumni'])->name('detail_alumni');
 	Route::get('/event_user_list/{id}', [DashboardController::class, 'getUserByIdEvent'])->name('get_user_by_event');
 });
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');

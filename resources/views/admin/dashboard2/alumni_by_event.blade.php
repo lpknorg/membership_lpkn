@@ -61,13 +61,8 @@
 </div>
 @endsection
 @section('scripts')
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js"></script>
 <script src="{{asset('js/chart.js')}}"></script>
 <script>
-	$(document).ready(function(){
-		$('#table-member').DataTable();
-	});
+	$('#table-member').DataTable();
 </script>
 @endsection
