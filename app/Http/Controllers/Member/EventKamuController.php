@@ -18,14 +18,9 @@ class EventKamuController extends Controller
         return view('member.profile.event_kamu', compact('my_event', 'list_event'));
     }
 
-    public function getRespApiWithParam($datapost, $url){
+    public function getRespApiWithParam($datapost, $url, $type){
         $client = new \GuzzleHttp\Client();
         $endpoint = env('API_EVENT').$url;
-        if ($url == 'member/event/my_event') {
-            $type = 'post';
-        }else{
-            $type = 'get';
-        }
         $request = $client->$type($endpoint, [
             'form_params' => $datapost,
             'headers' => [

@@ -33,7 +33,6 @@
 							<th>Nama Lengkap</th>
 							<th>Email</th>
 							<th>NIP</th>
-							<th>Status</th>
 							<th width="90px">Action</th>
 						</tr>
 					</thead>
@@ -235,14 +234,8 @@
 			columns: [
 				{data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
 				{data: 'name', name: 'name'},
-				{data: 'email', name: 'email'},
+				{data: 'email', name: 'users.email'},
 				{data: 'nip', name: 'nip'},
-				{
-					data: 'status_user',
-					name: 'status_user',
-					orderable: true,
-					searchable: false
-				},
 				{
 					data: 'action',
 					name: 'action',

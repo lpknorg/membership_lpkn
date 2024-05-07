@@ -14,7 +14,7 @@ class NotifikasiComposer
             $datapost = ['email' => $email, 'status_id' => 3];
             //$event_waiting = $this->getRespApiWithParam($datapost, 'member/event/waiting');
 
-            $client = new \GuzzleHttp\Client();
+            $client = new \GuzzleHttp\Client(['verify' => false]);
             $endpoint = env('API_EVENT').'member/event/totalbystatus';
             $request = $client->post($endpoint, [
                 'form_params' => $datapost,

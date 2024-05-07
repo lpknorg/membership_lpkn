@@ -46,6 +46,7 @@ use App\Http\Controllers\Artikel\{
 |
 */
 Route::get('ea', function(){
+	dd(\Hash::make('@!FPi123'));
 	$a = env('MAIL_USERNAME');
 	dd($a);
 });
@@ -71,7 +72,16 @@ Route::get('/home', function(){
 });
 Route::get('/download_file/{file}/{folder?}', [HomeController::class, 'downloadFile'])->name('downloadFile');
 // Route::view('dashboard', 'dashboard');
+
+Route::group(['prefix' => 'dashboard2', 'as' => 'dashboard2.'], function () {
+	Route::get('/', [DashboardController::class, 'index2'])->name('index');
+	Route::get('/dataTableEvent', [DashboardController::class, 'dataTableEvent'])->name('dataTableEvent');
+	Route::get('/exportExcelEvent', [DashboardController::class, 'exportExcelEvent'])->name('exportExcelEvent');
+	Route::get('/detail_alumni/{name}', [DashboardController::class, 'detailUser'])->name('detail_alumni');
+	Route::get('/event_user_list/{id}', [DashboardController::class, 'getUserByIdEvent'])->name('get_user_by_event');
+});
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
 Route::view('abc', 'test');
 Route::group(['prefix' => 'artikel', 'as' => 'artikel.'], function () {
 	Route::get('/', [ArtikelController::class, 'index'])->name('index');
@@ -88,7 +98,7 @@ Route::group(['prefix' => 'p'], function () {
 	Route::post('/artikel/update/{id}', [ArtikelController::class, 'update'])->name('artikel.update');
 	Route::get('/artikel/delete/{id}', [ArtikelController::class, 'delete'])->name('artikel.delete');
 });
-Route::get('member_profile/page/get_event/{slug}', [ProfileController::class, 'getEventModal'])->name('member_profile.get_event.modal');
+Route::get('member_profile/page/get_event/{id_eventt}', [ProfileController::class, 'getEventModal'])->name('member_profile.get_event.modal');
 Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middleware' => 'auth'], function () {
 	Route::get('/', [ProfileController::class, 'index'])->name('index');
 	Route::get('/page/get_video_materi/{slug}', [ProfileController::class, 'getVideoMateri'])->name('get_video_materi');

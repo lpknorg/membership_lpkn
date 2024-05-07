@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Member\EventKamuController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -150,9 +151,12 @@ class UserController extends Controller
     public function getDatatable(Request $request)
     {
         if ($request->ajax()) {
-            $data = User::orderBy('updated_at', 'DESC');
+            $data = User::limit(100)->orderBy('updated_at', 'DESC');
             return \DataTables::of($data)
                 ->addIndexColumn()
+                ->addColumn('email', function($row){
+                    return '<a href="'.url('detail_user/'.$row->email).'">'.$row->email.'</a>';
+                })
                 ->addColumn('status_user', function($row){
                     $s = '';
                     if ($row->is_confirm) {
@@ -169,7 +173,7 @@ class UserController extends Controller
                     $actionBtn .= '<button type="button" class="btn-sm btn btn-danger mb-2 mb-lg-2" id="btnHapus" data-id=' . $row->id . ' action="' . route('admin.user.destroy', $row->id) . '"><i class="fa fa-trash"></i></button>';
                     return $actionBtn;
                 })
-                ->rawColumns(['action', 'status_user'])
+                ->rawColumns(['action', 'status_user', 'email'])
                 ->make(true);
         }
     }
