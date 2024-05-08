@@ -75,10 +75,14 @@ Route::get('/download_file/{file}/{folder?}', [HomeController::class, 'downloadF
 
 Route::group(['prefix' => 'dashboard2', 'as' => 'dashboard2.'], function () {
 	Route::get('/', [DashboardController::class, 'index2'])->name('index');
+	Route::get('/event_gratis', [DashboardController::class, 'eventGratis'])->name('eventGratis');
 	Route::get('/dataTableEvent', [DashboardController::class, 'dataTableEvent'])->name('dataTableEvent');
-	Route::get('/exportExcelEvent', [DashboardController::class, 'exportExcelEvent'])->name('exportExcelEvent');
+	Route::get('/dataTableEventGratis', [DashboardController::class, 'dataTableEventGratis'])->name('dataTableEventGratis');
+	Route::get('/exportExcelEvent/{tipe}', [DashboardController::class, 'exportExcelEvent'])->name('exportExcelEvent');
+	Route::get('/exportExcelAlumni', [DashboardController::class, 'exportExcelAlumni'])->name('exportExcelAlumni');
 	Route::get('/detail_alumni/{name}', [DashboardController::class, 'detailAlumni'])->name('detail_alumni');
-	Route::get('/event_user_list/{id}', [DashboardController::class, 'getUserByIdEvent'])->name('get_user_by_event');
+	Route::get('/event_user_list_datatable', [DashboardController::class, 'getUserByIdEventDatatable'])->name('get_user_by_event_datatable');
+	Route::view('event_user_list/{id}', 'admin.dashboard2.alumni_by_event')->name('get_user_by_event');
 });
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 

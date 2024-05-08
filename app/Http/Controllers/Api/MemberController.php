@@ -44,6 +44,7 @@ class MemberController extends Controller{
 		$request['name'] = $request->nama_lengkap;
 		$request['password'] = \Hash::make($request->password);
 		$request['email_verified_at'] = now();
+		\DB::beginTransaction();
 		try {
 			$user = User::create($request->only('name', 'email', 'password', 'email_verified_at'));
 			$user->syncRoles('member');

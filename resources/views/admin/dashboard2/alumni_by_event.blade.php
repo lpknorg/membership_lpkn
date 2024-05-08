@@ -23,7 +23,7 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="x_panel">
-			<table class="table table-bordered table-hover" id="table-member">
+			<table class="table table-bordered table-hover" id="table-alumni">
 				<thead>
 					<tr>
 						<th>No</th>
@@ -36,24 +36,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					@foreach($data as $key => $e)
-					<tr>
-						<td style="width: 5%">{{ $key+1 }}</td>
-						<td>{{$e['nama_lengkap']}}</td>
-						<td>{{$e['no_hp']}}</td>
-						<td><a target="_blank" href="{{route('dashboard2.detail_alumni', $e['email'])}}">{{$e['email']}}</a></td>
-						<td>{{$e['instansi']}}</td>
-						<td>{{$e['unit_organisasi']}}</td><td>
-							@if($e['status_pembayaran'] == 1)
-							<span class="badge badge-success">Terverifikasi</span>
-							@elseif($e['status_pembayaran'] == 0 && $e['bukti_bayar'])
-							<span class="badge badge-warning">Upload Bukti</span>
-							@else
-							<span class="badge badge-danger">Belum Pembayaran</span>
-							@endif
-						</td>
-					</tr>
-					@endforeach
+					
 				</tbody>
 			</table>
 		</div>
@@ -63,6 +46,25 @@
 @section('scripts')
 <script src="{{asset('js/chart.js')}}"></script>
 <script>
-	$('#table-member').DataTable();
+	var tableEventGratis = $('#table-alumni').DataTable({
+		processing: true,
+		serverSide: true,
+		ajax: {
+			"url": "{{ route('dashboard2.get_user_by_event_datatable') }}",
+			data: function(d){
+				d.id_event = 636
+				d.status_pembayaran = $('[name=tanggal_awal]').val()
+			}
+		},
+		columns: [
+			{data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+			{data: 'nama_lengkap', 'name': 'nama_lengkap'},
+			{data: 'no_hp', 'name': 'no_hp'},
+			{data: 'email_', 'name': 'email'},
+			{data: 'instansi', 'name': 'instansi'},
+			{data: 'unit_organisasi', 'name': 'unit_organisasi'},
+			{data: 'status_pembayaran', searchable: false},
+			]
+	});
 </script>
 @endsection

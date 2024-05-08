@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Member\EventKamuController;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Admin\{Provinsi, Instansi, LembagaPemerintahan};
+use App\Models\Admin\{Provinsi, Instansi, LembagaPemerintahan, Member, MemberKantor};
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\{
-    EventExport
+    EventExportBerbayar,
+    EventExportGratis
 };
 
 class DashboardController extends Controller
@@ -60,7 +61,7 @@ class DashboardController extends Controller
 
     public function index2(){        
         $arr_tipe_event = ['Berbayar', 'Gratis', 'Tatap Muka', 'Non Tatap Muka'];
-        $arr_total_bytipe = $this->hitApi('member/event/total_event_by_jenis');        
+        $arr_total_bytipe = $this->hitApi('member/event/total_event_by_jenis');         
         return view('dashboard2', compact('arr_tipe_event', 'arr_total_bytipe'));
     }
 
@@ -80,46 +81,135 @@ class DashboardController extends Controller
 
     public function dataTableEvent(Request $request){
         $eventData = $this->hitApi("member/event/dashboard_all_event?tanggal_awal={$request->tanggal_awal}&tanggal_akhir={$request->tanggal_akhir}&kategori_event={$request->kategori_event}&jenis_event={$request->jenis_event}");
-        // dd($arr_all_event);
         return \DataTables::of($eventData)
-            ->addIndexColumn()
-            ->addColumn('img_brosur', function($row){
-                return "<a target='_blank' href={$row['brosur_img']}><img height='40' data-action='zoom' src={$row['brosur_img']}></a>";
-            })
-            ->addColumn('link_event', function($row){
-                return "<a target='_blank' href={$row['link_slugg']}><i class='fa fa-link'></i></a>";
-            })
-            ->addColumn('link_list_alumni', function($row){
-                return "<a target='_blank' href=".route('dashboard2.get_user_by_event', $row['id']).">{$row['judul']}</a>";
-            })
-            ->rawColumns(['img_brosur', 'link_event', 'link_list_alumni'])
-            ->make(true);
+        ->addIndexColumn()
+        ->addColumn('img_brosur', function($row){
+            return "<a target='_blank' href={$row['brosur_img']}><img height='40' data-action='zoom' src={$row['brosur_img']}></a>";
+        })
+        ->addColumn('link_event', function($row){
+            return "<a target='_blank' href={$row['link_slugg']}><i class='fa fa-link'></i></a>";
+        })
+        ->addColumn('link_list_alumni', function($row){
+            return "<a target='_blank' href=".route('dashboard2.get_user_by_event', $row['id']).">{$row['judul']}</a>";
+        })
+        ->addColumn('tgl_start', function($row){
+            return \Helper::changeFormatDate($row['tgl_start'], 'd-M-Y');
+        })
+        ->addColumn('tgl_end', function($row){
+            return \Helper::changeFormatDate($row['tgl_end'], 'd-M-Y');
+        })
+        ->rawColumns(['img_brosur', 'link_event', 'link_list_alumni'])
+        ->make(true);
     }
 
-    public function exportExcelEvent(Request $request){
-        $eventData = $this->hitApi("member/event/dashboard_all_event?tanggal_awal={$request->tanggal_awal}&tanggal_akhir={$request->tanggal_akhir}&kategori_event={$request->kategori_event}&jenis_event={$request->jenis_event}");
+    public function eventGratis(){
+        return view('admin.dashboard2.event_gratis');
+    }
+
+    public function dataTableEventGratis(Request $request){
+        $endpoint_ = env('API_FORM_SERTIFIKAT').'kelas_sertif';
+        if ($request->tgl1) {
+            $endpoint_ = env('API_FORM_SERTIFIKAT')."kelas_sertif/{$request->tgl1}";
+        }
+        if ($request->tgl2) {
+            $endpoint_ = env('API_FORM_SERTIFIKAT')."kelas_sertif/{$request->tgl1}/{$request->tgl2}";
+        }
+        // var_dump($endpoint_);die;
+        $event_gratis = \Helper::getRespApiWithParam($endpoint_);
+        // var_dump($event_gratis);die;
+        return \DataTables::of($event_gratis)
+        ->addIndexColumn()
+        ->addColumn('created_at', function($row){
+            return \Helper::changeFormatDate($row['created_at'], 'd-M-Y');
+        })
+        ->addColumn('link_sertifikat', function($row){
+            return "<a href={$row['link']} target='_blank'>{$row['link']}</a>";
+        })
+        ->rawColumns(['created_at', 'link_sertifikat'])
+        ->make(true);
+    }
+
+    public function exportExcelEvent($tipe, Request $request){
         $now = date('d-m-Y');
-        return Excel::download(new EventExport($eventData),"event_{$now}.xlsx");
+        if ($tipe == 'berbayar') {
+            $eventData = $this->hitApi("member/event/dashboard_all_event?tanggal_awal={$request->tanggal_awal}&tanggal_akhir={$request->tanggal_akhir}&kategori_event={$request->kategori_event}&jenis_event={$request->jenis_event}");            
+            return Excel::download(new EventExportBerbayar($eventData),"event-berbayar_{$now}.xlsx");
+        }else{
+            $endpoint_ = env('API_FORM_SERTIFIKAT')."kelas_sertif/{$request->tanggal_awal}/{$request->tanggal_akhir}";
+            $eventData = \Helper::getRespApiWithParam($endpoint_);
+            return Excel::download(new EventExportGratis($eventData),"event-gratis_{$now}.xlsx");
+        }
     }
 
     public function detailAlumni ($email){
         $user = User::where('email', $email)->first();
-        dd($user);
+
         $eventKamu = new EventKamuController();
         $my_event = $eventKamu->getRespApiWithParam([], 'member/event/dashboard_detail_alumni?email='.$email, 'get');
+        $dataAlumni = $my_event['dataAlumni'];
+        // dd($dataAlumni);
+        if (!$user) {
+            \DB::beginTransaction();
+            $dataAlumni = $my_event['dataAlumni'];
+            try {
+                $user = User::create([
+                    'name' => $dataAlumni['nama_lengkap'],
+                    'nik' => $dataAlumni['nik'],
+                    'email' => $email,
+                    // set password default untuk alumni
+                    'password' => \Hash::make('alumni@2024'),
+                    'email_verified_at' => now()
+                ]);
+                $user->syncRoles('member');
+
+                $request['user_id'] = $user->id;
+                $member = Member::create([
+                    'no_hp' => $dataAlumni['no_hp'],
+                    'alamat_lengkap' => $dataAlumni['alamat'],
+                    'tempat_lahir' => $dataAlumni['tempat_lahir'],
+                    'tgl_lahir' => \Helper::changeFormatDate($dataAlumni['tgl_lahir'], 'Y-m-d'),
+                    'user_id' => $user->id
+                ]);
+                MemberKantor::create([
+                    'member_id' => $member->id,
+                    'nama_instansi' => $dataAlumni['instansi'],
+                    'unit_kerja' => $dataAlumni['unit_organisasi'],
+                ]);
+                \DB::commit();
+            } catch (Exception $e) {
+                \DB::rollback();
+                return response()->json([
+                    'status'    => "fail",
+                    'messages' => "Ada kesalahan dalam proses daftar",
+                ], 422);
+            }
+        }
         return view('admin.user.detail_user', compact('user', 'my_event'));
     }
 
-    public function getUserByIdEvent($id_event){
-        $client = new \GuzzleHttp\Client();
+    public function getUserByIdEventDatatable(Request $request){
         $endpoint = env('API_EVENT').'member/event/all_event_by_id';
-        $datapost = ['id_event'=>$id_event];
-        $request = $client->post($endpoint, [
-            'form_params' => $datapost,
-        ]);
-
-        $response = $request->getBody()->getContents();
-        $data = json_decode($response, true);
-        return view('admin.dashboard2.alumni_by_event', compact('data'));
+        $datapost = [
+            'id_event'=>$request->id_event,
+            // 'status_pembayaran' => 'belum bayar'
+        ];
+        $alumni_list_event = \Helper::getRespApiWithParam($endpoint, 'post', $datapost);
+        // dd($alumni_list_event);
+        return \DataTables::of($alumni_list_event)
+        ->addIndexColumn()
+        ->addColumn('email_', function($row){
+            return "<a target='_blank' href=".route('dashboard2.detail_alumni', $row['email']).">{$row['email']}</a>";
+        })
+        ->addColumn('status_pembayaran', function($row){
+            if($row['status_pembayaran'] == 1){
+                return "<span class='badge badge-success'>Terverifikasi</span>";
+            }else if($row['status_pembayaran'] == 0 && $row['bukti_bayar']){
+                return "<span class='badge badge-warning'>Pending</span>";
+            }else{
+                return "<span class='badge badge-danger'>Belum Pembayaran</span>";
+            }
+        })
+        ->rawColumns(['status_pembayaran', 'email_'])
+        ->make(true);
     }
 }
