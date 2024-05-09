@@ -69,14 +69,12 @@
 				<thead>
 					<tr>
 						<th>No</th>
-						<th>Jenis</th>
 						<th>Judul</th>
 						<th>Tgl Start</th>
 						<th>Tgl End</th>
-						<th>Brosur</th>
 						<th>Nama Panitia</th>
 						<th>Link</th>
-						<th>Lokasi Event</th>
+						<th>Jumlah Peserta</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -116,14 +114,12 @@
 		},
 		columns: [
 			{data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-			{data: 'jenis', name: 'jenis'},
 			{data: 'link_list_alumni', name: 'judul'},
 			{data: 'tgl_start', searchable: false},
 			{data: 'tgl_end', searchable: false},
-			{data: 'img_brosur', searchable: false},
 			{data: 'nama_panitia', name: 'nama_panitia'},
 			{data: 'link_event', searchable: false},
-			{data: 'lokasi_event', name: 'lokasi_event'},
+			{data: 'jumlah_peserta', name: 'jumlah_peserta'},
 			]
 	});
 </script>

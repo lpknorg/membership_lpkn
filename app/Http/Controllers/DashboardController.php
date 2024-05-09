@@ -81,6 +81,7 @@ class DashboardController extends Controller
 
     public function dataTableEvent(Request $request){
         $eventData = $this->hitApi("member/event/dashboard_all_event?tanggal_awal={$request->tanggal_awal}&tanggal_akhir={$request->tanggal_akhir}&kategori_event={$request->kategori_event}&jenis_event={$request->jenis_event}");
+        // dd($eventData);
         return \DataTables::of($eventData)
         ->addIndexColumn()
         ->addColumn('img_brosur', function($row){
@@ -147,7 +148,7 @@ class DashboardController extends Controller
         $eventKamu = new EventKamuController();
         $my_event = $eventKamu->getRespApiWithParam([], 'member/event/dashboard_detail_alumni?email='.$email, 'get');
         $dataAlumni = $my_event['dataAlumni'];
-        // dd($dataAlumni);
+        dd($dataAlumni);
         if (!$user) {
             \DB::beginTransaction();
             $dataAlumni = $my_event['dataAlumni'];
@@ -187,14 +188,28 @@ class DashboardController extends Controller
         return view('admin.user.detail_user', compact('user', 'my_event'));
     }
 
+    public function getUserByIdEvent($id_events){
+        $endpoint = env('API_EVENT').'member/event/all_event_by_id?id_event='.$id_events;
+        $alumni_list_event = \Helper::getRespApiWithParam($endpoint, 'get');
+        $statVerif = [];
+        $statPending = [];
+        $statBelumBayar = [];
+        foreach($alumni_list_event as $key => $v){
+            if ($v['status_pembayaran'] == 1) {
+                array_push($statVerif, $key);
+            }elseif ($v['status_pembayaran'] == 0 && $v['bukti_bayar']) {
+                array_push($statPending, $key);
+            }else{
+                array_push($statBelumBayar, $key);                
+            }
+        }
+        $totalDataStatus = [count($statVerif), count($statPending), count($statBelumBayar)];
+        return view('admin.dashboard2.alumni_by_event', compact('id_events', 'totalDataStatus'));
+    }
+
     public function getUserByIdEventDatatable(Request $request){
-        $endpoint = env('API_EVENT').'member/event/all_event_by_id';
-        $datapost = [
-            'id_event'=>$request->id_event,
-            // 'status_pembayaran' => 'belum bayar'
-        ];
-        $alumni_list_event = \Helper::getRespApiWithParam($endpoint, 'post', $datapost);
-        // dd($alumni_list_event);
+        $endpoint = env('API_EVENT').'member/event/all_event_by_id?id_event='.$request->id_event;
+        $alumni_list_event = \Helper::getRespApiWithParam($endpoint, 'get');
         return \DataTables::of($alumni_list_event)
         ->addIndexColumn()
         ->addColumn('email_', function($row){

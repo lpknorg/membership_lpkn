@@ -18,11 +18,33 @@
 		color: #fff;
 		background-color: #889af3;
 	}
+	#table-status tr td{
+		padding: 4px !important;
+		margin: 4px !important;
+	}
 </style>
 
 <div class="row">
 	<div class="col-md-12">
 		<div class="x_panel">
+			<div class="row">
+				<div class="col-md-4 mx-auto">
+					<table class="table table-bordered table-hover" id="table-status">
+						<thead class="text-center">
+							<tr>
+								<td>Verifikasi</td>
+								<td>Pending</td>
+								<td>Belum Bayar</td>
+							</tr>
+							<tr>
+								<td>{{$totalDataStatus[0]}}</td>
+								<td>{{$totalDataStatus[1]}}</td>
+								<td>{{$totalDataStatus[2]}}</td>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
 			<table class="table table-bordered table-hover" id="table-alumni">
 				<thead>
 					<tr>
@@ -52,7 +74,7 @@
 		ajax: {
 			"url": "{{ route('dashboard2.get_user_by_event_datatable') }}",
 			data: function(d){
-				d.id_event = 636
+				d.id_event = '{{$id_events}}'
 				d.status_pembayaran = $('[name=tanggal_awal]').val()
 			}
 		},
