@@ -67,6 +67,10 @@
 		.shadow-none {
 			box-shadow: none!important;
 		}
+		#table-status tr td {
+			padding: 4px !important;
+			margin: 4px !important;
+		}
 	</style>
 </head>
 <body>
@@ -216,13 +220,31 @@
 					<div class="card">
 						<div class="card-body">
 							<h5>Pelatihan Yang Pernah Diikuti</h5>
+							<div class="row">
+								<div class="col-md-4 mx-auto">
+									<table class="table table-bordered table-hover" id="table-status">
+								<thead class="text-center">
+									<tr>
+										<td>Verifikasi</td>
+										<td>Pending</td>
+										<td>Belum Bayar</td>
+									</tr>
+									<tr>
+										<td>{{$totalDataStatus[0]}}</td>
+										<td>{{$totalDataStatus[1]}}</td>
+										<td>{{$totalDataStatus[2]}}</td>
+									</tr>
+								</thead>
+							</table>
+								</div>
+							</div>
 							<table class="table table-bordered table-hover" id="table-pelatihanDiIkuti">
 								<thead>
 									<tr>
 										<th>No</th>
 										<th>Nama Event</th>
 										<th>Tanggal Pelaksanaan</th>
-										<th>Lihat Web</th>
+										<th>Status Pembayaran</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -233,7 +255,18 @@
 											<a target="_blank" href="{{route('dashboard2.get_user_by_event', $e['id_eventt'] )}}">{{ $e['judul']}}</a>
 										</td>
 										<td>{{ \Helper::changeFormatDate($e['tgl_start']).' s/d '.\Helper::changeFormatDate($e['tgl_end']) }}</td>
-										<td><a class="btn btn-outline-primary btn-sm" href="{{env('URL_EVENT').'event/'.$e['slug']}}" target="_blank">Menuju website</a></td>
+										<td>
+											<?php
+											if($e['status_pembayaran'] == 1){
+												$span = "<span class='badge badge-success'>Terverifikasi</span>";
+											}else if($e['status_pembayaran'] == 0 && $e['bukti']){
+												$span = "<span class='badge badge-warning'>Pending</span>";
+											}else{
+												$span = "<span class='badge badge-danger'>Belum Pembayaran</span>";
+											}
+											?>
+											{!! $span !!}
+										</td>
 									</tr>
 									@endforeach
 								</tbody>

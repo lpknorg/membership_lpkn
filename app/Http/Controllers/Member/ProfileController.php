@@ -323,7 +323,8 @@ class ProfileController extends Controller
                 'hp' => $user->member->no_hp,
                 'instansi' => $request->tempat_kerja
             ];
-            $list_sertif = $sertif->getRespApiWithParam($datapost, 'Member/updateMembership');
+            $endpoint = env('API_SSERTIFIKAT').'Member/updateMembership';
+            $list_sertif = \Helper::getRespApiWithParam($endpoint, 'post', $datapost);
             DB::commit();
         }catch (Exception $e) {
             DB::rollback();

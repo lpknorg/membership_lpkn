@@ -157,12 +157,24 @@ class DashboardController extends Controller
 
     public function detailAlumni ($email){
         $user = User::where('email', $email)->first();
-
-        $eventKamu = new EventKamuController();
-        $my_event = $eventKamu->getRespApiWithParam([], 'member/event/dashboard_detail_alumni?email='.$email, 'get');
-        $dataAlumni = $my_event['dataAlumni'];
-        dd($dataAlumni);
+        $endpoint = env('API_EVENT').'member/event/dashboard_detail_alumni?email='.$email;
+        $my_event = \Helper::getRespApiWithParam($endpoint, 'get');
+        $dataAlumni = $my_event['dataAlumni'];  
+        $statVerif = [];
+        $statPending = [];
+        $statBelumBayar = [];  
+        foreach($my_event['event'] as $key => $v){
+            if ($v['status_pembayaran'] == 1) {
+                array_push($statVerif, $key);
+            }elseif ($v['status_pembayaran'] == 0 && $v['bukti']) {
+                array_push($statPending, $key);
+            }else{
+                array_push($statBelumBayar, $key);                
+            }
+        }
+        $totalDataStatus = [count($statVerif), count($statPending), count($statBelumBayar)];
         if (!$user) {
+            dd($dataAlumni);
             \DB::beginTransaction();
             $dataAlumni = $my_event['dataAlumni'];
             try {
@@ -198,7 +210,7 @@ class DashboardController extends Controller
                 ], 422);
             }
         }
-        return view('admin.user.detail_user', compact('user', 'my_event'));
+        return view('admin.user.detail_user', compact('user', 'my_event', 'totalDataStatus'));
     }
 
     public function getUserByIdEvent($id_events){

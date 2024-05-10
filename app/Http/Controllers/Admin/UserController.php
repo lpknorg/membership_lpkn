@@ -155,7 +155,7 @@ class UserController extends Controller
             return \DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('email', function($row){
-                    return '<a href="'.url('detail_user/'.$row->email).'">'.$row->email.'</a>';
+                    return '<a href="'.route('dashboard2.detail_alumni',$row->email).'">'.$row->email.'</a>';
                 })
                 ->addColumn('status_user', function($row){
                     $s = '';

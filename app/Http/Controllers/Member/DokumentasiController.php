@@ -28,7 +28,8 @@ class DokumentasiController extends Controller
             'perPage' => $perPage,
         ];
 
-        $dokumentasi = $this->getRespApiWithParam($datapost, 'Artikel/get_artikel');
+        $endpoint_ = env('API_LPKN_ID').'Artikel/get_artikel';
+        $dokumentasi = \Helper::getRespApiWithParam($endpoint_, 'post', $datapost);
         $dokumentasi =  $dokumentasi['artikels'];
 
         $totalData = $this->countData();
@@ -74,23 +75,6 @@ class DokumentasiController extends Controller
         return view('member.profile.dokumentasi', compact('dokumentasi', 'currentPage', 'totalPages', 'paginationLinks'));
     }
 
-    public function getRespApiWithParam($datapost, $url){
-        $client = new \GuzzleHttp\Client();
-        $endpoint = env('API_LPKN_ID').$url;
-        $request = $client->post($endpoint, [
-            'form_params' => $datapost,
-            'headers' => [
-                'Authorization'  => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6ImFkbWluaXN0cmF0b3IiLCJ1c2VyX2dyb3VwIjoiYWRtaW4iLCJpYXQiOjE2NTg4MzQzMzN9.dhoLWPcm4cpXOUouX4GEMFrQBmIz5-RRaMACMUW0wxs',
-                'Cookie' => 'ci_session=bf473e252ab962e8117a839b7de0889046813ae2'
-            ]
-        ]);
-
-        $response = $request->getBody()->getContents();
-        $data = json_decode($response, true);
-        return $data;
-    }
-
-
     public function get_artikel(Request $request){
         if(empty($request->id_artikel)){
             $id = 'all';
@@ -104,7 +88,8 @@ class DokumentasiController extends Controller
             'perPage' => null,
         ];
 
-        $dokumentasi = $this->getRespApiWithParam($datapost, 'Artikel/get_artikel');
+        $endpoint_ = env('API_LPKN_ID').'Artikel/get_artikel';
+        $dokumentasi = \Helper::getRespApiWithParam($endpoint_, 'post', $datapost);
         $html = '';
         $html .= '
             <div class="col-md-12 mb-3 flex-column">
@@ -136,7 +121,8 @@ class DokumentasiController extends Controller
             'offset' => null,
             'perPage' => null,
         ];
-        $dokumentasi = $this->getRespApiWithParam($datapost, 'Artikel/get_artikel');
+        $endpoint_ = env('API_LPKN_ID').'Artikel/get_artikel';
+        $dokumentasi = \Helper::getRespApiWithParam($endpoint_, 'post', $datapost);
         $totalRecords = count($dokumentasi['artikels']);
 
         return  $totalRecords;

@@ -62,18 +62,16 @@ class User extends Authenticatable
     }
 
     public function getTotalEventAttribute(){
-        $email = $this->email;
-        $datapost = ['email'=>$email];
-        $n = new EventKamuController();
-        $my_event = $n->getRespApiWithParam($datapost, 'member/event/my_event');
+        $datapost = ['email'=>\Auth::user()->email];
+        $my_event = \Helper::getRespApiWithParam(env('API_EVENT').'member/event/my_event', 'post', $datapost);
         return count($my_event['event']);
     }
 
     public function getTotalSertifikatAttribute(){
         $email = $this->email;
         $datapost = ['email'=>$email];
-        $n = new SertifikatKamuController();
-        $my_event = $n->getRespApiWithParam($datapost, 'member/list_sertif');
+        $endpoint = env('API_SSERTIFIKAT').'member/list_sertif';
+        $my_event = \Helper::getRespApiWithParam($endpoint, 'post', $datapost);
         return count($my_event['list']);
     }
 

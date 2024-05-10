@@ -9,7 +9,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12 col-sm-12">
-            <button class="btn btn-primary btn-sm" id="btnAdd">Tambah</button>
+            <!-- <button class="btn btn-primary btn-sm" id="btnAdd">Tambah</button> -->
             <div class="dashboard_graph x_panel">
                 <div class="x_content">
                     <table class="table table-hover table-bordered table-responsive-sm" id="table-Datatable"
