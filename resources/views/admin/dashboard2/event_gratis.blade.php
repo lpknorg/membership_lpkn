@@ -55,6 +55,7 @@
 						<th>Link Sertifikat</th>
 						<th>Waktu Pelaksaan</th>
 						<th>Panitia</th>
+						<th>Jumlah Peserta</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -86,10 +87,11 @@
 		},
 		columns: [
 			{data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-			{data: 'judul', 'name': 'judul'},
+			{data: 'link_list_alumni', 'name': 'judul'},
 			{data: 'link_sertifikat', searchable: false},
 			{data: 'created_at',searchable: false},
-			{data: 'panitia', 'name': 'panitia'}
+			{data: 'panitia', 'name': 'panitia'},
+			{data: 'jumlah_peserta', 'name': 'jumlah_peserta'},
 			]
 	});
 </script>

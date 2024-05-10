@@ -9,7 +9,8 @@ use App\Models\Admin\{Provinsi, Instansi, LembagaPemerintahan, Member, MemberKan
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\{
     EventExportBerbayar,
-    EventExportGratis
+    EventExportGratis,
+    ExportAlumniByEvent
 };
 
 class DashboardController extends Controller
@@ -81,7 +82,6 @@ class DashboardController extends Controller
 
     public function dataTableEvent(Request $request){
         $eventData = $this->hitApi("member/event/dashboard_all_event?tanggal_awal={$request->tanggal_awal}&tanggal_akhir={$request->tanggal_akhir}&kategori_event={$request->kategori_event}&jenis_event={$request->jenis_event}");
-        // dd($eventData);
         return \DataTables::of($eventData)
         ->addIndexColumn()
         ->addColumn('img_brosur', function($row){
@@ -115,9 +115,7 @@ class DashboardController extends Controller
         if ($request->tgl2) {
             $endpoint_ = env('API_FORM_SERTIFIKAT')."kelas_sertif/{$request->tgl1}/{$request->tgl2}";
         }
-        // var_dump($endpoint_);die;
         $event_gratis = \Helper::getRespApiWithParam($endpoint_);
-        // var_dump($event_gratis);die;
         return \DataTables::of($event_gratis)
         ->addIndexColumn()
         ->addColumn('created_at', function($row){
@@ -126,7 +124,10 @@ class DashboardController extends Controller
         ->addColumn('link_sertifikat', function($row){
             return "<a href={$row['link']} target='_blank'>{$row['link']}</a>";
         })
-        ->rawColumns(['created_at', 'link_sertifikat'])
+        ->addColumn('link_list_alumni', function($row){
+            return "<a target='_blank' href=".route('dashboard2.get_user_by_event_gratis', $row['id']).">{$row['judul']}</a>";
+        })
+        ->rawColumns(['created_at', 'link_sertifikat', 'link_list_alumni'])
         ->make(true);
     }
 
@@ -140,6 +141,18 @@ class DashboardController extends Controller
             $eventData = \Helper::getRespApiWithParam($endpoint_);
             return Excel::download(new EventExportGratis($eventData),"event-gratis_{$now}.xlsx");
         }
+    }
+
+    public function exportExcelAlumniByEvent($tipe, Request $req){
+        if ($tipe == 'berbayar') {
+            $endpoint = env('API_EVENT').'member/event/all_event_by_id?id_event='.$req->id_event;
+            $data = \Helper::getRespApiWithParam($endpoint, 'get');
+        }else{
+            $endpoint = env('API_FORM_SERTIFIKAT').'Kelas_sertif/regis_sertif/'.$req->id_event;
+            $data = \Helper::getRespApiWithParam($endpoint, 'get');
+            $data = $data['list_regis_sertif'];
+        }
+        return Excel::download(new ExportAlumniByEvent($data, $tipe),"alumnievent-{$tipe}.xlsx");
     }
 
     public function detailAlumni ($email){
@@ -207,9 +220,34 @@ class DashboardController extends Controller
         return view('admin.dashboard2.alumni_by_event', compact('id_events', 'totalDataStatus'));
     }
 
-    public function getUserByIdEventDatatable(Request $request){
-        $endpoint = env('API_EVENT').'member/event/all_event_by_id?id_event='.$request->id_event;
+    public function getUserByIdEventGratis($id_events){
+        $endpoint = env('API_FORM_SERTIFIKAT').'Kelas_sertif/regis_sertif/'.$id_events;
         $alumni_list_event = \Helper::getRespApiWithParam($endpoint, 'get');
+        $statVerif = [];
+        $statPending = [];
+        $statBelumBayar = [];
+        foreach($alumni_list_event['list_regis_sertif'] as $key => $v){
+            if ($v['status_pembayaran'] == 1) {
+                array_push($statVerif, $key);
+            }elseif ($v['status_pembayaran'] == 0 && $v['bukti']) {
+                array_push($statPending, $key);
+            }else{
+                array_push($statBelumBayar, $key);                
+            }
+        }
+        $totalDataStatus = [count($statVerif), count($statPending), count($statBelumBayar)];
+        return view('admin.dashboard2.alumni_by_event', compact('id_events', 'totalDataStatus'));
+    }
+
+    public function getUserByIdEventDatatable(Request $request){
+        if ($request->tipe == 'berbayar') {
+            $endpoint = env('API_EVENT').'member/event/all_event_by_id?id_event='.$request->id_event;
+            $alumni_list_event = \Helper::getRespApiWithParam($endpoint, 'get');
+        }else{
+            $endpoint = env('API_FORM_SERTIFIKAT').'Kelas_sertif/regis_sertif/'.$request->id_event;
+            $data = \Helper::getRespApiWithParam($endpoint, 'get');
+            $alumni_list_event = $data['list_regis_sertif'];
+        }
         return \DataTables::of($alumni_list_event)
         ->addIndexColumn()
         ->addColumn('email_', function($row){
@@ -223,6 +261,12 @@ class DashboardController extends Controller
             }else{
                 return "<span class='badge badge-danger'>Belum Pembayaran</span>";
             }
+        })
+        ->addColumn('unit_organisasi', function($row){
+            if (isset($row['unit_organisasi'])) {
+                return $row['unit_organisasi'];
+            }
+            return '-';
         })
         ->rawColumns(['status_pembayaran', 'email_'])
         ->make(true);

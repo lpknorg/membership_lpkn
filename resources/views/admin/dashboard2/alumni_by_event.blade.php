@@ -45,6 +45,19 @@
 					</table>
 				</div>
 			</div>
+			<div class="row float-right">
+				<div class="col-md">
+					<?php
+					if (\Request::segment(2) == 'event_user_list') {
+						$tipe = 'berbayar';
+					}else{
+						$tipe = 'gratis';
+					}
+					?>
+
+					<a href="{{route('dashboard2.exportExcelAlumniByEvent', $tipe).'?id_event='.$id_events}}" class="btn btn-outline-primary btn-sm">Download Excel</a>
+				</div>
+			</div>
 			<table class="table table-bordered table-hover" id="table-alumni">
 				<thead>
 					<tr>
@@ -75,6 +88,7 @@
 			"url": "{{ route('dashboard2.get_user_by_event_datatable') }}",
 			data: function(d){
 				d.id_event = '{{$id_events}}'
+				d.tipe = '{{$tipe}}'
 				d.status_pembayaran = $('[name=tanggal_awal]').val()
 			}
 		},

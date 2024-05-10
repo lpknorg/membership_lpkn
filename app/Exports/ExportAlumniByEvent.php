@@ -10,21 +10,25 @@ use Maatwebsite\Excel\Concerns\{
 };
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class EventExportGratis implements FromView, WithColumnWidths,WithEvents
+class ExportAlumniByEvent implements FromView, WithColumnWidths,WithEvents
 {
-    private $evData;
-    public function __construct($data){
-        $this->evData = $data;
+    private $alData;
+    private $alTipe;
+    public function __construct($data, $tipe){
+        $this->alData = $data;
+        $this->alTipe = $tipe;
     }
 
 	public function columnWidths(): array
     {
     	return [
-    		'A' => 5,
-    		'B' => 90,
+    		'A' => 8,
+    		'B' => 40,
     		'C' => 15,
-    		'D' => 18,
-    		'E' => 30
+    		'D' => 30,
+    		'E' => 60,
+            'F' => 40,
+            'G' => 20,
     	];
     }
 
@@ -33,7 +37,7 @@ class EventExportGratis implements FromView, WithColumnWidths,WithEvents
         return [
             AfterSheet::class    => function(AfterSheet $event) {
 
-                $event->sheet->getDelegate()->getStyle('A1:E1')
+                $event->sheet->getDelegate()->getStyle('A3:G3')
                 ->getFill()
                 ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                 ->getStartColor()
@@ -44,7 +48,9 @@ class EventExportGratis implements FromView, WithColumnWidths,WithEvents
 
     public function view(): View
     {
-        $data = $this->evData;
-        return view('admin.dashboard2.export_event_gratis', compact('data'));
+        $data = $this->alData;
+        $tipe = $this->alTipe;
+        // dd($data);
+        return view('admin.dashboard2.export_alumni_by_event', compact('data', 'tipe'));
     }
 }
