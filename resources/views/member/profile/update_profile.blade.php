@@ -140,7 +140,7 @@
 			<div class="col-sm-4">
 				<div class="form-group">
 					<label>Status Kepegawaian</label>
-					<?php $arr = ['PNS', 'SWASTA', 'TNI/POLRI', 'BUMN/BUMD', 'HONORER / KONTRAK', 'ASN', 'Swasta', 'Lainnya']; ?>
+					<?php $arr = ['PNS', 'SWASTA', 'TNI/POLRI', 'BUMN/BUMD', 'HONORER / KONTRAK', 'ASN', 'Lainnya']; ?>
 					<select class="form-control" name="status_kepegawaian">
 						<option value="">Pilih Status Kepegawaian</option>
 						@foreach($arr as $k => $v)

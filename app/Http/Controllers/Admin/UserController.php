@@ -10,6 +10,8 @@ use App\Models\User;
 use App\Models\Admin\{Provinsi, Instansi};
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Exports\ExportAlumni;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -151,30 +153,46 @@ class UserController extends Controller
     public function getDatatable(Request $request)
     {
         if ($request->ajax()) {
-            $data = User::limit(100)->orderBy('updated_at', 'DESC');
+            $data = User::has('member')
+            ->when($request->tanggal_awal, function($q)use($request){
+                $q->whereHas('member', function($qq)use($request){
+                    $qq->whereDate('tgl_lahir', '>=', $request->tanggal_awal);
+                });
+            })
+            ->when($request->tanggal_akhir, function($q)use($request){
+                $q->whereHas('member', function($qq)use($request){
+                    $qq->whereDate('tgl_lahir', '<=', $request->tanggal_akhir);
+                });
+            })
+            ->when($request->status_kepegawaian, function($q)use($request){
+                $q->whereHas('member.memberKantor', function($qq)use($request){
+                    $qq->where('status_kepegawaian', $request->status_kepegawaian);
+                });
+            })
+            ->orderBy('updated_at', 'DESC');
             return \DataTables::of($data)
-                ->addIndexColumn()
-                ->addColumn('email', function($row){
-                    return '<a href="'.route('dashboard2.detail_alumni',$row->email).'">'.$row->email.'</a>';
-                })
-                ->addColumn('status_user', function($row){
-                    $s = '';
-                    if ($row->is_confirm) {
-                        $s .= '<span class="badge badge-primary">Sudah Verifikasi</span>';
-                    }else{
-                        $s .= '<span class="badge badge-warning">Menunggu Verifikasi</span>';
-                    }
-                    return $s;
-                })
-                ->addColumn('action', function ($row) {
-                    $actionBtn = '<a href="' . route('admin.user.import_biodata', $row->id) . '" class="btn-sm btn btn-info  mr-1 mb-2 mb-lg-2" data-toggle="tooltip" data-placement="top" title="Download Biodata"><i class="fa fa-download"></i></a>';
-                    $actionBtn .= '<a href="' . route('admin.user.show', $row->id) . '" id="btnShow" class="btn-sm btn btn-info  mr-1 mb-2 mb-lg-2" data-toggle="tooltip" data-placement="top" title="Lihat Data"><i class="fa fa-eye"></i></a>';
-                    $actionBtn .= '<a data-toggle="tooltip" data-placement="top" title="Edit Data" id="btnEdit" href="' . route('admin.user.show', $row->id) . '" class="btn-sm btn btn-warning mx-1 ml-4 ml-md-0 mb-2"><i class="fa fa-edit"></i></a>';
-                    $actionBtn .= '<button type="button" class="btn-sm btn btn-danger mb-2 mb-lg-2" id="btnHapus" data-id=' . $row->id . ' action="' . route('admin.user.destroy', $row->id) . '"><i class="fa fa-trash"></i></button>';
-                    return $actionBtn;
-                })
-                ->rawColumns(['action', 'status_user', 'email'])
-                ->make(true);
+            ->addIndexColumn()
+            ->addColumn('email', function($row){
+                return '<a href="'.route('dashboard2.detail_alumni',$row->email).'">'.$row->email.'</a>';
+            })
+            ->addColumn('status_user', function($row){
+                $s = '';
+                if ($row->is_confirm) {
+                    $s .= '<span class="badge badge-primary">Sudah Verifikasi</span>';
+                }else{
+                    $s .= '<span class="badge badge-warning">Menunggu Verifikasi</span>';
+                }
+                return $s;
+            })
+            ->addColumn('action', function ($row) {
+                $actionBtn = '<a href="' . route('admin.user.import_biodata', $row->id) . '" class="btn-sm btn btn-info  mr-1 mb-2 mb-lg-2" data-toggle="tooltip" data-placement="top" title="Download Biodata"><i class="fa fa-download"></i></a>';
+                $actionBtn .= '<a href="' . route('admin.user.show', $row->id) . '" id="btnShow" class="btn-sm btn btn-info  mr-1 mb-2 mb-lg-2" data-toggle="tooltip" data-placement="top" title="Lihat Data"><i class="fa fa-eye"></i></a>';
+                $actionBtn .= '<a data-toggle="tooltip" data-placement="top" title="Edit Data" id="btnEdit" href="' . route('admin.user.show', $row->id) . '" class="btn-sm btn btn-warning mx-1 ml-4 ml-md-0 mb-2"><i class="fa fa-edit"></i></a>';
+                $actionBtn .= '<button type="button" class="btn-sm btn btn-danger mb-2 mb-lg-2" id="btnHapus" data-id=' . $row->id . ' action="' . route('admin.user.destroy', $row->id) . '"><i class="fa fa-trash"></i></button>';
+                return $actionBtn;
+            })
+            ->rawColumns(['action', 'status_user', 'email'])
+            ->make(true);
         }
     }
 
@@ -189,5 +207,29 @@ class UserController extends Controller
         $pdf = \PDF::loadView('admin.user.pdf_biodata', compact('data'));
         return $pdf->download('Biodata '.$data->name.'.pdf');
         // return view('admin.user.pdf_biodata', compact('data'));
+    }
+
+    public function exportExcelAlumni(Request $request){
+        $data = User::has('member')
+        ->when($request->tanggal_awal, function($q)use($request){
+            $q->whereHas('member', function($qq)use($request){
+                $qq->whereDate('tgl_lahir', '>=', $request->tanggal_awal);
+            });
+        })
+        ->when($request->tanggal_akhir, function($q)use($request){
+            $q->whereHas('member', function($qq)use($request){
+                $qq->whereDate('tgl_lahir', '<=', $request->tanggal_akhir);
+            });
+        })
+        ->when($request->status_kepegawaian, function($q)use($request){
+            $q->whereHas('member.memberKantor', function($qq)use($request){
+                $qq->where('status_kepegawaian', $request->status_kepegawaian);
+            });
+        })
+        ->orderBy('updated_at', 'DESC')
+        // ->limit(30)
+        ->get();
+        $a = date('d-M-Y');
+        return Excel::download(new ExportAlumni($data),"alumni-{$a}.xlsx");
     }
 }

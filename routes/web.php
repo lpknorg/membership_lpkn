@@ -159,6 +159,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 	Route::resource('/artikel', ArtikelAdminController::class);
 
 	Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+
+	Route::get('/user/exportExcelAlumni', [UserController::class, 'exportExcelAlumni'])->name('user.exportExcelAlumni');
+
 	Route::get('/user/dataTables', [UserController::class, 'getDatatable'])->name('user.dataTables');
 	Route::get('/user/import_biodata/{id}', [UserController::class, 'importBiodata'])->name('user.import_biodata');
 

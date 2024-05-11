@@ -9,7 +9,7 @@
 @section('content')
 <div class="row">
 	<div class="col-md-12 col-sm-12">
-		<button class="btn btn-primary btn-sm" id="btnAdd">Tambah</button>
+		<!-- <button class="btn btn-primary btn-sm" id="btnAdd">Tambah</button> -->
 		<div class="row float-right">
 			<div class="col-md-12">
 				<div class="form-group">
@@ -24,23 +24,51 @@
 			</div>
 		</div>
 		
-		<div class="dashboard_graph x_panel">
-			<div class="x_content">
-				<table class="table table-hover table-bordered table-responsive-sm" id="table-Datatable" style="width: 100%;">
-					<thead>
-						<tr>
-							<th width="10px">No</th>
-							<th>Nama Lengkap</th>
-							<th>Email</th>
-							<th>NIP</th>
-							<th width="90px">Action</th>
-						</tr>
-					</thead>
-					<tbody>
+		<div class="x_panel">
+			<form action="{{route('admin.user.exportExcelAlumni')}}">
+				@csrf
+				<div class="row mb-2">
+					<div class="col-md-3">
+						<label for="">Tanggal Awal Ultah</label>
+						<input type="date" name="tanggal_awal" class="form-control" placeholder="">
+					</div>
+					<div class="col-md-3">
+						<label for="">Tanggal Akhir Ultah</label>
+						<input type="date" name="tanggal_akhir" class="form-control" placeholder="">
+					</div>
+					<div class="col-sm-3">
+						<div class="form-group">
+							<label>Status Kepegawaian</label>
+							<?php $arr = ['PNS', 'SWASTA', 'TNI/POLRI', 'BUMN/BUMD', 'HONORER / KONTRAK', 'ASN', 'Lainnya']; ?>
+							<select class="form-control" name="status_kepegawaian">
+								<option value="">Pilih Status Kepegawaian</option>
+								@foreach($arr as $k => $v)
+								<option value="{{$v}}">{{$v}}</option>
+								@endforeach
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="row float-right">
+					<div class="col-md">
+						<button type="submit" class="btn btn-outline-primary btn-sm">Download Excel</button>
+					</div>
+				</div>
+			</form>
+			<table class="table table-hover table-bordered table-responsive-sm" id="table-Datatable" style="width: 100%;">
+				<thead>
+					<tr>
+						<th width="10px">No</th>
+						<th>Nama Lengkap</th>
+						<th>Email</th>
+						<th>NIP</th>
+						<th width="90px">Action</th>
+					</tr>
+				</thead>
+				<tbody>
 
-					</tbody>
-				</table>
-			</div>
+				</tbody>
+			</table>
 		</div>
 	</div>
 </div>
@@ -49,9 +77,18 @@
 @section('scripts')
 <script>
 	$(document).ready(function(){
+		$('[name=tanggal_awal]').change(function(){
+			table.draw()
+		})
+		$('[name=tanggal_akhir]').change(function(){
+			table.draw()
+		})
+		$('[name=status_kepegawaian]').change(function(){
+			table.draw()
+		})
 		@if(\Session::has('success_import_member'))
-        showAlert('{{\Session::get('success_import_member')}}')
-        @endif
+		showAlert('{{\Session::get('success_import_member')}}')
+		@endif
 		$('body').on('click', '[id="btnAdd"]', function(e){
 			showModal2('add')
 		})
@@ -230,7 +267,14 @@
 		var table = $('#table-Datatable').DataTable({
 			processing: true,
 			serverSide: true,
-			ajax: "{{ route('admin.user.dataTables') }}",
+			ajax: {
+				"url" : "{{ route('admin.user.dataTables') }}",
+				data: function(d){
+					d.tanggal_awal = $('[name=tanggal_awal]').val()
+					d.tanggal_akhir = $('[name=tanggal_akhir]').val()
+					d.status_kepegawaian = $('[name=status_kepegawaian]').find(":selected").val()
+				}
+			},
 			columns: [
 				{data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
 				{data: 'name', name: 'name'},
