@@ -54,8 +54,6 @@
 						      	@endif
 					      		</div>
 					      	</form>
-<<<<<<< HEAD
-=======
 				      		<!-- <hr style="background-color: #fff;"></hr>
 				      		<p>
 								<b>WAKTU</b><br/>
@@ -76,7 +74,7 @@
 								- Makan Siang, coffe/snack<br/>
 								- Sarapan dan Makan Malam (bagi yang menginap)
 				      		</p> -->
->>>>>>> 565c77212394aacdba019c1aa775464dc08a6533
+
 				      		<hr style="background-color: #fff;"></hr>
 					      	<p class="modal-title w-100 text-center">
 								WhatsApp Panitia :<br/>
