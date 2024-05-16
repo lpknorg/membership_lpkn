@@ -5,7 +5,7 @@ namespace App\Models\Admin;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Admin\{MemberKantor, Kelurahan, Provinsi, Kecamatan, KodePos, Kota};
-use App\Models\User;
+use App\Models\{User, MemberSertifikatLainnya};
 
 class Member extends Model
 {
@@ -45,5 +45,9 @@ class Member extends Model
     public function alamatKelurahan()
     {
         return $this->belongsTo(Kelurahan::class, 'kelurahan_id', 'id');
+    }
+    public function sertifikatLain()
+    {
+        return $this->hasMany(MemberSertifikatLainnya::class, 'member_id', 'id');
     }
 }

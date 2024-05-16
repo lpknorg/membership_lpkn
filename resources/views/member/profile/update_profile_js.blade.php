@@ -290,5 +290,48 @@
 				}
 			})
 		})
+
+		$('body').on('click', '[id="btnHapusSertifikat"]', function(e){
+			Swal.fire({
+				title: 'Apa anda yakin ?',
+				text: "Data akan hilang jika dihapus!",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Ya, Hapus!'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					$.ajaxSetup({
+						headers: {
+							'X-CSRF-TOKEN': $('[name=_token]').val()
+						}
+					});
+
+					$.ajax({
+						type: 'POST',
+						url: $(this).attr("action"),
+						data: {
+							id: $(this).attr('data-id')
+						},
+						dataType: 'json',
+						success: function(data) {
+							if (data.status == "ok") {
+								showAlert(data.messages)
+								setTimeout(function(){
+									window.location.reload()
+								}, 1000)
+							}
+						},
+						error: function(data) {
+							var data = data.responseJSON;
+							if (data.status == "fail") {
+								showAlert(data.messages, "error")
+							}
+						}
+					});
+				}
+			})
+		})
 	})
 </script>

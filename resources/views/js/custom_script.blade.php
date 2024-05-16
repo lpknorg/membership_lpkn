@@ -5,6 +5,7 @@
 	});
 
 	function getEvent(slug) {
+		alert(slug)
 		if(slug.substring(0, 28) == 'https://event.lpkn.id/event/'){
 			var l = slug.length
 			slug = slug.substring(28,l);

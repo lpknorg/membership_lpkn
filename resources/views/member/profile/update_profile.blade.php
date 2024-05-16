@@ -1,5 +1,6 @@
 @extends('member.layouts.template')
 @section('content')
+<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
 <style>
 	.text-warning{
 		color: #f5943d!important;
@@ -334,9 +335,50 @@
 		</div>
 	</div>
 	<hr>
-	<a href="#" class="btn btn-info mt-2" id="btnSosialMedia">Tambah Sosial Media</a>
+	<div class="card card-primary card-outline mt-2" style="background-color: #252c3c;">
+		<div class="card-header" style="padding: 10px;">
+			List Ujian
+		</div>
+		<div class="card-body">
+			<div class="row">
+				<table class="table table-bordered table-hover" id="table-pelatihanOfflineDiIkuti">
+					<thead>
+						<tr>
+							<th>No</th>
+							<th>Nama Event</th>
+							<th>Lokasi</th>
+							<th>Tanggal Pelaksanaan</th>
+							<th>Lulus Ujian ?</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach($list_event_ujian as $key => $e)
+						<tr>
+							<td style="width: 5%">{{ $key+1 }}</td>
+							<td>
+								<a target="_blank" href="{{$e['link_slug']}}">{{ $e['judul']}}</a>
+							</td>
+							<td>{{$e['lokasi_event']}}</td>
+							<td>{{ \Helper::changeFormatDate($e['tgl_start']).' s/d '.\Helper::changeFormatDate($e['tgl_end']) }}</td>
+							<td>
+								@if($e['lulus'] == 0)
+								<span class="badge badge-warning">Tidak</span>
+								@else
+								<span class="badge badge-primary">Ya</span>
+								@endif
+							</td>
+						</tr>
+						@endforeach
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<hr>
+
+	<a href="#" class="btn btn-info mt-2 btn-sm" id="btnSosialMedia">Tambah Sosial Media</a>
 	@if($user->listSosialMedia()->exists())
-	<div class="card card-primary card-outline mt-2">
+	<div class="card card-primary card-outline mt-2" style="background-color: #252c3c;">
 		<div class="card-header" style="padding: 10px;">
 			List Sosial Media
 		</div>
@@ -360,9 +402,130 @@
 		</div>
 	</div>
 	@endif
-
+	<a href="javascript:void(0)" class="btn btn-info mt-2 btn-sm" id="btnTambahSertifLainnya">Tambah Sertifikat Lainnya</a>
+	<div class="card card-primary card-outline mt-2" style="background-color: #252c3c;">
+		<div class="card-body">
+			<div class="row">
+				<form action="{{route('member_profile.store_sertifikat')}}" id="divContentSertifikatLain" class="form-inline">
+					@csrf
+				</form>
+			</div>
+		</div>
+	</div>
+	@if($user->member->sertifikatLain()->exists())
+	<div class="card card-primary card-outline mt-2" style="background-color: #252c3c;">
+		<div class="card-header" style="padding: 10px;">
+			List Sertifikat Lain
+		</div>
+		<div class="card-body">
+			<div class="row">
+				<table class="table table-bordered table-hover">
+					<tr>
+						<th>No Sertifikat</th>
+						<th>Nama</th>
+						<th>Tahun</th>
+						<th>Aksi</th>
+					</tr>
+					@foreach($user->member->sertifikatLain as $l)
+					<tr>
+						<td>{{$l->no}}</td>
+						<td>{{$l->nama}}</td>
+						<td>{{$l->tahun}}</td>
+						<td><button type="button" class="btn-sm btn btn-danger" id="btnHapusSertifikat" data-id="{{$l->id}}" action="{{route('member_profile.delete_sertifikat')}}">Hapus</button></td>
+					</tr>
+					@endforeach
+				</table>
+			</div>
+		</div>
+	</div>
+	@endif
 </div>
 @endsection
 @section('scripts')
 @include('member.profile.update_profile_js')
+<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+<script>
+	$('#table-pelatihanOfflineDiIkuti').DataTable({})		
+	$('#divContentSertifikatLain').submit(function(e) {
+		e.preventDefault();
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('[name=_token]').val()
+			}
+		});
+		$.ajax({
+			type: 'post',
+			url: $(this).attr("action"),
+			data: $(this).serialize(),
+			beforeSend: function() {
+				sendAjax('#btnSubmitSertifLain', false)
+			},
+			success: function(data) {
+				if (data.status == "ok") {
+					showAlert(data.messages)
+					setTimeout(() => {
+						location.reload()
+					}, 1000)
+				}
+			},
+			error: function(data) {
+				showAlert('Terdapat kesalahan pada saat proses tambah sertifikat', "error")
+			},
+			complete: function() {
+				sendAjax('#btnSubmitSertifLain', true, 'Submit')
+			}
+		});
+	});
+	$('body').on('click', '[id=btnHapusSertifikatTambahan]', function() {
+		let _id = $(this).attr('data-count')
+		$(`[id=divCont${_id}]`).remove()
+		let cekCont = $('[id^=divCont]').length
+		console.log(cekCont)
+		if (cekCont <= 1) {
+			$('[id=btnSubmitSertifLain]').parent().remove()
+		}
+	})
+	let idClickable = 0;
+	$('#btnTambahSertifLainnya').click(function(){
+		idClickable++
+		let cont = `<div class="col-md-4" id="divCont${idClickable}">
+		<div class="form-group">
+		<label>No Sertifikat</label>
+		<input type="text" name="no_sertifikat_tambahan[]" class="form-control" placeholder="Masukkan No Sertifikat ..." required>
+		</div>
+		</div>
+		<div class="col-md-4" id="divCont${idClickable}">
+		<div class="form-group">
+		<label>Nama Sertifikat</label>
+		<input type="text" name="nama_sertifikat_tambahan[]" class="form-control" placeholder="Masukkan Nama Sertifikat ..." required>
+		</div>
+		</div>
+		<div class="col-md-4" id="divCont${idClickable}">
+		<div class="form-group">
+		<label>Tahun</label>
+		<div class="input-group mb-3">
+		<input type="number" class="form-control" name="tahun_sertifikat_tambahan[]" placeholder="Masukkan Tahun ..." required="">
+		<div class="input-group-prepend" id="btnHapusSertifikatTambahan" data-count=${idClickable}>
+		<span class="input-group-text" alt="Hapus Sertifikat">X</span>
+		</div>
+		</div>
+		</div>
+		</div>`		
+		$('#divContentSertifikatLain').append(cont)
+		let lastElement = $('[id^=divCont]').last()
+		let cekBtn = $('#btnSubmitSertifLain').length
+		if (cekBtn < 1) {
+			let cont2 = $(`<div class="col-md-4">
+				<button type="submit" class="btn btn-primary" id="btnSubmitSertifLain">Simpan</button>
+				</div>`)
+			cont2.insertAfter(lastElement)
+		}else{
+			$('[id=btnSubmitSertifLain]').parent().remove()
+			let cont2 = $(`<div class="col-md-4">
+				<button type="submit" class="btn btn-primary" id="btnSubmitSertifLain">Simpan</button>
+				</div>`)
+			cont2.insertAfter(lastElement)
+		}
+	})
+</script>
 @endsection

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Member;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Models\{User, UserSosialMedia};
+use App\Models\{User, UserSosialMedia, MemberSertifikatLainnya};
 use App\Models\Admin\{Member, MemberKantor, Provinsi, Instansi, SosialMedia};
 use DB;
 use PDF;
@@ -42,16 +42,19 @@ class ProfileController extends Controller
     public function index()
     {        
     	$new_event = $this->getRespApi(env('API_EVENT').'member/event');
-        $user = \Auth::user();
+        $user = \Auth::user();        
         return view('member.profile.index', compact('user', 'new_event'));
     }
 
     public function editProfile(){
         $user = \Auth::user();
+        $endpoint = env('API_EVENT').'member/event/event_kelulusan';
+        $datapost = ['email' => \Auth::user()->email];
+        $list_event_ujian = \Helper::getRespApiWithParam($endpoint, 'post', $datapost);
         $provinsi = Provinsi::select('id', 'nama')->orderBy('nama')->get();
         $instansi = Instansi::orderBy('nama')->get();
         $sosmed = SosialMedia::orderBy('nama')->get();
-        return view('member.profile.update_profile', compact('user', 'provinsi', 'instansi', 'sosmed'));
+        return view('member.profile.update_profile', compact('user', 'provinsi', 'instansi', 'sosmed', 'list_event_ujian'));
     }
     public function editPassword(){
         $user = \Auth::user();
@@ -415,6 +418,34 @@ class ProfileController extends Controller
         return response()->json([
             'status'    => "ok",
             'messages' => "Berhasil menghapus sosial media"
+        ], 200);
+    }
+
+    public function storeSertifikat(Request $request){
+        if (count($request->no_sertifikat_tambahan) > 0) {
+            for ($i=0; $i < count($request->no_sertifikat_tambahan) ; $i++) {
+                MemberSertifikatLainnya::create([
+                    'member_id' => \Auth::user()->member->id,
+                    'no' => $request->no_sertifikat_tambahan[$i],
+                    'nama' => $request->nama_sertifikat_tambahan[$i],
+                    'tahun' => $request->tahun_sertifikat_tambahan[$i]
+                ]);
+            }
+        }                
+        return response()->json([
+            'status'    => "ok",
+            'messages' => "Berhasil menambahkan sertifikat lain"
+        ], 200);
+    }
+
+    public function deleteSertifikat(Request $request){
+        MemberSertifikatLainnya::where([
+                ['member_id', \Auth::user()->member->id],
+                ['id', $request->id]
+            ])->delete();
+        return response()->json([
+            'status'    => "ok",
+            'messages' => "Berhasil menghapus sertifikat"
         ], 200);
     }
 

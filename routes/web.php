@@ -116,6 +116,8 @@ Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middlewa
 	Route::post('/update_profile', [ProfileController::class, 'updateProfile'])->name('update_profile');
 	Route::post('/add_sosial_media', [ProfileController::class, 'storeSosialMedia'])->name('store_sosial_media');
 	Route::post('/remove_sosial_media', [ProfileController::class, 'deleteSosialMedia'])->name('delete_sosial_media');
+	Route::post('/add_sertifikat', [ProfileController::class, 'storeSertifikat'])->name('store_sertifikat');
+	Route::post('/remove_sertifikat', [ProfileController::class, 'deleteSertifikat'])->name('delete_sertifikat');
 	Route::post('/update_fotoprofile', [ProfileController::class, 'updateFotoProfile'])->name('update_fotoprofile');
 
 	Route::get('/menunggu_pembayaran', [MenungguPembayaranController::class, 'index'])->name('menunggu_pembayaran.index');

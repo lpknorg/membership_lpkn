@@ -6,11 +6,11 @@
       </ol>
       <div class="carousel-inner">
               <div class="carousel-item">
-          <img class="d-block w-100" src="https://lpkn.id//upload/slide/WEB-01.jpg" alt="First slide">
+          <img class="d-block w-100" src="https://lpkn.id//upload/slide/6596682f16ffd.jpg" alt="First slide">
 
         </div>
               <div class="carousel-item active">
-          <img class="d-block w-100" src="https://lpkn.id//upload/slide/WEB-02.jpg" alt="First slide">
+          <img class="d-block w-100" src="https://lpkn.id//upload/slide/6596682f16ffd.jpg" alt="First slide">
 
         </div>
 
