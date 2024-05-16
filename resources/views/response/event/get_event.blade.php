@@ -74,6 +74,7 @@
 								- Makan Siang, coffe/snack<br/>
 								- Sarapan dan Makan Malam (bagi yang menginap)
 				      		</p> -->
+
 				      		<hr style="background-color: #fff;"></hr>
 					      	<p class="modal-title w-100 text-center">
 								WhatsApp Panitia :<br/>
