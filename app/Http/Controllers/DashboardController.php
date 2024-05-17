@@ -10,7 +10,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\{
     EventExportBerbayar,
     EventExportGratis,
-    ExportAlumniByEvent
+    ExportAlumniByEvent,
+    ExportAlumniRegis
 };
 
 class DashboardController extends Controller
@@ -143,10 +144,19 @@ class DashboardController extends Controller
         }
     }
 
+
+
+    public function exportAlumniRegis(Request $request){
+        $now = date('d-m-Y');
+        $alumniRegist = $this->hitApi("member/event/dashboard_all_regis_event?tanggal_awal={$request->tanggal_awal}&tanggal_akhir={$request->tanggal_akhir}&kategori_event={$request->kategori_event}&jenis_event={$request->jenis_event}");
+        return Excel::download(new ExportAlumniRegis($alumniRegist),"alumni-regist_{$now}.xlsx");
+    }
+
     public function exportExcelAlumniByEvent($tipe, Request $req){
         if ($tipe == 'berbayar') {
             $endpoint = env('API_EVENT').'member/event/all_event_by_id?id_event='.$req->id_event;
             $data = \Helper::getRespApiWithParam($endpoint, 'get');
+            // dd($data);
         }else{
             $endpoint = env('API_FORM_SERTIFIKAT').'Kelas_sertif/regis_sertif/'.$req->id_event;
             $data = \Helper::getRespApiWithParam($endpoint, 'get');
@@ -159,6 +169,7 @@ class DashboardController extends Controller
         $user = User::where('email', $email)->first();
         $endpoint = env('API_EVENT').'member/event/dashboard_detail_alumni?email='.$email;
         $my_event = \Helper::getRespApiWithParam($endpoint, 'get');
+        // dd($my_event);
         $dataAlumni = $my_event['dataAlumni'];  
         $statVerif = [];
         $statPending = [];

@@ -61,7 +61,8 @@
 				</div>
 				<div class="row float-right">
 					<div class="col-md">
-						<button type="submit" class="btn btn-outline-primary btn-sm">Download Excel</button>
+						<a href="{{route('dashboard2.exportAlumniRegis')}}" class="btn btn-outline-primary btn-sm" id="btnDownloadRegist">Download Excel Data Registrasi</a>
+						<button type="submit" class="btn btn-outline-primary btn-sm">Download Excel Event</button>
 					</div>
 				</div>
 			</form>
@@ -88,16 +89,35 @@
 @section('scripts')
 
 <script>
+	function _vall(names){
+		return $(`[name=${names}]`).val()
+	}
+	function getStringDownloadRegist(){
+		let abc = '{{url('dashboard2')}}'
+		abc += `/exportAlumniRegis?tanggal_awal=${_vall('tanggal_awal')}`
+		abc += `&tanggal_akhir=${_vall('tanggal_akhir')}`
+		abc += `&kategori_event=${_vall('kategori_event')}`
+		abc += `&jenis_event=${_vall('jenis_event')}`
+		return abc
+	}
 	$('[name=tanggal_awal]').change(function(){
+		let _href = getStringDownloadRegist()
+		$('#btnDownloadRegist').attr('href', _href)
 		tableEventBerbayar.draw()
 	})
 	$('[name=tanggal_akhir]').change(function(){
+		let _href = getStringDownloadRegist()
+		$('#btnDownloadRegist').attr('href', _href)
 		tableEventBerbayar.draw()
 	})
 	$('[name=kategori_event]').change(function(){
+		let _href = getStringDownloadRegist()
+		$('#btnDownloadRegist').attr('href', _href)
 		tableEventBerbayar.draw()
 	})
 	$('[name=jenis_event]').change(function(){
+		let _href = getStringDownloadRegist()
+		$('#btnDownloadRegist').attr('href', _href)
 		tableEventBerbayar.draw()
 	})
 	var tableEventBerbayar = $('#table-DatatableEventBerbayar').DataTable({

@@ -29,6 +29,7 @@ class ExportAlumniByEvent implements FromView, WithColumnWidths,WithEvents
     		'E' => 60,
             'F' => 40,
             'G' => 20,
+            'H' => 20,
     	];
     }
 
@@ -36,9 +37,12 @@ class ExportAlumniByEvent implements FromView, WithColumnWidths,WithEvents
     {
         return [
             AfterSheet::class    => function(AfterSheet $event) {
-
-                $event->sheet->getDelegate()->getStyle('A3:G3')
-                ->getFill()
+                if ($this->alTipe == 'berbayar') {
+                    $e2 = $event->sheet->getDelegate()->getStyle('A3:H3');   
+                }else{
+                    $e2 = $event->sheet->getDelegate()->getStyle('A3:G3');
+                }        
+                $e2->getFill()
                 ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                 ->getStartColor()
                 ->setARGB('f06e5d');
@@ -50,7 +54,6 @@ class ExportAlumniByEvent implements FromView, WithColumnWidths,WithEvents
     {
         $data = $this->alData;
         $tipe = $this->alTipe;
-        // dd($data);
         return view('admin.dashboard2.export_alumni_by_event', compact('data', 'tipe'));
     }
 }

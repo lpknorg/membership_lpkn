@@ -273,7 +273,36 @@
 							</table>
 						</div>
 					</div>
-				</div>         
+				</div>  
+				@if($user->member->sertifikatLain()->exists())
+				<div class="col-md-12 mt-2">
+					<div class="card">
+						<div class="card-body">
+							<h5>Sertifikat yang dimiliki</h5>
+							<table class="table table-bordered table-hover" id="table-sertifikatLain">
+								<thead>
+									<tr>
+										<th>No</th>
+										<th>Nama</th>
+										<th>Nomor Sertifikat</th>
+										<th>Tahun Sertifikat</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach($user->member->sertifikatLain as $key => $s)
+									<tr>
+										<td style="width: 5%">{{ $key+1 }}</td>
+										<td>{{$s->nama}}</td>
+										<td>{{$s->no}}</td>
+										<td>{{$s->tahun}}</td>
+									</tr>
+									@endforeach
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>   
+				@endif      
 			</div>
 
 		</div>
@@ -284,6 +313,8 @@
 	<script>
 		$(document).ready( function () {
 			$('#table-pelatihanDiIkuti').DataTable();
+			$('#table-sertifikatLain').DataTable();
+
 		} );
 	</script>
 </body>

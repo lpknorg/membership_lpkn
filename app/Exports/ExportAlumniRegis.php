@@ -10,27 +10,23 @@ use Maatwebsite\Excel\Concerns\{
 };
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class EventExportBerbayar implements FromView, WithColumnWidths,WithEvents
+class ExportAlumniRegis implements FromView, WithColumnWidths,WithEvents
 {
-    private $evData;
+    private $alData;
     public function __construct($data){
-        $this->evData = $data;
+        $this->alData = $data;
     }
 
 	public function columnWidths(): array
     {
     	return [
     		'A' => 5,
-    		'B' => 60,
-    		'C' => 80,
-    		'D' => 15,
-    		'E' => 15,
-    		'F' => 15,
-    		'G' => 15,
-    		'H' => 15,
-    		'I' => 15,
-            'J' => 85,
-            'K' => 20,
+    		'B' => 40,
+    		'C' => 15,
+    		'D' => 30,
+    		'E' => 20,
+            'F' => 20,
+            'G' => 20
     	];
     }
 
@@ -39,7 +35,7 @@ class EventExportBerbayar implements FromView, WithColumnWidths,WithEvents
         return [
             AfterSheet::class    => function(AfterSheet $event) {
 
-                $event->sheet->getDelegate()->getStyle('A1:K1')
+                $event->sheet->getDelegate()->getStyle('A1:G1')
                 ->getFill()
                 ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                 ->getStartColor()
@@ -50,8 +46,7 @@ class EventExportBerbayar implements FromView, WithColumnWidths,WithEvents
 
     public function view(): View
     {
-        $data = $this->evData;
-        dd($data);
-        return view('admin.dashboard2.export_event_berbayar', compact('data'));
+        $data = $this->alData;
+        return view('admin.dashboard2.export_alumni_regis', compact('data'));
     }
 }

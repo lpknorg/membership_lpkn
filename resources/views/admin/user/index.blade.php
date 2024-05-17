@@ -2,7 +2,7 @@
 @section('breadcumb')
 <div class="col-md-12 page-title">
 	<div class="title_left">
-		<h3>User</h3>
+		<h3>Alumni</h3>
 	</div>
 </div>
 @endsection
@@ -48,6 +48,22 @@
 							</select>
 						</div>
 					</div>
+					<div class="col-sm-3">
+						<div class="form-group">
+							<label>Kelulusan Event</label>
+							<?php $arr = ['PBJ', 'CPOF', 'CPST', 'CPSP'] ?>;
+							<select class="form-control" name="kelulusan_event">
+								<option value="">Pilih Kelulusan Event</option>
+								@foreach($arr as $j)
+								@if($j == "PBJ")
+								<option value="PENGADAAN BARANG/JASA|PEMERINTAH">{{$j}}</option>
+								@else							
+								<option value="{{strtolower($j)}}">{{$j}}</option>
+								@endif
+								@endforeach
+							</select>
+						</div>
+					</div>
 				</div>
 				<div class="row float-right">
 					<div class="col-md">
@@ -84,6 +100,9 @@
 			table.draw()
 		})
 		$('[name=status_kepegawaian]').change(function(){
+			table.draw()
+		})
+		$('[name=kelulusan_event]').change(function(){
 			table.draw()
 		})
 		@if(\Session::has('success_import_member'))
@@ -273,6 +292,7 @@
 					d.tanggal_awal = $('[name=tanggal_awal]').val()
 					d.tanggal_akhir = $('[name=tanggal_akhir]').val()
 					d.status_kepegawaian = $('[name=status_kepegawaian]').find(":selected").val()
+					d.kelulusan_event = $('[name=kelulusan_event]').find(":selected").val()
 				}
 			},
 			columns: [

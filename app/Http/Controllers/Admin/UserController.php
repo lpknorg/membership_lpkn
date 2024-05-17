@@ -151,8 +151,15 @@ class UserController extends Controller
     }
 
     public function getDatatable(Request $request)
-    {
+    {        
         if ($request->ajax()) {
+            $emailArr = [];
+            if ($request->kelulusan_event) {
+                $endpoint_ = env('API_EVENT').'member/event/peserta_lulus';
+                $datapost = ['lulus' => 1, 'judul' => $request->kelulusan_event];
+                $eventData = \Helper::getRespApiWithParam($endpoint_, 'POST', $datapost);
+                $emailArr = array_unique(array_column($eventData, 'email'));
+            }
             $data = User::has('member')
             ->when($request->tanggal_awal, function($q)use($request){
                 $q->whereHas('member', function($qq)use($request){
@@ -168,6 +175,9 @@ class UserController extends Controller
                 $q->whereHas('member.memberKantor', function($qq)use($request){
                     $qq->where('status_kepegawaian', $request->status_kepegawaian);
                 });
+            })
+            ->when($request->kelulusan_event, function($q)use($emailArr){
+                $q->whereIn('email', $emailArr);
             })
             ->orderBy('updated_at', 'DESC');
             return \DataTables::of($data)
@@ -210,6 +220,13 @@ class UserController extends Controller
     }
 
     public function exportExcelAlumni(Request $request){
+        $emailArr = [];
+        if ($request->kelulusan_event) {
+            $endpoint_ = env('API_EVENT')."member/event/peserta_lulus";
+            $datapost = ['lulus' => 1, 'judul' => $request->kelulusan_event];
+            $eventData = \Helper::getRespApiWithParam($endpoint_, 'POST', $datapost);
+            $emailArr = array_unique(array_column($eventData, 'email'));
+        }
         $data = User::has('member')
         ->when($request->tanggal_awal, function($q)use($request){
             $q->whereHas('member', function($qq)use($request){
@@ -225,6 +242,9 @@ class UserController extends Controller
             $q->whereHas('member.memberKantor', function($qq)use($request){
                 $qq->where('status_kepegawaian', $request->status_kepegawaian);
             });
+        })
+        ->when($request->kelulusan_event, function($q)use($emailArr){
+            $q->whereIn('email', $emailArr);
         })
         ->orderBy('updated_at', 'DESC')
         // ->limit(30)

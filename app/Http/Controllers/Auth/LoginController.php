@@ -91,7 +91,7 @@ class LoginController extends Controller
                 $redirect = "/p/{$uname}/$artikel->slug";
             }else{
                 if (\Auth::user()->getRoleNames()[0] == 'admin') {
-                    $redirect = '/dashboard';
+                    $redirect = '/dashboard2';
                 }else{
                     $redirect = '/member_profile';
                 }

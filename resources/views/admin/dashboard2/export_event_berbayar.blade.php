@@ -11,6 +11,7 @@
             <th>Nama Panitia</th>
             <th>Link</th>
             <th>Lokasi Event</th>
+            <th>Jumlah Peserta</th>
         </tr>
     </thead>
     <tbody>       
@@ -26,7 +27,8 @@
             <td><a href="{{$d['brosur_img']}}">Lihat Brosur</a></td>
             <td>{{$d['nama_panitia']}}</td>
             <td><a href="{{$d['link']}}">Menuju Link</a></td>
-            <td>{{$d['lokasi_event']}}</td>
+            <td>{{$d['lokasi_event'] ?: '-'}}</td>
+            <td>{{$d['jumlah_peserta']}}</td>
         </tr>
         @endforeach
     </tbody>
