@@ -29,7 +29,7 @@
     Daftar
   </a>
   <div class="login-card-footer">
-    <p class="text-muted">&copy; 2023 Copyright : LPKN Training Center</p>
+    <p class="text-muted">&copy; {{date('Y')}} Copyright : LPKN Training Center</p>
   </div>
 </div>
 

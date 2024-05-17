@@ -42,6 +42,16 @@
                             		$diundi = "31 Oktober 2023";
                             	}elseif (date($date) >= date('2023-11-01') && date($date) < date('2023-12-31')) {
                             		$diundi = "30 Desember 2023";
+                            	}elseif (date($date) >= date('2024-01-01') && date($date) < date('2024-03-31')) {
+                            		$diundi = "29 Maret 2024";
+                            	}elseif (date($date) >= date('2024-04-01') && date($date) < date('2024-06-31')) {
+                            		$diundi = "28 Juni 2024";
+                            	}elseif (date($date) >= date('2024-04-01') && date($date) < date('2024-06-31')) {
+                            		$diundi = "28 Juni 2024";
+                            	}elseif (date($date) >= date('2024-07-01') && date($date) < date('2024-09-30')) {
+                            		$diundi = "27 September 2024";
+                            	}elseif (date($date) >= date('2024-09-01') && date($date) < date('2024-12-31')) {
+                            		$diundi = "30 Desember 2024";
                             	}
 	                            ?>
 					      		<p>Anda mendapatkan Voucher Undian yang<br/>akan di undi pada tanggal :
@@ -58,7 +68,7 @@
 				      					</b>
 					      			</h2>
 					      		</p>
-					      		<h4>Grand Prize 1 Unit Motor Yamaha NMAX<br/>Di Undi pada akhir tahun 2023</h4>
+					      		<h4>Grand Prize 1 Unit Motor Listrik<br/>Di Undi pada akhir tahun 2024</h4>
 					      		</div>
 					      	<!-- </form> -->
 				      		<hr style="background-color: #fff;"></hr>

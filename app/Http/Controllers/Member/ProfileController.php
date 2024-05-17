@@ -463,6 +463,7 @@ class ProfileController extends Controller
             $member = \Auth::user();
             $datapost = ['slug' => $slug, 'email' => $member->email];
             $event = $this->detailEvent($datapost);
+            // dd($event);
             $data['detail_event'] = $event;
             $data['member'] = $member;
             if ($event['status'] == 0) {

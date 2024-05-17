@@ -18,7 +18,6 @@
 						<h5>a/n {{$detail_event['akun_bank']['atas_nama']}}<br/>No.rek : {{$detail_event['akun_bank']['no_rek']}}</h5>
 						<h3><small>Sebesar : </small>Rp. {{number_format($detail_event['biaya_event']['nominal_biaya']+$detail_event['unik_code'])}},-</h3>
 						<a target="_blank" href="https://event.lpkn.id/event/invoice_membership/{{$detail_event['id_regis']}}" class="btn btn-primary btn-sm mt-2"><i class="fa fa-file-pdf-o"></i> Download Invoice</a>
-						{{-- <a target="_blank" href="http://localhost:8080/event.lpkn.id/event/invoice_membership/{{$detail_event['id_regis']}}" class="btn btn-primary btn-sm mt-2"><i class="fa fa-file-pdf-o"></i> Download Invoice</a> --}}
 						<form method="post" class="upload_bukti" id="upload_bukti">
 							@csrf
 							<input type="hidden" id="slug" name="slug" value="{{$event['slug']}}">
@@ -32,7 +31,7 @@
 						</form>
 						<hr style="background-color: #fff;"></hr>
 						@if(is_null($detail_event['bukti']))
-						<h5>Atau memlalui pembayaran Online</h5>
+						<h5>Atau melalui pembayaran Online</h5>
 						<button type="submit" class="btn btn-primary">Bayar Online</button>
 						@else
 						<p>Terimakasih telah mengirim bukti transfer,<br/>Selanjutnya Panitia akan memverifikasi pembayaran Anda <br/> Verifikasi pembayaran paling lambat 2x24 jam</p>
