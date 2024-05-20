@@ -6,6 +6,7 @@
             <th>Link Sertifikat</th>
             <th>Waktu Pelaksaan</th>
             <th>Panitia</th>
+            <th>Jumlah Peserta</th>
         </tr>
     </thead>
     <tbody>       
@@ -17,6 +18,7 @@
             <td><a href="{{$d['link']}}">Menuju Link</a></td>
             <td>{{\Helper::changeFormatDate($d['created_at'], 'd-M-Y')}}</td>
             <td>{{$d['panitia']}}</td>
+            <td>{{$d['jumlah_peserta']}}</td>
         </tr>
         @endforeach
     </tbody>

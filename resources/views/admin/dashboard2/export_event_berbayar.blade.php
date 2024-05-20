@@ -12,6 +12,7 @@
             <th>Link</th>
             <th>Lokasi Event</th>
             <th>Jumlah Peserta</th>
+            <th>Status Event</th>
         </tr>
     </thead>
     <tbody>       
@@ -29,6 +30,17 @@
             <td><a href="{{$d['link']}}">Menuju Link</a></td>
             <td>{{$d['lokasi_event'] ?: '-'}}</td>
             <td>{{$d['jumlah_peserta']}}</td>
+            <td>
+                @if($d['status'] == '0')
+                Proses
+                @elseif($d['status'] == '1')
+                Aktif
+                @elseif($d['status'] == '2')
+                Tidak Aktif
+                @elseif($d['status'] == '3')
+                Batal
+                @endif
+            </td>
         </tr>
         @endforeach
     </tbody>

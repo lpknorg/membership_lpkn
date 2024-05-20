@@ -7,6 +7,7 @@
             <th>Email</th>
             <th>Instansi</th>
             <th>Unit Organisasi</th>
+            <th>Event Diikuti</th>
             <th>Status Pembayaran</th>
         </tr>
     </thead>
@@ -20,6 +21,7 @@
             <td>{{$d['email']}}</td>
             <td>{{$d['instansi']}}</td>
             <td>{{isset($d['unit_organisasi']) ? $d['unit_organisasi'] : '-'}}</td>
+            <td>{{$d['judul']}}</td>
             <td>
                 <?php
                 if ($d['status_pembayaran'] == 1) {

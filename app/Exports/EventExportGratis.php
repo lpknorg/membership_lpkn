@@ -24,7 +24,8 @@ class EventExportGratis implements FromView, WithColumnWidths,WithEvents
     		'B' => 90,
     		'C' => 15,
     		'D' => 18,
-    		'E' => 30
+    		'E' => 30,
+            'F' => 20
     	];
     }
 
@@ -33,7 +34,7 @@ class EventExportGratis implements FromView, WithColumnWidths,WithEvents
         return [
             AfterSheet::class    => function(AfterSheet $event) {
 
-                $event->sheet->getDelegate()->getStyle('A1:E1')
+                $event->sheet->getDelegate()->getStyle('A1:F1')
                 ->getFill()
                 ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                 ->getStartColor()

@@ -31,6 +31,7 @@ class EventExportBerbayar implements FromView, WithColumnWidths,WithEvents
     		'I' => 15,
             'J' => 85,
             'K' => 20,
+            'L' => 20,
     	];
     }
 
@@ -39,7 +40,7 @@ class EventExportBerbayar implements FromView, WithColumnWidths,WithEvents
         return [
             AfterSheet::class    => function(AfterSheet $event) {
 
-                $event->sheet->getDelegate()->getStyle('A1:K1')
+                $event->sheet->getDelegate()->getStyle('A1:L1')
                 ->getFill()
                 ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                 ->getStartColor()
@@ -51,7 +52,7 @@ class EventExportBerbayar implements FromView, WithColumnWidths,WithEvents
     public function view(): View
     {
         $data = $this->evData;
-        dd($data);
+        // dd($data);
         return view('admin.dashboard2.export_event_berbayar', compact('data'));
     }
 }

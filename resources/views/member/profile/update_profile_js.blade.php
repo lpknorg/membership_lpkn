@@ -8,8 +8,12 @@
 
 		getProvinsi('kantor_provinsi', '{{$user->member->memberKantor->kantor_prov_id}}')
 		getKota('{{$user->member->memberKantor->kantor_prov_id}}', 'kantor_kota', '{{$user->member->memberKantor->kantor_kota_id}}')
+		@if($user->member->memberKantor->kantor_kota_id)
 		getKecamatan('{{$user->member->memberKantor->kantor_kota_id}}', 'kantor_kecamatan', '{{$user->member->memberKantor->kantor_kecamatan_id}}')
+		@endif
+		@if($user->member->memberKantor->kantor_kecamatan_id)
 		getKelurahan('{{$user->member->memberKantor->kantor_kecamatan_id}}', 'kantor_kelurahan', '{{$user->member->memberKantor->kantor_kelurahan_id}}')
+		@endif
 		getLembagaPemerintahan('{{$user->member->memberKantor->instansi_id}}', 'lembaga_pemerintahan')
 
 		function getProvinsi(selector, selected_id='{{$user->member->prov_id}}'){

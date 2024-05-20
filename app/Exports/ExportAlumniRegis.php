@@ -26,7 +26,8 @@ class ExportAlumniRegis implements FromView, WithColumnWidths,WithEvents
     		'D' => 30,
     		'E' => 20,
             'F' => 20,
-            'G' => 20
+            'G' => 70,
+            'H' => 20
     	];
     }
 
@@ -35,7 +36,7 @@ class ExportAlumniRegis implements FromView, WithColumnWidths,WithEvents
         return [
             AfterSheet::class    => function(AfterSheet $event) {
 
-                $event->sheet->getDelegate()->getStyle('A1:G1')
+                $event->sheet->getDelegate()->getStyle('A1:H1')
                 ->getFill()
                 ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                 ->getStartColor()
@@ -47,6 +48,7 @@ class ExportAlumniRegis implements FromView, WithColumnWidths,WithEvents
     public function view(): View
     {
         $data = $this->alData;
+        // dd($data);
         return view('admin.dashboard2.export_alumni_regis', compact('data'));
     }
 }
