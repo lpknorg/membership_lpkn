@@ -28,15 +28,15 @@
 			<form action="{{route('admin.user.exportExcelAlumni')}}">
 				@csrf
 				<div class="row mb-2">
-					<div class="col-md-3">
+					<div class="col-md-4">
 						<label for="">Tanggal Awal Ultah</label>
 						<input type="date" name="tanggal_awal" class="form-control" placeholder="">
 					</div>
-					<div class="col-md-3">
+					<div class="col-md-4">
 						<label for="">Tanggal Akhir Ultah</label>
 						<input type="date" name="tanggal_akhir" class="form-control" placeholder="">
 					</div>
-					<div class="col-sm-3">
+					<div class="col-sm-4">
 						<div class="form-group">
 							<label>Status Kepegawaian</label>
 							<?php $arr = ['PNS', 'SWASTA', 'TNI/POLRI', 'BUMN/BUMD', 'HONORER / KONTRAK', 'ASN', 'Lainnya']; ?>
@@ -48,12 +48,28 @@
 							</select>
 						</div>
 					</div>
-					<div class="col-sm-3">
+					<div class="col-sm-4">
 						<div class="form-group">
 							<label>Kelulusan Event</label>
 							<?php $arr = ['PBJ', 'CPOF', 'CPST', 'CPSP'] ?>;
 							<select class="form-control" name="kelulusan_event">
 								<option value="">Pilih Kelulusan Event</option>
+								@foreach($arr as $j)
+								@if($j == "PBJ")
+								<option value="PENGADAAN BARANG/JASA|PEMERINTAH">{{$j}}</option>
+								@else							
+								<option value="{{strtolower($j)}}">{{$j}}</option>
+								@endif
+								@endforeach
+							</select>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="form-group">
+							<label>Ketidaklulusan Event</label>
+							<?php $arr = ['PBJ', 'CPOF', 'CPST', 'CPSP'] ?>;
+							<select class="form-control" name="ketidaklulusan_event">
+								<option value="">Pilih Ketidaklulusan Event</option>
 								@foreach($arr as $j)
 								@if($j == "PBJ")
 								<option value="PENGADAAN BARANG/JASA|PEMERINTAH">{{$j}}</option>
@@ -103,6 +119,9 @@
 			table.draw()
 		})
 		$('[name=kelulusan_event]').change(function(){
+			table.draw()
+		})
+		$('[name=ketidaklulusan_event]').change(function(){
 			table.draw()
 		})
 		@if(\Session::has('success_import_member'))
@@ -293,6 +312,7 @@
 					d.tanggal_akhir = $('[name=tanggal_akhir]').val()
 					d.status_kepegawaian = $('[name=status_kepegawaian]').find(":selected").val()
 					d.kelulusan_event = $('[name=kelulusan_event]').find(":selected").val()
+					d.ketidaklulusan_event = $('[name=ketidaklulusan_event]').find(":selected").val()
 				}
 			},
 			columns: [

@@ -149,6 +149,7 @@ class DashboardController extends Controller
     public function exportAlumniRegis(Request $request){
         $now = date('d-m-Y');
         $alumniRegist = $this->hitApi("member/event/dashboard_all_regis_event?tanggal_awal={$request->tanggal_awal}&tanggal_akhir={$request->tanggal_akhir}&kategori_event={$request->kategori_event}&jenis_event={$request->jenis_event}");
+        // dd($alumniRegist);
         return Excel::download(new ExportAlumniRegis($alumniRegist),"alumni-regist_{$now}.xlsx");
     }
 

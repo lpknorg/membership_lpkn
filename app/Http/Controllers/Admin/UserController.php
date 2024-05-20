@@ -152,13 +152,21 @@ class UserController extends Controller
 
     public function getDatatable(Request $request)
     {        
-        if ($request->ajax()) {
-            $emailArr = [];
+        // if ($request->ajax()) {
+            $emailArrLulus = [];
+            $emailArrTdkLulus = [];
             if ($request->kelulusan_event) {
                 $endpoint_ = env('API_EVENT').'member/event/peserta_lulus';
                 $datapost = ['lulus' => 1, 'judul' => $request->kelulusan_event];
                 $eventData = \Helper::getRespApiWithParam($endpoint_, 'POST', $datapost);
-                $emailArr = array_unique(array_column($eventData, 'email'));
+                $emailArrLulus = array_unique(array_column($eventData, 'email'));
+            }
+            // print_r($emailArrLulus);die;
+            if ($request->ketidakkelulusan_event) {
+                $endpoint_ = env('API_EVENT').'member/event/peserta_lulus';
+                $datapost = ['lulus' => 0, 'judul' => $request->ketidaklulusan_event];
+                $eventData = \Helper::getRespApiWithParam($endpoint_, 'POST', $datapost);
+                $emailArrTdkLulus = array_unique(array_column($eventData, 'email'));
             }
             $data = User::has('member')
             ->when($request->tanggal_awal, function($q)use($request){
@@ -176,8 +184,11 @@ class UserController extends Controller
                     $qq->where('status_kepegawaian', $request->status_kepegawaian);
                 });
             })
-            ->when($request->kelulusan_event, function($q)use($emailArr){
-                $q->whereIn('email', $emailArr);
+            ->when($request->kelulusan_event, function($q)use($emailArrLulus){
+                $q->whereIn('email', $emailArrLulus);
+            })
+            ->when($request->ketidaklulusan_event, function($q)use($emailArrTdkLulus){
+                $q->whereIn('email', $emailArrTdkLulus);
             })
             ->orderBy('updated_at', 'DESC');
             return \DataTables::of($data)
@@ -203,7 +214,7 @@ class UserController extends Controller
             })
             ->rawColumns(['action', 'status_user', 'email'])
             ->make(true);
-        }
+        // }
     }
 
     public function profile()
@@ -223,7 +234,11 @@ class UserController extends Controller
         $emailArr = [];
         if ($request->kelulusan_event) {
             $endpoint_ = env('API_EVENT')."member/event/peserta_lulus";
-            $datapost = ['lulus' => 1, 'judul' => $request->kelulusan_event];
+            if ($request->kelulusan_event) {
+                $datapost = ['lulus' => 1, 'judul' => $request->kelulusan_event];
+            }
+            // defaultnya nyari data yang ngga lulus ujian
+            $datapost = ['lulus' => 0, 'judul' => $request->ketidaklulusan_event];
             $eventData = \Helper::getRespApiWithParam($endpoint_, 'POST', $datapost);
             $emailArr = array_unique(array_column($eventData, 'email'));
         }
