@@ -1,10 +1,6 @@
 <div class="con_full">
 		<div class="blog-main mt-2 mb-5">
-            <div class="d-block d-sm-flex justify-content-between align-items-center flex-wrap">
-                <div class="d-flex justify-content-center">
-                    <ol class="breadcrumb bg-transparent">
-                        <li clayss="breadcrumb-item">
-                            <form class="form-inline ml-0 ml-md-3" action="">
+        <!-- <form class="form-inline ml-0 md-4" action="">
                                 <div class="input-group">
                                     <input type="text" class="form-control" placeholder="Cari event" name="keyword" >
                                     <div class="input-group-append">
@@ -13,11 +9,7 @@
                                         </button>
                                     </div>
                                 </div>
-                            </form>
-                        </li>
-                    </ol>
-                </div>
-            </div>
+                            </form> -->
 			<div class="blog-post">
                 @foreach($event['newArr'] as $evt)
                 <h3 class="text-light text-center">{{\Helper::bulanIndo($evt['bulan']).' '.$evt['tahun']}}</h3>

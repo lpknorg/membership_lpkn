@@ -1,10 +1,10 @@
 .out_img {
-    border: 1px solid;
-    width: 20vh;
-    height: 20vh;
+    border: 0.8px solid #979797;
+    width: 16vh;
+    height: 19vh;
     overflow: hidden;
     display: flex;
-    border-radius: 50%;
+    border-radius: 5px;
 }
 .in_img {
     max-width: inherit;
@@ -15,7 +15,7 @@
 }
 .btn_change_image_profile{
     width:100%;
-    border-radius: 50%;
+    border-radius: 50% 50% 0 0;
     position: absolute;
     bottom:0;
     background-color: black;
