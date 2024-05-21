@@ -83,6 +83,7 @@
 				</div>
 				<div class="row float-right">
 					<div class="col-md">
+						<a href="{{route('dashboard2.exportAlumniRegis')}}" class="btn btn-outline-primary btn-sm" id="btnDownloadRegist">Download Excel Data Registrasi</a>
 						<button type="submit" class="btn btn-outline-primary btn-sm">Download Excel</button>
 					</div>
 				</div>
@@ -109,6 +110,15 @@
 @section('scripts')
 <script>
 	$(document).ready(function(){
+		function _vall(names){
+			return $(`[name=${names}]`).val()
+		}
+		function getStringDownloadRegist(){
+			let abc = '{{url('dashboard2')}}'
+			abc += `/exportAlumniRegis?kelulusan_event=${_vall('kelulusan_event')}`
+			abc += `&ketidaklulusan_event=${_vall('ketidaklulusan_event')}`
+			return abc
+		}
 		$('[name=tanggal_awal]').change(function(){
 			table.draw()
 		})
@@ -119,9 +129,13 @@
 			table.draw()
 		})
 		$('[name=kelulusan_event]').change(function(){
+			let _href = getStringDownloadRegist()
+			$('#btnDownloadRegist').attr('href', _href)
 			table.draw()
 		})
 		$('[name=ketidaklulusan_event]').change(function(){
+			let _href = getStringDownloadRegist()
+			$('#btnDownloadRegist').attr('href', _href)
 			table.draw()
 		})
 		@if(\Session::has('success_import_member'))
