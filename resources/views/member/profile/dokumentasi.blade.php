@@ -4,7 +4,7 @@
 	<h5 class="font-italic">
 		Dokumentasi <small><a class="badge badge-primary ml-2 gotoback" onclick="goToBack()" style="display:none; cursor: pointer;"><i class="fa fa-arrow-left"></i> Go To Back</a></small>
 	</h5>
-	<p class=" border-bottom">Kemi merekomendasikan Event dibawah untukmu dari beberapa aktiritas kami di web ini</p>
+	<p class=" border-bottom">Kemi merekomendasikan Event dibawah untukmu dari beberapa aktivitas kami di web ini</p>
 	<div class="row dokumentasi">
 		@foreach($dokumentasi as $doc)
 		<div class="col-md-4 mb-3">

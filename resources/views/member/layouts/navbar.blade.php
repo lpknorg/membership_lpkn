@@ -11,9 +11,9 @@
             <li class="nav-item">
                 <a href="{{route('welcome')}}" class="nav-link {{$routes == 'welcome' ? 'active' : ''}}">Beranda</a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a href="{{route('allevent', ['id' => 1])}}" class="nav-link {{$routes == 'allevent' ? 'active' : ''}}">Event</a>
-            </li>
+            </li> -->
             <li class="nav-item">
                 <a href="https://ilmu.lpkn.id/" class="nav-link">Berita</a>
             </li>

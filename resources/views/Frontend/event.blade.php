@@ -1,7 +1,6 @@
 <div class="con_full">
 		<div class="blog-main mt-2 mb-5">
             <div class="d-block d-sm-flex justify-content-between align-items-center flex-wrap">
-				<h4 class="blog-post-title text-white text-center">Total Event : {{$event['total']}}</h4>
                 <div class="d-flex justify-content-center">
                     <ol class="breadcrumb bg-transparent">
                         <li clayss="breadcrumb-item">

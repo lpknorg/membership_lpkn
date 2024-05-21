@@ -27,7 +27,6 @@
 				</div>
 			</div>
 			<div class="blog-post">
-				<h2 class="blog-post-title">Total Event : <?= (isset($event['count'])) ? $event['count'] : ''?></h2>
 				<div class="row" id="content-event">
 					@foreach($event['event'] as $e)
 					<div class="col-lg-4 col-6 card-wrapper-special">

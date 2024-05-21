@@ -12,7 +12,7 @@
 @section('content')
 <div class="tab-pane fade show active" id="pills-rekomendasievent" role="tabpanel" aria-labelledby="pills-home-tab">
 	<h5 class="font-italic">
-		Event yang Kamu ikuti <small><a class="badge badge-primary" href="{{route('allevent', ['id' => 0])}}">Semua Event</a></small>
+		Event yang Kamu ikuti <small><a class="badge badge-primary" href="{{url('/')}}">Semua Event</a></small>
 	</h5>
 	<a href="javascript:void(0);" data-toggle="modal" data-target="#modalTransferEvent" class="btn btn-outline-primary btn-sm mb-1">Transfer Event</a>
 	<br>

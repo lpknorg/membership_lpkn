@@ -5,7 +5,7 @@
 		Menunggu Pembayaran <small><a class="badge badge-primary" href="{{route('allevent', ['id' => 0])}}">Semua Event</a></small>
 	</h5>
 	<p class="border-bottom">
-		Kami merekomendasikan Event dibawah untukmu dari beberapa aktiritas kami di web ini
+		Kami merekomendasikan Event dibawah untukmu dari beberapa aktivitas kami di web ini
 	</p>
 	<div class="row">
         <div class="col-md-12">

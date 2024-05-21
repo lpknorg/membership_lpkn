@@ -2,9 +2,9 @@
 @section('content')
 <div class="tab-pane fade show active" id="pills-rekomendasievent" role="tabpanel" aria-labelledby="pills-home-tab">
 	<h5 class="font-italic">
-		Rekomendasi Event <small><a class="badge badge-primary" href="{{route('allevent', ['id' => 1])}}">Semua Event</a></small>
+		Rekomendasi Event <small><a class="badge badge-primary" href="{{url('/')}}">Semua Event</a></small>
 	</h5>
-	<p class=" border-bottom">Kemi merekomendasikan Event dibawah untukmu dari beberapa aktiritas kami di web ini</p>
+	<p class=" border-bottom">Kemi merekomendasikan Event dibawah untukmu dari beberapa aktivitas kami di web ini</p>
 	<div class="row">
 		@foreach($new_event['event'] as $n)
 		<div class="col-sm-4 card-wrapper-special">
