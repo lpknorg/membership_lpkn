@@ -48,6 +48,8 @@ class ProfileController extends Controller
 
     public function editProfile(){
         $user = \Auth::user();
+        $path = \Helper::showImage(\Auth::user()->member->foto_profile, 'poto_profile');        
+        // dd('file gaada');
         $endpoint = env('API_EVENT').'member/event/event_kelulusan';
         $datapost = ['email' => \Auth::user()->email];
         $list_event_ujian = \Helper::getRespApiWithParam($endpoint, 'post', $datapost);
@@ -325,6 +327,12 @@ class ProfileController extends Controller
                 $base64 = base64_encode($img);
             }
             $sertif = new SertifikatKamuController();
+
+            $path = public_path('uploaded_files/poto_profile/'.\Auth::user()->member->foto_profile);
+            if (file_exists($path)) {
+                $img = file_get_contents($path);
+                $base64 = base64_encode($img);
+            }
             $datapost = [
                 'email'=> $_email,
                 'nama' => $user->member->nama_untuk_sertifikat,
@@ -450,9 +458,9 @@ class ProfileController extends Controller
 
     public function deleteSertifikat(Request $request){
         MemberSertifikatLainnya::where([
-                ['member_id', \Auth::user()->member->id],
-                ['id', $request->id]
-            ])->delete();
+            ['member_id', \Auth::user()->member->id],
+            ['id', $request->id]
+        ])->delete();
         return response()->json([
             'status'    => "ok",
             'messages' => "Berhasil menghapus sertifikat"
