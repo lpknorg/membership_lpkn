@@ -50,12 +50,12 @@
             </div>
             @endif
         </ul>
-        <div class="navbar-toggler border-0 ml-auto mr-2" data-toggle="collapse" data-target="#dropNavbar1" aria-controls="dropNavbar1" aria-expanded="false" aria-label="Toggle navigation">
+        <!-- <div class="navbar-toggler border-0 ml-auto mr-2" data-toggle="collapse" data-target="#dropNavbar1" aria-controls="dropNavbar1" aria-expanded="false" aria-label="Toggle navigation">
             <div class="position-relative">
                 <i class="fa-solid fa-bell" style="font-size: 20px;"></i>
                 <span class="position-absolute notif-number py-1">6</span>
             </div>
-        </div>
+        </div> -->
         @if(\Auth::check() && \Auth::user()->member)
         <img class="in_nav navbar-toggler" data-toggle="collapse" data-target="#dropNavbar" aria-controls="dropNavbar" aria-expanded="false" aria-label="Toggle navigation" src="{{\Helper::showImage(\Auth::user()->member->foto_profile, 'poto_profile')}}" alt="User profile picture" style="width:40px;height:40px;border-radius:50%;padding:0px">
         @else
@@ -67,7 +67,7 @@
         $routes = \Route::currentRouteName();
             // dd($routes);
         ?>
-        <div class="collapse navbar-collapse" id="dropNavbar1" data-parent="#dancee">
+        <!-- <div class="collapse navbar-collapse" id="dropNavbar1" data-parent="#dancee">
             <div class="d-block d-lg-none">
                 <div class="dropdown-divider m-0"></div>
                 <a href="" class="dropdown-item notif_before_read">
@@ -99,7 +99,7 @@
                     Lihat Semua
                 </a>
             </div>
-        </div>
+        </div> -->
         <div class="collapse navbar-collapse" id="dropNavbar" data-parent="#dancee">
             <ul class="navbar-nav d-block d-lg-none">
                 <li class="nav-item">

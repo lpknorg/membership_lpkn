@@ -319,14 +319,24 @@ class ProfileController extends Controller
                 'kantor_kelurahan_id'=> $request->kantor_kelurahan,
                 'updated_at' => now()
             ]);
+            $path = public_path('uploaded_files/poto_profile/'.\Auth::user()->member->foto_profile);
+            if (file_exists($path)) {
+                $img = file_get_contents($path);
+                $base64 = base64_encode($img);
+            }
             $sertif = new SertifikatKamuController();
             $datapost = [
                 'email'=> $_email,
                 'nama' => $user->member->nama_untuk_sertifikat,
                 'hp' => $user->member->no_hp,
-                'instansi' => $request->tempat_kerja
+                'instansi' => $request->tempat_kerja,
+                'nik' => $user->nik,
+                'tempat_lahir' => $user->member->tempat_lahir,
+                'tgl_lahir' => $user->member->tgl_lahir,
+                'instansi' => $request->tempat_kerja,
+                'foto_diri' => $base64
             ];
-            $endpoint = env('API_SSERTIFIKAT').'Member/updateMembership';
+            $endpoint = env('API_SSERTIFIKAT').'Membership/updateMember';
             $list_sertif = \Helper::getRespApiWithParam($endpoint, 'post', $datapost);
             DB::commit();
         }catch (Exception $e) {
