@@ -61,10 +61,113 @@ class DashboardController extends Controller
         return json_decode($response, true);
     }
 
-    public function index2(){        
+    public function flattenArray($array) {
+        $result = [];
+
+        foreach ($array as $element) {
+            if (is_array($element)) {
+                $result = array_merge($result, $this->flattenArray($element));
+            } else {
+                $result[] = $element;
+            }
+        }
+
+        return $result;
+    }
+
+    public function getApiTotalTahunan($arrYear, $jenis_kelas=0){
+        $newArr = [];
+        foreach($arrYear as $y){
+            $by_tahun = $this->hitApi("member/event/total_regis_pertahun?jenis_kelas={$jenis_kelas}&tahun={$y['tahun']}");
+            foreach($by_tahun as $t){
+                $content = [
+                    $t['jumlah_event'], $t['jumlah_peserta']
+                ];
+                array_push($newArr, $content);
+            }
+        }
+        return $this->flattenArray($newArr);
+    }
+
+    public function getApiTotalBulanan($tahun=2022, $jenis_kelas=0){
+        $by_bulan = $this->hitApi("member/event/total_regis_perbulan?jenis_kelas={$jenis_kelas}&tahun={$tahun}");
+        $defaultEvents = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $defaultEvents[$i] = ['bulan' => $i, 'jumlah_event' => 0, 'jumlah_peserta' => 0];
+        }
+
+        // Gabungkan array asli dengan array default
+        foreach ($by_bulan as $event) {
+            $bulan = $event['bulan'];
+            $defaultEvents[$bulan] = $event;
+        }
+        ksort($defaultEvents);
+        array_values($defaultEvents);
+        $newArr = [];
+        foreach($defaultEvents as $t){
+            $content = [
+                $t['jumlah_event'], $t['jumlah_peserta']
+            ];
+            array_push($newArr, $content);
+        }
+        return $this->flattenArray($newArr);
+    }
+
+    public function index2(){              
         $arr_tipe_event = ['Berbayar', 'Gratis', 'Tatap Muka', 'Non Tatap Muka'];
-        $arr_total_bytipe = $this->hitApi('member/event/total_event_by_jenis');         
-        return view('dashboard2', compact('arr_tipe_event', 'arr_total_bytipe'));
+        $arr_total_bytipe = $this->hitApi('member/event/total_event_by_jenis');
+        // $by_bulan = $this->hitApi("member/event/total_regis_perbulan?jenis_kelas=0&tahun=2022");
+        // $total = 0;
+        // foreach($by_bulan as $b){
+        //     $total += $b['jumlah_peserta'];
+        // }
+        // dd($total);
+        $arrYear = $this->hitApi('member/event/total_event_pertahun');
+        if (!session()->has('api_dashboard_total_tahunan') || \Request::get('refresh_api')) {
+            $arrApi = [
+                $this->getApiTotalTahunan($arrYear),
+                $this->getApiTotalTahunan($arrYear, 1),
+                $this->getApiTotalTahunan($arrYear, 'pbj')
+            ];
+            session(['api_dashboard_total_tahunan' => $arrApi]);            
+        }
+        $api_tahunan = session('api_dashboard_total_tahunan');
+        $fixApiT = [$api_tahunan[0], $api_tahunan[1], $api_tahunan[2]];
+        $selectedYear = \Request::get('year_dash_filter');  
+        if ($selectedYear) {
+            if (!session()->has('api_total_bulanan') || \Request::get('refresh_api') || $selectedYear) {
+                $arrApi = [
+                    $this->getApiTotalBulanan($selectedYear),
+                    $this->getApiTotalBulanan($selectedYear, 1),
+                    $this->getApiTotalBulanan($selectedYear, 'pbj')
+                ];
+                session(['api_total_bulanan' => $arrApi]);            
+            }        
+            $api_bulanan = session('api_total_bulanan');
+            $fixApiB = [$api_bulanan[0], $api_bulanan[1], $api_bulanan[2]];
+
+            $newArrayBulan = [
+                'KELAS ONLINE' => $fixApiB[0],
+                'KELAS TATAP MUKA' => $fixApiB[1],
+                'KELAS PBJ' => $fixApiB[2],
+            ];
+        }else{
+            $newArrayBulan = [];
+        }   
+
+        $listStatus = ['Total Event', 'Verifikasi'];
+        $newArrayTahun = [
+            'KELAS ONLINE' => $fixApiT[0],
+            'KELAS TATAP MUKA' => $fixApiT[1],
+            'KELAS PBJ' => $fixApiT[2]
+        ];
+
+        $months = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $date = \DateTime::createFromFormat('!m', $i);
+            $months[] = $date->format('F');
+        }
+        return view('dashboard2', compact('arr_tipe_event', 'arr_total_bytipe', 'arrYear', 'newArrayTahun', 'newArrayBulan', 'months', 'listStatus', 'selectedYear'));
     }
 
     public function getByLembagaPemerintahan(Request $req){
@@ -149,7 +252,6 @@ class DashboardController extends Controller
     public function exportAlumniRegis(Request $request){
         $now = date('d-m-Y');
         $alumniRegist = $this->hitApi("member/event/dashboard_all_regis_event?tanggal_awal={$request->tanggal_awal}&tanggal_akhir={$request->tanggal_akhir}&kategori_event={$request->kategori_event}&jenis_event={$request->jenis_event}&kelulusan_event={$request->kelulusan_event}&ketidaklulusan_event={$request->ketidaklulusan_event}");
-        // dd($alumniRegist);
         return Excel::download(new ExportAlumniRegis($alumniRegist),"alumni-regist_{$now}.xlsx");
     }
 
@@ -157,7 +259,6 @@ class DashboardController extends Controller
         if ($tipe == 'berbayar') {
             $endpoint = env('API_EVENT').'member/event/all_event_by_id?id_event='.$req->id_event;
             $data = \Helper::getRespApiWithParam($endpoint, 'get');
-            // dd($data);
         }else{
             $endpoint = env('API_FORM_SERTIFIKAT').'Kelas_sertif/regis_sertif/'.$req->id_event;
             $data = \Helper::getRespApiWithParam($endpoint, 'get');
@@ -170,7 +271,6 @@ class DashboardController extends Controller
         $user = User::where('email', $email)->first();
         $endpoint = env('API_EVENT').'member/event/dashboard_detail_alumni?email='.$email;
         $my_event = \Helper::getRespApiWithParam($endpoint, 'get');
-        // dd($my_event);
         $dataAlumni = $my_event['dataAlumni'];  
         $statVerif = [];
         $statPending = [];
@@ -241,7 +341,7 @@ class DashboardController extends Controller
             }
         }
         $totalDataStatus = [count($statVerif), count($statPending), count($statBelumBayar)];
-        return view('admin.dashboard2.alumni_by_event', compact('id_events', 'totalDataStatus'));
+        return view('admin.dashboard2.alumni_by_event', compact('id_events', 'totalDataStatus', 'alumni_list_event'));
     }
 
     public function getUserByIdEventGratis($id_events){
@@ -275,7 +375,7 @@ class DashboardController extends Controller
         return \DataTables::of($alumni_list_event)
         ->addIndexColumn()
         ->addColumn('email_', function($row){
-            return "<a target='_blank' href=".route('dashboard2.detail_alumni', $row['email']).">{$row['email']}</a>";
+            return "<a target='_blank' href=".route('dashboard2.detail_alumni', $row['email']).">{$row['nama_lengkap']}</a>";
         })
         ->addColumn('status_pembayaran', function($row){
             if($row['status_pembayaran'] == 1){

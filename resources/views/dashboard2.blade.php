@@ -19,8 +19,98 @@
 		color: #fff;
 		background-color: #889af3;
 	}
+	#table-rekap td{
+		text-align: center;
+	}
+	#table-rekap td:first-child{
+		vertical-align: middle;
+	}
+	/*#table-rekap tr:first-child td:nth-child(2n){
+		background-color: #f5f5f5;
+	}*/
+	/*#table-rekap tr:nth-child(2) td:nth-child(-n+3), #table-rekap tr:nth-child(2) td:nth-child(n+7):nth-child(-n+9){
+		background-color: #f5f5f5;
+	}
+	#table-rekap tr:nth-child(n+3):nth-child(-n+5) td:nth-child(n+2):nth-child(-n+4), #table-rekap tr:nth-child(n+3):nth-child(-n+5) td:nth-child(n+8):nth-child(-n+10){
+		background-color: #f5f5f5;
+	}*/
+	#table-rekap td{
+		border-color: #7c7b7b;
+	}
+	#table-rekap td{
+		color: #000;
+	}
+	#table-rekap tr:nth-child(3), #table-rekap tr:nth-child(5){
+		background-color: #f5f5f5;
+	}
+	#div-table-rekaptahunan tr:nth-child(1) td:nth-child(2):hover,#div-table-rekaptahunan tr:nth-child(1) td:nth-child(3):hover,#div-table-rekaptahunan tr:nth-child(1) td:nth-child(4):hover{
+		cursor: pointer;
+		background-color: #91bcf1 !important;
+	}
 </style>
-
+<div class="row mt-3">
+	<div class="col-md-12" id="div-table-rekaptahunan">
+		<div class="x_panel">
+			<h5>Rekap Event Tahunan</h5>
+			<a href="{{\Request::url().'?refresh_api=1'}}" class="btn btn-outline-primary btn-sm">Refresh Data</a>
+			<table class="table table-bordered" id="table-rekap">
+				<tr>
+					<td rowspan="2">KEGIATAN</td>
+					@foreach($arrYear as $y)
+					<td colspan="2" style="padding: 3px;background-color: #bdd7f7;"><a href="?year_dash_filter={{$y['tahun']}}" style="color: #000;text-decoration: underline;font-size: 15px;">{{$y['tahun']}}</a></td>
+					@endforeach
+				</tr>
+				<tr>
+					@for($i=0;$i<3;$i++)
+					@foreach($listStatus as $l)
+					<td>{{$l}}</td>
+					@endforeach
+					@endfor
+				</tr>
+				@foreach($newArrayTahun as $k => $v)
+				<tr>
+					<td>{{$k}}</td>
+					@foreach($v as $value)
+					<td>{{$value}}</td>
+					@endforeach
+				</tr>
+				@endforeach
+			</table>
+		</div>
+	</div>
+	@if($selectedYear)
+	<div class="col-md-12" id="div-table-rekapbulanan">
+		<div class="x_panel table-responsive">
+			<h5>Rekap Event Bulanan Tahun {{$selectedYear}}</h5>
+			<table class="table table-bordered" id="table-rekap rekapp2">
+				<tr>
+					<td rowspan="2">KEGIATAN</td>
+					@foreach($months as $m)
+					<td colspan="2">{{$m}}</td>
+					@endforeach
+					<td rowspan="2" style="vertical-align: middle;">Total Data</td>
+				</tr>
+				<tr>
+					@for($i=0;$i<12;$i++)
+					@foreach($listStatus as $l)
+					<td>{{$l}}</td>
+					@endforeach
+					@endfor					
+				</tr>
+				@foreach($newArrayBulan as $k => $v)
+				<tr>
+					<td>{{$k}}</td>
+					@foreach($v as $value)
+					<td>{{$value}}</td>
+					@endforeach					
+					<td>12345</td>
+				</tr>
+				@endforeach
+			</table>
+		</div>
+	</div>
+	@endif
+</div>
 <div class="row mt-3">
 	<div class="col-md-12">
 		<div class="x_panel">
@@ -43,7 +133,7 @@
 					<div class="col-md-3">
 						<label for="">Kategori Event</label>
 						<select name="kategori_event" class="form-control">
-							<option value="">Pilih Kategori Event</option>
+							<option value="">Semua Kategori</option>
 							<?php $jjenis = ['PBJ', 'CPOF', 'CPST', 'CPSP'] ?>;
 							@foreach($jjenis as $j)
 							<option value="{{strtolower($j)}}">{{$j}}</option>
@@ -53,7 +143,7 @@
 					<div class="col-md-3">
 						<label for="">Jenis Kelas</label>
 						<select name="jenis_event" class="form-control">
-							<option value="">Pilih Jenis Kelas</option>
+							<option value="">Semua Jenis Kelas</option>
 							<option value="0">Online</option>
 							<option value="1">Tatap Muka</option>
 						</select>
@@ -89,6 +179,29 @@
 @section('scripts')
 
 <script>
+	$('#div-table-rekaptahunan tr:nth-child(1) td:nth-child(2),#div-table-rekaptahunan tr:nth-child(1) td:nth-child(3),#div-table-rekaptahunan tr:nth-child(1) td:nth-child(4)').click(function(){
+		let _href = $(this).find('a').attr('href')
+		window.location = _href
+	})
+	@if(\Request::get('refresh_api'))
+	let fUrl = window.location
+	fUrl = fUrl.replace('dashboard2', '?refresh_api=1')
+	@endif	
+	function totalTd(num_tr){
+		let total = 0
+		$(`[id*=rekapp2] tr:nth-child(${num_tr}) td:nth-child(3),[id*=rekapp2] tr:nth-child(${num_tr}) td:nth-child(5),[id*=rekapp2] tr:nth-child(${num_tr}) td:nth-child(7),[id*=rekapp2] tr:nth-child(${num_tr}) td:nth-child(9),[id*=rekapp2] tr:nth-child(${num_tr}) td:nth-child(11),[id*=rekapp2] tr:nth-child(${num_tr}) td:nth-child(13),[id*=rekapp2] tr:nth-child(${num_tr}) td:nth-child(15),[id*=rekapp2] tr:nth-child(${num_tr}) td:nth-child(17),[id*=rekapp2] tr:nth-child(${num_tr}) td:nth-child(19),[id*=rekapp2] tr:nth-child(${num_tr}) td:nth-child(21),[id*=rekapp2] tr:nth-child(${num_tr}) td:nth-child(23),[id*=rekapp2] tr:nth-child(${num_tr}) td:nth-child(25)`).each(function(){
+			let value = parseInt($(this).text());
+			if (!isNaN(value)) {
+				total += value;
+			}			
+		})
+		return total
+	}
+	setTimeout(() => {
+		$('[id*=rekapp2] tr:nth-child(3) td:nth-child(26)').text(totalTd(3))
+		$('[id*=rekapp2] tr:nth-child(4) td:nth-child(26)').text(totalTd(4))
+		$('[id*=rekapp2] tr:nth-child(5) td:nth-child(26)').text(totalTd(5))
+	}, 1000)
 	function _vall(names){
 		return $(`[name=${names}]`).val()
 	}

@@ -2,9 +2,10 @@
 @section('breadcumb')
 
 <div class="row">
-	<div class="page-title ml-2">
-		<div class="title_left">
-			<h3>Dashboard</h3>
+	<div class="page-title" style="height: 70px;">
+		<div class="col-md-12">
+			<h5>Judul Event : {{$alumni_list_event[0]['judul']}}</h5>
+			<h6>{{\Helper::changeFormatDate($alumni_list_event[0]['tgl_start']).' s/d '.\Helper::changeFormatDate($alumni_list_event[0]['tgl_end'])}}</h6>
 		</div>
 	</div>
 </div>
@@ -94,9 +95,9 @@
 		},
 		columns: [
 			{data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-			{data: 'nama_lengkap', 'name': 'nama_lengkap'},
+			{data: 'email_', 'name': 'nama_lengkap'},
 			{data: 'no_hp', 'name': 'no_hp'},
-			{data: 'email_', 'name': 'email'},
+			{data: 'email', 'name': 'email'},
 			{data: 'instansi', 'name': 'instansi'},
 			{data: 'unit_organisasi', 'name': 'unit_organisasi'},
 			{data: 'status_pembayaran', searchable: false},

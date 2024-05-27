@@ -81,9 +81,13 @@
 					<div class="card">
 						<div class="card-body">
 							<div class="d-flex flex-column align-items-center text-center">
-								<img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+								<img class="in_img" src="{{\Helper::showImage($user->member->foto_profile, 'poto_profile')}}" alt="User profile picture" style="max-width: inherit;
+								max-height: inherit;
+								height: inherit;
+								width: inherit;
+								object-fit: cover;height: 120px;width: 100px;border-radius: 5px;">
 								<div class="mt-1">
-									<h4>{{$user->name}} / L</h4>
+									<h4>{{ucwords($user->name)}}</h4>
 									<p class="text-secondary mb-1">{{$user->member->memberKantor->nama_jabatan}}</p>
 									<p class="text-secondary mt-1" style="text-align: left;">{{$user->deskripsi_diri}}</p>
 								</div>
@@ -114,7 +118,7 @@
 							</li>
 							<li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
 								<h6 class="mb-0">Tempat / Tanggal Lahir</h6>
-								<span class="text-secondary">{{$user->member->tempat_lahir.' / '.$user->member->tgl_lahir}}</span>
+								<span class="text-secondary">{{$user->member->tempat_lahir.' / '.\Helper::changeFormatDate($user->member->tgl_lahir, 'd-F-Y')}}</span>
 							</li>
 						</ul>
 					</div>
@@ -223,19 +227,19 @@
 							<div class="row">
 								<div class="col-md-4 mx-auto">
 									<table class="table table-bordered table-hover" id="table-status">
-								<thead class="text-center">
-									<tr>
-										<td>Verifikasi</td>
-										<td>Pending</td>
-										<td>Belum Bayar</td>
-									</tr>
-									<tr>
-										<td>{{$totalDataStatus[0]}}</td>
-										<td>{{$totalDataStatus[1]}}</td>
-										<td>{{$totalDataStatus[2]}}</td>
-									</tr>
-								</thead>
-							</table>
+										<thead class="text-center">
+											<tr>
+												<td>Verifikasi</td>
+												<td>Pending</td>
+												<td>Belum Bayar</td>
+											</tr>
+											<tr>
+												<td>{{$totalDataStatus[0]}}</td>
+												<td>{{$totalDataStatus[1]}}</td>
+												<td>{{$totalDataStatus[2]}}</td>
+											</tr>
+										</thead>
+									</table>
 								</div>
 							</div>
 							<table class="table table-bordered table-hover" id="table-pelatihanDiIkuti">
