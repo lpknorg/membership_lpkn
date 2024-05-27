@@ -124,6 +124,7 @@ class DashboardController extends Controller
         // dd($total);
         $arrYear = $this->hitApi('member/event/total_event_pertahun');
         if (!session()->has('api_dashboard_total_tahunan') || \Request::get('refresh_api')) {
+            dd('hit api');
             $arrApi = [
                 $this->getApiTotalTahunan($arrYear),
                 $this->getApiTotalTahunan($arrYear, 1),

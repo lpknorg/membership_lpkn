@@ -49,6 +49,54 @@
 	}
 </style>
 <div class="row mt-3">
+	<div class="col-md-12">
+		<div class="x_panel">
+			<div class="col-md-6">
+				<canvas id="chartKelulusan"></canvas>
+			</div>
+			<div class="col-md-12">
+				<table class="table table-bordered" id="table-rekap">
+					<tr>
+						<td rowspan="2" style="padding: 3px;">Nama Kegiatan</td>
+						<td rowspan="2" style="padding: 3px;">Tahun</td>
+						<td colspan="4" style="padding: 3px;">Jumlah</td>
+					</tr>
+					<tr>						
+						<td>Pelatihan</td>
+						<td>Hadir Ujian</td>
+						<td>Lulus Ujian</td>
+						<td>Tidak Lulus</td>
+					</tr>
+					<tr>
+						<td>Pelatihan dan Sertifikasi PBJ Dasar</td>
+						<td>2022</td>
+						<td>110</td>
+						<td>3162</td>
+						<td>1507</td>
+						<td>1655</td>						
+					</tr>
+					<tr>
+						<td>Pelatihan dan Sertifikasi PBJ Dasar</td>
+						<td>2023</td>
+						<td>110</td>
+						<td>3162</td>
+						<td>1507</td>
+						<td>1655</td>						
+					</tr>
+					<tr>
+						<td>Pelatihan dan Sertifikasi PBJ Dasar</td>
+						<td>2024</td>
+						<td>110</td>
+						<td>3162</td>
+						<td>1507</td>
+						<td>1655</td>						
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row mt-3">
 	<div class="col-md-12" id="div-table-rekaptahunan">
 		<div class="x_panel">
 			<h5>Rekap Event Tahunan</h5>
@@ -148,8 +196,51 @@
 </div>
 @endsection
 @section('scripts')
-
+<script src="{{asset('js/chart.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 <script>
+	const ctx_kelulusan = document.getElementById('chartKelulusan');
+
+	new Chart(ctx_kelulusan, {
+		type: 'bar',
+		data: {
+			labels: ['Tida Lulus', 'Lulus', 'Hadir Ujian', 'Jumlah Pelatihan'],
+			datasets: [{
+				label: 'Jumlah',
+				data: [1655, 1507, 3162, 110],
+				backgroundColor: ['rgba(255, 159, 64, 0.2)',
+					'rgba(153, 102, 255, 0.2)',
+					'rgba(201, 203, 207, 0.2)',
+					'rgba(54, 162, 235, 0.2)'
+					],
+				borderColor: [
+					'rgb(255, 159, 64)',
+					'rgb(153, 102, 255)',
+					'rgb(201, 203, 207)',
+					'rgb(54, 162, 235)'
+					],
+				borderWidth: 1				
+			}]
+		},
+		options: {
+			indexAxis: 'y',
+			plugins: {
+				legend: {
+					display: true,
+					position: 'top'
+				},
+				datalabels: {
+					anchor: 'center',
+					align: 'center',
+					formatter: (value, context) => {
+						return value;
+					},
+					color: 'black'
+				}
+			}
+		},
+		plugins: [ChartDataLabels]
+	});
 	function getTotalByYear(year=2024){
 		$.ajax({
 			url:"{{route('dashboard2.responseByBulan')}}",
