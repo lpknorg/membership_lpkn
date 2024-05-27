@@ -74,6 +74,7 @@ Route::get('/download_file/{file}/{folder?}', [HomeController::class, 'downloadF
 // Route::view('dashboard', 'dashboard');
 
 Route::group(['prefix' => 'dashboard2', 'as' => 'dashboard2.'], function () {
+	Route::get('resp_tahun', [DashboardController::class, 'responseByBulan'])->name('responseByBulan');
 	Route::get('/', [DashboardController::class, 'index2'])->name('index');
 	Route::get('/event_gratis', [DashboardController::class, 'eventGratis'])->name('eventGratis');
 	Route::get('/dataTableEvent', [DashboardController::class, 'dataTableEvent'])->name('dataTableEvent');

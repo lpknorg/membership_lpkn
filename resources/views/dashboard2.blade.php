@@ -57,7 +57,7 @@
 				<tr>
 					<td rowspan="2">KEGIATAN</td>
 					@foreach($arrYear as $y)
-					<td colspan="2" style="padding: 3px;background-color: #bdd7f7;"><a href="?year_dash_filter={{$y['tahun']}}" style="color: #000;text-decoration: underline;font-size: 15px;">{{$y['tahun']}}</a></td>
+					<td colspan="2" style="padding: 3px;background-color: #bdd7f7;"><a href="javascript:void" data-year="{{$y['tahun']}}" style="color: #000;text-decoration: underline;font-size: 15px;">{{$y['tahun']}}</a></td>
 					@endforeach
 				</tr>
 				<tr>
@@ -78,38 +78,9 @@
 			</table>
 		</div>
 	</div>
-	@if($selectedYear)
 	<div class="col-md-12" id="div-table-rekapbulanan">
-		<div class="x_panel table-responsive">
-			<h5>Rekap Event Bulanan Tahun {{$selectedYear}}</h5>
-			<table class="table table-bordered" id="table-rekap rekapp2">
-				<tr>
-					<td rowspan="2">KEGIATAN</td>
-					@foreach($months as $m)
-					<td colspan="2">{{$m}}</td>
-					@endforeach
-					<td rowspan="2" style="vertical-align: middle;">Total Data</td>
-				</tr>
-				<tr>
-					@for($i=0;$i<12;$i++)
-					@foreach($listStatus as $l)
-					<td>{{$l}}</td>
-					@endforeach
-					@endfor					
-				</tr>
-				@foreach($newArrayBulan as $k => $v)
-				<tr>
-					<td>{{$k}}</td>
-					@foreach($v as $value)
-					<td>{{$value}}</td>
-					@endforeach					
-					<td>12345</td>
-				</tr>
-				@endforeach
-			</table>
-		</div>
+
 	</div>
-	@endif
 </div>
 <div class="row mt-3">
 	<div class="col-md-12">
@@ -179,9 +150,29 @@
 @section('scripts')
 
 <script>
+	function getTotalByYear(year=2024){
+		$.ajax({
+			url:"{{route('dashboard2.responseByBulan')}}",
+			type: "get",
+			data: {
+				year:year,
+			},
+			beforeSend: function(){
+				$('#div-table-rekapbulanan').html('<div class="alert alert-info">Load ...</div>')
+			},
+			success:function(result){
+				$('#div-table-rekapbulanan').html(result)
+				setTimeout(() => {
+					$('[id*=rekapp2] tr:nth-child(3) td:nth-child(26)').text(totalTd(3))
+					$('[id*=rekapp2] tr:nth-child(4) td:nth-child(26)').text(totalTd(4))
+					$('[id*=rekapp2] tr:nth-child(5) td:nth-child(26)').text(totalTd(5))
+				}, 500)
+			}
+		});
+	}	
 	$('#div-table-rekaptahunan tr:nth-child(1) td:nth-child(2),#div-table-rekaptahunan tr:nth-child(1) td:nth-child(3),#div-table-rekaptahunan tr:nth-child(1) td:nth-child(4)').click(function(){
-		let _href = $(this).find('a').attr('href')
-		window.location = _href
+		let _year = $(this).find('a').attr('data-year')
+		getTotalByYear(_year)
 	})
 	@if(\Request::get('refresh_api'))
 	let fUrl = window.location
@@ -196,12 +187,7 @@
 			}			
 		})
 		return total
-	}
-	setTimeout(() => {
-		$('[id*=rekapp2] tr:nth-child(3) td:nth-child(26)').text(totalTd(3))
-		$('[id*=rekapp2] tr:nth-child(4) td:nth-child(26)').text(totalTd(4))
-		$('[id*=rekapp2] tr:nth-child(5) td:nth-child(26)').text(totalTd(5))
-	}, 1000)
+	}	
 	function _vall(names){
 		return $(`[name=${names}]`).val()
 	}

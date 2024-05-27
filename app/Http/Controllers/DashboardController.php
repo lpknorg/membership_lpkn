@@ -133,41 +133,41 @@ class DashboardController extends Controller
         }
         $api_tahunan = session('api_dashboard_total_tahunan');
         $fixApiT = [$api_tahunan[0], $api_tahunan[1], $api_tahunan[2]];
-        $selectedYear = \Request::get('year_dash_filter');  
-        if ($selectedYear) {
-            if (!session()->has('api_total_bulanan') || \Request::get('refresh_api') || $selectedYear) {
-                $arrApi = [
-                    $this->getApiTotalBulanan($selectedYear),
-                    $this->getApiTotalBulanan($selectedYear, 1),
-                    $this->getApiTotalBulanan($selectedYear, 'pbj')
-                ];
-                session(['api_total_bulanan' => $arrApi]);            
-            }        
-            $api_bulanan = session('api_total_bulanan');
-            $fixApiB = [$api_bulanan[0], $api_bulanan[1], $api_bulanan[2]];
-
-            $newArrayBulan = [
-                'KELAS ONLINE' => $fixApiB[0],
-                'KELAS TATAP MUKA' => $fixApiB[1],
-                'KELAS PBJ' => $fixApiB[2],
-            ];
-        }else{
-            $newArrayBulan = [];
-        }   
-
+        $selectedYear = \Request::get('year_dash_filter');          
         $listStatus = ['Total Event', 'Verifikasi'];
         $newArrayTahun = [
             'KELAS ONLINE' => $fixApiT[0],
             'KELAS TATAP MUKA' => $fixApiT[1],
             'KELAS PBJ' => $fixApiT[2]
-        ];
+        ];        
+        return view('dashboard2', compact('arr_tipe_event', 'arr_total_bytipe', 'arrYear', 'newArrayTahun','listStatus', 'selectedYear'));
+    }
 
+    public function responseByBulan(Request $req){
+        $selectedYear = $req->year;
         $months = [];
+        $listStatus = ['Total Event', 'Verifikasi'];
         for ($i = 1; $i <= 12; $i++) {
             $date = \DateTime::createFromFormat('!m', $i);
             $months[] = $date->format('F');
         }
-        return view('dashboard2', compact('arr_tipe_event', 'arr_total_bytipe', 'arrYear', 'newArrayTahun', 'newArrayBulan', 'months', 'listStatus', 'selectedYear'));
+        if (!session()->has('api_total_bulanan') || \Request::get('refresh_api') || $selectedYear) {
+            $arrApi = [
+                $this->getApiTotalBulanan($selectedYear),
+                $this->getApiTotalBulanan($selectedYear, 1),
+                $this->getApiTotalBulanan($selectedYear, 'pbj')
+            ];
+            session(['api_total_bulanan' => $arrApi]);            
+        }        
+        $api_bulanan = session('api_total_bulanan');
+        $fixApiB = [$api_bulanan[0], $api_bulanan[1], $api_bulanan[2]];
+
+        $newArrayBulan = [
+            'KELAS ONLINE' => $fixApiB[0],
+            'KELAS TATAP MUKA' => $fixApiB[1],
+            'KELAS PBJ' => $fixApiB[2],
+        ];
+        return view('admin.dashboard2.resp_rekap_event_bulanan', compact('newArrayBulan', 'selectedYear', 'months', 'listStatus'));
     }
 
     public function getByLembagaPemerintahan(Request $req){
