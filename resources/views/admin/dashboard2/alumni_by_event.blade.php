@@ -4,8 +4,10 @@
 <div class="row">
 	<div class="page-title" style="height: 70px;">
 		<div class="col-md-12">
-			<h5>Judul Event : {{$alumni_list_event[0]['judul']}}</h5>
-			<h6>{{\Helper::changeFormatDate($alumni_list_event[0]['tgl_start']).' s/d '.\Helper::changeFormatDate($alumni_list_event[0]['tgl_end'])}}</h6>
+			@if($alumni_list_event)
+				<h5>Judul Event : {{$alumni_list_event[0]['judul']}}</h5>
+				<h6>{{\Helper::changeFormatDate($alumni_list_event[0]['tgl_start']).' s/d '.\Helper::changeFormatDate($alumni_list_event[0]['tgl_end'])}}</h6>
+			@endif
 		</div>
 	</div>
 </div>

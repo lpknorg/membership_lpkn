@@ -124,7 +124,7 @@ class DashboardController extends Controller
         // dd($total);
         $arrYear = $this->hitApi('member/event/total_event_pertahun');
         if (!session()->has('api_dashboard_total_tahunan') || \Request::get('refresh_api')) {
-            dd('hit api');
+            // dd('hit api');
             $arrApi = [
                 $this->getApiTotalTahunan($arrYear),
                 $this->getApiTotalTahunan($arrYear, 1),
@@ -287,7 +287,7 @@ class DashboardController extends Controller
         }
         $totalDataStatus = [count($statVerif), count($statPending), count($statBelumBayar)];
         if (!$user) {
-            dd($dataAlumni);
+            // dd($dataAlumni);
             \DB::beginTransaction();
             $dataAlumni = $my_event['dataAlumni'];
             try {
@@ -329,6 +329,7 @@ class DashboardController extends Controller
     public function getUserByIdEvent($id_events){
         $endpoint = env('API_EVENT').'member/event/all_event_by_id?id_event='.$id_events;
         $alumni_list_event = \Helper::getRespApiWithParam($endpoint, 'get');
+        // dd($alumni_list_event);
         $statVerif = [];
         $statPending = [];
         $statBelumBayar = [];
