@@ -186,11 +186,9 @@ class DashboardController extends Controller
 
     public function dataTableEvent(Request $request){
         $eventData = $this->hitApi("member/event/dashboard_all_event?tanggal_awal={$request->tanggal_awal}&tanggal_akhir={$request->tanggal_akhir}&kategori_event={$request->kategori_event}&jenis_event={$request->jenis_event}");
+        // dd($eventData);
         return \DataTables::of($eventData)
         ->addIndexColumn()
-        ->addColumn('img_brosur', function($row){
-            return "<a target='_blank' href={$row['brosur_img']}><img height='40' data-action='zoom' src={$row['brosur_img']}></a>";
-        })
         ->addColumn('link_event', function($row){
             return "<a target='_blank' href={$row['link_slugg']}><i class='fa fa-link'></i></a>";
         })
@@ -203,7 +201,7 @@ class DashboardController extends Controller
         ->addColumn('tgl_end', function($row){
             return \Helper::changeFormatDate($row['tgl_end'], 'd-M-Y');
         })
-        ->rawColumns(['img_brosur', 'link_event', 'link_list_alumni'])
+        ->rawColumns(['link_event', 'link_list_alumni'])
         ->make(true);
     }
 
@@ -220,6 +218,7 @@ class DashboardController extends Controller
             $endpoint_ = env('API_FORM_SERTIFIKAT')."kelas_sertif/{$request->tgl1}/{$request->tgl2}";
         }
         $event_gratis = \Helper::getRespApiWithParam($endpoint_);
+        // dd($event_gratis);
         return \DataTables::of($event_gratis)
         ->addIndexColumn()
         ->addColumn('created_at', function($row){
@@ -327,7 +326,6 @@ class DashboardController extends Controller
     public function getUserByIdEvent($id_events){
         $endpoint = env('API_EVENT').'member/event/all_event_by_id?id_event='.$id_events;
         $alumni_list_event = \Helper::getRespApiWithParam($endpoint, 'get');
-        // dd($alumni_list_event);
         $statVerif = [];
         $statPending = [];
         $statBelumBayar = [];
@@ -381,7 +379,7 @@ class DashboardController extends Controller
             }
         }
         $totalDataStatus = [count($statVerif), count($statPending), count($statBelumBayar)];
-        return view('admin.dashboard2.alumni_by_event', compact('id_events', 'totalDataStatus'));
+        return view('admin.dashboard2.alumni_by_event', compact('id_events', 'totalDataStatus', 'alumni_list_event'));
     }
 
     public function getUserByIdEventDatatable(Request $request){

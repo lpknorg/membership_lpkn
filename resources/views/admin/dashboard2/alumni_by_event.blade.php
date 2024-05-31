@@ -1,16 +1,6 @@
 @extends('layouts.template')
 @section('breadcumb')
 
-<div class="row">
-	<div class="page-title" style="height: 70px;">
-		<div class="col-md-12">
-			@if($alumni_list_event)
-				<h5>Judul Event : {{$alumni_list_event[0]['judul']}}</h5>
-				<h6>{{\Helper::changeFormatDate($alumni_list_event[0]['tgl_start']).' s/d '.\Helper::changeFormatDate($alumni_list_event[0]['tgl_end'])}}</h6>
-			@endif
-		</div>
-	</div>
-</div>
 @endsection
 @section('content')
 <style>
@@ -25,9 +15,28 @@
 		padding: 4px !important;
 		margin: 4px !important;
 	}
+	h5{
+		font-size: 18px;
+	}
 </style>
 
 <div class="row">
+	<div class="col-md-12">
+		<?php
+		if (\Request::segment(2) == 'event_user_list') {
+			$tipe = 'berbayar';
+		}else{
+			$tipe = 'gratis';
+		}
+		?>
+		@if($tipe == 'berbayar' && $alumni_list_event)
+		<h5>Judul Event : {{$alumni_list_event[0]['judul']}}</h5>
+		<h5>Tanggal Pelaksanaan : {{\Helper::changeFormatDate($alumni_list_event[0]['tgl_start']).' s/d '.\Helper::changeFormatDate($alumni_list_event[0]['tgl_end'])}}</h5>
+		<h5>Lokasi : {{$alumni_list_event[0]['lokasi_event']}}</h5>
+		@else
+		<h5>Judul Event : {{$alumni_list_event['list_regis_sertif'][0]['judul']}}</h5>
+		@endif
+	</div>
 	<div class="col-md-12">
 		<div class="x_panel">
 			<div class="row">
@@ -50,14 +59,6 @@
 			</div>
 			<div class="row float-right">
 				<div class="col-md">
-					<?php
-					if (\Request::segment(2) == 'event_user_list') {
-						$tipe = 'berbayar';
-					}else{
-						$tipe = 'gratis';
-					}
-					?>
-
 					<a href="{{route('dashboard2.exportExcelAlumniByEvent', $tipe).'?id_event='.$id_events}}" class="btn btn-outline-primary btn-sm">Download Excel</a>
 				</div>
 			</div>
@@ -98,10 +99,10 @@
 		columns: [
 			{data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
 			{data: 'email_', 'name': 'nama_lengkap'},
-			{data: 'no_hp', 'name': 'no_hp'},
+			{data: 'no_hp', searchable: false},
 			{data: 'email', 'name': 'email'},
-			{data: 'instansi', 'name': 'instansi'},
-			{data: 'unit_organisasi', 'name': 'unit_organisasi'},
+			{data: 'instansi', searchable: false},
+			{data: 'unit_organisasi', searchable: false},
 			{data: 'status_pembayaran', searchable: false},
 			]
 	});

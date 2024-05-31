@@ -91,7 +91,7 @@
 			{data: 'link_sertifikat', searchable: false},
 			{data: 'created_at',searchable: false},
 			{data: 'panitia', 'name': 'panitia'},
-			{data: 'jumlah_peserta', 'name': 'jumlah_peserta'},
+			{data: 'jumlah_peserta', searchable: false},
 			]
 	});
 </script>

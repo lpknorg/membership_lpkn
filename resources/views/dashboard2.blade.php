@@ -91,11 +91,11 @@
 				<div class="row mb-2">
 					<div class="col-md-3">
 						<label for="">Tanggal Awals</label>
-						<input type="date" name="tanggal_awal" class="form-control datepicker" placeholder="">
+						<input type="date" name="tanggal_awal" class="form-control" placeholder="">
 					</div>
 					<div class="col-md-3">
 						<label for="">Tanggal Akhir</label>
-						<input type="date" name="tanggal_akhir" class="form-control datepicker" placeholder="">
+						<input type="date" name="tanggal_akhir" class="form-control" placeholder="">
 					</div>
 					<div class="col-md-3">
 						<label for="">Kategori Event</label>
@@ -132,6 +132,7 @@
 						<th>Tgl End</th>
 						<th>Nama Panitia</th>
 						<th>Link</th>
+						<th>Lokasi</th>
 						<th>Jumlah Peserta</th>
 					</tr>
 				</thead>
@@ -170,7 +171,6 @@
 		let _year = $(this).find('a').attr('data-year')
 		getTotalByYear(_year)
 	})
-	$('.datepicker').datepicker();
 	@if(\Request::get('refresh_api'))
 	let fUrl = window.location
 	fUrl = fUrl.replace('dashboard2', '?refresh_api=1')
@@ -216,27 +216,28 @@
 		$('#btnDownloadRegist').attr('href', _href)
 		tableEventBerbayar.draw()
 	})
-	// var tableEventBerbayar = $('#table-DatatableEventBerbayar').DataTable({
-	// 	processing: true,
-	// 	serverSide: true,
-	// 	ajax: {
-	// 		"url": "{{ route('dashboard2.dataTableEvent') }}",
-	// 		data: function(d){
-	// 			d.tanggal_awal = $('[name=tanggal_awal]').val()
-	// 			d.tanggal_akhir = $('[name=tanggal_akhir]').val()
-	// 			d.kategori_event = $('[name=kategori_event]').find(":selected").val()
-	// 			d.jenis_event = $('[name=jenis_event]').find(":selected").val()
-	// 		}
-	// 	},
-	// 	columns: [
-	// 		{data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-	// 		{data: 'link_list_alumni', name: 'judul'},
-	// 		{data: 'tgl_start', searchable: false},
-	// 		{data: 'tgl_end', searchable: false},
-	// 		{data: 'nama_panitia', name: 'nama_panitia'},
-	// 		{data: 'link_event', searchable: false},
-	// 		{data: 'jumlah_peserta', name: 'jumlah_peserta'},
-	// 		]
-	// });
+	var tableEventBerbayar = $('#table-DatatableEventBerbayar').DataTable({
+		processing: true,
+		serverSide: true,
+		ajax: {
+			"url": "{{ route('dashboard2.dataTableEvent') }}",
+			data: function(d){
+				d.tanggal_awal = $('[name=tanggal_awal]').val()
+				d.tanggal_akhir = $('[name=tanggal_akhir]').val()
+				d.kategori_event = $('[name=kategori_event]').find(":selected").val()
+				d.jenis_event = $('[name=jenis_event]').find(":selected").val()
+			}
+		},
+		columns: [
+			{data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+			{data: 'link_list_alumni', name: 'judul'},
+			{data: 'tgl_start', searchable: false},
+			{data: 'tgl_end', searchable: false},
+			{data: 'nama_panitia', name: 'nama_panitia'},
+			{data: 'link_event', searchable: false},
+			{data: 'lokasi_event', name: 'lokasi_event'},
+			{data: 'jumlah_peserta', searchable: false},
+			]
+	});
 </script>
 @endsection
