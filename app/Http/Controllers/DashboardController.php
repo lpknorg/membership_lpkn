@@ -123,7 +123,6 @@ class DashboardController extends Controller
         $arr_tipe_event = ['Berbayar', 'Gratis', 'Tatap Muka', 'Non Tatap Muka'];
         $arr_total_bytipe = $this->hitApi('member/event/total_event_by_jenis');
         $arrYear = $this->hitApi('member/event/total_event_pertahun');
-        session()->forget('api_dashboard_total_tahunan');
         if (!session()->has('api_dashboard_total_tahunan') || \Request::get('refresh_api')) {
             $arrApi = [
                 $this->getApiTotalTahunan($arrYear),
@@ -328,6 +327,7 @@ class DashboardController extends Controller
     public function getUserByIdEvent($id_events){
         $endpoint = env('API_EVENT').'member/event/all_event_by_id?id_event='.$id_events;
         $alumni_list_event = \Helper::getRespApiWithParam($endpoint, 'get');
+        // dd($alumni_list_event);
         $statVerif = [];
         $statPending = [];
         $statBelumBayar = [];
