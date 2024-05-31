@@ -1,6 +1,5 @@
 @extends('layouts.template')
-@section('breadcumb')
-
+@section('breadcumb')    
 <div class="row">
 	<div class="page-title ml-2">
 		<div class="title_left">
@@ -24,16 +23,7 @@
 	}
 	#table-rekap td:first-child{
 		vertical-align: middle;
-	}
-	/*#table-rekap tr:first-child td:nth-child(2n){
-		background-color: #f5f5f5;
-	}*/
-	/*#table-rekap tr:nth-child(2) td:nth-child(-n+3), #table-rekap tr:nth-child(2) td:nth-child(n+7):nth-child(-n+9){
-		background-color: #f5f5f5;
-	}
-	#table-rekap tr:nth-child(n+3):nth-child(-n+5) td:nth-child(n+2):nth-child(-n+4), #table-rekap tr:nth-child(n+3):nth-child(-n+5) td:nth-child(n+8):nth-child(-n+10){
-		background-color: #f5f5f5;
-	}*/
+	}	
 	#table-rekap td{
 		border-color: #7c7b7b;
 	}
@@ -48,54 +38,6 @@
 		background-color: #91bcf1 !important;
 	}
 </style>
-<div class="row mt-3">
-	<div class="col-md-12">
-		<div class="x_panel">
-			<div class="col-md-6">
-				<canvas id="chartKelulusan"></canvas>
-			</div>
-			<div class="col-md-12">
-				<table class="table table-bordered" id="table-rekap">
-					<tr>
-						<td rowspan="2" style="padding: 3px;">Nama Kegiatan</td>
-						<td rowspan="2" style="padding: 3px;">Tahun</td>
-						<td colspan="4" style="padding: 3px;">Jumlah</td>
-					</tr>
-					<tr>						
-						<td>Pelatihan</td>
-						<td>Hadir Ujian</td>
-						<td>Lulus Ujian</td>
-						<td>Tidak Lulus</td>
-					</tr>
-					<tr>
-						<td>Pelatihan dan Sertifikasi PBJ Dasar</td>
-						<td>2022</td>
-						<td>110</td>
-						<td>3162</td>
-						<td>1507</td>
-						<td>1655</td>						
-					</tr>
-					<tr>
-						<td>Pelatihan dan Sertifikasi PBJ Dasar</td>
-						<td>2023</td>
-						<td>110</td>
-						<td>3162</td>
-						<td>1507</td>
-						<td>1655</td>						
-					</tr>
-					<tr>
-						<td>Pelatihan dan Sertifikasi PBJ Dasar</td>
-						<td>2024</td>
-						<td>110</td>
-						<td>3162</td>
-						<td>1507</td>
-						<td>1655</td>						
-					</tr>
-				</table>
-			</div>
-		</div>
-	</div>
-</div>
 <div class="row mt-3">
 	<div class="col-md-12" id="div-table-rekaptahunan">
 		<div class="x_panel">
@@ -117,7 +59,13 @@
 				</tr>
 				@foreach($newArrayTahun as $k => $v)
 				<tr>
-					<td>{{$k}}</td>
+					<td>
+						@if($k == 'KELAS PBJ')
+						<a href="{{url('dashboard2/lulus_pbj')}}" target="_blank">{{$k}}</a>
+						@else
+						{{$k}}
+						@endif
+					</td>
 					@foreach($v as $value)
 					<td>{{$value}}</td>
 					@endforeach
@@ -142,12 +90,12 @@
 				@csrf					
 				<div class="row mb-2">
 					<div class="col-md-3">
-						<label for="">Tanggal Awal</label>
-						<input type="date" name="tanggal_awal" class="form-control" placeholder="">
+						<label for="">Tanggal Awals</label>
+						<input type="date" name="tanggal_awal" class="form-control datepicker" placeholder="">
 					</div>
 					<div class="col-md-3">
 						<label for="">Tanggal Akhir</label>
-						<input type="date" name="tanggal_akhir" class="form-control" placeholder="">
+						<input type="date" name="tanggal_akhir" class="form-control datepicker" placeholder="">
 					</div>
 					<div class="col-md-3">
 						<label for="">Kategori Event</label>
@@ -197,50 +145,7 @@
 @endsection
 @section('scripts')
 <script src="{{asset('js/chart.js')}}"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 <script>
-	const ctx_kelulusan = document.getElementById('chartKelulusan');
-
-	new Chart(ctx_kelulusan, {
-		type: 'bar',
-		data: {
-			labels: ['Tida Lulus', 'Lulus', 'Hadir Ujian', 'Jumlah Pelatihan'],
-			datasets: [{
-				label: 'Jumlah',
-				data: [1655, 1507, 3162, 110],
-				backgroundColor: ['rgba(255, 159, 64, 0.2)',
-					'rgba(153, 102, 255, 0.2)',
-					'rgba(201, 203, 207, 0.2)',
-					'rgba(54, 162, 235, 0.2)'
-					],
-				borderColor: [
-					'rgb(255, 159, 64)',
-					'rgb(153, 102, 255)',
-					'rgb(201, 203, 207)',
-					'rgb(54, 162, 235)'
-					],
-				borderWidth: 1				
-			}]
-		},
-		options: {
-			indexAxis: 'y',
-			plugins: {
-				legend: {
-					display: true,
-					position: 'top'
-				},
-				datalabels: {
-					anchor: 'center',
-					align: 'center',
-					formatter: (value, context) => {
-						return value;
-					},
-					color: 'black'
-				}
-			}
-		},
-		plugins: [ChartDataLabels]
-	});
 	function getTotalByYear(year=2024){
 		$.ajax({
 			url:"{{route('dashboard2.responseByBulan')}}",
@@ -265,6 +170,7 @@
 		let _year = $(this).find('a').attr('data-year')
 		getTotalByYear(_year)
 	})
+	$('.datepicker').datepicker();
 	@if(\Request::get('refresh_api'))
 	let fUrl = window.location
 	fUrl = fUrl.replace('dashboard2', '?refresh_api=1')
@@ -310,27 +216,27 @@
 		$('#btnDownloadRegist').attr('href', _href)
 		tableEventBerbayar.draw()
 	})
-	var tableEventBerbayar = $('#table-DatatableEventBerbayar').DataTable({
-		processing: true,
-		serverSide: true,
-		ajax: {
-			"url": "{{ route('dashboard2.dataTableEvent') }}",
-			data: function(d){
-				d.tanggal_awal = $('[name=tanggal_awal]').val()
-				d.tanggal_akhir = $('[name=tanggal_akhir]').val()
-				d.kategori_event = $('[name=kategori_event]').find(":selected").val()
-				d.jenis_event = $('[name=jenis_event]').find(":selected").val()
-			}
-		},
-		columns: [
-			{data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-			{data: 'link_list_alumni', name: 'judul'},
-			{data: 'tgl_start', searchable: false},
-			{data: 'tgl_end', searchable: false},
-			{data: 'nama_panitia', name: 'nama_panitia'},
-			{data: 'link_event', searchable: false},
-			{data: 'jumlah_peserta', name: 'jumlah_peserta'},
-			]
-	});
+	// var tableEventBerbayar = $('#table-DatatableEventBerbayar').DataTable({
+	// 	processing: true,
+	// 	serverSide: true,
+	// 	ajax: {
+	// 		"url": "{{ route('dashboard2.dataTableEvent') }}",
+	// 		data: function(d){
+	// 			d.tanggal_awal = $('[name=tanggal_awal]').val()
+	// 			d.tanggal_akhir = $('[name=tanggal_akhir]').val()
+	// 			d.kategori_event = $('[name=kategori_event]').find(":selected").val()
+	// 			d.jenis_event = $('[name=jenis_event]').find(":selected").val()
+	// 		}
+	// 	},
+	// 	columns: [
+	// 		{data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+	// 		{data: 'link_list_alumni', name: 'judul'},
+	// 		{data: 'tgl_start', searchable: false},
+	// 		{data: 'tgl_end', searchable: false},
+	// 		{data: 'nama_panitia', name: 'nama_panitia'},
+	// 		{data: 'link_event', searchable: false},
+	// 		{data: 'jumlah_peserta', name: 'jumlah_peserta'},
+	// 		]
+	// });
 </script>
 @endsection

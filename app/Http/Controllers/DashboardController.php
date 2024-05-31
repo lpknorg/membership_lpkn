@@ -77,6 +77,7 @@ class DashboardController extends Controller
 
     public function getApiTotalTahunan($arrYear, $jenis_kelas=0){
         $newArr = [];
+        $by_tahun = $this->hitApi("member/event/total_regis_pertahun?jenis_kelas={$jenis_kelas}&tahun=2022");
         foreach($arrYear as $y){
             $by_tahun = $this->hitApi("member/event/total_regis_pertahun?jenis_kelas={$jenis_kelas}&tahun={$y['tahun']}");
             foreach($by_tahun as $t){
@@ -87,6 +88,10 @@ class DashboardController extends Controller
             }
         }
         return $this->flattenArray($newArr);
+    }
+    public function getApiTotalPbj($tahun1,$tahun2=null, $jenis_kelas='pbj'){
+        $data = $this->hitApi("member/event/total_kelulusan?tahun1={$tahun1}&tahun2={$tahun2}&jenis_kelas=pbj");
+        return $data;
     }
 
     public function getApiTotalBulanan($tahun=2022, $jenis_kelas=0){
@@ -113,25 +118,20 @@ class DashboardController extends Controller
         return $this->flattenArray($newArr);
     }
 
-    public function index2(){              
+    public function index2(){  
+
         $arr_tipe_event = ['Berbayar', 'Gratis', 'Tatap Muka', 'Non Tatap Muka'];
         $arr_total_bytipe = $this->hitApi('member/event/total_event_by_jenis');
-        // $by_bulan = $this->hitApi("member/event/total_regis_perbulan?jenis_kelas=0&tahun=2022");
-        // $total = 0;
-        // foreach($by_bulan as $b){
-        //     $total += $b['jumlah_peserta'];
-        // }
-        // dd($total);
         $arrYear = $this->hitApi('member/event/total_event_pertahun');
+        session()->forget('api_dashboard_total_tahunan');
         if (!session()->has('api_dashboard_total_tahunan') || \Request::get('refresh_api')) {
-            dd('hit api');
             $arrApi = [
                 $this->getApiTotalTahunan($arrYear),
                 $this->getApiTotalTahunan($arrYear, 1),
                 $this->getApiTotalTahunan($arrYear, 'pbj')
             ];
             session(['api_dashboard_total_tahunan' => $arrApi]);            
-        }
+        }        
         $api_tahunan = session('api_dashboard_total_tahunan');
         $fixApiT = [$api_tahunan[0], $api_tahunan[1], $api_tahunan[2]];
         $selectedYear = \Request::get('year_dash_filter');          
@@ -287,7 +287,6 @@ class DashboardController extends Controller
         }
         $totalDataStatus = [count($statVerif), count($statPending), count($statBelumBayar)];
         if (!$user) {
-            dd($dataAlumni);
             \DB::beginTransaction();
             $dataAlumni = $my_event['dataAlumni'];
             try {
@@ -343,6 +342,27 @@ class DashboardController extends Controller
         }
         $totalDataStatus = [count($statVerif), count($statPending), count($statBelumBayar)];
         return view('admin.dashboard2.alumni_by_event', compact('id_events', 'totalDataStatus', 'alumni_list_event'));
+    }
+
+    public function lulusPbj(){
+        if (!session()->has('api_dashboard_total_pbjj') || \Request::get('refresh_api')) {
+            $arrApi = [
+                $this->getApiTotalPbj(2022, 2024)
+            ];
+            session(['api_dashboard_total_pbjj' => $arrApi]);            
+        }
+        $api_pbj = session('api_dashboard_total_pbjj');
+        $totPbj = [];
+        $a = 0;$b = 0;$c = 0;$d = 0;
+        foreach($api_pbj[0]['list_kelulusan'] as $p){
+            $a += $p['peserta_tidak_lulus'];
+            $b += $p['peserta_lulus'];            
+            $c += $p['total_peserta'];            
+        }        
+        $d += $api_pbj[0]['total_event'];
+        array_push($totPbj, [$a, $b, $c, $d]);
+        $totPbj = $this->flattenArray($totPbj);
+        return view('admin.dashboard2.pbj_lulus', compact('totPbj', 'api_pbj'));
     }
 
     public function getUserByIdEventGratis($id_events){
