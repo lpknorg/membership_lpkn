@@ -10,6 +10,7 @@
 </div>
 @endsection
 @section('content')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"> 
 <style>
 	.x_title{
 		border-bottom: none;
@@ -41,36 +42,20 @@
 <div class="row mt-3">
 	<div class="col-md-12" id="div-table-rekaptahunan">
 		<div class="x_panel">
-			<h5>Rekap Event Tahunan</h5>
-			<a href="{{\Request::url().'?refresh_api=1'}}" class="btn btn-outline-primary btn-sm">Refresh Data</a>
+			<h5>Rekap Event Tahunan</h5>			
+			<div class="row">
+				<div class="col-md-3 mb-2">
+					<label for="">Tahun Awal</label>
+					<input type="text" name="tanggal_awal" class="form-control datepicker" value="2022">
+				</div>
+				<div class="col-md-3 mb-2">
+					<label for="">Tahun Akhir</label>
+					<input type="text" name="tanggal_akhir" class="form-control datepicker" value="2024">
+				</div>	
+			</div>
+			
 			<table class="table table-bordered" id="table-rekap">
-				<tr>
-					<td rowspan="2">KEGIATAN</td>
-					@foreach($arrYear as $y)
-					<td colspan="2" style="padding: 3px;background-color: #bdd7f7;"><a href="javascript:void" data-year="{{$y['tahun']}}" style="color: #000;text-decoration: underline;font-size: 15px;">{{$y['tahun']}}</a></td>
-					@endforeach
-				</tr>
-				<tr>
-					@for($i=0;$i<3;$i++)
-					@foreach($listStatus as $l)
-					<td>{{$l}}</td>
-					@endforeach
-					@endfor
-				</tr>
-				@foreach($newArrayTahun as $k => $v)
-				<tr>
-					<td>
-						@if($k == 'KELAS PBJ')
-						<a href="{{url('dashboard2/lulus_pbj')}}" target="_blank">{{$k}}</a>
-						@else
-						{{$k}}
-						@endif
-					</td>
-					@foreach($v as $value)
-					<td>{{$value}}</td>
-					@endforeach
-				</tr>
-				@endforeach
+				
 			</table>
 		</div>
 	</div>
@@ -146,7 +131,37 @@
 @endsection
 @section('scripts')
 <script src="{{asset('js/chart.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 <script>
+	getDataYears()
+	$('[class~=datepicker]').datepicker({
+		minViewMode: 2,
+		format: 'yyyy',
+		startDate: '2022',
+	}).on('changeDate', function() {
+		let year1 = $('[name=tanggal_awal]').val()
+		let year2 = $('[name=tanggal_akhir]').val()
+		getDataYears(year1, year2)
+	})		
+	function getDataYears(year1=2022, year2=2024){
+		$.ajax({
+			url:"{{route('dashboard2.index')}}",
+			type: "get",
+			data: {
+				year1,
+				year2,
+			},
+			beforeSend: function(){
+				let a = '<div class="col-md-12">'
+				a += '<h4 class="text-center">Load ...</h4></div>'
+				$('#table-rekap').html(a)
+			},
+			success:function(result){
+				console.log('work')
+				$('#table-rekap').html(result)
+			}
+		});
+	}
 	function getTotalByYear(year=2024){
 		$.ajax({
 			url:"{{route('dashboard2.responseByBulan')}}",
@@ -167,14 +182,10 @@
 			}
 		});
 	}	
-	$('#div-table-rekaptahunan tr:nth-child(1) td:nth-child(2),#div-table-rekaptahunan tr:nth-child(1) td:nth-child(3),#div-table-rekaptahunan tr:nth-child(1) td:nth-child(4)').click(function(){
+	$('body').on('click', '[id^="selYear-"]', function(e) {
 		let _year = $(this).find('a').attr('data-year')
 		getTotalByYear(_year)
 	})
-	@if(\Request::get('refresh_api'))
-	let fUrl = window.location
-	fUrl = fUrl.replace('dashboard2', '?refresh_api=1')
-	@endif	
 	function totalTd(num_tr){
 		let total = 0
 		$(`[id*=rekapp2] tr:nth-child(${num_tr}) td:nth-child(3),[id*=rekapp2] tr:nth-child(${num_tr}) td:nth-child(5),[id*=rekapp2] tr:nth-child(${num_tr}) td:nth-child(7),[id*=rekapp2] tr:nth-child(${num_tr}) td:nth-child(9),[id*=rekapp2] tr:nth-child(${num_tr}) td:nth-child(11),[id*=rekapp2] tr:nth-child(${num_tr}) td:nth-child(13),[id*=rekapp2] tr:nth-child(${num_tr}) td:nth-child(15),[id*=rekapp2] tr:nth-child(${num_tr}) td:nth-child(17),[id*=rekapp2] tr:nth-child(${num_tr}) td:nth-child(19),[id*=rekapp2] tr:nth-child(${num_tr}) td:nth-child(21),[id*=rekapp2] tr:nth-child(${num_tr}) td:nth-child(23),[id*=rekapp2] tr:nth-child(${num_tr}) td:nth-child(25)`).each(function(){

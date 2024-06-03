@@ -1,5 +1,6 @@
 @extends('layouts.template')
-@section('breadcumb')   
+@section('breadcumb')  
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"> 
 <style>
 	table tr:first-child td{
 		text-align: center;
@@ -30,58 +31,16 @@
 <div class="row mt-3">
 	<div class="col-md-12">
 		<div class="x_panel">
-			<div class="col-md-12">
-				<table class="table table-bordered">
-					<tr>
-						<td>Tahun</td>
-						<td>Keterangan</td>
-						<td>Jumlah Pelatihan</td>
-						<td>Jumlah Ujian</td>
-						<td>Hadir Ujian</td>
-						<td>Lulus Ujian</td>
-						<td>Tidak Lulus</td>
-						<td>Persentase</td>
-					</tr>
-					<tr>
-						<td>2022 - 2024</td>
-						<td>Tingkat Kelulusan Tahun 2022 - 2024</td>
-						<td>{{$totPbj[3]}}</td>
-						<td>{{$totPbj[3]}}</td>
-						<td>{{$totPbj[2]}}</td>
-						<td>{{$totPbj[1]}}</td>
-						<td>{{$totPbj[0]}}</td>
-						<td>{{round($totPbj[1] / $totPbj[0] * 100, 2)}}%</td>
-					</tr>
-				</table>
+			<div class="col-md-3 mb-2">
+				<label for="">Tahun Awal</label>
+				<input type="text" name="tanggal_awal" class="form-control datepicker" value="2022">
 			</div>
-			<div class="col-md-6">
-				<canvas id="chartKelulusan"></canvas>
-			</div>
-			<div class="col-md-12">
-				<table class="table table-bordered" id="table-rekap">
-					<tr>
-						<td rowspan="2" style="padding: 3px;vertical-align: middle">Nama Kegiatan</td>
-						<td rowspan="2" style="padding: 3px;vertical-align: middle">Tahun</td>
-						<td colspan="4" style="padding: 3px;">Jumlah</td>
-					</tr>
-					<tr>						
-						<!-- <td>Pelatihan</td> -->
-						<td>Hadir Ujian</td>
-						<td>Lulus Ujian</td>
-						<td>Tidak Lulus</td>
-						<td>Persentase</td>
-					</tr>
-					@foreach($api_pbj[0]['list_kelulusan'] as $l)
-					<tr>
-						<td>Pelatihan dan Sertifikasi PBJ Dasar</td>
-						<td>{{$l['tahun']}}</td>
-						<td>{{$l['total_peserta']}}</td>
-						<td>{{$l['peserta_lulus']}}</td>
-						<td>{{$l['peserta_tidak_lulus']}}</td>
-						<td>{{round($l['peserta_lulus'] / $l['peserta_tidak_lulus'] * 100, 2)}}%</td>
-					</tr>
-					@endforeach
-				</table>
+			<div class="col-md-3 mb-2">
+				<label for="">Tahun Akhir</label>
+				<input type="text" name="tanggal_akhir" class="form-control datepicker" value="2024">
+			</div>						
+			<div id="div-response">
+
 			</div>
 		</div>
 	</div>
@@ -90,49 +49,36 @@
 @section('scripts')
 <script src="{{asset('js/chart.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 <script>
-	const ctx_kelulusan = document.getElementById('chartKelulusan');
-	new Chart(ctx_kelulusan, {
-		type: 'bar',
-		data: {
-			labels: ['Tida Lulus', 'Lulus', 'Hadir Ujian', 'Jumlah Pelatihan'],
-			datasets: [{
-				label: 'Jumlah',
-				data: {!! json_encode($totPbj) !!},
-				backgroundColor: ['rgba(255, 159, 64, 0.2)',
-					'rgba(153, 102, 255, 0.2)',
-					'rgba(201, 203, 207, 0.2)',
-					'rgba(54, 162, 235, 0.2)'
-					],
-				borderColor: [
-					'rgb(255, 159, 64)',
-					'rgb(153, 102, 255)',
-					'rgb(201, 203, 207)',
-					'rgb(54, 162, 235)'
-					],
-				borderWidth: 1				
-			}]
-		},
-		options: {
-			indexAxis: 'y',
-			plugins: {
-				legend: {
-					display: true,
-					position: 'top'
-				},
-				datalabels: {
-					anchor: 'center',
-					align: 'center',
-					formatter: (value, context) => {
-						return value;
-					},
-					color: 'black'
-				}
+	getDataLulus()
+	function getDataLulus(year1=2022, year2=2024){
+		$.ajax({
+			url:"{{route('dashboard2.lulusPbj')}}",
+			type: "get",
+			data: {
+				year1,
+				year2,
+			},
+			beforeSend: function(){
+				let a = '<div class="col-md-12">'
+				a += '<h4 class="text-center">Load ...</h4></div>'
+				$('#div-response').html(a)
+			},
+			success:function(result){
+				console.log('work')
+				$('#div-response').html(result)
 			}
-		},
-		plugins: [ChartDataLabels]
-	});
-	
+		});
+	}
+	$('[class~=datepicker]').datepicker({
+		minViewMode: 2,
+		format: 'yyyy',
+		startDate: '2022',
+	}).on('changeDate', function() {
+		let year1 = $('[name=tanggal_awal]').val()
+		let year2 = $('[name=tanggal_akhir]').val()
+		getDataLulus(year1, year2)
+	})	
 </script>
 @endsection

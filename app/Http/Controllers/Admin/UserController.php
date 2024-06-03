@@ -168,7 +168,8 @@ class UserController extends Controller
                 $eventData = \Helper::getRespApiWithParam($endpoint_, 'POST', $datapost);
                 $emailArrTdkLulus = array_unique(array_column($eventData, 'email'));
             }
-            $data = User::has('member')
+            $data = User::with('member:id,user_id,tgl_lahir')
+            ->select('id', 'name', 'email', 'nip')
             ->when($request->tanggal_awal, function($q)use($request){
                 $q->whereHas('member', function($qq)use($request){
                     $qq->whereDate('tgl_lahir', '>=', $request->tanggal_awal);
@@ -189,7 +190,7 @@ class UserController extends Controller
             })
             ->when($request->ketidaklulusan_event, function($q)use($emailArrTdkLulus){
                 $q->whereIn('email', $emailArrTdkLulus);
-            })
+            })            
             ->orderBy('updated_at', 'DESC');
             return \DataTables::of($data)
             ->addIndexColumn()

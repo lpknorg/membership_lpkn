@@ -46,7 +46,7 @@ use App\Http\Controllers\Artikel\{
 |
 */
 Route::get('ea', function(){
-	dd(\Hash::make('@!FPi123'));
+	dd(\Hash::make('ifpi2024'));
 	$a = env('MAIL_USERNAME');
 	dd($a);
 });
