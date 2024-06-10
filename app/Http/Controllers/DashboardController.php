@@ -202,7 +202,7 @@ class DashboardController extends Controller
             return "<a target='_blank' href={$row['link_slugg']}><i class='fa fa-link'></i></a>";
         })
         ->addColumn('link_list_alumni', function($row){
-            return "<a target='_blank' href=".route('dashboard2.get_user_by_event', $row['id']).">{$row['judul']}</a>";
+            return "<a style='color: #4f4fbd;' target='_blank' href=".route('dashboard2.get_user_by_event', $row['id']).">{$row['judul']}</a>";
         })
         ->addColumn('tgl_start', function($row){
             return \Helper::changeFormatDate($row['tgl_start'], 'd-M-Y');
@@ -234,10 +234,10 @@ class DashboardController extends Controller
             return \Helper::changeFormatDate($row['created_at'], 'd-M-Y');
         })
         ->addColumn('link_sertifikat', function($row){
-            return "<a href={$row['link']} target='_blank'>{$row['link']}</a>";
+            return "<a style='color: #4f4fbd;' href={$row['link']} target='_blank'>{$row['link']}</a>";
         })
         ->addColumn('link_list_alumni', function($row){
-            return "<a target='_blank' href=".route('dashboard2.get_user_by_event_gratis', $row['id']).">{$row['judul']}</a>";
+            return "<a style='color: #4f4fbd;' target='_blank' href=".route('dashboard2.get_user_by_event_gratis', $row['id']).">{$row['judul']}</a>";
         })
         ->rawColumns(['created_at', 'link_sertifikat', 'link_list_alumni'])
         ->make(true);
@@ -405,7 +405,7 @@ class DashboardController extends Controller
         return \DataTables::of($alumni_list_event)
         ->addIndexColumn()
         ->addColumn('email_', function($row){
-            return "<a target='_blank' href=".route('dashboard2.detail_alumni', $row['email']).">{$row['nama_lengkap']}</a>";
+            return "<a style='color: #4f4fbd;' target='_blank' href=".route('dashboard2.detail_alumni', $row['email']).">{$row['nama_lengkap']}</a>";
         })
         ->addColumn('status_pembayaran', function($row){
             if($row['status_pembayaran'] == 1){

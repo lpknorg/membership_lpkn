@@ -5,6 +5,7 @@
 		<div class="title_left">
 			<h3 class="mb-0">Dashboard</h3>			
 			<h5>List Event Berbayar</h5>
+			<a href="">Data Kelulusan PBJ</a>
 		</div>
 	</div>
 </div>
@@ -39,18 +40,18 @@
 		background-color: #91bcf1 !important;
 	}
 </style>
-<div class="row mt-3">
+<div class="row mt-5">
 	<div class="col-md-12" id="div-table-rekaptahunan">
 		<div class="x_panel">
 			<h5>Rekap Event Tahunan</h5>			
 			<div class="row">
 				<div class="col-md-3 mb-2">
 					<label for="">Tahun Awal</label>
-					<input type="text" name="tanggal_awal" class="form-control datepicker" value="2022">
+					<input type="text" name="tanggal_awal1" class="form-control datepicker" value="2022">
 				</div>
 				<div class="col-md-3 mb-2">
 					<label for="">Tahun Akhir</label>
-					<input type="text" name="tanggal_akhir" class="form-control datepicker" value="2024">
+					<input type="text" name="tanggal_akhir1" class="form-control datepicker" value="2024">
 				</div>	
 			</div>
 			
@@ -139,8 +140,8 @@
 		format: 'yyyy',
 		startDate: '2022',
 	}).on('changeDate', function() {
-		let year1 = $('[name=tanggal_awal]').val()
-		let year2 = $('[name=tanggal_akhir]').val()
+		let year1 = $('[name=tanggal_awal1]').val()
+		let year2 = $('[name=tanggal_akhir1]').val()
 		getDataYears(year1, year2)
 	})		
 	function getDataYears(year1=2022, year2=2024){

@@ -249,6 +249,7 @@
 										<th>Nama Event</th>
 										<th>Tanggal Pelaksanaan</th>
 										<th>Status Pembayaran</th>
+										<th>Lulus ?</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -271,6 +272,7 @@
 											?>
 											{!! $span !!}
 										</td>
+										<td>{{$e['lulus'] == '1' ? 'Lulus ges' : 'Tidak'}}</td>
 									</tr>
 									@endforeach
 								</tbody>
