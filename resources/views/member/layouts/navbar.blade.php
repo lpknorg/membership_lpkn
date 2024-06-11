@@ -145,7 +145,7 @@
             @if(\Auth::check())
             <ul class="navbar-nav navbar-no-expand ml-auto">
                 <!-- Messages Dropdown Menu -->
-                <li class="nav-item dropdown d-none d-lg-block mt-2 mr-4">
+                <!-- <li class="nav-item dropdown d-none d-lg-block mt-2 mr-4">
                     <a class="nav-link m-0 p-0 mt-1" data-toggle="dropdown" href="#">
                         <div class="position-relative" class="bg-succees">
                             <i class="fa-solid fa-bell" style="font-size: 20px;"></i>
@@ -183,7 +183,7 @@
                             Lihat Semua
                         </a>
                     </div>
-                </li>
+                </li> -->
                 <li class="nav-item dropdown d-none d-lg-block">
                     <a class="nav-link m-0 p-0 out_nav" data-toggle="dropdown" href="#">
                         @if(\Auth::user()->member)

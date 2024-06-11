@@ -34,7 +34,9 @@
 		<h5>Tanggal Pelaksanaan : {{\Helper::changeFormatDate($alumni_list_event[0]['tgl_start']).' s/d '.\Helper::changeFormatDate($alumni_list_event[0]['tgl_end'])}}</h5>
 		<h5>Lokasi : {{$alumni_list_event[0]['lokasi_event']}}</h5>
 		@else
+		@if(isset($alumni_list_event['list_regis_sertif']))
 		<h5>Judul Event : {{$alumni_list_event['list_regis_sertif'][0]['judul']}}</h5>
+		@endif
 		@endif
 	</div>
 	<div class="col-md-12">

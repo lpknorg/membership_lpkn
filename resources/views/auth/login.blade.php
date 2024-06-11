@@ -18,9 +18,9 @@
       <input id="password" type="password" name="password" placeholder="Masukkan Password">
       <i class="m-i far fa-eye" id="togglePassword" style="cursor: pointer;"></i>
     </div>
-    <div class="d-flex justify-content-end">
+    <!-- <div class="d-flex justify-content-end">
       <a href="" id="btnLupaPassword" class="btn-flat">Lupa password</a>
-    </div>
+    </div> -->
     <div class="mt-4">
       <button type="submit" id="loginbtn" value="Submit" class="btn btn-primary">Masuk</button>
     </div>
