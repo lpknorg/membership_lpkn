@@ -97,47 +97,64 @@ class MemberController extends Controller{
 			],422);
 		}
 		$userm = Member::where('no_hp', $request['no_hp'])->first();
-		if($userm){
-			return response()->json([
-				'status'    => "fail",
-				'messages' => "No handphone sudah digunakan",
-			], 422);
-		}
+		// if($userm){
+		// 	return response()->json([
+		// 		'status'    => "fail",
+		// 		'messages' => "No handphone sudah digunakan",
+		// 	], 422);
+		// }
 
-		$user = User::where('email', $request['email'])->first();
-		if($user){
-			return response()->json([
-				'status'    => "fail",
-				'messages' => "Email sudah digunakan",
-			], 422);
-		}
+		$userExists = User::where('email', $request['email'])->first();
+		// if($user){
+		// 	return response()->json([
+		// 		'status'    => "fail",
+		// 		'messages' => "Email sudah digunakan",
+		// 	], 422);
+		// }
 
 		$userNik = User::where('nik', $request['nik'])->first();
 		if($userNik && $request->nik){
-			return response()->json([
-				'status'    => "fail",
-				'messages' => "nik sudah digunakan",
-			], 422);
+			$request['nik'] = $request->nik.rand(1,999);
+			// return response()->json([
+			// 	'status'    => "fail",
+			// 	'messages' => "nik sudah digunakan",
+			// ], 422);
 		}
 
 		$usernip = User::where('nip', $request['nip'])->first();
 		if($usernip && $request->nip){
-			return response()->json([
-				'status'    => "fail",
-				'messages' => "nip sudah digunakan",
-			], 422);
+			$request['nip'] = $request->nip.rand(1,999);
+			// return response()->json([
+			// 	'status'    => "fail",
+			// 	'messages' => "nip sudah digunakan",
+			// ], 422);
 		}
 
 
 		$request['name'] = $request->nama_lengkap;
 		$request['password'] = \Hash::make($request->password);
 		$request['email_verified_at'] = now();
+		$request['deskripsi_diri'] = $request->profil_singkat;
 		\DB::beginTransaction();
 		try {
-			$user = User::create($request->only('name', 'email', 'password', 'nik', 'nip', 'email_verified_at'));
-			$user->syncRoles('member');
-			$reqMember['no_hp'] = $request->no_hp;
-			$reqMember['user_id'] = $user->id;
+			if (!$userExists) {
+				$user = User::create($request->only('name', 'email', 'password', 'nik', 'nip', 'email_verified_at', 'deskripsi_diri'));
+				$user->syncRoles('member');
+				$reqMember['user_id'] = $user->id;
+			}else{
+				$userExists->update([
+					'name' => $request->name,
+					'email' => $request->email,
+					'password' => $request->password,
+					'nik' => $request->nik,
+					'nip' => $request->nip,
+					'deskripsi_diri' => $request->deskripsi_diri,
+					'email_verified_at' => $request->email_verified_at
+				]);
+				$reqMember['user_id'] = $userExists->id;
+				$userExists->syncRoles(['member']);
+			}			
+			$reqMember['no_hp'] = $request->no_hp;			
 			$reqMember['no_member'] = $request->no_member;
 			$reqMember['pendidikan_terakhir'] = $request->pendidikan_terakhir;
 			$reqMember['nama_lengkap_gelar'] = $request->nama_lengkap;
@@ -153,18 +170,34 @@ class MemberController extends Controller{
 			// 	$reqMember['foto_profile'] = \Helper::storeFile('poto_profile', $request->upload_foto);
 			// }
 			$reqMember['profil_singkat'] = $request->profil_singkat;
+			if (!$userExists) {
+				$member = Member::create($reqMember);
+				MemberKantor::create([
+					'member_id' => $member->id,
+					'nama_jabatan' => $request->jabatan,
+					'nama_instansi' => $request->instansi,
+					'unit_kerja' => $request->unit_kerja,
+					'pemerintah_instansi' => '-'
+				]);
+			}else{
+				$member =  Member::where('user_id', $userExists->id)->first();
+				$member->update($reqMember);
 
-
-			$member = Member::create($reqMember);
-			MemberKantor::create([
-				'member_id' => $member->id,
-				'nama_jabatan' => $request->jabatan,
-				'nama_instansi' => $request->instansi,
-				'unit_kerja' => $request->unit_kerja,
-				'pemerintah_instansi' => $request->tempat_kerja
-			]);
+				$memKantor = MemberKantor::where('member_id', $member->id)->first();
+				$memKantor->update([
+					'member_id' => $member->id,
+					'nama_jabatan' => $request->jabatan,
+					'nama_instansi' => $request->instansi,
+					'unit_kerja' => $request->unit_kerja,
+					'pemerintah_instansi' => '-'
+				]);
+			}
 			// $this->sendLinkVerifRegister($request);
-			$_user = User::whereId($user->id)->with('member.memberKantor')->first();
+			if (!$userExists) {
+				$_user = User::whereId($user->id)->with('member.memberKantor')->first();
+			}else{
+				$_user = User::whereId($userExists->id)->with('member.memberKantor')->first();
+			}			
 			\DB::commit();
 		} catch (Exception $e) {
 			\DB::rollback();

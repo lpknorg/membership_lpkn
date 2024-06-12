@@ -62,7 +62,7 @@ class User extends Authenticatable
     }
 
     public function getTotalEventAttribute(){
-        $datapost = ['email'=>\Auth::user()->email];
+        $datapost = ['email'=>$this->email];
         $my_event = \Helper::getRespApiWithParam(env('API_EVENT').'member/event/my_event', 'post', $datapost);
         return count($my_event['event']);
     }
