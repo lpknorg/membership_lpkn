@@ -20,10 +20,12 @@
             <th>Tempat Kerja/Instansi</th>
             <th>Pemerintah (Kota/Kabupaten)</th>
             <th>Alamat Lengkap Kantor</th>
+            <th>Sertifikat Lain Yang Dimiliki</th>
         </tr>
     </thead>
     <tbody>       
-        <?php $no = 1; ?>
+        <?php $no = 1;        
+        ?>
         @foreach($data as $d)
         <tr>
             <td>{{ $no++ }}</td>
@@ -61,6 +63,21 @@
             <td>{{$d->member->memberKantor->nama_instansi}}</td>
             <td>{{$d->member->memberKantor->pemerintah_instansi}}</td>
             <td>{{$d->member->memberKantor->alamat_kantor_lengkap}}</td>
+            <td>                
+                @if($d->member->sertifikatLain()->exists())
+                @foreach($d->member->sertifikatLain as $index => $sl)
+                <?php
+                $totalItems = count($d->member->sertifikatLain);
+                ?>
+                 {{$index+1}}.) {{'No: '.$sl->no}}, {{'Nama: '.$sl->nama}}, {{'Tahun: '.$sl->tahun}}
+                @if($index < $totalItems - 1)
+                <br>
+                @endif
+                @endforeach
+                @else
+                -
+                @endif
+            </td>
         </tr>
         @endforeach
     </tbody>

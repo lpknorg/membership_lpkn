@@ -109,14 +109,13 @@
 					</div>
 				</div>
 			</form>
-			<table class="table table-bordered table-hover table-responsive" id="table-DatatableEventBerbayar">
+			<table class="table table-bordered table-hover table-responsive table-striped" id="table-DatatableEventBerbayar">
 				<thead>
 					<tr>
 						<th>No</th>
 						<th>Judul</th>
-						<th>Tgl Start</th>
-						<th>Tgl End</th>
-						<th>Nama Panitia</th>
+						<th>Waktu Pelaksanaan</th>
+						<th>Panitia</th>
 						<th>Link</th>
 						<th>Lokasi</th>
 						<th>Jumlah Peserta</th>
@@ -243,12 +242,16 @@
 		columns: [
 			{data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
 			{data: 'link_list_alumni', name: 'judul'},
-			{data: 'tgl_start', searchable: false},
-			{data: 'tgl_end', searchable: false},
+			{data: 'waktu_pelaksanaan', searchable: false},
 			{data: 'nama_panitia', name: 'nama_panitia'},
 			{data: 'link_event', searchable: false},
 			{data: 'lokasi_event', name: 'lokasi_event'},
-			{data: 'jumlah_peserta', searchable: false},
+			{
+				data: function(r){
+					return `${r.jumlah_peserta_bayar}/${r.jumlah_peserta}`
+				}, searchable: false
+
+			}
 			]
 	});
 </script>

@@ -204,13 +204,24 @@ class DashboardController extends Controller
         ->addColumn('link_list_alumni', function($row){
             return "<a style='color: #4f4fbd;' target='_blank' href=".route('dashboard2.get_user_by_event', $row['id']).">{$row['judul']}</a>";
         })
-        ->addColumn('tgl_start', function($row){
-            return \Helper::changeFormatDate($row['tgl_start'], 'd-M-Y');
+        ->addColumn('waktu_pelaksanaan', function($row){
+            if ($row['tgl_start'] == $row['tgl_end']) {
+                return \Helper::changeFormatDate($row['tgl_start'], 'd-M-Y');
+            }
+            $cont = \Helper::changeFormatDate($row['tgl_start'], 'd-M-Y').' s/d '. \Helper::changeFormatDate($row['tgl_end'], 'd-M-Y');   
+            // if ($row['jenis_kelas'] == '0') {                
+                // $a = $row['jam_start'];
+                // $b = $row['jam_end'];
+                // $cont .= '<br>';
+                // if ($a == '00:00:00') {
+                //     $cont .= $row['jumlah_sesi'];
+                // }else{
+                //     $cont .= $a.' s/d '.$b;
+                // }
+            // }
+            return $cont; 
         })
-        ->addColumn('tgl_end', function($row){
-            return \Helper::changeFormatDate($row['tgl_end'], 'd-M-Y');
-        })
-        ->rawColumns(['link_event', 'link_list_alumni'])
+        ->rawColumns(['link_event', 'link_list_alumni', 'waktu_pelaksanaan'])
         ->make(true);
     }
 

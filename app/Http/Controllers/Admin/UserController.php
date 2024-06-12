@@ -195,9 +195,6 @@ class UserController extends Controller
             ->orderBy('updated_at', 'DESC');
             return \DataTables::of($data)
             ->addIndexColumn()
-            ->addColumn('email', function($row){
-                return '<a href="'.route('dashboard2.detail_alumni',$row->email).'">'.$row->email.'</a>';
-            })
             ->addColumn('status_user', function($row){
                 $s = '';
                 if ($row->is_confirm) {
@@ -207,6 +204,9 @@ class UserController extends Controller
                 }
                 return $s;
             })
+            ->addColumn('email_', function($row){
+                return "<a style='color: #4f4fbd;' target='_blank' href=".route('dashboard2.detail_alumni', $row->email).">{$row->name}</a>";
+            })
             ->addColumn('action', function ($row) {
                 $actionBtn = '<a href="' . route('admin.user.import_biodata', $row->id) . '" class="btn-sm btn btn-info  mr-1 mb-2 mb-lg-2" data-toggle="tooltip" data-placement="top" title="Download Biodata"><i class="fa fa-download"></i></a>';
                 $actionBtn .= '<a href="' . route('admin.user.show', $row->id) . '" id="btnShow" class="btn-sm btn btn-info  mr-1 mb-2 mb-lg-2" data-toggle="tooltip" data-placement="top" title="Lihat Data"><i class="fa fa-eye"></i></a>';
@@ -214,7 +214,7 @@ class UserController extends Controller
                 $actionBtn .= '<button type="button" class="btn-sm btn btn-danger mb-2 mb-lg-2" id="btnHapus" data-id=' . $row->id . ' action="' . route('admin.user.destroy', $row->id) . '"><i class="fa fa-trash"></i></button>';
                 return $actionBtn;
             })
-            ->rawColumns(['action', 'status_user', 'email'])
+            ->rawColumns(['action', 'status_user', 'email_'])
             ->make(true);
         // }
     }
@@ -264,10 +264,13 @@ class UserController extends Controller
         ->when($request->kelulusan_event, function($q)use($emailArr){
             $q->whereIn('email', $emailArr);
         })
+        // ->orWhere('email', 'wdinda375@gmail.com')
         ->orderBy('updated_at', 'DESC')
-        ->limit(100)
+        ->limit(10)
         ->get();
+        // dd($data);
         $a = date('d-M-Y');
+        // return view('admin.user.export_alumni', compact('data'));
         return Excel::download(new ExportAlumni($data),"alumni-{$a}.xlsx");
     }
 }

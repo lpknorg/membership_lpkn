@@ -39,6 +39,7 @@ class ExportAlumni implements FromView, WithColumnWidths,WithEvents
             'Q' => 40,
             'R' => 40,
             'S' => 40,
+            'T' => 100
     	];
     }
 
@@ -47,7 +48,7 @@ class ExportAlumni implements FromView, WithColumnWidths,WithEvents
         return [
             AfterSheet::class    => function(AfterSheet $event) {
 
-                $event->sheet->getDelegate()->getStyle('A1:S1')
+                $event->sheet->getDelegate()->getStyle('A1:T1')
                 ->getFill()
                 ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                 ->getStartColor()
