@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\{MemberImport, MemberImport2};
+use App\Imports\{MemberImport, MemberImport2, MemberNewImport};
 use App\Http\Controllers\Member\ProfileController;
 use App\Models\User;
 use App\Models\Admin\{Member, MemberKantor};
@@ -22,6 +22,12 @@ class HomeController extends Controller
     }
 
     public function importMember(Request $request){
+        Excel::import(new MemberNewImport, public_path('excel/format_pbj/makassar20mei.xlsx'));
+        // Excel::import(new MemberNewImport, public_path('excel/format_pbj/makassar20mei.xlsx'));
+        // Excel::import(new MemberNewImport, public_path('excel/format_pbj/pbjrahmi1.xlsx'));
+        // Excel::import(new MemberNewImport, public_path('excel/format_pbj/pbjsoffy1.xlsx'));
+        // Excel::import(new MemberNewImport, public_path('excel/format_pbj/pbjelsyin1.xlsx'));
+        die;
         Excel::import(new MemberImport, $request->file('dok_import_member')->store('files'));
         // return redirect()->back();
         return back()->with(['success_import_member' => 'Berhasil import data member']);

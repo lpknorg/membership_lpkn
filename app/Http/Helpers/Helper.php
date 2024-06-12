@@ -49,6 +49,12 @@ class Helper {
 	}
 
 	public static function showImage($img, $fold=null){
+		// akses foto dari google drive
+		if (substr($img, 0, 13) == 'https://drive') {
+			$getId = explode("id=", $img);
+			$getId = $getId[1];
+			return "https://drive.google.com/thumbnail?id={$getId}&sz=w1000";
+		}
 		if (is_null($img)) {
 			return asset("default.png");
 		}

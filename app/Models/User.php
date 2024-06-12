@@ -33,7 +33,8 @@ class User extends Authenticatable
         'token_reset_password',
         'exp_token_reset_password',
         'deskripsi_diri',
-        'email_verified_at'
+        'email_verified_at',
+        'user_has_update_dateimport'
     ];
     protected $appends = ['total_event', 'tgl_bergabung'];
 

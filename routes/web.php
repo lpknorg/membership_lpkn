@@ -46,9 +46,7 @@ use App\Http\Controllers\Artikel\{
 |
 */
 Route::get('ea', function(){
-	dd(\Hash::make('ifpi2024'));
-	$a = env('MAIL_USERNAME');
-	dd($a);
+	dd(123);
 });
 Route::get('/verify_email/{token}', [App\Http\Controllers\Api\MemberController::class, 'updateVerifyEmail'])->name('updateVerifyEmail');
 Route::post('/lupa_password', [App\Http\Controllers\Auth\LupaPasswordController::class, 'sendLink'])->name('lupa_password.send_link');
@@ -140,7 +138,7 @@ Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middlewa
 });
 Route::get('member_profile/Kta', [ProfileController::class, 'download_kta'])->name('member_profile.download_kta');
 
-Route::post('/import_member', [HomeController::class, 'importMember']);
+Route::get('/import_member', [HomeController::class, 'importMember']);
 Route::get('/import_member2', [HomeController::class, 'importMember2']);
 
 
