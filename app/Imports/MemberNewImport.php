@@ -28,12 +28,17 @@ class MemberNewImport implements ToArray, WithHeadingRow
     public function array(array $rows){
         $data = $this->reindexArray($rows);
         try {
+            // dd($data);
             DB::beginTransaction();
+
             foreach ($data as $key => $v) {
-                if (!is_null($v[0])) {
+                if (!is_null($v[0]) && !is_null($v[1]) && !is_null($v[2]) && !is_null($v[3]) && !is_null($v[4]) && 
+                    !is_null($v[5]) && !is_null($v[7]) && !is_null($v[8]) && !is_null($v[9]) && 
+                    !is_null($v[10]) && !is_null($v[11]) && !is_null($v[12]) && !is_null($v[13]) && !is_null($v[14]) && 
+                    !is_null($v[15]) && !is_null($v[16])) {
                     echo $key.'==>'.$v[0].'<br>';
                     $checkUser = User::where('email', $v[0])->first();
-                    $expl1 = explode(",", $v[3]);
+                    $expl1 = explode(", ", $v[3]);
                     if ($checkUser) {
                         $checkUser->update([
                             'email' => $v[0],
@@ -43,10 +48,18 @@ class MemberNewImport implements ToArray, WithHeadingRow
                             'paket_kontribusi' => $v[18],
                             'user_has_update_dateimport' => 1
                         ]);
+                        if(count($expl1) > 1){
+                            $removed = preg_replace('/\s+/', ' ', $expl1[1]);
+                            $removed = str_replace('-', ' ', $expl1[1]);
+                            $a = explode(" ", $removed);
+                            $bulan = strtolower($a[1]);
+                            $fixTglLahir = \Helper::convertFromBulanIndo($bulan, $a);
+                        }
                         $checkUser->member->update([
                             'no_hp' => $v[2],
                             'tempat_lahir' => $expl1[0],
-                            'tgl_lahir' => $expl1[1],                            
+                            'alamat_lengkap' => $v[10],
+                            'tgl_lahir' => count($expl1) < 2 ? null : $fixTglLahir,
                             'jenis_kelamin' => $v[17] == 'Perempuan' ? 'P' : 'L',
                             'foto_profile' => $v[19],
                             'foto_ktp' => $v[20],
@@ -75,12 +88,19 @@ class MemberNewImport implements ToArray, WithHeadingRow
                             'user_has_update_dateimport' => 1,
                             'created_at' => now()
                         ]);
+                        if(count($expl1) > 1){
+                            $removed = preg_replace('/\s+/', ' ', $expl1[1]);
+                            $removed = str_replace('-', ' ', $expl1[1]);
+                            $a = explode(" ", $removed);
+                            $bulan = strtolower($a[1]);
+                            $fixTglLahir = \Helper::convertFromBulanIndo($bulan, $a);
+                        }
 
                         $member = Member::create([
                             'user_id' => $user->id,
                             'no_hp' => $v[2],
                             'tempat_lahir' => $expl1[0],
-                            'tgl_lahir' => $expl1[1],                    
+                            'tgl_lahir' => count($expl1) < 2 ? null : $fixTglLahir,      
                             'jenis_kelamin' => $v[17] == 'Perempuan' ? 'P' : 'L',
                             'foto_profile' => $v[19],
                             'foto_ktp' => $v[20],

@@ -93,6 +93,37 @@ class Helper {
 		}
 	}
 
+	public static function convertFromBulanIndo($bulan, $a){
+		if($bulan == 'januari'){
+			$fixTglLahir = $a[2].'-01-'.$a[0];
+		}elseif($bulan == 'februari'){
+			$fixTglLahir = $a[2].'-02-'.$a[0];
+		}elseif($bulan == 'maret'){
+			$fixTglLahir = $a[2].'-03-'.$a[0];
+		}elseif($bulan == 'april'){
+			$fixTglLahir = $a[2].'-04-'.$a[0];
+		}elseif($bulan == 'mei'){
+			$fixTglLahir = $a[2].'-05-'.$a[0];
+		}elseif($bulan == 'juni'){
+			$fixTglLahir = $a[2].'-06-'.$a[0];
+		}elseif($bulan == 'juli'){
+			$fixTglLahir = $a[2].'-07-'.$a[0];
+		}elseif($bulan == 'agustus'){
+			$fixTglLahir = $a[2].'-08-'.$a[0];
+		}elseif($bulan == 'september'){
+			$fixTglLahir = $a[2].'-09-'.$a[0];
+		}elseif($bulan == 'oktober'){
+			$fixTglLahir = $a[2].'-10-'.$a[0];
+		}elseif($bulan == 'november'){
+			$fixTglLahir = $a[2].'-11-'.$a[0];
+		}elseif($bulan == 'desember'){
+			$fixTglLahir = $a[2].'-12-'.$a[0];
+		}else{
+			$fixTglLahir = null;
+		}
+		return $fixTglLahir;
+	}
+
 	public static function bulanIndo($bulan){
 		switch ($bulan){
 			case 1 : $bulan="Januari";
