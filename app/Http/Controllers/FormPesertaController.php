@@ -54,6 +54,7 @@ class FormPesertaController extends Controller
             'foto_ktp' => 'required|file|mimes:jpeg,png,jpg',
             'pas_foto' => 'required|file|mimes:jpeg,png,jpg',
             'sk_pengangkatan_asn' => 'required|file|mimes:pdf,jpeg,png,jpg',
+            'alamat_rumah' => 'required|string',
             'kode_pos' => 'required|string',
             // member kantor
             'instansi' => 'required|string',
@@ -94,6 +95,12 @@ class FormPesertaController extends Controller
             $sk_pengangkatan_asn = \Helper::storeFile('file_sk_pengangkatan_asn', $request->sk_pengangkatan_asn);
         }
 
+        if($request->alamat_rumah){
+            $alamat_lengkap = $request->alamat_rumah;
+        }else{
+            $alamat_lengkap = $request->alamat_kantor;
+        }
+
         $request['user_id'] = $user->id;
         $member = Member::create([
             'no_hp'=>$request->no_hp,
@@ -104,7 +111,7 @@ class FormPesertaController extends Controller
             'tgl_lahir'=>$request->tgl_lahir,
             'tempat_lahir'=>$request->tempat_lahir,
             'kode_pos'=>$request->kode_pos,
-            'alamat_lengkap'=>$request->alamat_kantor,
+            'alamat_lengkap'=>$alamat_lengkap,
             'foto_profile'=>$pas_foto3x4,
             'unit_kerja'=>$request->unit_kerja,
             'pas_foto3x4'=>$pas_foto3x4,

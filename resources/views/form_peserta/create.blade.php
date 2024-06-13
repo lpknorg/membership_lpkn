@@ -78,6 +78,12 @@
                         <label class="form-label" for="alamat_kantor">Alamat Lengkap Kantor:</label>
                         <textarea class="form-control" name="alamat_kantor" required></textarea><br>
                     </div>
+                    @if($list_event['jenis_pelatihan'] == "bnsp" || $list_event['jenis_pelatihan'] == "bimtek")
+                    <div class="form-group">
+                        <label class="form-label" for="alamat_rumah">Alamat Rumah:</label>
+                        <textarea class="form-control" name="alamat_rumah" required></textarea><br>
+                    </div>
+                    @endif
                     <div class="form-group">
                         <label class="form-label" for="kode_pos">Kode Pos:</label>
                         <input type="text" class="form-control" name="kode_pos" required><br>
@@ -86,6 +92,7 @@
                         <label class="form-label" for="unit_organisasi">Unit Organisasi:</label>
                         <input type="text" class="form-control" name="unit_organisasi" required><br>
                     </div>
+                    @if($list_event['jenis_pelatihan'] == "lkpp")
                     <div class="form-group">
                         <label class="form-label" for="posisi_pengadaan">Posisi Pelaku Pengadaan:</label>
                         <select class="form-control" name="posisi_pengadaan" required>
@@ -110,10 +117,12 @@
                             <option value="Bukan PNS">Bukan PNS</option>
                         </select><br>
                     </div>
+                    @endif
                     <div class="form-group">
                         <label class="form-label" for="nama_jabatan">Nama Jabatan:</label>
                         <input type="text" class="form-control" name="nama_jabatan" required><br>
                     </div>
+                    @if($list_event['jenis_pelatihan'] == "lkpp")
                     <div class="form-group">
                         <label class="form-label" for="golongan_terakhir">Golongan Terakhir:</label>
                         <input type="text" class="form-control" name="golongan_terakhir" required><br>
@@ -126,6 +135,7 @@
                             <option value="Rp. 7.050.000,- (Menginap Single)">Rp. 7.050.000,- (Menginap Single (1 Kamar Sendiri))</option>
                         </select><br>
                     </div>
+                    @endif
                     <div class="form-group">
                         <label class="form-label" for="jenis_kelamin">Jenis Kelamin:</label>
                         <select class="form-control" name="jenis_kelamin" required>
@@ -133,18 +143,22 @@
                             <option value="P">Perempuan</option>
                         </select><br>
                     </div>
+                    @if($list_event['jenis_pelatihan'] == "lkpp")
                     <div class="form-group">
                         <label class="form-label" for="foto_ktp">Upload Foto KTP:</label>
                         <input type="file" class="form-control" name="foto_ktp" required><br>
                     </div>
+                    @endif
                     <div class="form-group">
-                        <label class="form-label" for="pas_foto">Upload Pas Foto 3x4:</label>
+                        <label class="form-label" for="pas_foto">Upload Pas Foto:</label>
                         <input type="file" class="form-control" name="pas_foto" required><br>
                     </div>
-                    <div class="form-group">
+                    @if($list_event['jenis_pelatihan'] == "lkpp")
+                    <div class="form-group">                    
                         <label class="form-label" for="sk_pengangkatan_asn">Upload SK Pengangkatan ASN:</label>
                         <input type="file" class="form-control" name="sk_pengangkatan_asn" required><br>
                     </div>
+                    @endif
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
