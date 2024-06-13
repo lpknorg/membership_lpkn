@@ -27,7 +27,8 @@ use App\Http\Controllers\{
 	WelcomeController,
 	EventController,
 	PeraturanController,
-	DashboardController
+	DashboardController,
+	FormPesertaController
 };
 use App\Http\Controllers\Artikel\{
 	ArtikelController,
@@ -50,6 +51,12 @@ Route::get('ea', function(){
 	$a = env('MAIL_USERNAME');
 	dd($a);
 });
+
+// Route::resource('form_peserta', FormPesertaController::class);
+Route::get('/form_peserta/{id}', [App\Http\Controllers\FormPesertaController::class, 'create'])->name('form_peserta');
+Route::post('/form_peserta_store', [App\Http\Controllers\FormPesertaController::class, 'store'])->name('form_peserta_store');
+
+
 Route::get('/verify_email/{token}', [App\Http\Controllers\Api\MemberController::class, 'updateVerifyEmail'])->name('updateVerifyEmail');
 Route::post('/lupa_password', [App\Http\Controllers\Auth\LupaPasswordController::class, 'sendLink'])->name('lupa_password.send_link');
 Route::get('/lupa_password/{token}', [App\Http\Controllers\Auth\LupaPasswordController::class, 'showForm'])->name('lupa_password.show_form');
