@@ -22,7 +22,7 @@ class HomeController extends Controller
     }
 
     public function viewImportMember(){     
-       // User::where('user_has_update_dateimport', 1)->delete();   
+    //    User::where('user_has_update_dateimport', 1)->delete();   
         $users = User::where('user_has_update_dateimport', 1)->select('id','name','email','nip')->orderBy('updated_at', 'desc')->get();
         return view('import_member_pbj', compact('users'));
     }

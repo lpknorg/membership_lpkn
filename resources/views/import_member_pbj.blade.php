@@ -17,13 +17,13 @@
 		<div class="card mb-2">
 			<div class="card-body">
 				<h2>Upload File Peserta PBJ</h2>
-				<a class="btn btn-outline-secondary btn-sm mb-2" href="{{asset('excel/format_pbj/template_awal.xlsx')}}" download>Download Template</a>
+				<a class="btn btn-secondary btn-sm mb-2" href="{{asset('excel/format_pbj/template_awal.xlsx')}}" download>Download Template</a>
 				<form id="uploadForm" enctype="multipart/form-data">
 					@csrf
 					<div class="form-group">
 						<label for="file_excel">Pilih file Excel</label>
-						<input type="file" class="form-control" id="file_excel_pbj" name="file_excel_pbj">
-						<span class="text-danger d-block">&nbsp;&nbsp;* pastikan header excel sesuai seperti template</span>
+						<input type="file" required class="form-control" id="file_excel_pbj" name="file_excel_pbj">
+						<span class="text-danger d-block" style="font-size:14px;" >&nbsp;&nbsp;* pastikan header excel sama seperti template dan untuk pas foto, ktp dan sk asn diisi dengan link gdrive</span>
 					</div>
 					<button type="submit" class="btn btn-primary">Upload</button>
 				</form>

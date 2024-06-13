@@ -34,7 +34,7 @@ class MemberNewImport implements ToArray, WithHeadingRow
                 $kotaId = null;
                 $provId = null;
                 $keIid = null;
-                if (isset($v['email']) && isset($v['nama_tanpa_gelar'])) {
+                if (isset($v['email'])) {
                     $checkUser = User::where('email', $v['email'])->first();
                     $checkKodePos = KodePos::where('kode_pos', $v['kode_pos'])->select('id', 'kode_pos', 'id_kecamatan')->first();                    
                     if ($checkKodePos) {
@@ -47,7 +47,7 @@ class MemberNewImport implements ToArray, WithHeadingRow
                     if ($checkUser) {
                         $checkUser->update([
                             'email' => $v['email'],
-                            'name' => $v['nama_tanpa_gelar'],
+                            'name' => isset($v['nama_tanpa_gelar']) ? $v['nama_tanpa_gelar'] : $v['nama_dengan_gelar'],
                             'nip' => $v['nip'],
                             'nik' => $v['nik'],
                             'paket_kontribusi' => $v['paket_kontribusi'],
@@ -66,7 +66,7 @@ class MemberNewImport implements ToArray, WithHeadingRow
                             'alamat_lengkap' => $v['alamat_lengkap_kantor'],
                             'tgl_lahir' => count($expl1) < 2 ? null : $fixTglLahir,
                             'jenis_kelamin' => $v['jenis_kelamin'] == 'Perempuan' ? 'P' : 'L',
-                            'nama_lengkap_gelar' => $v['nama_dengan_gelar'],
+                            'nama_lengkap_gelar' => isset($v['nama_dengan_gelar']) ? $v['nama_dengan_gelar'] : $v['nama_tanpa_gelar'],
 
                             'prov_id' => $provId,
                             'kota_id' => $kotaId,
@@ -98,7 +98,7 @@ class MemberNewImport implements ToArray, WithHeadingRow
                     }else{
                         $user = User::create([
                             'email' => $v['email'],
-                            'name' => $v['nama_dengan_gelar'],
+                            'name' => isset($v['nama_tanpa_gelar']) ? $v['nama_tanpa_gelar'] : $v['nama_dengan_gelar'],
                             'password' => \Hash::make('lpkn123'),
                             'nip' => $v['nip'],
                             'nik' => $v['nik'],
@@ -120,6 +120,7 @@ class MemberNewImport implements ToArray, WithHeadingRow
                             'tempat_lahir' => $expl1[0],
                             'tgl_lahir' => count($expl1) < 2 ? null : $fixTglLahir,      
                             'jenis_kelamin' => $v['jenis_kelamin'] == 'Perempuan' ? 'P' : 'L',
+                            'nama_lengkap_gelar' => isset($v['nama_dengan_gelar']) ? $v['nama_dengan_gelar'] : $v['nama_tanpa_gelar'],
 
                             'prov_id' => $provId,
                             'kota_id' => $kotaId,
