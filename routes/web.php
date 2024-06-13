@@ -145,7 +145,9 @@ Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middlewa
 });
 Route::get('member_profile/Kta', [ProfileController::class, 'download_kta'])->name('member_profile.download_kta');
 
-Route::get('/import_member', [HomeController::class, 'importMember']);
+Route::get('/import_member', [HomeController::class, 'viewImportMember']);
+Route::post('/import_member', [HomeController::class, 'importMember']);
+Route::get('/import_member_datatable', [HomeController::class, 'importMemberDatatable']);
 Route::get('/import_member2', [HomeController::class, 'importMember2']);
 
 
