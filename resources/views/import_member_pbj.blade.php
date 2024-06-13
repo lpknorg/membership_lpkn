@@ -51,7 +51,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 	<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 	<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-	<!-- Custom JS -->
+	<!-- Custom JS -->s
 	<script>
 		$(document).ready(function() {
 			var table = $('#users-table').DataTable({
@@ -60,7 +60,7 @@
 				ajax: '{{url('import_member_datatable')}}',
 				columns: [
 					{data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-					{ data: 'name', name: 'name' },
+					{ data: 'email_', name: 'name' },
 					{ data: 'email', name: 'email' },
 					{ data: 'nip', name: 'nip' }
 					]

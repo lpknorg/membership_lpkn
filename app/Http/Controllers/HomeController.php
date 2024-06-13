@@ -30,6 +30,10 @@ class HomeController extends Controller
         $users = User::where('user_has_update_dateimport', 1)->select('name','email','nip')->orderBy('updated_at', 'desc')->limit(50)->get();
         return \DataTables::of($users)
         ->addIndexColumn()
+        ->addColumn('email_', function($row){
+            return "<a style='color: #4f4fbd;' target='_blank' href=".route('dashboard2.detail_alumni', $row->email).">{$row->name}</a>";
+        })
+        ->rawColumns(['email_'])
         ->make(true);
     }
 
@@ -51,7 +55,7 @@ class HomeController extends Controller
     }
 
     public function importMember2(Request $request){
-     echo date('d-m-Y H:i:s');
+       echo date('d-m-Y H:i:s');
         ini_set('max_execution_time', 7000); // 10 minutes
         $client = new \GuzzleHttp\Client();
         $endpoint = env('API_LPKN_ID').'Member/member_accept';
