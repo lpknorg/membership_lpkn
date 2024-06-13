@@ -21,15 +21,38 @@ class HomeController extends Controller
         // $this->middleware('auth');
     }
 
-    public function importMember(Request $request){
-        // Excel::import(new MemberNewImport, public_path('excel/format_pbj/makassar20mei.xlsx'));
-        // Excel::import(new MemberNewImport, public_path('excel/format_pbj/pbjrahmi1.xlsx'));
-        // Excel::import(new MemberNewImport, public_path('excel/format_pbj/pbjsoffy1.xlsx'));
-        Excel::import(new MemberNewImport, public_path('excel/format_pbj/pbjelsyin1.xlsx'));
-        die;
-        Excel::import(new MemberImport, $request->file('dok_import_member')->store('files'));
-        // return redirect()->back();
-        return back()->with(['success_import_member' => 'Berhasil import data member']);
+    public function viewImportMember(){     
+    //    User::where('user_has_update_dateimport', 1)->delete();   
+        $users = User::where('user_has_update_dateimport', 1)->select('id','name','email','nip')->orderBy('updated_at', 'desc')->get();
+        return view('import_member_pbj', compact('users'));
+    }
+
+    public function importMemberDatatable(){
+        $users = User::where('user_has_update_dateimport', 1)->select('name','email','nip')->orderBy('updated_at', 'desc')->get();
+        return \DataTables::of($users)
+        ->addIndexColumn()
+        ->addColumn('email_', function($row){
+            return "<a style='color: #4f4fbd;' target='_blank' href=".route('dashboard2.detail_alumni', $row->email).">{$row->name}</a>";
+        })
+        ->rawColumns(['email_'])
+        ->make(true);
+    }
+
+    public function importMember(Request $request){     
+        try {
+            Excel::import(new MemberNewImport, $request->file('dok_import_member'));
+            return response()->json([
+                'status'   => "oke",
+                'messages' => "Berhasil import data member",
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status'   => "fail",
+                'messages' => "Terjadi kesalahan : ".$e->getMessage(),
+            ], 422);
+        }
+        // Excel::import(new MemberImport, $request->file('dok_import_member')->store('files'));
+        // return back()->with(['success_import_member' => 'Berhasil import data member']);
     }
 
     public function importMember2(Request $request){

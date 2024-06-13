@@ -85,7 +85,7 @@
 								max-height: inherit;
 								height: inherit;
 								width: inherit;
-								object-fit: cover;height: 120px;width: 100px;border-radius: 5px;">
+								object-fit: cover;height: 120px;width: 100px;border-radius: 10px;">
 								<div class="mt-1">
 									<h4>{{ucwords($user->name)}}</h4>
 									<p class="text-secondary mb-1">{{$user->member->memberKantor->nama_jabatan}}</p>
@@ -187,10 +187,10 @@
 									<td>Kelurahan</td>
 								</tr>
 								<tr>
-									<td>{{$user->member->memberKantor->prov_prov_id ? $user->member->memberKantor->alamatKantorProvinsi->nama : '-'}}</td>
-									<td>{{$user->member->memberKantor->prov_kota_id ? $user->member->memberKantor->alamatKantorKota->kota : '-'}}</td>
-									<td>{{$user->member->memberKantor->prov_kecamatan_id ? $user->member->memberKantor->alamatKantorKecamatan->kecamatan : '-'}}</td>
-									<td>{{$user->member->memberKantor->prov_kelurahan_id ? $user->member->memberKantor->alamatKantorKelurahan->kelurahan : '-'}}</td>
+									<td>{{$user->member->memberKantor->kantor_prov_id ? $user->member->memberKantor->alamatKantorProvinsi->nama : '-'}}</td>
+									<td>{{$user->member->memberKantor->kantor_kota_id ? $user->member->memberKantor->alamatKantorKota->kota : '-'}}</td>
+									<td>{{$user->member->memberKantor->kantor_kecamatan_id ? $user->member->memberKantor->alamatKantorKecamatan->kecamatan : '-'}}</td>
+									<td>{{$user->member->memberKantor->kantor_kelurahan_id ? $user->member->memberKantor->alamatKantorKelurahan->kelurahan : '-'}}</td>
 								</tr>
 							</table>
 							<hr>
@@ -210,7 +210,7 @@
 									<td>SK Pengangkatan ASN</td>
 									<td>
 										@if($user->member->file_sk_pengangkatan_asn)
-										<a class="btn btn-primary btn-sm mt-2" href="{{\Helper::showImage($user->member->file_sk_pengangkatan_asn, 'sk_pengangkatan_asn')}}" target="_blank">Lihat Dokumen</a>
+										<a target="_blank" href="{{\Helper::showImage($user->member->file_sk_pengangkatan_asn, 'sk_pengangkatan_asn')}}">Lihat SK</a>
 										@else
 										<span class="text-warning">Belum upload SK Pengangkatan</span>
 										@endif
