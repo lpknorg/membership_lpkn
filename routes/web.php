@@ -47,9 +47,7 @@ use App\Http\Controllers\Artikel\{
 |
 */
 Route::get('ea', function(){
-	dd(\Hash::make('ifpi2024'));
-	$a = env('MAIL_USERNAME');
-	dd($a);
+	dd(123);
 });
 
 // Route::resource('form_peserta', FormPesertaController::class);
@@ -147,7 +145,7 @@ Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middlewa
 });
 Route::get('member_profile/Kta', [ProfileController::class, 'download_kta'])->name('member_profile.download_kta');
 
-Route::post('/import_member', [HomeController::class, 'importMember']);
+Route::get('/import_member', [HomeController::class, 'importMember']);
 Route::get('/import_member2', [HomeController::class, 'importMember2']);
 
 

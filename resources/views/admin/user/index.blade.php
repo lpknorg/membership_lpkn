@@ -10,7 +10,7 @@
 <div class="row">
 	<div class="col-md-12 col-sm-12">
 		<!-- <button class="btn btn-primary btn-sm" id="btnAdd">Tambah</button> -->
-		<div class="row float-right">
+		<!-- <div class="row float-right">
 			<div class="col-md-12">
 				<div class="form-group">
 					<form action="{{url('import_member')}}" method="POST" enctype="multipart/form-data">
@@ -22,7 +22,7 @@
 					</form>
 				</div>
 			</div>
-		</div>
+		</div> -->
 		
 		<div class="x_panel">
 			<form action="{{route('admin.user.exportExcelAlumni')}}">
@@ -331,7 +331,7 @@
 			},
 			columns: [
 				{data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-				{data: 'name', name: 'name'},
+				{data: 'email_', 'name': 'name'},
 				{data: 'email', name: 'users.email'},
 				{data: 'nip', name: 'nip'},
 				{

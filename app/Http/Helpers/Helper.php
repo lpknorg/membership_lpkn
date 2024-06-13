@@ -49,6 +49,12 @@ class Helper {
 	}
 
 	public static function showImage($img, $fold=null){
+		// akses foto dari google drive
+		if (substr($img, 0, 13) == 'https://drive') {
+			$getId = explode("id=", $img);
+			$getId = $getId[1];
+			return "https://drive.google.com/thumbnail?id={$getId}&sz=w1000";
+		}
 		if (is_null($img)) {
 			return asset("default.png");
 		}
@@ -85,6 +91,37 @@ class Helper {
 		}else{
 			return $text;
 		}
+	}
+
+	public static function convertFromBulanIndo($bulan, $a){
+		if($bulan == 'januari'){
+			$fixTglLahir = $a[2].'-01-'.$a[0];
+		}elseif($bulan == 'februari'){
+			$fixTglLahir = $a[2].'-02-'.$a[0];
+		}elseif($bulan == 'maret'){
+			$fixTglLahir = $a[2].'-03-'.$a[0];
+		}elseif($bulan == 'april'){
+			$fixTglLahir = $a[2].'-04-'.$a[0];
+		}elseif($bulan == 'mei'){
+			$fixTglLahir = $a[2].'-05-'.$a[0];
+		}elseif($bulan == 'juni'){
+			$fixTglLahir = $a[2].'-06-'.$a[0];
+		}elseif($bulan == 'juli'){
+			$fixTglLahir = $a[2].'-07-'.$a[0];
+		}elseif($bulan == 'agustus'){
+			$fixTglLahir = $a[2].'-08-'.$a[0];
+		}elseif($bulan == 'september'){
+			$fixTglLahir = $a[2].'-09-'.$a[0];
+		}elseif($bulan == 'oktober'){
+			$fixTglLahir = $a[2].'-10-'.$a[0];
+		}elseif($bulan == 'november'){
+			$fixTglLahir = $a[2].'-11-'.$a[0];
+		}elseif($bulan == 'desember'){
+			$fixTglLahir = $a[2].'-12-'.$a[0];
+		}else{
+			$fixTglLahir = null;
+		}
+		return $fixTglLahir;
 	}
 
 	public static function bulanIndo($bulan){
