@@ -38,7 +38,16 @@
 				</tr>
 			</thead>
 			<tbody>
-
+				@foreach($users as $u)
+				<tr>
+					<td>{{$u->id}}</td>					
+					<td>
+					<a style=color: #4f4fbd; target=_blank href="{{route('dashboard2.detail_alumni', $u->email)}}">{{$u->name}}</a>
+					</td>
+					<td>{{$u->email}}</td>
+					<td>{{$u->nip}}</td>
+				</tr>
+				@endforeach
 			</tbody>
 		</table>
 	</div>
@@ -54,17 +63,18 @@
 	<!-- Custom JS -->s
 	<script>
 		$(document).ready(function() {
-			var table = $('#users-table').DataTable({
-				processing: true,
-				serverSide: true,
-				ajax: '{{url('import_member_datatable')}}',
-				columns: [
-					{data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-					{ data: 'email_', name: 'name' },
-					{ data: 'email', name: 'email' },
-					{ data: 'nip', name: 'nip' }
-					]
-			});
+			// var table = $('#users-table').DataTable({
+				// processing: true,
+				// serverSide: true,
+				// ajax: '{{url('import_member_datatable')}}',
+				// columns: [
+					// {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+					// { data: 'email_', name: 'name' },
+					// { data: 'email', name: 'email' },
+					// { data: 'nip', name: 'nip' }
+					// ]
+			// });
+			var table = $('#users-table').DataTable()
 			$('#uploadForm').on('submit', function(event) {
 				event.preventDefault();
 
@@ -79,14 +89,16 @@
 					beforeSend: function(){
 						$('button[type=submit]').attr('disabled', true).text('Load ...')
 					},
-					success: function(response) {
-						table.ajax.reload()
+					success: function(response) {						
 						if (response.status == 'oke') {
 							toastr.success(response.messages, 'Berhasil');
 						} else {
 							toastr.error('Ada kesalahan saat upload file', 'Gagal');
 						}
 						$('button[type=submit]').attr('disabled', false).text('Upload')
+						setTimeout(() => {
+							location.reload()
+						}, 1000)
 					},
 					error: function() {
 						$('button[type=submit]').attr('disabled', false).text('Upload')
