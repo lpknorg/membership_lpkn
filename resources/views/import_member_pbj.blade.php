@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Upload File Excel</title>
+	<title>Upload File Member PBJ</title>
 	<!-- Bootstrap CSS -->
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 	<!-- Toastr CSS -->
@@ -16,13 +16,14 @@
 	<div class="container mt-5">
 		<div class="card mb-2">
 			<div class="card-body">
-				<h2>Upload File Excel</h2>
-				<a class="btn btn-outline-secondary btn-sm" href="{{asset('excel/format_pbj/template_awal.xlsx')}}" download>Download Template</a>
+				<h2>Upload File Peserta PBJ</h2>
+				<a class="btn btn-outline-secondary btn-sm mb-2" href="{{asset('excel/format_pbj/template_awal.xlsx')}}" download>Download Template</a>
 				<form id="uploadForm" enctype="multipart/form-data">
 					@csrf
 					<div class="form-group">
 						<label for="file_excel">Pilih file Excel</label>
 						<input type="file" class="form-control" id="file_excel_pbj" name="file_excel_pbj">
+						<span class="text-danger d-block">&nbsp;&nbsp;* pastikan header excel sesuai seperti template</span>
 					</div>
 					<button type="submit" class="btn btn-primary">Upload</button>
 				</form>
@@ -38,9 +39,10 @@
 				</tr>
 			</thead>
 			<tbody>
+				<?php $no = 1; ?>
 				@foreach($users as $u)
 				<tr>
-					<td>{{$u->id}}</td>					
+					<td>{{$no++}}</td>					
 					<td>
 					<a style=color: #4f4fbd; target=_blank href="{{route('dashboard2.detail_alumni', $u->email)}}">{{$u->name}}</a>
 					</td>
@@ -60,7 +62,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 	<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 	<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-	<!-- Custom JS -->s
+	<!-- Custom JS -->
 	<script>
 		$(document).ready(function() {
 			// var table = $('#users-table').DataTable({
