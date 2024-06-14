@@ -40,7 +40,6 @@ class MemberNewImport implements ToArray, WithHeadingRow
                 $provId = null;
                 $keIid = null;
                 if (isset($v['email'])) {
-                    // echo $v['email'].'---';
                     $checkUser = User::where('email', $v['email'])->first();
                     $checkKodePos = KodePos::where('kode_pos', $v['kode_pos'])->select('id', 'kode_pos', 'id_kecamatan')->first();                    
                     if ($checkKodePos) {
@@ -50,6 +49,28 @@ class MemberNewImport implements ToArray, WithHeadingRow
                         $keIid = $checkKodePos->kelurahan()->exists() ? $checkKodePos->kelurahan->id : null;
                     }
                     $expl1 = explode(", ", $v['tempat_tanggal_lahir']);
+                    if(count($expl1) > 1){
+                        $removed = preg_replace('/\s+/', ' ', $expl1[1]);
+                        $removed = str_replace('-', ' ', $expl1[1]);
+                        if (strpos($removed, ' ') !== false) {
+                            $a = explode(" ", $removed);
+                            $bulan = strtolower($a[1]);
+                            $fixTglLahir = \Helper::convertFromBulanIndo($bulan, $a);
+                        }elseif (strpos($removed, '.') !== false) {
+                            $a = explode(".", $removed);
+                            $bulan = strtolower($a[1]);
+                            $fixTglLahir = \Helper::convertFromBulanIndo($bulan, $a);
+                        }elseif (strpos($removed, '-') !== false) {
+                            $a = explode("-", $removed);
+                            $bulan = strtolower($a[1]);
+                            $fixTglLahir = \Helper::convertFromBulanIndo($bulan, $a);
+                        }elseif (strpos($removed, '/') !== false) {
+                            $a = explode("/", $removed);
+                            $bulan = strtolower($a[1]);
+                            $fixTglLahir = \Helper::convertFromBulanIndo($bulan, $a);
+                        }
+                        $fixTglLahir = null;
+                    }
                     if ($checkUser) {
                         $checkUser->update([
                             'import_batch' => $this->batchKode,
@@ -59,26 +80,9 @@ class MemberNewImport implements ToArray, WithHeadingRow
                             'nik' => $v['nik'],
                             'paket_kontribusi' => isset($v['paket_kontribusi']) ? $v['paket_kontribusi'] : null,
                             'user_has_update_dateimport' => 1
-                        ]);
-                        if(count($expl1) > 1){
-                            $removed = preg_replace('/\s+/', ' ', $expl1[1]);
-                            $removed = str_replace('-', ' ', $expl1[1]);
-                            if (strpos($removed, ' ') !== false) {
-                                $a = explode(" ", $removed);
-                                $bulan = strtolower($a[1]);
-                                $fixTglLahir = \Helper::convertFromBulanIndo($bulan, $a);
-                            }elseif (strpos($removed, '.') !== false) {
-                                $a = explode(".", $removed);
-                                $bulan = strtolower($a[1]);
-                                $fixTglLahir = \Helper::convertFromBulanIndo($bulan, $a);
-                            }elseif (strpos($removed, '-') !== false) {
-                                $a = explode("-", $removed);
-                                $bulan = strtolower($a[1]);
-                                $fixTglLahir = \Helper::convertFromBulanIndo($bulan, $a);
-                            }
-                            $fixTglLahir = null;
-                        }
+                        ]);                        
                         $checkUser->member->update([
+                            'pendidikan_terakhir' => $v['pendidikan_terakhir'],
                             'no_hp' => $v['no_hp'],
                             'tempat_lahir' => $expl1[0],
                             'alamat_lengkap' => $v['alamat_lengkap_kantor'],
@@ -125,13 +129,6 @@ class MemberNewImport implements ToArray, WithHeadingRow
                             'user_has_update_dateimport' => 1,
                             'created_at' => now()
                         ]);
-                        if(count($expl1) > 1){
-                            $removed = preg_replace('/\s+/', ' ', $expl1[1]);
-                            $removed = str_replace('-', ' ', $expl1[1]);
-                            $a = explode(" ", $removed);
-                            $bulan = strtolower($a[1]);
-                            $fixTglLahir = \Helper::convertFromBulanIndo($bulan, $a);
-                        }
 
                         $member = Member::create([
                             'user_id' => $user->id,
@@ -140,7 +137,7 @@ class MemberNewImport implements ToArray, WithHeadingRow
                             'tgl_lahir' => count($expl1) < 2 ? null : $fixTglLahir,
                             'jenis_kelamin' => isset($v['jenis_kelamin']) ? ($v['jenis_kelamin'] == 'Perempuan' ? 'P' : 'L') : null,
                             'nama_lengkap_gelar' => isset($v['nama_dengan_gelar']) ? $v['nama_dengan_gelar'] : $v['nama_tanpa_gelar'],
-
+'pendidikan_terakhir' => $v['pendidikan_terakhir'],
                             'prov_id' => $provId,
                             'kota_id' => $kotaId,
                             'kecamatan_id' => $kecamatanId,
