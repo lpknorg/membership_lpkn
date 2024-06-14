@@ -40,7 +40,6 @@ class MemberNewImport implements ToArray, WithHeadingRow
                 $provId = null;
                 $keIid = null;
                 if (isset($v['email'])) {
-//echo $v['email'].'===';
                     $checkUser = User::where('email', $v['email'])->first();
                     $checkKodePos = KodePos::where('kode_pos', $v['kode_pos'])->select('id', 'kode_pos', 'id_kecamatan')->first();                    
                     if ($checkKodePos) {
