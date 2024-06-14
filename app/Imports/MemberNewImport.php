@@ -50,7 +50,7 @@ class MemberNewImport implements ToArray, WithHeadingRow
                             'name' => isset($v['nama_tanpa_gelar']) ? $v['nama_tanpa_gelar'] : $v['nama_dengan_gelar'],
                             'nip' => $v['nip'],
                             'nik' => $v['nik'],
-                            'paket_kontribusi' => $v['paket_kontribusi'],
+                            'paket_kontribusi' => isset($v['paket_kontribusi']) ? $v['paket_kontribusi'] : null,
                             'user_has_update_dateimport' => 1
                         ]);
                         if(count($expl1) > 1){
@@ -102,7 +102,7 @@ class MemberNewImport implements ToArray, WithHeadingRow
                             'password' => \Hash::make('lpkn123'),
                             'nip' => $v['nip'],
                             'nik' => $v['nik'],
-                            'paket_kontribusi' => $v['paket_kontribusi'],
+                            'paket_kontribusi' => isset($v['paket_kontribusi']) ? $v['paket_kontribusi'] : null,
                             'user_has_update_dateimport' => 1,
                             'created_at' => now()
                         ]);
