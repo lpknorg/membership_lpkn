@@ -41,8 +41,12 @@ class HomeController extends Controller
     public function importMember(Request $request){     
         try {
             $batch = \Helper::generateRandString(8);
-            Excel::import(new MemberNewImport($batch), $request->file('dok_import_member'));
-	    $total = User::where('import_batch', $batch)->select('id')->count();
+            $file = $request->file('dok_import_member');
+            $time = time();
+            $filename = "{$time}_{$file->getClientOriginalName()}";
+            $file->move(public_path("uploaded_files/excel_peserta"), $filename);
+            Excel::import(new MemberNewImport($batch), public_path("uploaded_files/excel_peserta/{$filename}"));
+            $total = User::where('import_batch', $batch)->select('id')->count();
             return response()->json([
                 'status'   => "oke",
                 'messages' => "Berhasil import {$total} data peserta",
@@ -58,7 +62,7 @@ class HomeController extends Controller
     }
 
     public function importMember2(Request $request){
-       echo date('d-m-Y H:i:s');
+     echo date('d-m-Y H:i:s');
         ini_set('max_execution_time', 7000); // 10 minutes
         $client = new \GuzzleHttp\Client();
         $endpoint = env('API_LPKN_ID').'Member/member_accept';
