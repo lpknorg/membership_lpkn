@@ -76,6 +76,10 @@ class Helper {
 	}
 
 	public static function changeFormatDate($date, $format='d-m-Y'){
+		//jika bukan tanggal beneran
+		if (!strtotime($date) !== false) {
+			return $date;	
+		}
 		if (is_null($date)) {
 			return '-';
 		}

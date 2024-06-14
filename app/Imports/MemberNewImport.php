@@ -40,6 +40,7 @@ class MemberNewImport implements ToArray, WithHeadingRow
                 $provId = null;
                 $keIid = null;
                 if (isset($v['email'])) {
+//echo $v['email'].'===';
                     $checkUser = User::where('email', $v['email'])->first();
                     $checkKodePos = KodePos::where('kode_pos', $v['kode_pos'])->select('id', 'kode_pos', 'id_kecamatan')->first();                    
                     if ($checkKodePos) {
@@ -48,29 +49,7 @@ class MemberNewImport implements ToArray, WithHeadingRow
                         $provId = $checkKodePos->kecamatan()->exists() && $checkKodePos->kecamatan->kota->exists() ? $checkKodePos->kecamatan->kota->id_provinsi : null;
                         $keIid = $checkKodePos->kelurahan()->exists() ? $checkKodePos->kelurahan->id : null;
                     }
-                    $expl1 = explode(", ", $v['tempat_tanggal_lahir']);
-                    if(count($expl1) > 1){
-                        $removed = preg_replace('/\s+/', ' ', $expl1[1]);
-                        $removed = str_replace('-', ' ', $expl1[1]);
-                        if (strpos($removed, ' ') !== false) {
-                            $a = explode(" ", $removed);
-                            $bulan = strtolower($a[1]);
-                            $fixTglLahir = \Helper::convertFromBulanIndo($bulan, $a);
-                        }elseif (strpos($removed, '.') !== false) {
-                            $a = explode(".", $removed);
-                            $bulan = strtolower($a[1]);
-                            $fixTglLahir = \Helper::convertFromBulanIndo($bulan, $a);
-                        }elseif (strpos($removed, '-') !== false) {
-                            $a = explode("-", $removed);
-                            $bulan = strtolower($a[1]);
-                            $fixTglLahir = \Helper::convertFromBulanIndo($bulan, $a);
-                        }elseif (strpos($removed, '/') !== false) {
-                            $a = explode("/", $removed);
-                            $bulan = strtolower($a[1]);
-                            $fixTglLahir = \Helper::convertFromBulanIndo($bulan, $a);
-                        }
-                        $fixTglLahir = null;
-                    }
+                    $fixTglLahir = $v['tempat_tanggal_lahir'];
                     if ($checkUser) {
                         $checkUser->update([
                             'import_batch' => $this->batchKode,
@@ -84,9 +63,10 @@ class MemberNewImport implements ToArray, WithHeadingRow
                         $checkUser->member->update([
                             'pendidikan_terakhir' => $v['pendidikan_terakhir'],
                             'no_hp' => $v['no_hp'],
-                            'tempat_lahir' => $expl1[0],
+                            'pendidikan_terakhir' => $v['pendidikan_terakhir'],
+                            'tempat_lahir' => $fixTglLahir,
                             'alamat_lengkap' => $v['alamat_lengkap_kantor'],
-                            'tgl_lahir' => count($expl1) < 2 ? null : $fixTglLahir,
+                            'tgl_lahir' => $fixTglLahir,
                             'jenis_kelamin' => isset($v['jenis_kelamin']) ? ($v['jenis_kelamin'] == 'Perempuan' ? 'P' : 'L') : null,
                             'nama_lengkap_gelar' => isset($v['nama_dengan_gelar']) ? $v['nama_dengan_gelar'] : $v['nama_tanpa_gelar'],
 
@@ -132,9 +112,10 @@ class MemberNewImport implements ToArray, WithHeadingRow
 
                         $member = Member::create([
                             'user_id' => $user->id,
+                            'pendidikan_terakhir' => $v['pendidikan_terakhir'],
                             'no_hp' => $v['no_hp'],
-                            'tempat_lahir' => $expl1[0],
-                            'tgl_lahir' => count($expl1) < 2 ? null : $fixTglLahir,
+                            'tempat_lahir' => $fixTglLahir,
+                            'tgl_lahir' => $fixTglLahir,
                             'jenis_kelamin' => isset($v['jenis_kelamin']) ? ($v['jenis_kelamin'] == 'Perempuan' ? 'P' : 'L') : null,
                             'nama_lengkap_gelar' => isset($v['nama_dengan_gelar']) ? $v['nama_dengan_gelar'] : $v['nama_tanpa_gelar'],
 'pendidikan_terakhir' => $v['pendidikan_terakhir'],
@@ -179,3 +160,4 @@ class MemberNewImport implements ToArray, WithHeadingRow
         }
     }
 }
+

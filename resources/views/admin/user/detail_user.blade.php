@@ -118,7 +118,7 @@
 							</li>
 							<li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
 								<h6 class="mb-0">Tempat / Tanggal Lahir</h6>
-								<span class="text-secondary">{{$user->member->tempat_lahir.' / '.\Helper::changeFormatDate($user->member->tgl_lahir, 'd-F-Y')}}</span>
+								<span class="text-secondary">{{$user->member->tempat_lahir}}</span>
 							</li>
 						</ul>
 					</div>
