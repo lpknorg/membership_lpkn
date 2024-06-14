@@ -130,19 +130,21 @@
 							<table class="table table-bordered">
 								<tr>
 									<td>Alamat Lengkap</td>
-									<td colspan="3">{{$user->member->alamat_lengkap ?? '-'}}</td>
+									<td colspan="4">{{$user->member->alamat_lengkap ?? '-'}}</td>
 								</tr>
 								<tr>
 									<td>Provinsi</td>
 									<td>Kota/Kabupaten</td>
 									<td>Kecamatan</td>
 									<td>Kelurahan</td>
+									<td>Kode Pos</td>
 								</tr>
 								<tr>
 									<td>{{$user->member->prov_id ? $user->member->alamatProvinsi->nama : '-'}}</td>
 									<td>{{$user->member->kota_id ? $user->member->alamatKota->kota : '-'}}</td>
 									<td>{{$user->member->kecamatan_id ? $user->member->alamatKecamatan->kecamatan : '-'}}</td>
 									<td>{{$user->member->kelurahan_id ? $user->member->alamatKelurahan->kelurahan : '-'}}</td>
+									<td>{{$user->member->memberKantor->kode_pos}}</td>
 								</tr>
 							</table>
 							<hr>
@@ -150,7 +152,7 @@
 							<table class="table table-bordered">
 								<tr>
 									<td>Status Kepegawaian</td>
-									<td colspan="3">{{$user->member->memberKantor->status_kepegawaian ?? '-'}}</td>
+									<td colspan="4">{{$user->member->memberKantor->status_kepegawaian ?? '-'}}</td>
 								</tr>
 								<tr>
 									<td>Posisi Pelaku Pengadaan</td>
@@ -158,39 +160,41 @@
 								</tr>
 								<tr>
 									<td>Jenis Jabatan</td>
-									<td colspan="3">{{$user->member->memberKantor->jenis_jabatan ?? '-'}}</td>
+									<td colspan="4">{{$user->member->memberKantor->jenis_jabatan ?? '-'}}</td>
 								</tr>
 								<tr>
 									<td>Nama Jabatan</td>
-									<td colspan="3">{{$user->member->memberKantor->nama_jabatan ?? '-'}}</td>
+									<td colspan="4">{{$user->member->memberKantor->nama_jabatan ?? '-'}}</td>
 								</tr>
 								<tr>
 									<td>Golongan Terakhir</td>
-									<td colspan="3">{{$user->member->memberKantor->golongan_terakhir ?? '-'}}</td>
+									<td colspan="4">{{$user->member->memberKantor->golongan_terakhir ?? '-'}}</td>
 								</tr>
 								<tr>
 									<td>Tempat Kerja/Instansi</td>
-									<td colspan="3">{{$user->member->memberKantor->nama_instansi ?? '-'}}</td>
+									<td colspan="4">{{$user->member->memberKantor->nama_instansi ?? '-'}}</td>
 								</tr>
 								<tr>
 									<td>Pemerintah (Kota/Kabupaten)</td>
-									<td colspan="3">{{$user->member->memberKantor->pemerintah_instansi ?? '-'}}</td>
+									<td colspan="4">{{$user->member->memberKantor->pemerintah_instansi ?? '-'}}</td>
 								</tr>
 								<tr>
 									<td>Alamat Lengkap</td>
-									<td colspan="3">{{$user->member->memberKantor->alamat_kantor_lengkap ?? '-'}}</td>
+									<td colspan="4">{{$user->member->memberKantor->alamat_kantor_lengkap ?? '-'}}</td>
 								</tr>
 								<tr>
 									<td>Provinsi</td>
 									<td>Kota/Kabupaten</td>
 									<td>Kecamatan</td>
 									<td>Kelurahan</td>
+									<td>Kode Pos</td>
 								</tr>
 								<tr>
 									<td>{{$user->member->memberKantor->kantor_prov_id ? $user->member->memberKantor->alamatKantorProvinsi->nama : '-'}}</td>
 									<td>{{$user->member->memberKantor->kantor_kota_id ? $user->member->memberKantor->alamatKantorKota->kota : '-'}}</td>
 									<td>{{$user->member->memberKantor->kantor_kecamatan_id ? $user->member->memberKantor->alamatKantorKecamatan->kecamatan : '-'}}</td>
 									<td>{{$user->member->memberKantor->kantor_kelurahan_id ? $user->member->memberKantor->alamatKantorKelurahan->kelurahan : '-'}}</td>
+									<td>{{$user->member->memberKantor->kode_pos}}</td>
 								</tr>
 							</table>
 							<hr>
