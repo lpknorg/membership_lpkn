@@ -40,7 +40,8 @@ class HomeController extends Controller
 
     public function importMember(Request $request){     
         try {
-            Excel::import(new MemberNewImport, $request->file('dok_import_member'));
+            $batch = \Helper::generateRandString(8);
+            Excel::import(new MemberNewImport($batch), $request->file('dok_import_member'));
             return response()->json([
                 'status'   => "oke",
                 'messages' => "Berhasil import data member",

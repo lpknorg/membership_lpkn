@@ -38,8 +38,16 @@ class Helper {
 		}
 	}
 
-	public function generateRandString(){
-		return substr(strtotime('now'), 5, 9).substr(md5(mt_rand()), 0, 5);
+	public function generateRandString($length=10){
+		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$charactersLength = strlen($characters);
+		$randomString = '';
+
+		for ($i = 0; $i < $length; $i++) {
+			$randomString .= $characters[rand(0, $charactersLength - 1)];
+		}
+
+		return $randomString;
 	}
 
 	public static function deleteFile($folder, $oldFile){
@@ -155,20 +163,20 @@ class Helper {
 	}
 
 	public static function getRespApiWithParam($url, $type='get', $datapost=[]){
-        $client = new \GuzzleHttp\Client(['verify' => false]);
+		$client = new \GuzzleHttp\Client(['verify' => false]);
 		$userAgent = isset($_SERVER['HTTP_USER_AGENT']) 
-        ? strtolower($_SERVER['HTTP_USER_AGENT']) : '';
-        $request = $client->$type($url, [
-            'form_params' => $datapost,
-            'headers' => [
-            	'User-Agent' => $userAgent,
-                'Authorization'  => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6ImFkbWluaXN0cmF0b3IiLCJ1c2VyX2dyb3VwIjoiYWRtaW4iLCJpYXQiOjE2NTg4MzQzMzN9.dhoLWPcm4cpXOUouX4GEMFrQBmIz5-RRaMACMUW0wxs',
-                'Cookie' => 'ci_session=e40e0d7d948983435b6949a4df8efbfaf2238c4b'
-            ]
-        ]);
+		? strtolower($_SERVER['HTTP_USER_AGENT']) : '';
+		$request = $client->$type($url, [
+			'form_params' => $datapost,
+			'headers' => [
+				'User-Agent' => $userAgent,
+				'Authorization'  => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6ImFkbWluaXN0cmF0b3IiLCJ1c2VyX2dyb3VwIjoiYWRtaW4iLCJpYXQiOjE2NTg4MzQzMzN9.dhoLWPcm4cpXOUouX4GEMFrQBmIz5-RRaMACMUW0wxs',
+				'Cookie' => 'ci_session=e40e0d7d948983435b6949a4df8efbfaf2238c4b'
+			]
+		]);
 
-        $response = $request->getBody()->getContents();
-        $data = json_decode($response, true);
-        return $data;
-    }
+		$response = $request->getBody()->getContents();
+		$data = json_decode($response, true);
+		return $data;
+	}
 }
