@@ -36,11 +36,11 @@ class FormPesertaController extends Controller
         $list_event = session('api_detail_event');
         if ($request->ajax()) {            
             $user = User::with('member.memberKantor')->where('email', $request->email)->first();
-            if (!$user) {
-                $user->name = '';
+            if ($user) {
+                return view('form_peserta.resp_get_memberby_email', compact('user', 'list_event'));
+            }else{
+                return view('form_peserta.resp_get_member_not_email', compact('user', 'list_event'));
             }
-            // return $user;
-            return view('form_peserta.resp_get_memberby_email', compact('user', 'list_event'));
         }        
         return view('form_peserta.create', compact('id_events', 'list_event'));
     }

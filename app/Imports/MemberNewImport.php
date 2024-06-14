@@ -80,6 +80,7 @@ class MemberNewImport implements ToArray, WithHeadingRow
                         }
                         $checkUser->member->update([
                             'no_hp' => $v['no_hp'],
+                            'pendidikan_terakhir' => $v['pendidikan_terakhir'],
                             'tempat_lahir' => $expl1[0],
                             'alamat_lengkap' => $v['alamat_lengkap_kantor'],
                             'tgl_lahir' => count($expl1) < 2 ? null : $fixTglLahir,
@@ -135,6 +136,7 @@ class MemberNewImport implements ToArray, WithHeadingRow
 
                         $member = Member::create([
                             'user_id' => $user->id,
+                            'pendidikan_terakhir' => $v['pendidikan_terakhir'],
                             'no_hp' => $v['no_hp'],
                             'tempat_lahir' => $expl1[0],
                             'tgl_lahir' => count($expl1) < 2 ? null : $fixTglLahir,
