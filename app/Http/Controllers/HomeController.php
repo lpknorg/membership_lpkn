@@ -42,9 +42,10 @@ class HomeController extends Controller
         try {
             $batch = \Helper::generateRandString(8);
             Excel::import(new MemberNewImport($batch), $request->file('dok_import_member'));
+	    $total = User::where('import_batch', $batch)->select('id')->count();
             return response()->json([
                 'status'   => "oke",
-                'messages' => "Berhasil import data member",
+                'messages' => "Berhasil import {$total} data peserta",
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
