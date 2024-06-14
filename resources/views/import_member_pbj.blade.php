@@ -95,7 +95,7 @@
 						if (response.status == 'oke') {
 							toastr.success(response.messages, 'Berhasil');
 						} else {
-							toastr.error('Ada kesalahan saat upload file', 'Gagal');
+							toastr.error('Ada kesalahan saat upload file', 'Error');
 						}
 						$('button[type=submit]').attr('disabled', false).text('Upload')
 						setTimeout(() => {
@@ -104,7 +104,7 @@
 					},
 					error: function() {
 						$('button[type=submit]').attr('disabled', false).text('Upload')
-						toastr.error('Terjadi kesalahan saat mengunggah file.', 'Gagal');
+						toastr.error('Terjadi kesalahan saat mengunggah file.', 'Error');
 					},
 					complete: function(){
 						$('button[type=submit]').attr('disabled', false).text('Upload')

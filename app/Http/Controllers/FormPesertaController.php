@@ -26,38 +26,45 @@ class FormPesertaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($id_events)
+    public function create($id_events, Request $request)
     {   
-        $endpoint = env('API_EVENT').'member/event/detailevent_by_id?id_event='.$id_events;
-        $list_event = \Helper::getRespApiWithParam($endpoint, 'get');
-        // dd($list_event);
-        return view('form_peserta.create', compact('list_event'));
+        if (!session()->has('api_detail_event')) {
+            $endpoint = env('API_EVENT').'member/event/detailevent_by_id?id_event='.$id_events;
+            $list_api = \Helper::getRespApiWithParam($endpoint, 'get');        
+            session(['api_detail_event' => $list_api]);
+        }
+        $list_event = session('api_detail_event');
+        if ($request->ajax()) {            
+            $user = User::with('member.memberKantor')->where('email', $request->email)->first();
+            if (!$user) {
+                $user->name = '';
+            }
+            // return $user;
+            return view('form_peserta.resp_get_memberby_email', compact('user', 'list_event'));
+        }        
+        return view('form_peserta.create', compact('id_events', 'list_event'));
     }
 
     public function store(Request $request)
     {
+        return $request->all();
         $id_event = $request->id_event;
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             // user
             'nama_tanpa_gelar' => 'required|string',
             'nama_dengan_gelar' => 'required|string',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email',
             'nip' => 'nullable|string',
             'nik' => 'required|string',
-
             // member
             'no_hp' => 'required|string',
             'tempat_lahir' => 'required|string',
             'tanggal_lahir' => 'required|date',
             'pendidikan_terakhir' => 'required|string',
-            'jenis_kelamin' => 'required|string',
-            'foto_ktp' => 'required|file|mimes:jpeg,png,jpg',
-            'pas_foto' => 'required|file|mimes:jpeg,png,jpg',
-            'sk_pengangkatan_asn' => 'required|file|mimes:pdf,jpeg,png,jpg',
-            'alamat_rumah' => 'required|string',
+            'jenis_kelamin' => 'required|string',            
             'kode_pos' => 'required|string',
             // member kantor
-            'instansi' => 'required|string',
+            'nama_instansi' => 'required|string',
             'status_kepegawaian' => 'required|string',
             'alamat_kantor' => 'required|string',
             'unit_organisasi' => 'required|string',
@@ -65,80 +72,167 @@ class FormPesertaController extends Controller
             'jenis_jabatan' => 'required|string',
             'nama_jabatan' => 'required|string',
             'golongan_terakhir' => 'required|string',
-            'konfirmasi_paket' => 'required|string',          
         ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status'   => "fail",
+                'messages' => $validator->errors()->first(),
+            ], 422);
+        }
 
-        $password =  \Hash::make('lpkn1234');
-        $user = User::create([
-            'name' => $request->nama_tanpa_gelar,
-            'nik' => $request->nik,
-            'nip' => $request->nip,
-            'email' => $request->email,
-            // set password default untuk alumni
-            'password' => \Hash::make('lpkn1234'),
-            'email_verified_at' => now()
-        ]);
-        $user->syncRoles('member');
+        $checkUser = User::where('email', $request->email)->first();
+        if ($checkUser) {
+            $foto_ktp = $user->member->foto_ktp;
+            $pas_foto3x4 = $user->member->foto_profile;
+            $sk_pengangkatan_asn = $user->member->file_sk_pengangkatan_asn;
+        }else{
+            $foto_ktp = null;
+            $pas_foto3x4 = null;
+            $sk_pengangkatan_asn = null;
+        }
+        // ini kalau create member baru, jika lkpp maka harus upload foto ktp dan sk
+        if ($request->jenis_pelatihan == 'lkpp') {
+            if (!$checkUser) {
+                $validator = Validator::make($request->all(), [
+                    'foto_ktp' => 'required|file|mimes:jpeg,png,jpg',
+                    'sk_pengangkatan_asn' => 'required|file|mimes:pdf,jpeg,png,jpg'
+                ]);
+                if ($validator->fails()) {
+                    return response()->json([
+                        'status'   => "fail",
+                        'messages' => $validator->errors()->first(),
+                    ], 422);
+                }
+            }else{
+                $validator = Validator::make($request->all(), [
+                    'foto_ktp' => 'required|file|mimes:jpeg,png,jpg',
+                    'pas_foto' => 'required|file|mimes:jpeg,png,jpg',
+                    'sk_pengangkatan_asn' => 'required|file|mimes:pdf,jpeg,png,jpg'
+                ]);
+                if ($validator->fails()) {
+                    return response()->json([
+                        'status'   => "fail",
+                        'messages' => $validator->errors()->first(),
+                    ], 422);
+                }
+            }        
+        }                    
 
-        $foto_ktp = null;
+        
         if ($request->hasFile('foto_ktp')) {
             $foto_ktp = \Helper::storeFile('foto_ktp', $request->foto_ktp);
         }
 
-        $pas_foto3x4 = null;
+        
         if ($request->hasFile('pas_foto')) {
             $pas_foto3x4 = \Helper::storeFile('pas_foto3x4', $request->pas_foto);
         }
 
-        $sk_pengangkatan_asn = null;
+        
         if ($request->hasFile('sk_pengangkatan_asn')) {
             $sk_pengangkatan_asn = \Helper::storeFile('file_sk_pengangkatan_asn', $request->sk_pengangkatan_asn);
         }
 
-        if($request->alamat_rumah){
-            $alamat_lengkap = $request->alamat_rumah;
-        }else{
-            $alamat_lengkap = $request->alamat_kantor;
+        $alamat_lengkap = $request->alamat_kantor;
+
+        \DB::beginTransaction();
+        try {
+            if ($checkUser) {
+                $checkUser->update([
+                    'name' => $request->nama_tanpa_gelar,
+                    'nik' => $request->nik,
+                    'nip' => $request->nip,
+                    'email' => $request->email,
+                    'email_verified_at' => now()
+                ]);
+                $checkUser->syncRoles(['member']);
+                $request['user_id'] = $checkUser->id;
+
+                $checkUser->member->update([
+                    'no_hp'=>$request->no_hp,
+                    'nama_lengkap_gelar' => $request->nama_dengan_gelar,
+                    'pendidikan_terakhir'=>$request->pendidikan_terakhir,
+                    'nama_untuk_sertifikat'=>$request->nama_tanpa_gelar,
+                    'jenis_kelamin'=>$request->jenis_kelamin,
+                    'tempat_lahir'=>$request->tempat_lahir,                    
+                    'alamat_lengkap'=>$alamat_lengkap,
+                    'foto_profile'=>$pas_foto3x4,
+                    'pas_foto3x4'=>$pas_foto3x4,
+                    'foto_ktp'=>$foto_ktp,
+                    'file_sk_pengangkatan_asn'=>$sk_pengangkatan_asn,
+                    'updated_at'=>date('Y-m-d H:i:s'),
+                    'tgl_lahir' => \Helper::changeFormatDate($request->tgl_lahir, 'Y-m-d'),
+                    'user_id' => $checkUser->id
+                ]);
+
+                $checkUser->member->memberKantor->update([
+                    'member_id' => $checkUser->member->id,
+                    'nama_instansi' => $request->nama_instansi,
+                    'kode_pos'=>$request->kode_pos,
+                    'status_kepegawaian' => $request->status_kepegawaian,
+                    'alamat_kantor_lengkap' => $request->alamat_kantor,
+                    'unit_organisasi' => $request->unit_organisasi,
+                    'posisi_pelaku_pengadaan' => $request->posisi_pengadaan,
+                    'jenis_jabatan' => $request->jenis_jabatan,
+                    'nama_jabatan' => $request->nama_jabatan,
+                    'golongan_terakhir' => $request->golongan_terakhir,
+                    'updated_at'=>date('Y-m-d H:i:s'),
+                ]);
+            }else{
+                $user = User::create([
+                    'name' => $request->nama_tanpa_gelar,
+                    'nik' => $request->nik,
+                    'nip' => $request->nip,
+                    'email' => $request->email,
+                    'password' => \Hash::make('lpkn1234'),
+                    'email_verified_at' => now()
+                ]);
+                $user->syncRoles(['member']);
+                $request['user_id'] = $user->id;
+                $member = Member::create([
+                    'no_hp'=>$request->no_hp,
+                    'nama_lengkap_gelar' => $request->nama_dengan_gelar,
+                    'pendidikan_terakhir'=>$request->pendidikan_terakhir,
+                    'nama_untuk_sertifikat'=>$request->nama_tanpa_gelar,
+                    'jenis_kelamin'=>$request->jenis_kelamin,
+                    'tempat_lahir'=>$request->tempat_lahir,
+                    'alamat_lengkap'=>$alamat_lengkap,
+                    'foto_profile'=>$pas_foto3x4,
+                    'pas_foto3x4'=>$pas_foto3x4,
+                    'foto_ktp'=>$foto_ktp,
+                    'file_sk_pengangkatan_asn'=>$sk_pengangkatan_asn,
+                    'created_at'=>date('Y-m-d H:i:s'),
+                    'updated_at'=>date('Y-m-d H:i:s'),
+                    'tgl_lahir' => \Helper::changeFormatDate($request->tgl_lahir, 'Y-m-d'),
+                    'user_id' => $user->id
+                ]);
+
+                MemberKantor::create([
+                    'member_id' => $member->id,
+                    'nama_instansi' => $request->nama_instansi,
+                    'status_kepegawaian' => $request->status_kepegawaian,
+                    'alamat_kantor_lengkap' => $request->alamat_kantor,
+                    'kode_pos'=>$request->kode_pos,
+                    'unit_organisasi' => $request->unit_organisasi,
+                    'posisi_pelaku_pengadaan' => $request->posisi_pengadaan,
+                    'jenis_jabatan' => $request->jenis_jabatan,
+                    'nama_jabatan' => $request->nama_jabatan,
+                    'golongan_terakhir' => $request->golongan_terakhir,
+                    'created_at'=>date('Y-m-d H:i:s'),
+                    'updated_at'=>date('Y-m-d H:i:s'),
+                ]);
+            }
+            \DB::commit();
+            return response()->json([
+                'status'   => 'ok',
+                'messages' => "Data berhasil disimpan"
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status'   => 'fail',
+                'messages' => $e->getMessage()
+            ], 422);
         }
-
-        $request['user_id'] = $user->id;
-        $member = Member::create([
-            'no_hp'=>$request->no_hp,
-            'pendidikan_terakhir'=>$request->pendidikan_terakhir,
-            'nama_lengkap_gelar'=>$request->nama_lengkap_gelar,
-            'nama_untuk_sertifikat'=>$request->nama_tanpa_gelar,
-            'jenis_kelamin'=>$request->jenis_kelamin,
-            'tgl_lahir'=>$request->tgl_lahir,
-            'tempat_lahir'=>$request->tempat_lahir,
-            'kode_pos'=>$request->kode_pos,
-            'alamat_lengkap'=>$alamat_lengkap,
-            'foto_profile'=>$pas_foto3x4,
-            'unit_kerja'=>$request->unit_kerja,
-            'pas_foto3x4'=>$pas_foto3x4,
-            'foto_ktp'=>$foto_ktp,
-            'file_sk_pengangkatan_asn'=>$sk_pengangkatan_asn,
-            'created_at'=>date('Y-m-d H:i:s'),
-            'updated_at'=>date('Y-m-d H:i:s'),
-            'tgl_lahir' => \Helper::changeFormatDate($request->tgl_lahir, 'Y-m-d'),
-            'user_id' => $user->id
-        ]);
-
-        MemberKantor::create([
-            'member_id' => $member->id,
-            'instansi' => $request->nama_instansi,
-            'status_kepegawaian' => $request->status_kepegawaian,
-            'alamat_kantor_lengkap' => $request->alamat_kantor,
-            'unit_organisasi' => $request->unit_organisasi,
-            'posisi_pelaku_pengadaan' => $request->posisi_pengadaan,
-            'jenis_jabatan' => $request->jenis_jabatan,
-            'nama_jabatan' => $request->nama_jabatan,
-            'golongan_terakhir' => $request->golongan_terakhir,
-            'konfirmasi_paket' => $request->konfirmasi_paket,
-            'created_at'=>date('Y-m-d H:i:s'),
-            'updated_at'=>date('Y-m-d H:i:s'),
-        ]);
-        
-        return redirect()->route('form_peserta',$id_event)->with('success', 'Data berhasil disimpan');
     }
 
     /**

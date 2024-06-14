@@ -65,7 +65,7 @@ class MemberNewImport implements ToArray, WithHeadingRow
                             'tempat_lahir' => $expl1[0],
                             'alamat_lengkap' => $v['alamat_lengkap_kantor'],
                             'tgl_lahir' => count($expl1) < 2 ? null : $fixTglLahir,
-                            'jenis_kelamin' => $v['jenis_kelamin'] == 'Perempuan' ? 'P' : 'L',
+                            'jenis_kelamin' => isset($v['jenis_kelamin']) ? ($v['jenis_kelamin'] == 'Perempuan' ? 'P' : 'L') : null,
                             'nama_lengkap_gelar' => isset($v['nama_dengan_gelar']) ? $v['nama_dengan_gelar'] : $v['nama_tanpa_gelar'],
 
                             'prov_id' => $provId,
@@ -118,8 +118,8 @@ class MemberNewImport implements ToArray, WithHeadingRow
                             'user_id' => $user->id,
                             'no_hp' => $v['no_hp'],
                             'tempat_lahir' => $expl1[0],
-                            'tgl_lahir' => count($expl1) < 2 ? null : $fixTglLahir,      
-                            'jenis_kelamin' => $v['jenis_kelamin'] == 'Perempuan' ? 'P' : 'L',
+                            'tgl_lahir' => count($expl1) < 2 ? null : $fixTglLahir,
+                            'jenis_kelamin' => isset($v['jenis_kelamin']) ? ($v['jenis_kelamin'] == 'Perempuan' ? 'P' : 'L') : null,
                             'nama_lengkap_gelar' => isset($v['nama_dengan_gelar']) ? $v['nama_dengan_gelar'] : $v['nama_tanpa_gelar'],
 
                             'prov_id' => $provId,
