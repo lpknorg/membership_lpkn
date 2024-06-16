@@ -34,12 +34,27 @@ class MemberNewImport implements ToArray, WithHeadingRow
         // $data = $this->reindexArray($rows);        
         try {
             DB::beginTransaction();
+            $arrPeserta = [];
             foreach ($data as $key => $v) {   
                 $kecamatanId = null;
                 $kotaId = null;
                 $provId = null;
                 $keIid = null;
                 if (isset($v['email'])) {
+                    $fixTglLahir = $v['tempat_tanggal_lahir'];
+                    array_push($arrPeserta, [
+                        'id_kelas_event'    => 20,
+                        'nama_lengkap'      => isset($v['nama_tanpa_gelar']) ? $v['nama_tanpa_gelar'] : $v['nama_dengan_gelar'],
+                        'no_hp'             => $v['no_hp'],
+                        'email'             => $v['email'],
+                        'instansi'          => $v['instansi_perusahaan'],
+                        'unit_organisasi'   => $v['unit_organisasi'],
+                        'alamat'            => $v['alamat_lengkap_kantor'],
+                        'nik'               => $v['nik'],
+                        'tempat_lahir'      => $v['tempat_tanggal_lahir'],
+                        'tgl_lahir'         => $v['tempat_tanggal_lahir'],
+                        'status_pembayaran' => 1
+                    ]);
                     $checkUser = User::where('email', $v['email'])->first();
                     $checkKodePos = KodePos::where('kode_pos', $v['kode_pos'])->select('id', 'kode_pos', 'id_kecamatan')->first();                    
                     if ($checkKodePos) {
@@ -47,8 +62,7 @@ class MemberNewImport implements ToArray, WithHeadingRow
                         $kotaId = $checkKodePos->kecamatan()->exists() ? $checkKodePos->kecamatan->id_kota : null;
                         $provId = $checkKodePos->kecamatan()->exists() && $checkKodePos->kecamatan->kota->exists() ? $checkKodePos->kecamatan->kota->id_provinsi : null;
                         $keIid = $checkKodePos->kelurahan()->exists() ? $checkKodePos->kelurahan->id : null;
-                    }
-                    $fixTglLahir = $v['tempat_tanggal_lahir'];
+                    }                    
                     if ($checkUser) {
                         $checkUser->update([
                             'import_batch' => $this->batchKode,
@@ -117,7 +131,7 @@ class MemberNewImport implements ToArray, WithHeadingRow
                             'tgl_lahir' => $fixTglLahir,
                             'jenis_kelamin' => isset($v['jenis_kelamin']) ? ($v['jenis_kelamin'] == 'Perempuan' ? 'P' : 'L') : null,
                             'nama_lengkap_gelar' => isset($v['nama_dengan_gelar']) ? $v['nama_dengan_gelar'] : $v['nama_tanpa_gelar'],
-'pendidikan_terakhir' => $v['pendidikan_terakhir'],
+                            'pendidikan_terakhir' => $v['pendidikan_terakhir'],
                             'prov_id' => $provId,
                             'kota_id' => $kotaId,
                             'kecamatan_id' => $kecamatanId,
@@ -150,6 +164,10 @@ class MemberNewImport implements ToArray, WithHeadingRow
                     }
                 }
             }
+            $endpoint = env('API_EVENT').'member/Regis_event/import_regis_event';
+            $datapost = ['data_peserta'=>$arrPeserta];
+            $data = \Helper::getRespApiWithParam($endpoint, 'post', $datapost);
+            var_dump($data);die;
             DB::commit();            
         } catch (Exception $e) {
             DB::rollback();

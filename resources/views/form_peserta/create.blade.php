@@ -4,6 +4,7 @@
     <title>Form Biodata Pelatihan</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('template/select2/css/select2.css') }}">
     <style>
         body{
             background-color: rgb(227, 217, 232);
@@ -36,6 +37,7 @@
             border: none;
             background-color: rgb(70, 2, 101);
             transition: 0.6s;
+            font-weight: bold;
         }
         button[type=submit]:hover{
             color: #fff;
@@ -74,7 +76,7 @@
                             <div id="divContent">
 
                             </div>                            
-                            <button type="submit" class="btn btn-primary w-25 d-none">Kirim</button>
+                            <button type="submit" class="btn btn-primary w-100 d-none mt-2">Kirim</button>
                         </form>
                     </div>
                 </div>
@@ -92,8 +94,32 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" src="{{ asset('template/select2/js/select2.js') }}"></script>
     <script>
         $(document).ready(function(){
+            function convertImage(that, go_to){
+                var file = that.files[0];
+                var validImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
+
+                if (file) {
+                    if ($.inArray(file.type, validImageTypes) < 0) {
+                        toastr.error('Format tidak valid', 'Error');
+                        $(go_to).hide();
+                        return
+                    }
+                    var reader = new FileReader();
+                    reader.onload = function(event) {
+                        $(go_to).attr('src', event.target.result).show();
+                    }
+                    reader.readAsDataURL(file);
+                }
+            }
+            $('body').on('change', '[name=foto_ktp]', function(e) {
+                convertImage(this, '#displayImageKtp')
+            })   
+            $('body').on('change', '[name=pas_foto]', function(e) {
+                convertImage(this, '#displayImagePasFoto')
+            })            
             $('#btnCekData').click(function(e){
                 e.preventDefault()
                 $.ajax({
@@ -109,11 +135,23 @@
                         $('#btnCekData').attr('disabled', false).css('cursor', 'pointer').text('Cek Data')
                         $('#divContent').html(response)
                         setTimeout(() => {
+                            $('[name=pendidikan_terakhir]').select2({
+                                width : '100%'
+                            })
+                            $('[name=posisi_pengadaan]').select2({
+                                width : '100%'
+                            })
+                            $('[name=jenis_jabatan]').select2({
+                                width : '100%'
+                            })
                             $('button[type=submit]').removeClass('d-none')
-                        }, 1500)
+                        }, 500)
                     },
                     error: function(err) {
-                        $('#btnCekData').attr('disabled', false).css('cursor', 'pointer').text('Cek Data')          
+                        $('#btnCekData').attr('disabled', false).css('cursor', 'pointer').text('Cek Data')   
+                        toastr.error('Ada kesalahan saat ambil data', 'Error');  
+                        $('#divContent').html('')
+                        $('button[type=submit]').addClass('d-none')     
                     },
                     complete: function(){
                         $('#btnCekData').attr('disabled', false).css('cursor', 'pointer').text('Cek Data')
@@ -143,6 +181,12 @@
                         console.log(response)                   
                         if (response.status == 'ok') {
                             toastr.success(response.messages, 'Berhasil');
+                            $('#divContent').html('<div class="alert alert-success mt-3">Terima Kasih Bapak/Ibu atas partisipasinya sudah mengisi form kelengkapan biodata. 🙏🏻</div>')
+                            $('#btnCekData, button[type=submit]').remove()
+                            $('[name=email]').prop('disabled', true)
+                            setTimeout(() => {
+                                // alert(123)
+                            },60000)
                         } else {
                             toastr.error('Ada kesalahan saat kirim data', 'Error');
                         }

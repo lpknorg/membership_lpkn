@@ -11,21 +11,6 @@ use App\Models\Admin\MemberKantor;
 
 class FormPesertaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create($id_events, Request $request)
     {   
         if (!session()->has('api_detail_event')) {
@@ -47,7 +32,90 @@ class FormPesertaController extends Controller
 
     public function store(Request $request)
     {
-        return $request->all();
+        $checkUser = User::where('email', $request->email)->first();
+        $foto_ktp = null;
+        $pas_foto3x4 = null;
+        $sk_pengangkatan_asn = null;
+        if ($checkUser) {
+            $foto_ktp = $checkUser->member->foto_ktp;
+            $pas_foto3x4 = $checkUser->member->foto_profile;
+            $sk_pengangkatan_asn = $checkUser->member->file_sk_pengangkatan_asn;
+        }
+        // ini kalo ada
+        if ($checkUser) {
+            if ($request->jenis_pelatihan == 'lkpp') {
+                if (is_null($checkUser->member->foto_profile)) {
+                    $validator = Validator::make($request->all(), [
+                        'pas_foto' => 'required|mimes:jpeg,png,jpg'
+                    ]);
+                    if ($validator->fails()) {
+                        return response()->json([
+                            'status'   => "fail",
+                            'messages' => $validator->errors()->first(),
+                        ], 422);
+                    }
+                }
+                if (is_null($checkUser->member->foto_ktp)) {
+                    $validator = Validator::make($request->all(), [
+                        'foto_ktp' => 'required|mimes:jpeg,png,jpg',
+                    ]);
+                    if ($validator->fails()) {
+                        return response()->json([
+                            'status'   => "fail",
+                            'messages' => $validator->errors()->first(),
+                        ], 422);
+                    }
+                }     
+                if (is_null($checkUser->member->file_sk_pengangkatan_asn)) {
+                    $validator = Validator::make($request->all(), [
+                        'sk_pengangkatan_asn' => 'required|file|mimes:pdf,jpeg,png,jpg'
+                    ]);
+                    if ($validator->fails()) {
+                        return response()->json([
+                            'status'   => "fail",
+                            'messages' => $validator->errors()->first(),
+                        ], 422);
+                    }
+                }                
+            }else{
+                if (is_null($checkUser->member->foto_profile)) {
+                    $validator = Validator::make($request->all(), [
+                        'pas_foto' => 'required|mimes:jpeg,png,jpg'
+                    ]);
+                    if ($validator->fails()) {
+                        return response()->json([
+                            'status'   => "fail",
+                            'messages' => $validator->errors()->first(),
+                        ], 422);
+                    }
+                }
+            }         
+        }else{
+            if ($request->jenis_pelatihan == 'lkpp') {
+                $validator = Validator::make($request->all(), [
+                    'pas_foto' => 'required|mimes:jpeg,png,jpg',
+                    'foto_ktp' => 'required|mimes:jpeg,png,jpg',
+                    'sk_pengangkatan_asn' => 'required|mimes:pdf,jpeg,png,jpg'
+                ]);
+                if ($validator->fails()) {
+                    return response()->json([
+                        'status'   => "fail",
+                        'messages' => $validator->errors()->first(),
+                    ], 422);
+                }
+            }else{
+                $validator = Validator::make($request->all(), [
+                    'pas_foto' => 'required|mimes:jpeg,png,jpg'
+                ]);
+                if ($validator->fails()) {
+                    return response()->json([
+                        'status'   => "fail",
+                        'messages' => $validator->errors()->first(),
+                    ], 422);
+                }
+            }
+        }
+        
         $id_event = $request->id_event;
         $validator = Validator::make($request->all(), [
             // user
@@ -80,59 +148,15 @@ class FormPesertaController extends Controller
             ], 422);
         }
 
-        $checkUser = User::where('email', $request->email)->first();
-        if ($checkUser) {
-            $foto_ktp = $user->member->foto_ktp;
-            $pas_foto3x4 = $user->member->foto_profile;
-            $sk_pengangkatan_asn = $user->member->file_sk_pengangkatan_asn;
-        }else{
-            $foto_ktp = null;
-            $pas_foto3x4 = null;
-            $sk_pengangkatan_asn = null;
-        }
-        // ini kalau create member baru, jika lkpp maka harus upload foto ktp dan sk
-        if ($request->jenis_pelatihan == 'lkpp') {
-            if (!$checkUser) {
-                $validator = Validator::make($request->all(), [
-                    'foto_ktp' => 'required|file|mimes:jpeg,png,jpg',
-                    'sk_pengangkatan_asn' => 'required|file|mimes:pdf,jpeg,png,jpg'
-                ]);
-                if ($validator->fails()) {
-                    return response()->json([
-                        'status'   => "fail",
-                        'messages' => $validator->errors()->first(),
-                    ], 422);
-                }
-            }else{
-                $validator = Validator::make($request->all(), [
-                    'foto_ktp' => 'required|file|mimes:jpeg,png,jpg',
-                    'pas_foto' => 'required|file|mimes:jpeg,png,jpg',
-                    'sk_pengangkatan_asn' => 'required|file|mimes:pdf,jpeg,png,jpg'
-                ]);
-                if ($validator->fails()) {
-                    return response()->json([
-                        'status'   => "fail",
-                        'messages' => $validator->errors()->first(),
-                    ], 422);
-                }
-            }        
-        }                    
-
-        
         if ($request->hasFile('foto_ktp')) {
             $foto_ktp = \Helper::storeFile('foto_ktp', $request->foto_ktp);
         }
-
-        
         if ($request->hasFile('pas_foto')) {
-            $pas_foto3x4 = \Helper::storeFile('pas_foto3x4', $request->pas_foto);
+            $pas_foto3x4 = \Helper::storeFile('poto_profile', $request->pas_foto);
         }
-
-        
         if ($request->hasFile('sk_pengangkatan_asn')) {
             $sk_pengangkatan_asn = \Helper::storeFile('file_sk_pengangkatan_asn', $request->sk_pengangkatan_asn);
         }
-
         $alamat_lengkap = $request->alamat_kantor;
 
         \DB::beginTransaction();
@@ -154,14 +178,14 @@ class FormPesertaController extends Controller
                     'pendidikan_terakhir'=>$request->pendidikan_terakhir,
                     'nama_untuk_sertifikat'=>$request->nama_tanpa_gelar,
                     'jenis_kelamin'=>$request->jenis_kelamin,
-                    'tempat_lahir'=>$request->tempat_lahir,                    
+                    'tempat_lahir'=>$request->tempat_lahir,
                     'alamat_lengkap'=>$alamat_lengkap,
                     'foto_profile'=>$pas_foto3x4,
                     'pas_foto3x4'=>$pas_foto3x4,
                     'foto_ktp'=>$foto_ktp,
                     'file_sk_pengangkatan_asn'=>$sk_pengangkatan_asn,
                     'updated_at'=>date('Y-m-d H:i:s'),
-                    'tgl_lahir' => \Helper::changeFormatDate($request->tgl_lahir, 'Y-m-d'),
+                    'tgl_lahir' => \Helper::changeFormatDate($request->tanggal_lahir, 'Y-m-d'),
                     'user_id' => $checkUser->id
                 ]);
 
@@ -203,7 +227,7 @@ class FormPesertaController extends Controller
                     'file_sk_pengangkatan_asn'=>$sk_pengangkatan_asn,
                     'created_at'=>date('Y-m-d H:i:s'),
                     'updated_at'=>date('Y-m-d H:i:s'),
-                    'tgl_lahir' => \Helper::changeFormatDate($request->tgl_lahir, 'Y-m-d'),
+                    'tgl_lahir' => \Helper::changeFormatDate($request->tanggal_lahir, 'Y-m-d'),
                     'user_id' => $user->id
                 ]);
 
