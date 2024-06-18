@@ -2,7 +2,7 @@
 
 namespace App\Imports;
 
-use App\Models\User;
+use App\Models\{User, UserEvent};
 use App\Models\Admin\{Member, MemberKantor, KodePos, Kecamatan};
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\{
@@ -65,6 +65,7 @@ class MemberNewImport implements ToArray, WithHeadingRow
                         $keIid = $checkKodePos->kelurahan()->exists() ? $checkKodePos->kelurahan->id : null;
                     }                    
                     if ($checkUser) {
+                        $userId = $checkUser->id;
                         $checkUser->update([
                             'import_batch' => $this->batchKode,
                             'email' => $v['email'],
@@ -124,8 +125,10 @@ class MemberNewImport implements ToArray, WithHeadingRow
                             'created_at' => now()
                         ]);
 
+                        $userId = $user->id;
+
                         $member = Member::create([
-                            'user_id' => $user->id,
+                            'user_id' => $userId,
                             'pendidikan_terakhir' => $v['pendidikan_terakhir'],
                             'no_hp' => $v['no_hp'],
                             'tempat_lahir' => $fixTglLahir,
@@ -163,10 +166,13 @@ class MemberNewImport implements ToArray, WithHeadingRow
                             'golongan_terakhir' => $v['golongan_terakhir']
                         ]);
                     }
+                    UserEvent::updateOrCreate(
+                        ['user_id' => $userId, 'event_id' => $this->idEvent],
+                        ['updated_at' => now()]
+                    );
                 }
             }
-            // $endpoint = env('API_EVENT').'member/Regis_event/import_regis_event';
-            $endpoint = 'http://localhost/event.lpkn.id/api/member/Regis_event/import_regis_event';
+            $endpoint = env('API_EVENT').'member/Regis_event/import_regis_event';
             $datapost = ['data_peserta'=>$arrPeserta];
             \Helper::getRespApiWithParam($endpoint, 'post', $datapost);
             DB::commit();            
