@@ -5,6 +5,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ asset('template/select2/css/select2.css') }}">
+    <!-- <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'> -->
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
     <style>
         body{
             background-color: rgb(227, 217, 232);
@@ -45,6 +47,25 @@
             border-radius: 10px 20px 10px 20px;
             background-color: rgb(125 13 177);
         }
+        #btnCekData{
+            color: rgb(70, 2, 101);
+            border: none;
+            border: 1px solid rgb(70, 2, 101);
+            transition: 0.6s;
+            font-weight: bold;
+        }
+        #btnCekData:hover{
+            color: #fff;
+            border: none;
+            border-radius: 10px 20px 10px 20px;
+            background-color: rgb(125 13 177);
+        }
+        h2{
+            font-family: 'Lexend';font-optical-sizing: auto;font-size: 29px;
+        }
+        h6{
+            font-family: 'Lexend';font-optical-sizing: auto;font-size: 16px;
+        }
     </style>
 </head>
 <body>
@@ -59,8 +80,16 @@
             <div class="col-md-8">
                 <div class="card mb-3">
                     <div class="card-body" id="top">
+
+
                         <h2>Biodata Peserta Pelatihan dan Ujian {{$list_event['judul']}}</h2>
                         <h6>Bapak/Ibu dimohon untuk mengisi dengan hati - hati agar tidak terjadi Kesalahan Data 🙏🏻</h6>
+                        <h6>Pelaksanaan :
+                            @if($list_event['tgl_start'] == $list_event['tgl_end'])
+                            {{\Helper::changeFormatDate($list_event['tgl_start'], 'd-M-Y')}}
+                            @endif
+                            {{\Helper::changeFormatDate($list_event['tgl_start'], 'd-M-Y').' s/d '. \Helper::changeFormatDate($list_event['tgl_end'], 'd-M-Y')}}  
+                        </h6>
                     </div>
                 </div>
                 <div class="card">
@@ -95,8 +124,9 @@
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
     <script type="text/javascript" src="{{ asset('template/select2/js/select2.js') }}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function(){            
             function convertImage(that, go_to){
                 var file = that.files[0];
                 var validImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
@@ -180,7 +210,12 @@
                     success: function(response) {    
                         console.log(response)                   
                         if (response.status == 'ok') {
-                            toastr.success(response.messages, 'Berhasil');
+                            Swal.fire({
+                                icon: "success",
+                                title: 'Berhasil',
+                                text: response.messages,
+                                timer: 3500
+                            });
                             $('#divContent').html('<div class="alert alert-success mt-3">Terima Kasih Bapak/Ibu atas partisipasinya sudah mengisi form kelengkapan biodata. 🙏🏻</div>')
                             $('#btnCekData, button[type=submit]').remove()
                             $('[name=email]').prop('disabled', true)

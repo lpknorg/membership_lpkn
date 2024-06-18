@@ -13,12 +13,13 @@ class FormPesertaController extends Controller
 {
     public function create($id_events, Request $request)
     {   
-        if (!session()->has('api_detail_event')) {
+        if (!session()->has('api_detail_event'.$id_events)) {
             $endpoint = env('API_EVENT').'member/event/detailevent_by_id?id_event='.$id_events;
             $list_api = \Helper::getRespApiWithParam($endpoint, 'get');        
-            session(['api_detail_event' => $list_api]);
+            session(['api_detail_event'.$id_events => $list_api]);
         }
-        $list_event = session('api_detail_event');
+        $list_event = session('api_detail_event'.$id_events);
+        dd($list_event);
         if ($request->ajax()) {            
             $user = User::with('member.memberKantor')->where('email', $request->email)->first();
             if ($user) {
