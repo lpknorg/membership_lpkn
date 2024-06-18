@@ -20,8 +20,10 @@ class MemberNewImport implements ToArray, WithHeadingRow
     * @return \Illuminate\Database\Eloquent\Model|null
     */
     private $batchKode;
-    public function __construct($batch){
+    private $idEvent;
+    public function __construct($batch, $id_event){
         $this->batchKode = $batch;
+        $this->idEvent   = $id_event;
     }
 
     private function reindexArray(array $array): array
@@ -31,7 +33,6 @@ class MemberNewImport implements ToArray, WithHeadingRow
         }, $array);
     }
     public function array(array $data){
-        // $data = $this->reindexArray($rows);        
         try {
             DB::beginTransaction();
             $arrPeserta = [];
@@ -43,7 +44,7 @@ class MemberNewImport implements ToArray, WithHeadingRow
                 if (isset($v['email'])) {
                     $fixTglLahir = $v['tempat_tanggal_lahir'];
                     array_push($arrPeserta, [
-                        'id_kelas_event'    => 20,
+                        'id_kelas_event'    => $this->idEvent,
                         'nama_lengkap'      => isset($v['nama_tanpa_gelar']) ? $v['nama_tanpa_gelar'] : $v['nama_dengan_gelar'],
                         'no_hp'             => $v['no_hp'],
                         'email'             => $v['email'],
@@ -51,8 +52,8 @@ class MemberNewImport implements ToArray, WithHeadingRow
                         'unit_organisasi'   => $v['unit_organisasi'],
                         'alamat'            => $v['alamat_lengkap_kantor'],
                         'nik'               => $v['nik'],
-                        'tempat_lahir'      => $v['tempat_tanggal_lahir'],
-                        'tgl_lahir'         => $v['tempat_tanggal_lahir'],
+                        'tempat_lahir'      => $fixTglLahir,
+                        'tgl_lahir'         => $fixTglLahir,
                         'status_pembayaran' => 1
                     ]);
                     $checkUser = User::where('email', $v['email'])->first();
@@ -164,10 +165,10 @@ class MemberNewImport implements ToArray, WithHeadingRow
                     }
                 }
             }
-            $endpoint = env('API_EVENT').'member/Regis_event/import_regis_event';
+            // $endpoint = env('API_EVENT').'member/Regis_event/import_regis_event';
+            $endpoint = 'http://localhost/event.lpkn.id/api/member/Regis_event/import_regis_event';
             $datapost = ['data_peserta'=>$arrPeserta];
-            $data = \Helper::getRespApiWithParam($endpoint, 'post', $datapost);
-            var_dump($data);die;
+            \Helper::getRespApiWithParam($endpoint, 'post', $datapost);
             DB::commit();            
         } catch (Exception $e) {
             DB::rollback();

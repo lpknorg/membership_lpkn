@@ -9,6 +9,7 @@
 	<!-- Toastr CSS -->
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" type="text/css" href="{{ asset('template/select2/css/select2.css') }}">
 
 </head>
 <body>
@@ -20,6 +21,25 @@
 				<a class="btn btn-secondary btn-sm mb-2" href="{{asset('excel/format_pbj/template_awal.xlsx')}}" download>Download Template</a>
 				<form id="uploadForm" enctype="multipart/form-data">
 					@csrf
+					<div class="form-group">
+						<label for="file_excel">Pilih Event / Kegiatan</label>
+						<select name="event_id" class="form-control" required>
+							<option value="">Pilih Event</option>
+							@foreach($list_event as $l)
+							<?php
+							if ($l['tgl_start'] == $l['tgl_end']) {
+								$cont = \Helper::changeFormatDate($l['tgl_start'], 'd-M-Y');
+							}
+							$cont = \Helper::changeFormatDate($l['tgl_start'], 'd-M-Y').' s/d '. \Helper::changeFormatDate($l['tgl_end'], 'd-M-Y');
+							?>
+							@if($l['lokasi_event'])
+							<option value="{{$l['id']}}">{{$l['judul'].' | '.$cont.' | '.$l['lokasi_event'].'=='.$l['id']}}</option>
+							@else
+							<option value="{{$l['id']}}">{{$l['judul'].' | '.$cont.'=='.$l['id']}}</option>
+							@endif
+							@endforeach
+						</select>
+					</div>
 					<div class="form-group">
 						<label for="file_excel">Pilih file Excel</label>
 						<input type="file" required class="form-control" id="file_excel_pbj" name="file_excel_pbj">
@@ -44,7 +64,7 @@
 				<tr>
 					<td>{{$no++}}</td>					
 					<td>
-					<a style=color: #4f4fbd; target=_blank href="{{route('dashboard2.detail_alumni', $u->email)}}">{{$u->name}}</a>
+						<a style=color: #4f4fbd; target=_blank href="{{route('dashboard2.detail_alumni', $u->email)}}">{{$u->name}}</a>
 					</td>
 					<td>{{$u->email}}</td>
 					<td>{{$u->nip}}</td>
@@ -62,9 +82,13 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 	<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 	<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+	<script type="text/javascript" src="{{ asset('template/select2/js/select2.js') }}"></script>
 	<!-- Custom JS -->
 	<script>
 		$(document).ready(function() {
+			$('[name=event_id]').select2({
+				width : '100%'
+			})
 			// var table = $('#users-table').DataTable({
 				// processing: true,
 				// serverSide: true,

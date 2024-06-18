@@ -180,6 +180,7 @@ class Helper {
 		]);
 
 		$response = $request->getBody()->getContents();
+		// return $response;
 		$data = json_decode($response, true);
 		return $data;
 	}

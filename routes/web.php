@@ -47,7 +47,10 @@ use App\Http\Controllers\Artikel\{
 |
 */
 Route::get('ea', function(){
-	dd(123);
+	\DB::table('users')
+	->select(DB::raw('import_batch, COUNT(*) as total'))
+	->groupBy('import_batch')
+	->get();
 });
 
 // Route::resource('form_peserta', FormPesertaController::class);

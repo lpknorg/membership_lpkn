@@ -24,7 +24,8 @@ class HomeController extends Controller
     public function viewImportMember(){     
     //    User::where('user_has_update_dateimport', 1)->delete();   
         $users = User::where('user_has_update_dateimport', 1)->select('id','name','email','nip')->orderBy('updated_at', 'desc')->get();
-        return view('import_member_pbj', compact('users'));
+        $list_event = \Helper::getRespApiWithParam(env('API_EVENT').'member/event/list_all_event', 'get');
+        return view('import_member_pbj', compact('users', 'list_event'));
     }
 
     public function importMemberDatatable(){
@@ -45,7 +46,7 @@ class HomeController extends Controller
             $time = time();
             $filename = "{$time}_{$file->getClientOriginalName()}";
             $file->move(public_path("uploaded_files/excel_peserta"), $filename);
-            Excel::import(new MemberNewImport($batch), public_path("uploaded_files/excel_peserta/{$filename}"));
+            Excel::import(new MemberNewImport($batch, $request->event_id), public_path("uploaded_files/excel_peserta/{$filename}"));
             $total = User::where('import_batch', $batch)->select('id')->count();
             return response()->json([
                 'status'   => "oke",
