@@ -18,11 +18,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 	return $request->user();
 });
 Route::get('all_alumni', function(){
-	$results = \DB::select("select email from users limit 10");
+	$results = \DB::select("select email from users where email != '' limit 10");
 	$emails = array_map(function($item) {
 		return $item->email;
 	}, $results);
-	dd($emails);
+	return $emails;
 });
 Route::post('/daftar_member/', [App\Http\Controllers\Api\MemberController::class, 'daftar'])->name('api.daftar_member');
 Route::post('/daftar_member_lpkn/', [App\Http\Controllers\Api\MemberController::class, 'daftarLpkn'])->name('api.daftar_member_lpkn');
