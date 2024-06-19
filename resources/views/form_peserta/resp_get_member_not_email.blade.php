@@ -4,13 +4,27 @@
 		<div class="form-group">
 			<input type="hidden" name="jenis_pelatihan" value="{{$list_event['jenis_pelatihan']}}">
 			<label class="form-label" for="nama_tanpa_gelar">Nama Lengkap (Tanpa Gelar):</label><span class="text-danger"> *</span>
-			<input placeholder="Jawaban Anda" autocomplete="off" type="text" class="form-control" name="nama_tanpa_gelar"><br>
+			<input placeholder="Jawaban Anda" autocomplete="off" type="text" class="form-control" name="nama_tanpa_gelar">
+			<div class="form-check">
+				<input class="form-check-input" type="radio" name="rd_namasertif" id="rd1" value="nama_tanpa_gelar" checked>
+				<label style="color: #618aff;" class="form-check-label" for="rd1">
+					pilih untuk nama sertifikat
+				</label>
+			</div>
+			<br>
 		</div>
 	</div>
 	<div class="col-md-6">
 		<div class="form-group">	
 			<label class="form-label" for="nama_dengan_gelar">Nama Lengkap (Dengan Gelar): </label><span class="text-danger"> *</span>
-			<input placeholder="Jawaban Anda" autocomplete="off" type="text" class="form-control" name="nama_dengan_gelar"><br>
+			<input placeholder="Jawaban Anda" autocomplete="off" type="text" class="form-control" name="nama_dengan_gelar">
+			<div class="form-check">
+				<input class="form-check-input" type="radio" name="rd_namasertif" id="rd2" value="nama_dengan_gelar">
+				<label style="color: #618aff;" class="form-check-label" for="rd2">
+					pilih untuk nama sertifikat
+				</label>
+			</div>
+			<br>
 		</div>
 	</div>
 	<div class="col-md-6">
@@ -38,7 +52,7 @@
 	<div class="col-md-6">
 		<div class="form-group">
 			<label class="form-label" for="tanggal_lahir">Tanggal Lahir:</label><span class="text-danger"> *</span>
-			<input type="date" class="form-control" name="tanggal_lahir"><br>
+			<input type="text" class="form-control" name="tanggal_lahir"><br>
 		</div>
 	</div>
 	<div class="col-md-6">

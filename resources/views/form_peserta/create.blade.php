@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('template/select2/css/select2.css') }}">
     <!-- <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'> -->
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <style>
         body{
             background-color: rgb(227, 217, 232);
@@ -126,8 +127,11 @@
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
     <script type="text/javascript" src="{{ asset('template/select2/js/select2.js') }}"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
     <script>
-        $(document).ready(function(){    
+        $(document).ready(function(){
+
             function validateEmail(email) {
                 const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
                 return re.test(String(email).toLowerCase());
@@ -162,10 +166,10 @@
                     toastr.error('Email aktif wajib diisi', 'Error');
                     return
                 }
-                if (!validateEmail(_email)) {
-                    toastr.error('Format email tidak valid', 'Error');
-                    return
-                }
+                // if (!validateEmail(_email)) {
+                //     toastr.error('Format email tidak valid', 'Error');
+                //     return
+                // }
                 e.preventDefault()
                 $.ajax({
                     url: '{{url('form_peserta', $id_events)}}',
@@ -190,6 +194,19 @@
                                 width : '100%'
                             })
                             $('button[type=submit]').removeClass('d-none')
+
+                            var today = new Date();
+                            var dd = String(today.getDate()).padStart(2, '0');
+                            var mm = String(today.getMonth() + 1).padStart(2, '0');           
+                            var yyyy = today.getFullYear();
+                            today = yyyy + '-' + mm + '-' + dd;
+                            $('[name=tanggal_lahir]').datepicker({
+                                format: 'yyyy-mm-dd',
+                                todayHighlight: true,
+                                autoclose: true,
+                                endDate: today
+                            });
+
                         }, 500)
                     },
                     error: function(err) {
