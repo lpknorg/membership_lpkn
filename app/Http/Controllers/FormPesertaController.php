@@ -19,7 +19,6 @@ class FormPesertaController extends Controller
             session(['api_detail_event'.$id_events => $list_api]);
         }
         $list_event = session('api_detail_event'.$id_events);
-        dd($list_event);
         if ($request->ajax()) {            
             $user = User::with('member.memberKantor')->where('email', $request->email)->first();
             if ($user) {

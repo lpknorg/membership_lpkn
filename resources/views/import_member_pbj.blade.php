@@ -123,7 +123,7 @@
 						}
 						$('button[type=submit]').attr('disabled', false).text('Upload')
 						setTimeout(() => {
-							// location.reload()
+							location.reload()
 						}, 1000)
 					},
 					error: function() {

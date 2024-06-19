@@ -66,6 +66,7 @@
         h6{
             font-family: 'Lexend';font-optical-sizing: auto;font-size: 16px;
         }
+        .select2-container .select2-selection--single{height:calc(2.25rem + 2px)!important}
     </style>
 </head>
 <body>
@@ -126,7 +127,12 @@
     <script type="text/javascript" src="{{ asset('template/select2/js/select2.js') }}"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        $(document).ready(function(){            
+        $(document).ready(function(){    
+            function validateEmail(email) {
+                const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                return re.test(String(email).toLowerCase());
+            }
+
             function convertImage(that, go_to){
                 var file = that.files[0];
                 var validImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
@@ -151,12 +157,21 @@
                 convertImage(this, '#displayImagePasFoto')
             })            
             $('#btnCekData').click(function(e){
+                let _email = $('[name=email]').val()
+                if(_email == ''){
+                    toastr.error('Email aktif wajib diisi', 'Error');
+                    return
+                }
+                if (!validateEmail(_email)) {
+                    toastr.error('Format email tidak valid', 'Error');
+                    return
+                }
                 e.preventDefault()
                 $.ajax({
                     url: '{{url('form_peserta', $id_events)}}',
                     type: 'get',
                     data: {
-                        email: $('[name=email]').val()
+                        email: _email
                     },
                     beforeSend: function(){
                         $('#btnCekData').attr('disabled', true).css('cursor', 'not-allowed').text('Load ...')
