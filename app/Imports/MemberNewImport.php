@@ -72,7 +72,6 @@ class MemberNewImport implements ToArray, WithHeadingRow
                             'name' => isset($v['nama_tanpa_gelar']) ? $v['nama_tanpa_gelar'] : $v['nama_dengan_gelar'],
                             'nip' => $v['nip'],
                             'nik' => $v['nik'],
-                            'paket_kontribusi' => isset($v['paket_kontribusi']) ? $v['paket_kontribusi'] : null,
                             'user_has_update_dateimport' => 1
                         ]);                        
                         $checkUser->member->update([
@@ -120,7 +119,7 @@ class MemberNewImport implements ToArray, WithHeadingRow
                             'password' => \Hash::make('lpkn123'),
                             'nip' => $v['nip'],
                             'nik' => $v['nik'],
-                            'paket_kontribusi' => isset($v['paket_kontribusi']) ? $v['paket_kontribusi'] : null,
+                            
                             'user_has_update_dateimport' => 1,
                             'created_at' => now()
                         ]);
@@ -168,7 +167,10 @@ class MemberNewImport implements ToArray, WithHeadingRow
                     }
                     UserEvent::updateOrCreate(
                         ['user_id' => $userId, 'event_id' => $this->idEvent],
-                        ['updated_at' => now()]
+                        [
+                            'updated_at' => now(),
+                            'paket_kontribusi' => isset($v['paket_kontribusi']) ? $v['paket_kontribusi'] : null
+                        ]
                     );
                 }
             }

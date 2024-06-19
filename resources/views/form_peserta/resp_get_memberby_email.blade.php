@@ -61,7 +61,7 @@
 	</div>
 	<div class="col-md-6">
 		<div class="form-group">
-			<label class="form-label" for="nip">NIP:</label><span class="text-danger"> *</span>
+			<label class="form-label" for="nip">NIP:</label><span class="text-info d-block" style="margin-top: -14px;">(jika Non PNS silahkan isi "-")</span>
 			<input placeholder="Jawaban Anda" autocomplete="off" type="text" class="form-control" name="nip" value="{{$user->nip}}"><br>
 		</div>
 	</div>
@@ -138,7 +138,7 @@
 	<div class="col-md-6">
 		<div class="form-group">
 			<label class="form-label" for="nama_jabatan">Nama Jabatan:</label>
-			<span class="text-info d-block" style="margin-top: -14px;">(jika Non PNS silahkan isi "-")<span class="text-danger"> *</span></span>
+			<span class="text-info d-block" style="margin-top: -14px;">(jika Non PNS silahkan isi "-")</span>
 			<input placeholder="Jawaban Anda" autocomplete="off" type="text" class="form-control" name="nama_jabatan" value="{{$user->member->memberKantor->nama_jabatan}}"><br>
 		</div>
 	</div>
@@ -148,7 +148,7 @@
 	<div class="col-md-6">
 		<div class="form-group">
 			<label class="form-label" for="golongan_terakhir">Golongan Terakhir:</label>
-			<span class="text-info d-block" style="margin-top: -14px;">(jika Non PNS silahkan isi "-")<span class="text-danger"> *</span></span>
+			<span class="text-info d-block" style="margin-top: -14px;">(jika Non PNS silahkan isi "-")</span>
 			<input placeholder="Jawaban Anda" autocomplete="off" type="text" class="form-control" name="golongan_terakhir" value="{{$user->member->memberKantor->golongan_terakhir}}"><br>
 		</div>
 	</div>
@@ -169,6 +169,8 @@
 			<input type="file" class="form-control" name="foto_ktp">
 			@if($user->member->foto_ktp)
 			<img src="{{\Helper::showImage($user->member->foto_ktp, 'foto_ktp')}}" id="displayImageKtp" class="img-fluid mt-1 mb-3" alt="" style="width: 100px;border-radius: 5px;">
+			@else
+			<img src="" id="displayImageKtp" class="img-fluid mt-1 mb-3" alt="" style="width: 100px;display: none;border-radius: 5px;">
 			@endif
 			<br>
 		</div>
@@ -189,6 +191,8 @@
 			<input type="file" class="form-control" name="pas_foto">
 			@if($user->member->foto_profile)
 			<img src="{{\Helper::showImage($user->member->foto_profile, 'poto_profile')}}" id="displayImagePasFoto" class="img-fluid mt-1 mb-3" alt="" style="width: 100px;border-radius: 5px;">
+			@else
+			<img src="" id="displayImagePasFoto" class="img-fluid mt-1 mb-3" alt="" style="width: 100px;display: none;border-radius: 5px;">
 			@endif
 		</div>
 	</div>

@@ -122,24 +122,23 @@ class FormPesertaController extends Controller
             'nama_tanpa_gelar' => 'required|string',
             'nama_dengan_gelar' => 'required|string',
             'email' => 'required|email',
+            'no_hp' => 'required|string',
+            'jenis_kelamin' => 'required|string', 
+            'tempat_lahir' => 'required|string',
+            'tanggal_lahir' => 'required|date', 
+            'pendidikan_terakhir' => 'required|string',
+            'nama_instansi' => 'required|string',
             'nip' => 'nullable|string',
             'nik' => 'required|string',
-            // member
-            'no_hp' => 'required|string',
-            'tempat_lahir' => 'required|string',
-            'tanggal_lahir' => 'required|date',
-            'pendidikan_terakhir' => 'required|string',
-            'jenis_kelamin' => 'required|string',            
-            'kode_pos' => 'required|string',
-            // member kantor
-            'nama_instansi' => 'required|string',
             'status_kepegawaian' => 'required|string',
-            'alamat_kantor' => 'required|string',
             'unit_organisasi' => 'required|string',
+            'alamat_kantor' => 'required|string',
+            'kode_pos' => 'required|string',
             'posisi_pengadaan' => 'required|string',
             'jenis_jabatan' => 'required|string',
-            'nama_jabatan' => 'required|string',
-            'golongan_terakhir' => 'required|string',
+            'nama_jabatan' => 'nullable|string',
+            'golongan_terakhir' => 'nullable|string',
+            'konfirmasi_paket' => 'required|string'
         ]);
         if ($validator->fails()) {
             return response()->json([

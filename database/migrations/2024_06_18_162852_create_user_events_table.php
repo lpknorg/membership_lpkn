@@ -17,6 +17,7 @@ class CreateUserEventsTable extends Migration
             $table->id();
             $table->string('user_id');
             $table->integer('event_id');
+            $table->string('paket_kontribusi')->nullable();
             $table->timestamps();
         });
     }
