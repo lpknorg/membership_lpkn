@@ -31,7 +31,7 @@ class FormPesertaController extends Controller
     }
 
     public function store(Request $request)
-    {
+    {   
         $checkUser = User::where('email', $request->email)->first();
         $foto_ktp = null;
         $pas_foto3x4 = null;
@@ -244,6 +244,27 @@ class FormPesertaController extends Controller
                     'created_at'=>date('Y-m-d H:i:s'),
                     'updated_at'=>date('Y-m-d H:i:s'),
                 ]);
+            }
+            $endpointsertif = env('API_SSERTIFIKAT').'membership/storeDatFromMembership';
+            $_alias = $request->rd_namasertif;
+            $namaSertif = $request->$_alias;
+            $datapost = [
+                'id_event' => $request->id_event,
+                'email' => $request->email,
+                'nama_sertif' => $namaSertif,
+                'hp' => $request->no_hp,
+                'instansi' => $request->nama_instansi,
+                'tempat_lahir' => $request->tempat_lahir,
+                'tgl_lahir' => \Helper::changeFormatDate($request->tanggal_lahir, 'Y-m-d'),
+                'nik' => $request->nik
+            ];
+            $eventData = \Helper::getRespApiWithParam($endpointsertif, 'POST', $datapost);
+            
+            if ($eventData['status'] == 'error') {
+                return response()->json([
+                    'status'   => "fail",
+                    'messages' => $eventData['message'],
+                ], 422);
             }
             \DB::commit();
             return response()->json([
