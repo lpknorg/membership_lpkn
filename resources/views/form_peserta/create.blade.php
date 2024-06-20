@@ -222,10 +222,10 @@
                     toastr.error('Email aktif wajib diisi', 'Error');
                     return
                 }
-                // if (!validateEmail(_email)) {
-                //     toastr.error('Format email tidak valid', 'Error');
-                //     return
-                // }
+                if (!validateEmail(_email)) {
+                    toastr.error('Format email tidak valid', 'Error');
+                    return
+                }
                 e.preventDefault()
                 $.ajax({
                     url: '{{url('form_peserta', $id_events)}}',
