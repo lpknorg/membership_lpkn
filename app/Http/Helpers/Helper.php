@@ -16,6 +16,21 @@ class Helper {
 		}
 	}
 
+	function imageToBase64($image) {
+		$image = public_path("uploaded_files/{$image}");
+	    $imageData = file_get_contents($image);
+
+	    // Langkah 3: Encode konten gambar ke base64
+	    $base64Data = base64_encode($imageData);
+
+	    // Langkah 4: Tentukan tipe mime gambar
+	    $mimeType = mime_content_type($image);
+
+	    // Langkah 5: Gabungkan tipe mime dengan data base64
+	    $base64Image = 'data:' . $mimeType . ';base64,' . $base64Data;
+	    return $base64Image;
+	}
+
 	public static function storeBase64File($folder, $file, $namaFile='', $oldFile=null){
 		if (!\File::exists(public_path("uploaded_files/{$folder}"))) {
 			\File::makeDirectory(public_path("uploaded_files/{$folder}"), 0755, true, true);

@@ -72,6 +72,24 @@
 </head>
 <body>
     <div class="container">
+        <div class="modal fade" id="modalMateri" tabindex="-1" role="dialog" aria-labelledby="modalMateriLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalMateriLabel">Link Materi & Video</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row my-3">
             @if(session('success'))
             <div>
@@ -154,6 +172,44 @@
                     reader.readAsDataURL(file);
                 }
             }
+            $('body').on('click', '[id="btnVideoMateri"]', function(e) {
+                e.preventDefault()
+                let _sl = $(this).attr('data-slug')
+                $.ajax({
+                    url: "{{url('member_profile/page/get_video_materi')}}" + '/' + _sl,
+                    method: 'GET',
+                    success: function(d){
+                        var matt = JSON.parse(d)
+                        if (matt[0] == '') {
+                            toastr.error('Video & materi belum ada', 'Error');
+                        }else{
+                            var cont = '<span class="ml-3">Berikut adalah akses link youtube dan materi : <span>'
+                            cont += '<ul>'
+                            $.each(matt, function(k, v){
+                                _link = v.match(/\b(http|https)?(:\/\/)?(\S*)\.(\w{2,4})(.*)/g)
+                                if (_link) {
+                                    _link = _link
+                                }else{
+                                    _link = ''
+                                }
+                                _removal = v.replace(_link, '')
+                                console.log(_removal)
+                                console.log(_link)
+                                if (v != '' && _link != '') {
+                                    let linkBesar = _removal.charAt(0).toUpperCase() + _removal.slice(1)
+                                    cont += `<li>${linkBesar}<a href="${_link}" target="_blank">menuju link</a></li>`
+                                }
+                            })
+                            cont += '</ul>'
+                            $('#modalMateri').modal('show')
+                            $('#modalMateri .modal-body').html(cont)
+                        }
+                    },
+                    error: function(e){
+                        toastr.error('Ada kesalahan saat ambil data sertifikat', 'Error');
+                    }
+                })
+            })
             $('body').on('change', '[name=foto_ktp]', function(e) {
                 convertImage(this, '#displayImageKtp')
             })   
@@ -239,8 +295,8 @@
                     beforeSend: function(){
                         $('button[type=submit]').attr('disabled', true).text('Load ...')
                     },
-                    success: function(response) {    
-                        console.log(response)                   
+                    success: function(response) { 
+                        let _sertif = response.data_sertif   
                         if (response.status == 'ok') {
                             Swal.fire({
                                 icon: "success",
@@ -248,7 +304,13 @@
                                 text: response.messages,
                                 timer: 3500
                             });
-                            $('#divContent').html('<div class="alert alert-success mt-3">Terima Kasih Bapak/Ibu atas partisipasinya sudah mengisi form kelengkapan biodata. 🙏🏻</div>')
+                            let content = '<div class="alert alert-success mt-3 mb-0">Terima Kasih Bapak/Ibu atas partisipasinya sudah mengisi form kelengkapan biodata. 🙏🏻</div>'
+                            // ini kalau ada sertifikatnya
+                            if(_sertif){
+                                content += `<a href="${_sertif.list[0].download}" target="_blank" class="btn btn-success btn-sm w-25 mt-2 mr-2">Download Seritifikat</a>`
+                                content += `<a href="javascript:void()" id="btnVideoMateri" class="btn btn-primary btn-sm w-25 mt-2" data-slug="${_sertif.list[0].slug}">Video & Materi</a>`
+                            }                            
+                            $('#divContent').html(content)
                             $('#btnCekData, button[type=submit]').remove()
                             $('[name=email]').prop('disabled', true)
                             setTimeout(() => {

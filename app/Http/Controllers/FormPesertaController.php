@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
+use App\Models\{User, UserEvent};
 use App\Models\Admin\Member;
 use App\Models\Admin\MemberKantor;
 
 class FormPesertaController extends Controller
 {
+    public function index($id){
+        return view('form_peserta.index');
+    }
     public function create($id_events, Request $request)
     {   
         if (!session()->has('api_detail_event'.$id_events)) {
@@ -31,7 +34,7 @@ class FormPesertaController extends Controller
     }
 
     public function store(Request $request)
-    {   
+    {        
         $checkUser = User::where('email', $request->email)->first();
         $foto_ktp = null;
         $pas_foto3x4 = null;
@@ -245,7 +248,17 @@ class FormPesertaController extends Controller
                     'updated_at'=>date('Y-m-d H:i:s'),
                 ]);
             }
-            $endpointsertif = env('API_SSERTIFIKAT').'membership/storeDatFromMembership';
+
+
+            UserEvent::updateOrCreate(
+                ['user_id' => $request->user_id, 'event_id' => $request->id_event],
+                [
+                    'updated_at' => now(),
+                    'paket_kontribusi' => $request->paket_kontribusi
+                ]
+            );
+
+            //update member dan store sertifikat
             $_alias = $request->rd_namasertif;
             $namaSertif = $request->$_alias;
             $datapost = [
@@ -256,20 +269,29 @@ class FormPesertaController extends Controller
                 'instansi' => $request->nama_instansi,
                 'tempat_lahir' => $request->tempat_lahir,
                 'tgl_lahir' => \Helper::changeFormatDate($request->tanggal_lahir, 'Y-m-d'),
+                'foto_diri' => $request->hasFile('pas_foto') ? \Helper::imageToBase64('poto_profile/'.$pas_foto3x4, 'local') : null,
                 'nik' => $request->nik
-            ];
+            ];            
+            $endpointsertif = env('API_SSERTIFIKAT').'membership/storeDatFromMembership';
             $eventData = \Helper::getRespApiWithParam($endpointsertif, 'POST', $datapost);
-            
             if ($eventData['status'] == 'error') {
                 return response()->json([
                     'status'   => "fail",
                     'messages' => $eventData['message'],
                 ], 422);
             }
+
+            // dapatkan list sertif                     
+            $endpoint = env('API_SSERTIFIKAT').'member/list_sertif';
+            $list_sertif = \Helper::getRespApiWithParam($endpoint, 'post', [
+                'email'     => $request->email,
+                'id_event'  => $request->id_event
+            ]);
             \DB::commit();
             return response()->json([
                 'status'   => 'ok',
-                'messages' => "Data berhasil disimpan"
+                'messages' => "Data berhasil disimpan",
+                'data_sertif' => $list_sertif
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
