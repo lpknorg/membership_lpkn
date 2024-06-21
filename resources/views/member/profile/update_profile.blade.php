@@ -39,7 +39,7 @@
 				<div class="form-group">
 					<label>Pendidikan Terakhir</label>
 					<select class="form-control" name="pendidikan_terakhir">
-						<?php $arr = ['SMA/SMK', 'D1', 'D2', 'D3', 'D4', 'S1', 'S2']; ?>
+						<?php $arr = ['SD', 'SLTP', 'SLTA', 'Diploma I', 'Diploma II', 'Diploma III', 'Diploma IV', 'S1', 'S2', 'S3']; ?>
 						<option value="">Pilih Pendidikan Terakhir</option>
 						@foreach($arr as $k => $v)
 						<option value="{{$v}}" {{$v == $user->member->pendidikan_terakhir ? 'selected' : ''}}>{{$v}}</option>
@@ -141,7 +141,7 @@
 			<div class="col-sm-4">
 				<div class="form-group">
 					<label>Status Kepegawaian</label>
-					<?php $arr = ['PNS', 'SWASTA', 'TNI/POLRI', 'BUMN/BUMD', 'HONORER / KONTRAK', 'ASN', 'Lainnya']; ?>
+					<?php $arr = ['PNS', 'POLRI', 'TNI AL', 'TNI AD', 'TNI AU', 'BUMN/BUMD', 'SWASTA', 'HONORER / KONTRAK']; ?>
 					<select class="form-control" name="status_kepegawaian">
 						<option value="">Pilih Status Kepegawaian</option>
 						@foreach($arr as $k => $v)

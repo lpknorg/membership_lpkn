@@ -19,6 +19,7 @@ class CreateMembersTable extends Migration
             $table->string('no_hp')->nullable();
             $table->string('no_member')->nullable();            
             $table->string('pendidikan_terakhir')->nullable();
+            $table->string('nama_pendidikan_terakhir')->nullable();
             $table->string('nama_lengkap_gelar')->nullable();
             $table->string('nama_untuk_sertifikat')->nullable();
             $table->enum('jenis_kelamin', ['L', 'P'])->nullable();

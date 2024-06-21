@@ -28,6 +28,7 @@ class User extends Authenticatable
         'password',
         'nik',
         'nip',
+        'nrp',
         'updated_at',
         'is_confirm',
         'token_reset_password',

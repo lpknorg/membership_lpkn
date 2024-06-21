@@ -6,8 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\{User, UserEvent};
-use App\Models\Admin\Member;
-use App\Models\Admin\MemberKantor;
+use App\Models\Admin\{Member, MemberKantor, Provinsi, Kota};
 
 class FormPesertaController extends Controller
 {
@@ -15,19 +14,21 @@ class FormPesertaController extends Controller
         return view('form_peserta.index');
     }
     public function create($id_events, Request $request)
-    {   
+    {
         if (!session()->has('api_detail_event'.$id_events)) {
             $endpoint = env('API_EVENT').'member/event/detailevent_by_id?id_event='.$id_events;
             $list_api = \Helper::getRespApiWithParam($endpoint, 'get');        
             session(['api_detail_event'.$id_events => $list_api]);
         }
         $list_event = session('api_detail_event'.$id_events);
+        $provinsi = Provinsi::select('id', 'nama')->orderBy('nama')->get();
         if ($request->ajax()) {            
             $user = User::with('member.memberKantor')->where('email', $request->email)->first();
             if ($user) {
-                return view('form_peserta.resp_get_memberby_email', compact('user', 'list_event'));
+                $selKota = Kota::where('id_provinsi', $user->member->memberKantor->kantor_prov_id)->get();
+                return view('form_peserta.resp_get_memberby_email', compact('user', 'list_event', 'provinsi', 'selKota'));
             }else{
-                return view('form_peserta.resp_get_member_not_email', compact('user', 'list_event'));
+                return view('form_peserta.resp_get_member_not_email', compact('user', 'list_event', 'provinsi'));
             }
         }        
         return view('form_peserta.create', compact('id_events', 'list_event'));
@@ -46,6 +47,17 @@ class FormPesertaController extends Controller
         }
         // ini kalo ada
         if ($checkUser) {
+            if($checkUser->member->memberKantor->status_kepegawaian == 'POLRI' || substr($checkUser->member->memberKantor->status_kepegawaian, 0, 3) == 'TNI'){
+                $validator = Validator::make($request->all(), [
+                    'nrp' => 'required|string'
+                ]);
+                if ($validator->fails()) {
+                    return response()->json([
+                        'status'   => "fail",
+                        'messages' => $validator->errors()->first(),
+                    ], 422);
+                }
+            }
             if ($request->jenis_pelatihan == 'lkpp') {
                 if (is_null($checkUser->member->foto_profile)) {
                     $validator = Validator::make($request->all(), [
@@ -69,7 +81,7 @@ class FormPesertaController extends Controller
                         ], 422);
                     }
                 }     
-                if (is_null($checkUser->member->file_sk_pengangkatan_asn)) {
+                if (is_null($checkUser->member->file_sk_pengangkatan_asn) || $request->status_kepegawaian == 'PNS') {
                     $validator = Validator::make($request->all(), [
                         'sk_pengangkatan_asn' => 'required|file|mimes:pdf,jpeg,png,jpg'
                     ]);
@@ -94,11 +106,21 @@ class FormPesertaController extends Controller
                 }
             }         
         }else{
+            if ($request->status_kepegawaian == 'PNS') {
+                $validator = Validator::make($request->all(), [
+                    'sk_pengangkatan_asn' => 'required|mimes:pdf,jpeg,png,jpg'
+                ]);
+                if ($validator->fails()) {
+                    return response()->json([
+                        'status'   => "fail",
+                        'messages' => $validator->errors()->first(),
+                    ], 422);
+                }
+            }
             if ($request->jenis_pelatihan == 'lkpp') {
                 $validator = Validator::make($request->all(), [
                     'pas_foto' => 'required|mimes:jpeg,png,jpg',
-                    'foto_ktp' => 'required|mimes:jpeg,png,jpg',
-                    'sk_pengangkatan_asn' => 'required|mimes:pdf,jpeg,png,jpg'
+                    'foto_ktp' => 'required|mimes:jpeg,png,jpg'
                 ]);
                 if ($validator->fails()) {
                     return response()->json([
@@ -120,29 +142,59 @@ class FormPesertaController extends Controller
         }
         
         $id_event = $request->id_event;
-        $validator = Validator::make($request->all(), [
-            // user
-            'nama_tanpa_gelar' => 'required|string',
-            'nama_dengan_gelar' => 'required|string',
-            'email' => 'required|email',
-            'no_hp' => 'required|string',
-            'jenis_kelamin' => 'required|string', 
-            'tempat_lahir' => 'required|string',
-            'tanggal_lahir' => 'required|date', 
-            'pendidikan_terakhir' => 'required|string',
-            'nama_instansi' => 'required|string',
-            'nip' => 'nullable|string',
-            'nik' => 'required|string',
-            'status_kepegawaian' => 'required|string',
-            'unit_organisasi' => 'required|string',
-            'alamat_kantor' => 'required|string',
-            'kode_pos' => 'required|string',
-            // 'posisi_pengadaan' => 'required|string',
-            // 'jenis_jabatan' => 'required|string',
-            'nama_jabatan' => 'nullable|string',
-            // 'golongan_terakhir' => 'nullable|string',
-            // 'konfirmasi_paket' => 'required|string'
-        ]);
+        if ($request->status_kepegawaian == 'PNS') {
+            $validator = Validator::make($request->all(), [
+                'nip' => 'required|string',                
+                'nama_jabatan' => 'required|string', 
+                'golongan_terakhir' => 'required|string',
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status'   => "fail",
+                    'messages' => $validator->errors()->first(),
+                ], 422);
+            }
+        }
+        // ini kalau offline
+        if ($request->jenis_kelas == '1') {
+            $validator = Validator::make($request->all(), [
+                // user
+                'nama_tanpa_gelar' => 'required|string',
+                'nama_dengan_gelar' => 'required|string',
+                'email' => 'required|email',
+                'no_hp' => 'required|string',
+                'jenis_kelamin' => 'required|string', 
+                'tempat_lahir' => 'required|string',
+                'tanggal_lahir' => 'required|date', 
+                'pendidikan_terakhir' => 'required|string',
+                'nama_pendidikan_terakhir' => 'required|string',
+                'nik' => 'required|string',
+                'status_kepegawaian' => 'required|string',
+                'nama_instansi' => 'required|string',
+                'provinsi' => 'required|string',
+                'kota' => 'required|string',
+                'unit_organisasi' => 'required|string',
+                'alamat_kantor' => 'required|string',
+                'kode_pos' => 'required|string',
+                // 'posisi_pengadaan' => 'required|string',
+                // 'jenis_jabatan' => 'required|string',                       
+                // 'konfirmasi_paket' => 'required|string'
+            ]);
+        }else{
+            // ini kalau online
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|email',
+                'nama_tanpa_gelar' => 'required|string',
+                'nama_dengan_gelar' => 'required|string',
+                'nik' => 'required|string',
+                'tempat_lahir' => 'required|string',
+                'tanggal_lahir' => 'required|date', 
+                'nama_instansi' => 'required|string',
+                'provinsi' => 'required|string',
+                'kota' => 'required|string'
+            ]);
+        }
+        
         if ($validator->fails()) {
             return response()->json([
                 'status'   => "fail",
@@ -160,6 +212,8 @@ class FormPesertaController extends Controller
             $sk_pengangkatan_asn = \Helper::storeFile('file_sk_pengangkatan_asn', $request->sk_pengangkatan_asn);
         }
         $alamat_lengkap = $request->alamat_kantor;
+        $_alias = $request->rd_namasertif;
+        $namaSertif = $request->$_alias;        
 
         \DB::beginTransaction();
         try {
@@ -168,6 +222,7 @@ class FormPesertaController extends Controller
                     'name' => $request->nama_tanpa_gelar,
                     'nik' => $request->nik,
                     'nip' => $request->nip,
+                    'nrp' => $request->nrp,
                     'email' => $request->email,
                     'email_verified_at' => now()
                 ]);
@@ -178,10 +233,13 @@ class FormPesertaController extends Controller
                     'no_hp'=>$request->no_hp,
                     'nama_lengkap_gelar' => $request->nama_dengan_gelar,
                     'pendidikan_terakhir'=>$request->pendidikan_terakhir,
-                    'nama_untuk_sertifikat'=>$request->nama_tanpa_gelar,
+                    'nama_pendidikan_terakhir'=>$request->nama_pendidikan_terakhir,
+                    'nama_untuk_sertifikat'=>$namaSertif,
                     'jenis_kelamin'=>$request->jenis_kelamin,
                     'tempat_lahir'=>$request->tempat_lahir,
                     'alamat_lengkap'=>$alamat_lengkap,
+                    'prov_id'=>$request->provinsi,
+                    'kota_id'=>$request->kota,
                     'foto_profile'=>$pas_foto3x4,
                     'pas_foto3x4'=>$pas_foto3x4,
                     'foto_ktp'=>$foto_ktp,
@@ -197,6 +255,8 @@ class FormPesertaController extends Controller
                     'kode_pos'=>$request->kode_pos,
                     'status_kepegawaian' => $request->status_kepegawaian,
                     'alamat_kantor_lengkap' => $request->alamat_kantor,
+                    'kantor_prov_id'=>$request->provinsi,
+                    'kantor_kota_id'=>$request->kota,
                     'unit_organisasi' => $request->unit_organisasi,
                     'posisi_pelaku_pengadaan' => $request->posisi_pengadaan ? $request->posisi_pengadaan : $checkUser->member->memberKantor->posisi_pengadaan,
                     'posisi_pelaku_pengadaan' => $request->jenis_jabatan ? $request->jenis_jabatan : $checkUser->member->memberKantor->jenis_jabatan,
@@ -209,6 +269,7 @@ class FormPesertaController extends Controller
                     'name' => $request->nama_tanpa_gelar,
                     'nik' => $request->nik,
                     'nip' => $request->nip,
+                    'nrp' => $request->nrp,
                     'email' => $request->email,
                     'password' => \Hash::make('lpkn1234'),
                     'email_verified_at' => now()
@@ -219,7 +280,8 @@ class FormPesertaController extends Controller
                     'no_hp'=>$request->no_hp,
                     'nama_lengkap_gelar' => $request->nama_dengan_gelar,
                     'pendidikan_terakhir'=>$request->pendidikan_terakhir,
-                    'nama_untuk_sertifikat'=>$request->nama_tanpa_gelar,
+                    'nama_pendidikan_terakhir'=>$request->nama_pendidikan_terakhir,
+                    'nama_untuk_sertifikat'=>$namaSertif,
                     'jenis_kelamin'=>$request->jenis_kelamin,
                     'tempat_lahir'=>$request->tempat_lahir,
                     'alamat_lengkap'=>$alamat_lengkap,
@@ -238,6 +300,8 @@ class FormPesertaController extends Controller
                     'nama_instansi' => $request->nama_instansi,
                     'status_kepegawaian' => $request->status_kepegawaian,
                     'alamat_kantor_lengkap' => $request->alamat_kantor,
+                    'kantor_prov_id'=>$request->provinsi,
+                    'kantor_kota_id'=>$request->kota,
                     'kode_pos'=>$request->kode_pos,
                     'unit_organisasi' => $request->unit_organisasi,
                     'posisi_pelaku_pengadaan' => $request->posisi_pengadaan,
@@ -248,8 +312,6 @@ class FormPesertaController extends Controller
                     'updated_at'=>date('Y-m-d H:i:s'),
                 ]);
             }
-
-
             UserEvent::updateOrCreate(
                 ['user_id' => $request->user_id, 'event_id' => $request->id_event],
                 [
@@ -259,22 +321,24 @@ class FormPesertaController extends Controller
             );
 
             //update member dan store sertifikat
-            $_alias = $request->rd_namasertif;
-            $namaSertif = $request->$_alias;
+            $selKota = Kota::select('id', 'kota', 'kabupaten')->where('id', $request->kota)->first();
+            $contKota = ($selKota->kabupaten == 0 ? 'Kota ' : 'Kabupaten ').$selKota->kota;
             $datapost = [
                 'id_event' => $request->id_event,
                 'email' => $request->email,
                 'nama_sertif' => $namaSertif,
                 'hp' => $request->no_hp,
                 'instansi' => $request->nama_instansi,
+                'nama_pemerintahan' => $contKota,
                 'tempat_lahir' => $request->tempat_lahir,
                 'tgl_lahir' => \Helper::changeFormatDate($request->tanggal_lahir, 'Y-m-d'),
                 'foto_diri' => $request->hasFile('pas_foto') ? \Helper::imageToBase64('poto_profile/'.$pas_foto3x4, 'local') : null,
                 'nik' => $request->nik
-            ];            
+            ];         
             $endpointsertif = env('API_SSERTIFIKAT').'membership/storeDatFromMembership';
             $eventData = \Helper::getRespApiWithParam($endpointsertif, 'POST', $datapost);
-            if ($eventData['status'] == 'error') {
+            // var_dump($eventData);die;   
+            if ($eventData && $eventData['status'] == 'error') {
                 return response()->json([
                     'status'   => "fail",
                     'messages' => $eventData['message'],

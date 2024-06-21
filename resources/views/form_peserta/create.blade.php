@@ -213,6 +213,46 @@
             $('body').on('change', '[name=foto_ktp]', function(e) {
                 convertImage(this, '#displayImageKtp')
             })   
+            $('body').on('change', '[name=status_kepegawaian]', function(e) {
+                let val = $(this).find(':selected').val()
+                if (val == 'PNS') {
+                    $('#divPns').show(200)
+                }else{
+                    $('#divPns').hide(200)
+                }
+                let _tni = val.substr(0, 3)
+                if (val == 'POLRI' || _tni == 'TNI') {
+                    $('#divPolriTni').show(200)
+                }else{
+                    $('#divPolriTni').hide(200)
+                }
+            })
+            function getKota(_val){
+                $.ajax({
+                    type: 'get',
+                    url: "{{ url('api/general/kota') }}",
+                    data: {
+                        id_provinsi: _val
+                    },
+                    success: function(data) {
+                        console.log(data)
+                        let opt = '<option value="">Pilih Kota</option>'
+                        $.each(data.data, function(k, v) {
+                            opt +=
+                            `<option value="${v.id}">${v.kota}</option>`
+                        })
+                        $(`[name=kota]`).prop('disabled', false).html(opt)
+                    },
+                    error: function(data) {
+                        toastr.error('Ada kesalahan dalam mendapatkan data kota', 'Error');
+                    }
+                });
+            }
+            $('body').on('change', '[name=provinsi]', function(e) {
+                let _val = $(this).find(":selected").val()
+                console.log(_val)
+                getKota(_val)
+            })
             $('body').on('change', '[name=pas_foto]', function(e) {
                 convertImage(this, '#displayImagePasFoto')
             })            
@@ -247,6 +287,9 @@
                                 width : '100%'
                             })
                             $('[name=jenis_jabatan]').select2({
+                                width : '100%'
+                            })
+                            $('[name=provinsi]').select2({
                                 width : '100%'
                             })
                             $('button[type=submit]').removeClass('d-none')
