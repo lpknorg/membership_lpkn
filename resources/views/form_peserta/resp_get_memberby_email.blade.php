@@ -214,7 +214,7 @@
 	</div>
 	@endif
 </div>
-<div class="row mt-3">
+<div class="row">
 	<div class="col-md-6">
 		<div class="form-group">
 			<label class="form-label" for="nama_jabatan">Nama Jabatan:</label>

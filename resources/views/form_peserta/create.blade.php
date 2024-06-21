@@ -296,7 +296,8 @@
                         $('button[type=submit]').attr('disabled', true).text('Load ...')
                     },
                     success: function(response) { 
-                        let _sertif = response.data_sertif   
+                        let _sertif = response.data_sertif
+
                         if (response.status == 'ok') {
                             Swal.fire({
                                 icon: "success",
@@ -306,10 +307,15 @@
                             });
                             let content = '<div class="alert alert-success mt-3 mb-0">Terima Kasih Bapak/Ibu atas partisipasinya sudah mengisi form kelengkapan biodata. 🙏🏻</div>'
                             // ini kalau ada sertifikatnya
-                            if(_sertif){
+                            if(_sertif.list.length > 0){
+                                console.log(_sertif.list[0])
                                 content += `<a href="${_sertif.list[0].download}" target="_blank" class="btn btn-success btn-sm w-25 mt-2 mr-2">Download Seritifikat</a>`
+                                // if(_sertif.list[0].video != ''){
                                 content += `<a href="javascript:void()" id="btnVideoMateri" class="btn btn-primary btn-sm w-25 mt-2" data-slug="${_sertif.list[0].slug}">Video & Materi</a>`
-                            }                            
+                                // }
+                            }else{
+                                content += '<div class="alert alert-warning mt-2">Sertifikat belum tersedia, silakan menghubungi panitia.</div>'
+                            }             
                             $('#divContent').html(content)
                             $('#btnCekData, button[type=submit]').remove()
                             $('[name=email]').prop('disabled', true)
@@ -326,7 +332,6 @@
                     },
                     error: function(err) {
                         let err_ = JSON.parse(err.responseText)
-                        console.log(err_)
                         if (err_.status == 'fail') {
                             toastr.error(err_.messages, 'Error');
                         }else{

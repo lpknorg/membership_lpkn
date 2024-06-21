@@ -211,7 +211,7 @@
 	</div>
 	@endif
 </div>
-<div class="row mt-3">
+<div class="row">
 	<div class="col-md-6">
 		<div class="form-group">
 			<label class="form-label" for="nama_jabatan">Nama Jabatan:</label>
@@ -254,7 +254,7 @@
 		</div>
 	</div>
 	@endif
-	<div class="col-md-6 mt-3">
+	<div class="col-md-6">
 		<div class="form-group">
 			<label class="form-label" for="pas_foto">Upload Pas Foto:</label><span class="text-danger"> *</span>
 			<input type="file" class="form-control" name="pas_foto">

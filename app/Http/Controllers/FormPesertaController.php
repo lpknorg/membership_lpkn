@@ -137,11 +137,11 @@ class FormPesertaController extends Controller
             'unit_organisasi' => 'required|string',
             'alamat_kantor' => 'required|string',
             'kode_pos' => 'required|string',
-            'posisi_pengadaan' => 'required|string',
-            'jenis_jabatan' => 'required|string',
+            // 'posisi_pengadaan' => 'required|string',
+            // 'jenis_jabatan' => 'required|string',
             'nama_jabatan' => 'nullable|string',
-            'golongan_terakhir' => 'nullable|string',
-            'konfirmasi_paket' => 'required|string'
+            // 'golongan_terakhir' => 'nullable|string',
+            // 'konfirmasi_paket' => 'required|string'
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -198,10 +198,10 @@ class FormPesertaController extends Controller
                     'status_kepegawaian' => $request->status_kepegawaian,
                     'alamat_kantor_lengkap' => $request->alamat_kantor,
                     'unit_organisasi' => $request->unit_organisasi,
-                    'posisi_pelaku_pengadaan' => $request->posisi_pengadaan,
-                    'jenis_jabatan' => $request->jenis_jabatan,
+                    'posisi_pelaku_pengadaan' => $request->posisi_pengadaan ? $request->posisi_pengadaan : $checkUser->member->memberKantor->posisi_pengadaan,
+                    'posisi_pelaku_pengadaan' => $request->jenis_jabatan ? $request->jenis_jabatan : $checkUser->member->memberKantor->jenis_jabatan,
                     'nama_jabatan' => $request->nama_jabatan,
-                    'golongan_terakhir' => $request->golongan_terakhir,
+                    'golongan_terakhir' => $request->golongan_terakhir ? $request->golongan_terakhir : $checkUser->member->memberKantor->golongan_terakhir,
                     'updated_at'=>date('Y-m-d H:i:s'),
                 ]);
             }else{
