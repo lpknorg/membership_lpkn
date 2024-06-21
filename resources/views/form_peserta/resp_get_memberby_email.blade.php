@@ -6,12 +6,7 @@
 			<input type="hidden" name="jenis_pelatihan" value="{{$list_event['jenis_pelatihan']}}">
 			<label class="form-label" for="nama_tanpa_gelar">Nama Lengkap (Tanpa Gelar):</label><span class="text-danger"> *</span>
 			<input placeholder="Jawaban Anda" autocomplete="off" type="text" class="form-control" name="nama_tanpa_gelar" value="{{$user->name}}">
-			<div class="form-check">
-				<input class="form-check-input" type="radio" name="rd_namasertif" id="rd1" value="nama_tanpa_gelar" checked>
-				<label style="color: #618aff;" class="form-check-label" for="rd1">
-					pilih untuk nama sertifikat
-				</label>
-			</div>
+			
 			<br>
 		</div>
 	</div>
@@ -19,19 +14,14 @@
 		<div class="form-group">	
 			<label class="form-label" for="nama_dengan_gelar">Nama Lengkap (Dengan Gelar): </label><span class="text-danger"> *</span>
 			<input placeholder="Jawaban Anda" autocomplete="off" type="text" class="form-control" name="nama_dengan_gelar" value="{{$user->member->nama_lengkap_gelar}}">
-			<div class="form-check">
-				<input class="form-check-input" type="radio" name="rd_namasertif" id="rd2" value="nama_dengan_gelar">
-				<label style="color: #618aff;" class="form-check-label" for="rd2">
-					pilih untuk nama sertifikat
-				</label>
-			</div>
+			
 			<br>
 		</div>
 	</div>
 	<div class="col-md-6">
 		<div class="form-group">
 			<label class="form-label" for="nik">NIK:</label><span class="text-danger"> *</span>
-			<input placeholder="Jawaban Anda" autocomplete="off" type="number" class="form-control" name="nik" value="{{$user->nik}}"><br>
+			<input placeholder="Jawaban Anda" autocomplete="off" type="number" class="form-control" name="nik" value="{{$user->nik}}" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="16"><br>
 		</div>
 	</div>
 	<div class="col-md-6">
@@ -107,12 +97,7 @@
 			<input type="hidden" name="jenis_pelatihan" value="{{$list_event['jenis_pelatihan']}}">
 			<label class="form-label" for="nama_tanpa_gelar">Nama Lengkap (Tanpa Gelar):</label><span class="text-danger"> *</span>
 			<input placeholder="Jawaban Anda" autocomplete="off" type="text" class="form-control" name="nama_tanpa_gelar" value="{{$user->name}}">
-			<div class="form-check">
-				<input class="form-check-input" type="radio" name="rd_namasertif" id="rd1" value="nama_tanpa_gelar" checked>
-				<label style="color: #618aff;" class="form-check-label" for="rd1">
-					pilih untuk nama sertifikat
-				</label>
-			</div>
+			
 			<br>
 		</div>
 	</div>
@@ -120,19 +105,14 @@
 		<div class="form-group">	
 			<label class="form-label" for="nama_dengan_gelar">Nama Lengkap (Dengan Gelar): </label><span class="text-danger"> *</span>
 			<input placeholder="Jawaban Anda" autocomplete="off" type="text" class="form-control" name="nama_dengan_gelar" value="{{$user->member->nama_lengkap_gelar}}">
-			<div class="form-check">
-				<input class="form-check-input" type="radio" name="rd_namasertif" id="rd2" value="nama_dengan_gelar">
-				<label style="color: #618aff;" class="form-check-label" for="rd2">
-					pilih untuk nama sertifikat
-				</label>
-			</div>
+			
 			<br>
 		</div>
 	</div>
 	<div class="col-md-6">
 		<div class="form-group">
 			<label class="form-label" for="nik">NIK:</label><span class="text-danger"> *</span>
-			<input placeholder="Jawaban Anda" autocomplete="off" type="number" class="form-control" name="nik" value="{{$user->nik}}"><br>
+			<input placeholder="Jawaban Anda" autocomplete="off" type="number" class="form-control" name="nik" value="{{$user->nik}}" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="16"><br>
 		</div>
 	</div>
 	<div class="col-md-3">
@@ -201,11 +181,15 @@
 	<div class="col-md-6">
 		<div class="form-group">
 			<label class="form-label" for="status_kepegawaian">Status Kepegawaian:</label><span class="text-danger"> *</span>
-			<?php $arr = ['PNS', 'POLRI', 'TNI AL', 'TNI AD', 'TNI AU', 'BUMN/BUMD', 'SWASTA', 'HONORER / KONTRAK']; ?>
+			<?php $arr = ['PNS/PPPK', 'POLRI', 'TNI AL', 'TNI AD', 'TNI AU', 'BUMN/BUMD', 'SWASTA', 'HONORER / KONTRAK', 'PRIBADI/INDIVIDU']; ?>
 			<select class="form-control" name="status_kepegawaian">
 				<option value="">Pilih Status Kepegawaian</option>
 				@foreach($arr as $k => $v)
+				@if($v == 'PNS/PPPK')
+				<option value="PNS" {{'PNS' == $user->member->memberKantor->status_kepegawaian ? 'selected' : ''}}>{{$v}}
+				@else
 				<option value="{{$v}}" {{$v == $user->member->memberKantor->status_kepegawaian ? 'selected' : ''}}>{{$v}}</option>
+				@endif
 				@endforeach
 			</select>
 			<br>
@@ -216,7 +200,7 @@
 	<div class="col-md-6">
 		<div class="form-group">
 			<label class="form-label" for="nip">NIP:</label><span class="text-danger"> *</span>
-			<input placeholder="Jawaban Anda" autocomplete="off" type="text" class="form-control" name="nip" value="{{$user->nip}}"><br>
+			<input placeholder="Jawaban Anda" autocomplete="off" type="number" class="form-control" name="nip" value="{{$user->nip}}" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="18"><br>
 		</div>
 	</div>
 	<div class="col-md-6">
@@ -238,7 +222,12 @@
 	<div class="col-md-6">
 		<div class="form-group">
 			<label class="form-label" for="golongan_terakhir">Golongan Terakhir:</label><span class="text-danger"> *</span>
-			<input placeholder="Jawaban Anda" autocomplete="off" type="text" class="form-control" name="golongan_terakhir" value="{{$user->member->memberKantor->golongan_terakhir}}"><br>
+			<select class="form-control" name="golongan_terakhir">
+				<option value="">Pilih Golongan</option>
+				@foreach($golongan as $k => $val)
+				<option value="{{$k}}">{{$val}}</option>
+				@endforeach
+			</select><br>
 		</div>
 	</div>
 </div>

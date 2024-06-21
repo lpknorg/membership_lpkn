@@ -24,11 +24,12 @@ class FormPesertaController extends Controller
         $provinsi = Provinsi::select('id', 'nama')->orderBy('nama')->get();
         if ($request->ajax()) {            
             $user = User::with('member.memberKantor')->where('email', $request->email)->first();
+            $golongan = \Helper::getGolongan();
             if ($user) {
                 $selKota = Kota::where('id_provinsi', $user->member->memberKantor->kantor_prov_id)->get();
-                return view('form_peserta.resp_get_memberby_email', compact('user', 'list_event', 'provinsi', 'selKota'));
+                return view('form_peserta.resp_get_memberby_email', compact('user', 'list_event', 'provinsi', 'selKota', 'golongan'));
             }else{
-                return view('form_peserta.resp_get_member_not_email', compact('user', 'list_event', 'provinsi'));
+                return view('form_peserta.resp_get_member_not_email', compact('user', 'list_event', 'provinsi', 'golongan'));
             }
         }        
         return view('form_peserta.create', compact('id_events', 'list_event'));
@@ -212,8 +213,7 @@ class FormPesertaController extends Controller
             $sk_pengangkatan_asn = \Helper::storeFile('file_sk_pengangkatan_asn', $request->sk_pengangkatan_asn);
         }
         $alamat_lengkap = $request->alamat_kantor;
-        $_alias = $request->rd_namasertif;
-        $namaSertif = $request->$_alias;        
+        $namaSertif = $request->nama_tanpa_gelar;
 
         \DB::beginTransaction();
         try {

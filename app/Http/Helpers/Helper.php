@@ -16,19 +16,25 @@ class Helper {
 		}
 	}
 
+	function getGolongan(){
+		return [
+			'I/b' => 'Juru Muda Tk.I','I/c' => 'Juru','I/d' => 'Juru Tk. I','II/a' => 'Pengatur Muda','II/b' => 'Pengatur Muda Tk. I','II/c' => 'Pengatur','II/d' => 'Pengatur Tk. I','III/a' => 'Penata Muda','III/b' => 'Penata Muda Tk. I','III/c' => 'Penata','III/d' => 'Penata Tk. I','IV/a' => 'Pembina','IV/b' => 'Pembina Tk. I','IV/c' => 'Pembina Utama Muda','IV/d' => 'Pembina Utama Madya','IV/e' => 'Pembina Utama','Golongan I' => 'PPPK I','Golongan II' => 'PPPK II','Golongan III' => 'PPPK III','Golongan IV' => 'PPPK IV','Golongan V' => 'PPPK V','Golongan VI' => 'PPPK VI','Golongan VII' => 'PPPK VII','Golongan VIII' => 'PPPK VIII','Golongan IX' => 'PPPK IX','Golongan X' => 'PPPK X','Golongan XI' => 'PPPK XI','Golongan XII' => 'PPPK XI',
+		];
+	}
+
 	function imageToBase64($image) {
 		$image = public_path("uploaded_files/{$image}");
-	    $imageData = file_get_contents($image);
+		$imageData = file_get_contents($image);
 
 	    // Langkah 3: Encode konten gambar ke base64
-	    $base64Data = base64_encode($imageData);
+		$base64Data = base64_encode($imageData);
 
 	    // Langkah 4: Tentukan tipe mime gambar
-	    $mimeType = mime_content_type($image);
+		$mimeType = mime_content_type($image);
 
 	    // Langkah 5: Gabungkan tipe mime dengan data base64
-	    $base64Image = 'data:' . $mimeType . ';base64,' . $base64Data;
-	    return $base64Image;
+		$base64Image = 'data:' . $mimeType . ';base64,' . $base64Data;
+		return $base64Image;
 	}
 
 	public static function storeBase64File($folder, $file, $namaFile='', $oldFile=null){

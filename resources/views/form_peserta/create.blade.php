@@ -292,6 +292,9 @@
                             $('[name=provinsi]').select2({
                                 width : '100%'
                             })
+                            $('[name=golongan_terakhir]').select2({
+                                width : '100%'
+                            })
                             $('button[type=submit]').removeClass('d-none')
 
                             var today = new Date();

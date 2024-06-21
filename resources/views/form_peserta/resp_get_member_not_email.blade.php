@@ -7,12 +7,6 @@
 			<input type="hidden" name="jenis_kelas" value="{{$list_event['jenis_kelas']}}">
 			<label class="form-label" for="nama_tanpa_gelar">Nama Lengkap (Tanpa Gelar):</label><span class="text-danger"> *</span>
 			<input placeholder="Jawaban Anda" autocomplete="off" type="text" class="form-control" name="nama_tanpa_gelar">
-			<div class="form-check">
-				<input class="form-check-input" type="radio" name="rd_namasertif" id="rd1" value="nama_tanpa_gelar" checked>
-				<label style="color: #618aff;" class="form-check-label" for="rd1">
-					pilih untuk nama sertifikat
-				</label>
-			</div>
 			<br>
 		</div>
 	</div>
@@ -20,19 +14,14 @@
 		<div class="form-group">	
 			<label class="form-label" for="nama_dengan_gelar">Nama Lengkap (Dengan Gelar): </label><span class="text-danger"> *</span>
 			<input placeholder="Jawaban Anda" autocomplete="off" type="text" class="form-control" name="nama_dengan_gelar">
-			<div class="form-check">
-				<input class="form-check-input" type="radio" name="rd_namasertif" id="rd2" value="nama_dengan_gelar">
-				<label style="color: #618aff;" class="form-check-label" for="rd2">
-					pilih untuk nama sertifikat
-				</label>
-			</div>
+			
 			<br>
 		</div>
 	</div>
 	<div class="col-md-6">
 		<div class="form-group">
 			<label class="form-label" for="nik">NIK:</label><span class="text-danger"> *</span>
-			<input placeholder="Jawaban Anda" autocomplete="off" type="number" class="form-control" name="nik"><br>
+			<input placeholder="Jawaban Anda" autocomplete="off" type="number" class="form-control" name="nik" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="16"><br>
 		</div>
 	</div>
 	<div class="col-md-6">
@@ -90,12 +79,6 @@
 			<input type="hidden" name="jenis_kelas" value="{{$list_event['jenis_kelas']}}">
 			<label class="form-label" for="nama_tanpa_gelar">Nama Lengkap (Tanpa Gelar):</label><span class="text-danger"> *</span>
 			<input placeholder="Jawaban Anda" autocomplete="off" type="text" class="form-control" name="nama_tanpa_gelar">
-			<div class="form-check">
-				<input class="form-check-input" type="radio" name="rd_namasertif" id="rd1" value="nama_tanpa_gelar" checked>
-				<label style="color: #618aff;" class="form-check-label" for="rd1">
-					pilih untuk nama sertifikat
-				</label>
-			</div>
 			<br>
 		</div>
 	</div>
@@ -103,19 +86,14 @@
 		<div class="form-group">	
 			<label class="form-label" for="nama_dengan_gelar">Nama Lengkap (Dengan Gelar): </label><span class="text-danger"> *</span>
 			<input placeholder="Jawaban Anda" autocomplete="off" type="text" class="form-control" name="nama_dengan_gelar">
-			<div class="form-check">
-				<input class="form-check-input" type="radio" name="rd_namasertif" id="rd2" value="nama_dengan_gelar">
-				<label style="color: #618aff;" class="form-check-label" for="rd2">
-					pilih untuk nama sertifikat
-				</label>
-			</div>
+			
 			<br>
 		</div>
 	</div>
 	<div class="col-md-6">
 		<div class="form-group">
 			<label class="form-label" for="nik">NIK:</label><span class="text-danger"> *</span>
-			<input placeholder="Jawaban Anda" autocomplete="off" type="number" class="form-control" name="nik"><br>
+			<input placeholder="Jawaban Anda" autocomplete="off" type="number" class="form-control" name="nik" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="16"><br>
 		</div>
 	</div>
 	<div class="col-md-3">
@@ -150,11 +128,7 @@
 		<div class="form-group">
 			<label class="form-label" for="pas_foto">Upload Pas Foto:</label><span class="text-danger"> *</span>
 			<input type="file" class="form-control" name="pas_foto">
-			@if($user->member->foto_profile)
-			<img src="{{\Helper::showImage($user->member->foto_profile, 'poto_profile')}}" id="displayImagePasFoto" class="img-fluid mt-1 mb-3" alt="" style="width: 100px;border-radius: 5px;">
-			@else
 			<img src="" id="displayImagePasFoto" class="img-fluid mt-1 mb-3" alt="" style="width: 100px;display: none;border-radius: 5px;">
-			@endif
 		</div>
 	</div>
 </div>
@@ -184,22 +158,26 @@
 	<div class="col-md-6">
 		<div class="form-group">
 			<label class="form-label" for="status_kepegawaian">Status Kepegawaian:</label><span class="text-danger"> *</span>
-			<?php $arr = ['PNS', 'POLRI', 'TNI AL', 'TNI AD', 'TNI AU', 'BUMN/BUMD', 'SWASTA', 'HONORER / KONTRAK']; ?>
+			<?php $arr = ['PNS/PPPK', 'POLRI', 'TNI AL', 'TNI AD', 'TNI AU', 'BUMN/BUMD', 'SWASTA', 'HONORER / KONTRAK', 'PRIBADI/INDIVIDU']; ?>
 			<select class="form-control" name="status_kepegawaian">
 				<option value="">Pilih Status Kepegawaian</option>
 				@foreach($arr as $k => $v)
+				@if($v == 'PNS/PPPK')
+				<option value="PNS">{{$v}}</option>
+				@else
 				<option value="{{$v}}">{{$v}}</option>
+				@endif
 				@endforeach
 			</select>
 			<br>
 		</div>
 	</div>
 </div>
-<div class="row" id="divPns" style="display: {{$user->member->memberKantor->status_kepegawaian == 'PNS' ? 'flex' : 'none'}}">
+<div class="row" id="divPns" style="display: none">
 	<div class="col-md-6">
 		<div class="form-group">
 			<label class="form-label" for="nip">NIP:</label><span class="text-danger"> *</span>
-			<input placeholder="Jawaban Anda" autocomplete="off" type="text" class="form-control" name="nip"><br>
+			<input placeholder="Jawaban Anda" autocomplete="off" type="number" class="form-control" name="nip" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="18"><br>
 		</div>
 	</div>
 	<div class="col-md-6">
@@ -218,7 +196,12 @@
 	<div class="col-md-6">
 		<div class="form-group">
 			<label class="form-label" for="golongan_terakhir">Golongan Terakhir:</label><span class="text-danger"> *</span>
-			<input placeholder="Jawaban Anda" autocomplete="off" type="text" class="form-control" name="golongan_terakhir"><br>
+			<select class="form-control" name="golongan_terakhir">
+				<option value="">Pilih Golongan</option>
+				@foreach($golongan as $k => $val)
+				<option value="{{$k}}">{{$val}}</option>
+				@endforeach
+			</select><br>
 		</div>
 	</div>
 </div>
@@ -251,20 +234,6 @@
 			<br>
 		</div>
 	</div>
-	@if($user->member->memberKantor->kantor_prov_id)
-	<div class="col-md-6">
-		<div class="form-group">
-			<label class="form-label">Kota/Kabupaten</label><span class="text-danger"> *</span>
-			<select class="form-control" name="kota">
-				<option value="">Pilih Kota</option>
-				@foreach($selKota as $kota)
-				<option value="{{$kota->id}}">{{$kota->kota}}</option>
-				@endforeach
-			</select>
-			<br>
-		</div>
-	</div>
-	@else
 	<div class="col-md-6">
 		<div class="form-group">
 			<label class="form-label">Kota/Kabupaten</label><span class="text-danger"> *</span>
@@ -274,7 +243,6 @@
 			<br>
 		</div>
 	</div>
-	@endif
 	<div class="col-md-6">
 		<div class="form-group">
 			<label class="form-label" for="kode_pos">Kode Pos:</label><span class="text-danger"> *</span>
@@ -284,7 +252,7 @@
 	<div class="col-md-7">
 		<div class="form-group">
 			<label class="form-label" for="alamat_kantor">Alamat Lengkap Kantor:</label><span class="text-danger"> *</span>
-			<textarea class="form-control" name="alamat_kantor" rows="3" placeholder="Jawaban Anda" autocomplete="off">{{$user->member->memberKantor->alamat_kantor_lengkap}}</textarea><br>
+			<textarea class="form-control" name="alamat_kantor" rows="3" placeholder="Jawaban Anda" autocomplete="off"></textarea><br>
 		</div>
 	</div>
 	<div class="col-md-5">
