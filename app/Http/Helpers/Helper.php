@@ -16,6 +16,38 @@ class Helper {
 		}
 	}
 
+	public static function passHashedEncrypt($pass){
+		$data = $pass;
+		$key = "lpkn1234"; // Kunci rahasia
+		$method = "aes-256-cbc"; // Metode enkripsi
+		$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($method));
+
+		// Enkripsi data
+		$encrypted_data = openssl_encrypt($data, $method, $key, 0, $iv);
+
+		// Menggabungkan IV dengan data terenkripsi agar dapat digunakan saat dekripsi
+		$encrypted_data_with_iv = base64_encode($iv . $encrypted_data);
+
+		return $encrypted_data_with_iv;
+	}
+
+	public static function passHashedDecrypt($pass){
+		$data = $pass;
+		$key = "lpkn1234"; // Kunci rahasia
+		$method = "aes-256-cbc"; // Metode enkripsi
+		
+		// Memisahkan IV dan data terenkripsi
+		$encrypted_data_with_iv = base64_decode($data);
+		$iv_length = openssl_cipher_iv_length($method);
+		$iv = substr($encrypted_data_with_iv, 0, $iv_length);
+		$encrypted_data = substr($encrypted_data_with_iv, $iv_length);
+
+		// Dekripsi data
+		$decrypted_data = openssl_decrypt($encrypted_data, $method, $key, 0, $iv);
+
+		return $decrypted_data;
+	}
+
 	function getGolongan(){
 		return [
 			'I/b' => 'Juru Muda Tk.I','I/c' => 'Juru','I/d' => 'Juru Tk. I','II/a' => 'Pengatur Muda','II/b' => 'Pengatur Muda Tk. I','II/c' => 'Pengatur','II/d' => 'Pengatur Tk. I','III/a' => 'Penata Muda','III/b' => 'Penata Muda Tk. I','III/c' => 'Penata','III/d' => 'Penata Tk. I','IV/a' => 'Pembina','IV/b' => 'Pembina Tk. I','IV/c' => 'Pembina Utama Muda','IV/d' => 'Pembina Utama Madya','IV/e' => 'Pembina Utama','Golongan I' => 'PPPK I','Golongan II' => 'PPPK II','Golongan III' => 'PPPK III','Golongan IV' => 'PPPK IV','Golongan V' => 'PPPK V','Golongan VI' => 'PPPK VI','Golongan VII' => 'PPPK VII','Golongan VIII' => 'PPPK VIII','Golongan IX' => 'PPPK IX','Golongan X' => 'PPPK X','Golongan XI' => 'PPPK XI','Golongan XII' => 'PPPK XI',

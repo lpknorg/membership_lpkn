@@ -41,6 +41,9 @@
 						</select>
 					</div>
 					<div class="form-group">
+						<a href="javascript:void()" target="_blank" id="btnLihatDetailData" class="btn btn-sm btn-outline-success float-right">Lihat Data</a>
+					</div>
+					<div class="form-group mt-5">
 						<label for="file_excel">Pilih file Excel</label>
 						<input type="file" required class="form-control" id="file_excel_pbj" name="file_excel_pbj">
 						<span class="text-danger d-block" style="font-size:14px;" >&nbsp;&nbsp;* pastikan header excel sama seperti template dan untuk pas foto, ktp dan sk asn diisi dengan link gdrive</span>
@@ -86,6 +89,11 @@
 	<!-- Custom JS -->
 	<script>
 		$(document).ready(function() {
+			$('body').on('change', '[name=event_id]', function(e) {
+                let val = $(this).find(':selected').val()
+                let _link = '{{url('import_member')}}' + `/${val}`
+                $('#btnLihatDetailData').attr('href', _link)
+            })
 			$('[name=event_id]').select2({
 				width : '100%'
 			})

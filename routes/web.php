@@ -28,7 +28,8 @@ use App\Http\Controllers\{
 	EventController,
 	PeraturanController,
 	DashboardController,
-	FormPesertaController
+	FormPesertaController,
+	ViewMemberController
 };
 use App\Http\Controllers\Artikel\{
 	ArtikelController,
@@ -47,10 +48,8 @@ use App\Http\Controllers\Artikel\{
 |
 */
 Route::get('ea', function(){
-	\DB::table('users')
-	->select(DB::raw('import_batch, COUNT(*) as total'))
-	->groupBy('import_batch')
-	->get();
+	$a = \Helper::passHashedDecrypt('kiZtTiHOg3g0LyPvAVcoekN2UkJNNmp5Y3dUZlV0ZjFESGdzOGc9PQ==');
+	dd($a);
 });
 
 // Route::resource('form_peserta', FormPesertaController::class);
@@ -150,6 +149,8 @@ Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middlewa
 Route::get('member_profile/Kta', [ProfileController::class, 'download_kta'])->name('member_profile.download_kta');
 
 Route::get('/import_member', [HomeController::class, 'viewImportMember']);
+Route::get('/import_member/{id_event}', [ViewMemberController::class, 'viewByEvent']);
+Route::post('/import_member/{nik}/store', [ViewMemberController::class, 'updateDataMember']);
 Route::post('/import_member', [HomeController::class, 'importMember']);
 Route::get('/import_member_datatable', [HomeController::class, 'importMemberDatatable']);
 Route::get('/import_member2', [HomeController::class, 'importMember2']);
