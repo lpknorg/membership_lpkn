@@ -38,8 +38,9 @@
 	</div>
 	<div class="col-md-6">
 		<div class="form-group">
-			<label class="form-label" for="instansi">Nama Instansi/Perusahaan:</label><span class="text-danger"> *</span>
-			<input placeholder="Jawaban Anda" autocomplete="off" type="text" class="form-control" name="nama_instansi" value="{{$user->member->memberKantor->nama_instansi}}"><br>
+			<label class="form-label" for="instansi">Nama Instansi Lengkap:</label><span class="text-danger"> *</span>
+			<input placeholder="Jawaban Anda" autocomplete="off" type="text" class="form-control" name="nama_instansi" value="{{$user->member->memberKantor->nama_instansi}}">
+			<span class="text-info d-block" id="span-instansi"> contoh : Dinas Sosial Provinsi Jawa Barat, Dinas Sosial Kabupaten Bogor, dsb</span><br>
 		</div>
 	</div>
 	<div class="col-md-6">
@@ -244,8 +245,9 @@
 <div class="row">
 	<div class="col-md-6">
 		<div class="form-group">
-			<label class="form-label" for="instansi">Nama Instansi/Perusahaan:</label><span class="text-danger"> *</span>
-			<input placeholder="Jawaban Anda" autocomplete="off" type="text" class="form-control" name="nama_instansi" value="{{$user->member->memberKantor->nama_instansi}}"><br>
+			<label class="form-label" for="instansi">Nama Instansi Lengkap:</label><span class="text-danger"> *</span>
+			<input placeholder="Jawaban Anda" autocomplete="off" type="text" class="form-control" name="nama_instansi" value="{{$user->member->memberKantor->nama_instansi}}">
+			<span class="text-info d-block" id="span-instansi"> contoh : Dinas Sosial Provinsi Jawa Barat, Dinas Sosial Kabupaten Bogor, dsb</span><br>
 		</div>
 	</div>
 	<div class="col-md-6">
@@ -321,8 +323,9 @@
 				@foreach($arr as $k => $v)
 				<option value="{{$v}}" {{$user->member->memberKantor->posisi_pelaku_pengadaan && $v == $user->member->memberKantor->posisi_pelaku_pengadaan ? 'selected' : ''}}>{{$v}}</option>
 				@endforeach
-			</select><br>
+			</select>
 		</div>
+		<br>
 	</div>
 	<div class="col-md-6">
 		<div class="form-group">

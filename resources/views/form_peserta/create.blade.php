@@ -68,7 +68,12 @@
             font-family: 'Lexend';font-optical-sizing: auto;font-size: 16px;
         }
         .select2-container .select2-selection--single{height:calc(2.25rem + 2px)!important}
-    </style>
+        #span-instansi{
+            font-weight: 400;
+            line-height: 1.2;
+        }
+    }
+</style>
 </head>
 <body>
     <div class="container">
