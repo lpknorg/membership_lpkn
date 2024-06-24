@@ -34,28 +34,84 @@
 	</style>
 </head>
 <body>
-	<div class="row mx-1">
-		<h2 class="mb-4">Data PBJ - </h2>
-		<div class="col-md-12">
+	<div class="mx-1">
+		<h2 class="mb-4">Data Detail </h2>
+		<div>
 		@csrf
-			<table class="table table-bordered" id="users-table">
-				<thead>
-					<tr>
-						<th scope="col">Password LKPP</th>
-						<th scope="col">Email</th>
-						<th scope="col">Nama Lengkap</th>
-					</tr>
-				</thead>
-				<tbody>
-					@foreach($users as $u)
-					<tr>
-						<td><div data-nik="{{$u->nik}}" class="editable" data-placeholder="Click to edit">Password</div></td>
-						<td><div class="editable" data-placeholder="Click to edit">{{$u->email}}</div></td>
-						<td><div class="editable" data-placeholder="Click to edit">{{$u->name}}</div></td>
-					</tr>
-					@endforeach
-				</tbody>
-			</table>
+			<div class="table-responsive">
+				<table class="table table-bordered table-hover" id="users-table">
+					<thead>
+						<tr>
+							<th>Password LKPP</th>
+							<th width="20%">Nama Lengkap(tanpa gelar)</th>
+							<th>Nama Lengkap(dengan gelar)</th>
+							<th>NIK</th>
+							<th>Email Aktif</th>
+							<th>No Whatsapp</th>
+							<th>Tempat Lahir</th>
+							<th>Tgl Lahir</th>
+							<th>Pendidikan Terakhir</th>
+							<th>Nama Pendidikan Terakhir</th>
+							<th>Status Kepegawaian</th>
+							<th>Posisi Pelaku Pengadaan</th>
+							<th>Jenis Jabatan</th>
+							<th>Nama Jabatan</th>
+							<th>Golongan Terakhir</th>
+							<th>NIP</th>
+							<th>NRP</th>
+							<th>Nama Instansi Lengkap</th>
+							<th>Unit Organisasi</th>
+							<th>Alamat Lengkap Kantor</th>
+							<th>Kode Pos</th>
+							<th>Pas Foto</th>
+							<th>KTP</th>
+							<th>SK ASN</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach($users as $u)
+						<tr>
+							<td><div data-nik="{{$u->userDetail->nik}}" class="editable" data-placeholder="Click to edit">{{\Helper::passHashedDecrypt($u->userDetail->password_lkpp)}}</div></td>
+							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->name}}</div></td>
+							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->nama_lengkap_gelar}}</div></td>
+							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->nik}}</div></td>
+							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->email}}</div></td>
+							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->no_hp}}</div></td>
+							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tempat_lahir}}</div></td>
+							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tgl_lahir}}</div></td>
+							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->pendidikan_terakhir}}</div></td>
+							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->nama_pendidikan_terakhir}}</div></td>
+							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->status_kepegawaian}}</div></td>
+							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->posisi_pelaku_pengadaan}}</div></td>
+							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->jenis_jabatan}}</div></td>
+							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->nama_jabatan}}</div></td>
+							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->golongan_terakhir}}</div></td>
+							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->nip}}</div></td>
+							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->nrp}}</div></td>
+							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->nama_instansi}}</div></td>
+							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->unit_organisasi}}</div></td>
+							<td><div class="editable" data-placeholder="Click to edit" data-is_alamat="{{$u->userDetail->member->memberKantor->alamat_kantor_lengkap}}">{{\Helper::cutString($u->userDetail->member->memberKantor->alamat_kantor_lengkap, 15)}}</div></td>
+							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->kode_pos}}</div></td>
+							<td><a href="{{\Helper::showImage($u->userDetail->member->foto_profile, 'poto_profile')}}" target="_blank">Lihat Dokumen</a></td>
+							<td>
+							@if($u->userDetail->member->foto_ktp)	
+								<a href="{{\Helper::showImage($u->userDetail->member->foto_ktp, 'foto_ktp')}}" target="_blank">Lihat Dokumen</a>
+							@else
+							-
+							@endif
+							</td>
+							<td>
+							@if($u->userDetail->member->file_sk_pengangkatan_asn)
+							<a href="{{\Helper::showImage($u->userDetail->member->file_sk_pengangkatan_asn, 'file_sk_pengangkatan_asn')}}" target="_blank">Lihat Dokumen</a>
+							@else
+							-
+							@endif
+							</td>
+						</tr>
+						@endforeach
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 
@@ -96,7 +152,13 @@
 					}
 				});
 			}
-			var table = $('#users-table').DataTable()
+			var table = $('#users-table').DataTable({
+				"columnDefs": [
+					{ "width": "300px", "targets": 1 }, // Mengatur lebar kolom pertama
+					{ "width": "150px", "targets": 2 }  // Mengatur lebar kolom kedua
+				],
+				"autoWidth": false 
+			})
 			$('.editable').each(function(){
 				var $this = $(this);
 				var placeholder = $this.data('placeholder');
@@ -111,17 +173,27 @@
 				$this.on('focus', function(){
 					if($this.text() === placeholder){
 						$this.text('').removeClass('placeholder');
-					}                    
+					}
+					if(typeof($this.attr('data-is_alamat')) !== "undefined"){
+						let fixalamat = $this.attr('data-is_alamat')
+						$this.text(fixalamat)
+					}
 					$this.parent().addClass('editing');
 				}).on('blur', function(){
 					if($this.text().trim() === ''){
 						$this.text(placeholder).addClass('placeholder');
 					}
-					let sendData = {
-						nik: $this.data('nik'),
-						password : $this.text()
+					if(typeof($this.attr('data-is_alamat')) !== "undefined"){
+						let fixalamat = $this.attr('data-is_alamat').substr(0, 15)+'...'
+						$this.text(fixalamat)
 					}
-					updateData(sendData)
+					if(typeof($this.data('nik')) !== "undefined"){
+						let sendData = {
+							nik: $this.data('nik'),
+							password : $this.text()
+						}
+						updateData(sendData)
+					}					
 					$this.parent().removeClass('editing');
 				}).on('dblclick', function(){
 					var range = document.createRange();

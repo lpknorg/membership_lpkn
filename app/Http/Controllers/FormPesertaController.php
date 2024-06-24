@@ -15,12 +15,14 @@ class FormPesertaController extends Controller
     }
     public function create($id_events, Request $request)
     {
+        session()->forget('api_detail_event'.$id_events);
         if (!session()->has('api_detail_event'.$id_events)) {
             $endpoint = env('API_EVENT').'member/event/detailevent_by_id?id_event='.$id_events;
             $list_api = \Helper::getRespApiWithParam($endpoint, 'get');        
             session(['api_detail_event'.$id_events => $list_api]);
         }
         $list_event = session('api_detail_event'.$id_events);
+        // dd($list_event);
         $provinsi = Provinsi::select('id', 'nama')->orderBy('nama')->get();
         if ($request->ajax()) {            
             $user = User::with('member.memberKantor')->where('email', $request->email)->first();
@@ -82,7 +84,7 @@ class FormPesertaController extends Controller
                         ], 422);
                     }
                 }     
-                if (is_null($checkUser->member->file_sk_pengangkatan_asn) || $request->status_kepegawaian == 'PNS') {
+                if (is_null($checkUser->member->file_sk_pengangkatan_asn) && $request->status_kepegawaian == 'PNS') {
                     $validator = Validator::make($request->all(), [
                         'sk_pengangkatan_asn' => 'required|file|mimes:pdf,jpeg,png,jpg'
                     ]);
@@ -177,9 +179,9 @@ class FormPesertaController extends Controller
                 'unit_organisasi' => 'required|string',
                 'alamat_kantor' => 'required|string',
                 'kode_pos' => 'required|string',
+                'konfirmasi_paket' => 'required|string'
                 // 'posisi_pengadaan' => 'required|string',
-                // 'jenis_jabatan' => 'required|string',                       
-                // 'konfirmasi_paket' => 'required|string'
+                // 'jenis_jabatan' => 'required|string',                                       
             ]);
         }else{
             // ini kalau online
@@ -218,7 +220,7 @@ class FormPesertaController extends Controller
         $namaInstansi = ucwords($request->nama_instansi);
         $tempatLahir = ucwords($request->tempat_lahir);
 
-        \DB::beginTransaction();
+        // \DB::beginTransaction();
         try {
             if ($checkUser) {
                 $checkUser->update([
@@ -262,7 +264,7 @@ class FormPesertaController extends Controller
                     'kantor_kota_id'=>$request->kota,
                     'unit_organisasi' => $request->unit_organisasi,
                     'posisi_pelaku_pengadaan' => $request->posisi_pengadaan ? $request->posisi_pengadaan : $checkUser->member->memberKantor->posisi_pengadaan,
-                    'posisi_pelaku_pengadaan' => $request->jenis_jabatan ? $request->jenis_jabatan : $checkUser->member->memberKantor->jenis_jabatan,
+                    'jenis_jabatan' => $request->jenis_jabatan ? $request->jenis_jabatan : $checkUser->member->memberKantor->jenis_jabatan,
                     'nama_jabatan' => $request->nama_jabatan,
                     'golongan_terakhir' => $request->golongan_terakhir ? $request->golongan_terakhir : $checkUser->member->memberKantor->golongan_terakhir,
                     'updated_at'=>date('Y-m-d H:i:s'),
@@ -286,6 +288,8 @@ class FormPesertaController extends Controller
                     'nama_pendidikan_terakhir'=>$request->nama_pendidikan_terakhir,
                     'nama_untuk_sertifikat'=>$namaSertif,
                     'jenis_kelamin'=>$request->jenis_kelamin,
+                    'prov_id'=>$request->provinsi,
+                    'kota_id'=>$request->kota,
                     'tempat_lahir'=>$tempatLahir,
                     'alamat_lengkap'=>$alamat_lengkap,
                     'foto_profile'=>$pas_foto3x4,
@@ -354,7 +358,7 @@ class FormPesertaController extends Controller
                 'email'     => $request->email,
                 'id_event'  => $request->id_event
             ]);
-            \DB::commit();
+            // \DB::commit();
             return response()->json([
                 'status'   => 'ok',
                 'messages' => "Data berhasil disimpan",

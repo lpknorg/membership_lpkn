@@ -150,6 +150,13 @@ class Helper {
 		return gethostname();
 	}
 
+	public static function showNominal($rp, $show_rp=true){
+		if ($show_rp) {
+			return "Rp " . number_format($rp, 0, ",", ".");
+		}
+		return number_format($rp, 0, ",", ".");
+	}
+
 	public static function cutString($text, $limit=60, $use_dot=true){
 		if (strlen($text) > $limit) {
 			return $use_dot ? substr($text, 0, $limit).'...' : substr($text, 0, $limit);

@@ -1,10 +1,11 @@
 <hr>
-@if($list_event['jenis_kelas'] == "0")
+@if($list_event['event']['jenis_kelas'] == "0")
 <div class="row">
 	<div class="col-md-6">
 		<div class="form-group">
-			<input type="hidden" name="jenis_pelatihan" value="{{$list_event['jenis_pelatihan']}}">
-			<input type="hidden" name="jenis_kelas" value="{{$list_event['jenis_kelas']}}">
+			<input type="hidden" name="jenis_pelatihan" value="{{$list_event['event']['jenis_pelatihan']}}">
+			<input type="hidden" name="jenis_kelas" value="{{$list_event['event']['jenis_kelas']}}">
+			<input type="hidden" name="konfirmasi_paket" value="{{\Helper::showNominal($list_event['biaya'][0]['nominal_biaya']).',- ('.$list_event['biaya'][0]['nama_biaya'].')'}}">
 			<label class="form-label" for="nama_tanpa_gelar">Nama Lengkap (Tanpa Gelar):</label><span class="text-danger"> *</span>
 			<input placeholder="Jawaban Anda" autocomplete="off" type="text" class="form-control" name="nama_tanpa_gelar">
 			<br>
@@ -76,8 +77,8 @@
 <div class="row">
 	<div class="col-md-6">
 		<div class="form-group">
-			<input type="hidden" name="jenis_pelatihan" value="{{$list_event['jenis_pelatihan']}}">
-			<input type="hidden" name="jenis_kelas" value="{{$list_event['jenis_kelas']}}">
+			<input type="hidden" name="jenis_pelatihan" value="{{$list_event['event']['jenis_pelatihan']}}">
+			<input type="hidden" name="jenis_kelas" value="{{$list_event['event']['jenis_kelas']}}">
 			<label class="form-label" for="nama_tanpa_gelar">Nama Lengkap (Tanpa Gelar):</label><span class="text-danger"> *</span>
 			<input placeholder="Jawaban Anda" autocomplete="off" type="text" class="form-control" name="nama_tanpa_gelar">
 			<br>
@@ -264,7 +265,7 @@
 		</div>
 	</div>
 	
-	@if($list_event['jenis_pelatihan'] == "bnsp" || $list_event['jenis_pelatihan'] == "bimtek")
+	@if($list_event['event']['jenis_pelatihan'] == "bnsp" || $list_event['event']['jenis_pelatihan'] == "bimtek")
 	<div class="col-md-12">
 		<div class="form-group">
 			<label class="form-label" for="alamat_rumah">Alamat Rumah:</label><span class="text-danger"> *</span>
@@ -272,7 +273,7 @@
 		</div>
 	</div>
 	@endif
-	@if($list_event['jenis_pelatihan'] == "lkpp")
+	@if($list_event['event']['jenis_pelatihan'] == "lkpp")
 	<div class="col-md-6">
 		<div class="form-group">
 			<label class="form-label" for="posisi_pengadaan">Posisi Pelaku Pengadaan:</label><span class="text-danger"> *</span>
@@ -301,19 +302,18 @@
 	@endif
 </div>
 <div class="row">
-	@if($list_event['jenis_pelatihan'] == "lkpp")
-	
 	<div class="col-md-6">
 		<div class="form-group">
 			<label class="form-label" for="konfirmasi_paket">Konfirmasi Paket Kontribusi:</label><span class="text-danger"> *</span>
 			<select class="form-control" name="konfirmasi_paket">
 				<option value="">Pilih Paket Kontribusi</option>
-				<option value="Rp. 5.250.000,- (Tanpa Menginap)">Rp. 5.250.000,- (Tanpa Menginap)</option>
-				<option value="Rp. 6.450.000,- (Menginap Twin Share)">Rp. 6.450.000,- (Menginap Twin Share (1 Kamar Berdua))</option>
-				<option value="Rp. 7.050.000,- (Menginap Single)">Rp. 7.050.000,- (Menginap Single (1 Kamar Sendiri))</option>
+				@foreach($list_event['biaya'] as $b)
+				<option value="{{\Helper::showNominal($b['nominal_biaya']).',- ('.$b['nama_biaya'].')'}}">{{\Helper::showNominal($b['nominal_biaya']).',- ('.$b['nama_biaya'].')'}}</option>
+				@endforeach
 			</select><br>
 		</div>
 	</div>
+	@if($list_event['event']['jenis_pelatihan'] == "lkpp")	
 	<div class="col-md-6">
 		<div class="form-group">
 			<label class="form-label" for="foto_ktp">Upload Foto KTP:</label><span class="text-danger"> *</span>

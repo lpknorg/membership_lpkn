@@ -107,13 +107,13 @@
                     <div class="card-body" id="top">
 
 
-                        <h2>Biodata Peserta Pelatihan dan Ujian {{$list_event['judul']}}</h2>
+                        <h2>Biodata Peserta Pelatihan dan Ujian {{$list_event['event']['judul']}}</h2>
                         <h6>Bapak/Ibu dimohon untuk mengisi dengan hati - hati agar tidak terjadi Kesalahan Data 🙏🏻</h6>
                         <h6>Pelaksanaan :
-                            @if($list_event['tgl_start'] == $list_event['tgl_end'])
-                            {{\Helper::changeFormatDate($list_event['tgl_start'], 'd-M-Y')}}
+                            @if($list_event['event']['tgl_start'] == $list_event['event']['tgl_end'])
+                            {{\Helper::changeFormatDate($list_event['event']['tgl_start'], 'd-M-Y')}}
                             @endif
-                            {{\Helper::changeFormatDate($list_event['tgl_start'], 'd-M-Y').' s/d '. \Helper::changeFormatDate($list_event['tgl_end'], 'd-M-Y')}}  
+                            {{\Helper::changeFormatDate($list_event['event']['tgl_start'], 'd-M-Y').' s/d '. \Helper::changeFormatDate($list_event['event']['tgl_end'], 'd-M-Y')}}  
                         </h6>
                     </div>
                 </div>
@@ -121,7 +121,7 @@
                     <div class="card-body">
                         <form action="{{ route('form_peserta_store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
-                            <input type="hidden" name="id_event" value="{{ $list_event['id'] }}">
+                            <input type="hidden" name="id_event" value="{{ $list_event['event']['id'] }}">
                             <div class="form-group">
                                 <label class="form-label" for="email">Email Aktif:</label><span class="text-danger"> *</span>
                                 <input placeholder="Jawaban Anda" autocomplete="off" type="email" class="form-control" name="email" value="wdinda375@gmail.com">
@@ -300,6 +300,12 @@
                             $('[name=golongan_terakhir]').select2({
                                 width : '100%'
                             })
+                            $('[name=kota]').select2({
+                                width : '100%'
+                            })
+                            $('[name=konfirmasi_paket]').select2({
+                                width : '100%'
+                            })
                             $('button[type=submit]').removeClass('d-none')
 
                             var today = new Date();
@@ -333,7 +339,7 @@
                 var formData = new FormData($(this)[0]);
 
                 formData.append('pas_foto', $('[name=pas_foto]').prop('files')[0]);
-                @if($list_event['jenis_pelatihan'] == "lkpp")
+                @if($list_event['event']['jenis_pelatihan'] == "lkpp")
                 formData.append('foto_ktp', $('[name=foto_ktp]').prop('files')[0]);
                 formData.append('sk_pengangkatan_asn', $('[name=sk_pengangkatan_asn]').prop('files')[0]);
                 @endif                

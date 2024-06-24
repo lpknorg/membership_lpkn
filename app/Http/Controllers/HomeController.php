@@ -23,7 +23,7 @@ class HomeController extends Controller
 
     public function viewImportMember(){     
     //    User::where('user_has_update_dateimport', 1)->delete();   
-        $users = User::where('user_has_update_dateimport', 1)->select('id','name','email','nip')->orderBy('updated_at', 'desc')->get();
+        $users = User::where('user_has_update_dateimport', 1)->limit(10)->select('id','name','email','nip')->orderBy('updated_at', 'desc')->get();
         $list_event = \Helper::getRespApiWithParam(env('API_EVENT').'member/event/list_all_event', 'get');
         return view('import_member_pbj', compact('users', 'list_event'));
     }
