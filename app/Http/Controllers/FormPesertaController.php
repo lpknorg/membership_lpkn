@@ -213,13 +213,16 @@ class FormPesertaController extends Controller
             $sk_pengangkatan_asn = \Helper::storeFile('file_sk_pengangkatan_asn', $request->sk_pengangkatan_asn);
         }
         $alamat_lengkap = $request->alamat_kantor;
-        $namaSertif = $request->nama_tanpa_gelar;
+        $namaSertif = ucwords($request->nama_tanpa_gelar);
+        $namaLengkapDgnGelar = ucwords($request->nama_dengan_gelar);
+        $namaInstansi = ucwords($request->nama_instansi);
+        $tempatLahir = ucwords($request->tempat_lahir);
 
         \DB::beginTransaction();
         try {
             if ($checkUser) {
                 $checkUser->update([
-                    'name' => $request->nama_tanpa_gelar,
+                    'name' => $namaSertif,
                     'nik' => $request->nik,
                     'nip' => $request->nip,
                     'nrp' => $request->nrp,
@@ -231,12 +234,12 @@ class FormPesertaController extends Controller
 
                 $checkUser->member->update([
                     'no_hp'=>$request->no_hp,
-                    'nama_lengkap_gelar' => $request->nama_dengan_gelar,
+                    'nama_lengkap_gelar' => $namaLengkapDgnGelar,
                     'pendidikan_terakhir'=>$request->pendidikan_terakhir,
                     'nama_pendidikan_terakhir'=>$request->nama_pendidikan_terakhir,
                     'nama_untuk_sertifikat'=>$namaSertif,
                     'jenis_kelamin'=>$request->jenis_kelamin,
-                    'tempat_lahir'=>$request->tempat_lahir,
+                    'tempat_lahir'=>$tempatLahir,
                     'alamat_lengkap'=>$alamat_lengkap,
                     'prov_id'=>$request->provinsi,
                     'kota_id'=>$request->kota,
@@ -251,7 +254,7 @@ class FormPesertaController extends Controller
 
                 $checkUser->member->memberKantor->update([
                     'member_id' => $checkUser->member->id,
-                    'nama_instansi' => $request->nama_instansi,
+                    'nama_instansi' => $namaInstansi,
                     'kode_pos'=>$request->kode_pos,
                     'status_kepegawaian' => $request->status_kepegawaian,
                     'alamat_kantor_lengkap' => $request->alamat_kantor,
@@ -266,7 +269,7 @@ class FormPesertaController extends Controller
                 ]);
             }else{
                 $user = User::create([
-                    'name' => $request->nama_tanpa_gelar,
+                    'name' => $namaSertif,
                     'nik' => $request->nik,
                     'nip' => $request->nip,
                     'nrp' => $request->nrp,
@@ -278,12 +281,12 @@ class FormPesertaController extends Controller
                 $request['user_id'] = $user->id;
                 $member = Member::create([
                     'no_hp'=>$request->no_hp,
-                    'nama_lengkap_gelar' => $request->nama_dengan_gelar,
+                    'nama_lengkap_gelar' => $namaLengkapDgnGelar,
                     'pendidikan_terakhir'=>$request->pendidikan_terakhir,
                     'nama_pendidikan_terakhir'=>$request->nama_pendidikan_terakhir,
                     'nama_untuk_sertifikat'=>$namaSertif,
                     'jenis_kelamin'=>$request->jenis_kelamin,
-                    'tempat_lahir'=>$request->tempat_lahir,
+                    'tempat_lahir'=>$tempatLahir,
                     'alamat_lengkap'=>$alamat_lengkap,
                     'foto_profile'=>$pas_foto3x4,
                     'pas_foto3x4'=>$pas_foto3x4,
@@ -297,7 +300,7 @@ class FormPesertaController extends Controller
 
                 MemberKantor::create([
                     'member_id' => $member->id,
-                    'nama_instansi' => $request->nama_instansi,
+                    'nama_instansi' => $namaInstansi,
                     'status_kepegawaian' => $request->status_kepegawaian,
                     'alamat_kantor_lengkap' => $request->alamat_kantor,
                     'kantor_prov_id'=>$request->provinsi,
@@ -328,9 +331,9 @@ class FormPesertaController extends Controller
                 'email' => $request->email,
                 'nama_sertif' => $namaSertif,
                 'hp' => $request->no_hp,
-                'instansi' => $request->nama_instansi,
+                'instansi' => $namaInstansi,
                 'nama_pemerintahan' => $contKota,
-                'tempat_lahir' => $request->tempat_lahir,
+                'tempat_lahir' => $tempatLahir,
                 'tgl_lahir' => \Helper::changeFormatDate($request->tanggal_lahir, 'Y-m-d'),
                 'foto_diri' => $request->hasFile('pas_foto') ? \Helper::imageToBase64('poto_profile/'.$pas_foto3x4, 'local') : null,
                 'nik' => $request->nik

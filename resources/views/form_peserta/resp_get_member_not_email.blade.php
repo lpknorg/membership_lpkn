@@ -200,7 +200,7 @@
 			<select class="form-control" name="golongan_terakhir">
 				<option value="">Pilih Golongan</option>
 				@foreach($golongan as $k => $val)
-				<option value="{{$k}}">{{$val}}</option>
+				<option value="{{$val}}">{{$val}}</option>
 				@endforeach
 			</select><br>
 		</div>
