@@ -214,7 +214,7 @@
 									<td>SK Pengangkatan ASN</td>
 									<td>
 										@if($user->member->file_sk_pengangkatan_asn)
-										<a target="_blank" href="{{\Helper::showImage($user->member->file_sk_pengangkatan_asn, 'sk_pengangkatan_asn')}}">Lihat SK</a>
+										<a target="_blank" href="{{\Helper::showImage($user->member->file_sk_pengangkatan_asn, 'file_sk_pengangkatan_asn')}}">Lihat SK</a>
 										@else
 										<span class="text-warning">Belum upload SK Pengangkatan</span>
 										@endif

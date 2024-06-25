@@ -149,6 +149,7 @@ Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middlewa
 Route::get('member_profile/Kta', [ProfileController::class, 'download_kta'])->name('member_profile.download_kta');
 
 Route::get('/import_member', [HomeController::class, 'viewImportMember']);
+Route::get('/download_zip/{tipe}/{id_event}', [ViewMemberController::class, 'downloadZip'])->name('downloadZip');
 Route::get('/import_member/{id_event}', [ViewMemberController::class, 'viewByEvent']);
 Route::post('/import_member/{nik}/store', [ViewMemberController::class, 'updateDataMember']);
 Route::post('/import_member', [HomeController::class, 'importMember']);

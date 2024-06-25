@@ -282,7 +282,7 @@
 					<label>Upload SK Pengangkatan ASN</label>
 					<input type="file" name="sk_pengangkatan_asn">
 					@if($user->member->file_sk_pengangkatan_asn)
-					<a class="btn btn-primary btn-sm mt-2" href="{{\Helper::showImage($user->member->file_sk_pengangkatan_asn, 'sk_pengangkatan_asn')}}" target="_blank">Lihat Dokumen</a>
+					<a class="btn btn-primary btn-sm mt-2" href="{{\Helper::showImage($user->member->file_sk_pengangkatan_asn, 'file_sk_pengangkatan_asn')}}" target="_blank">Lihat Dokumen</a>
 					@endif
 				</div>
 			</div>

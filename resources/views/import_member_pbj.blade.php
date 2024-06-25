@@ -17,7 +17,7 @@
 	<div class="container mt-5">
 		<div class="card mb-2">
 			<div class="card-body">
-				<h2>Upload File Peserta PBJ</h2>
+				<h2>Upload File Peserta</h2>
 				<a class="btn btn-secondary btn-sm mb-2" href="{{asset('excel/format_pbj/template_awal.xlsx')}}" download>Download Template</a>
 				<form id="uploadForm" enctype="multipart/form-data">
 					@csrf
