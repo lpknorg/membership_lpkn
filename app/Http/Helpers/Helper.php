@@ -140,8 +140,13 @@ class Helper {
 	public static function showImage($img, $fold=null){
 		// akses foto dari google drive
 		if (substr($img, 0, 13) == 'https://drive') {
-			$getId = explode("id=", $img);
-			$getId = $getId[1];
+			if (strpos($img, '?id=') !== false) {
+				$getId = explode("id=", $img);
+				$getId = $getId[1];
+			}elseif(strpos($img, 'file/d/') !== false) {
+				$getId = explode("/", $img);
+				$getId = $getId[5];
+			}		
 			return "https://drive.google.com/thumbnail?id={$getId}&sz=w1000";
 		}
 		if (is_null($img)) {
