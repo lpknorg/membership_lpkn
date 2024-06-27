@@ -25,9 +25,9 @@
       <button type="submit" id="loginbtn" value="Submit" class="btn btn-primary">Masuk</button>
     </div>
   </form>
-  <!-- <a href="{{route('register')}}" class="btn-flat mt-4">
+  <a href="{{route('register')}}" class="btn-flat mt-4">
     Daftar
-  </a> -->
+  </a>
   <div class="login-card-footer">
     <p class="text-muted">&copy; {{date('Y')}} Copyright : LPKN Training Center</p>
   </div>

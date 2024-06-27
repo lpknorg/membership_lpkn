@@ -23,9 +23,9 @@
             <li class="nav-item">
                 <a href="{{route('peraturan')}}" class="nav-link {{$routes == 'peraturan' ? 'active' : ''}}">Peraturan</a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a href="{{route('artikel.index')}}" class="nav-link {{$routes == 'artikel.index' || $routes == 'artikel.detail' || $routes == 'artikel.indexProfile' ? 'active' : ''}}">Artikel</a>
-            </li>
+            </li> -->
             <li class="nav-item">
                 <a class="nav-link" href="{{route('downloadFile', ['file' => 'manual-book.pdf', 'folder' => 'modul'])}}">Download Manual Book</a>
             </li>
@@ -200,9 +200,9 @@
                         <a href="{{route('member_profile.edit_profile')}}" class="dropdown-item">
                             <i class="fa fa-user mr-2"></i> Profile
                         </a>
-                        <a href="{{route('artikel.indexProfile', ['uname' => \Helper::getUname(\Auth::user())])}}" class="dropdown-item">
+                        <!-- <a href="{{route('artikel.indexProfile', ['uname' => \Helper::getUname(\Auth::user())])}}" class="dropdown-item">
                             <i class="fa-regular fa-newspaper mr-2"></i> Artikel Saya
-                        </a>
+                        </a> -->
                         <a href="{{route('member_profile.edit_password')}}" class="dropdown-item">
                             <i class="fa fa-key mr-2"></i> Ubah Password
                         </a>

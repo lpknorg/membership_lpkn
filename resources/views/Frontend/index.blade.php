@@ -37,7 +37,7 @@
 <body>
 @include('member.layouts.navbar')
 @include('Frontend.slider')
-@include('Frontend.posting.index')
+<!-- @include('Frontend.posting.index') -->
 @include('Frontend.event')
 @include('Frontend.body.testimoni')
 @include('Frontend.body.footer')

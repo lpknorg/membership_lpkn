@@ -323,7 +323,7 @@ class FormPesertaController extends Controller
                 ['user_id' => $request->user_id, 'event_id' => $request->id_event],
                 [
                     'updated_at' => now(),
-                    'paket_kontribusi' => $request->paket_kontribusi
+                    'paket_kontribusi' => $request->konfirmasi_paket
                 ]
             );
 

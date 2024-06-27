@@ -256,6 +256,8 @@ class ProfileController extends Controller
         }else{
             $request['pekerjaan_lainnya'] = null;
         }
+        $request['nama_untuk_sertifikat'] = $request->nama_tanpa_gelar;
+        
         // $npas_foto3x4 = $user->member->pas_foto3x4;
         $nfoto_ktp = $user->member->foto_ktp;
         $nfile_sk_pengangkatan_asn = null;
@@ -321,31 +323,27 @@ class ProfileController extends Controller
                 'kantor_kelurahan_id'=> $request->kantor_kelurahan,
                 'updated_at' => now()
             ]);
-            $path = public_path('uploaded_files/poto_profile/'.\Auth::user()->member->foto_profile);
-            if (file_exists($path)) {
-                $img = file_get_contents($path);
-                $base64 = base64_encode($img);
-            }
             $sertif = new SertifikatKamuController();
-
-            $path = public_path('uploaded_files/poto_profile/'.\Auth::user()->member->foto_profile);
-            if (file_exists($path)) {
-                $img = file_get_contents($path);
-                $base64 = base64_encode($img);
-            }
-            $datapost = [
-                'email'=> $_email,
-                'nama' => $user->member->nama_untuk_sertifikat,
-                'hp' => $user->member->no_hp,
-                'instansi' => $request->tempat_kerja,
-                'nik' => $user->nik,
-                'tempat_lahir' => $user->member->tempat_lahir,
-                'tgl_lahir' => $user->member->tgl_lahir,
-                'instansi' => $request->tempat_kerja,
-                'foto_diri' => $base64
-            ];
-            $endpoint = env('API_SSERTIFIKAT').'Membership/updateMember';
-            $list_sertif = \Helper::getRespApiWithParam($endpoint, 'post', $datapost);
+            $path = public_path('uploaded_files/poto_profile/'.$user->member->foto_profile);
+            if($user->member->foto_profile){
+                if (file_exists($path)) {
+                    $img = file_get_contents($path);
+                    $base64 = base64_encode($img);
+                }
+                $datapost = [
+                    'email'=> $_email,
+                    'nama' => $user->member->nama_untuk_sertifikat,
+                    'hp' => $user->member->no_hp,
+                    'instansi' => $request->tempat_kerja,
+                    'nik' => $user->nik,
+                    'tempat_lahir' => $user->member->tempat_lahir,
+                    'tgl_lahir' => $user->member->tgl_lahir,
+                    'instansi' => $request->tempat_kerja,
+                    'foto_diri' => $base64
+                ];
+                $endpoint = env('API_SSERTIFIKAT').'Membership/updateMember';
+                $list_sertif = \Helper::getRespApiWithParam($endpoint, 'post', $datapost);
+            }            
             DB::commit();
         }catch (Exception $e) {
             DB::rollback();
