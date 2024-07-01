@@ -18,7 +18,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 	return $request->user();
 });
 Route::get('all_alumni', function(){
-	$results = \DB::select("select email from users where email != '' limit 10");
+	$results = \DB::select("select email from users where email != '' ");
 	$emails = array_map(function($item) {
 		return $item->email;
 	}, $results);

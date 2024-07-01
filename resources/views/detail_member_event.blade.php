@@ -39,6 +39,7 @@
 		<a href="{{route('downloadZip', ['tipe' => 'foto_ktp', 'id_event' => $id_event])}}" class="btn btn-primary btn-sm">Download KTP</a>
 		<a href="{{route('downloadZip', ['tipe' => 'file_sk_pengangkatan_asn', 'id_event' => $id_event])}}" class="btn btn-primary btn-sm">Download SK Pengangkatan ASN</a>
 		<a href="{{route('downloadZip', ['tipe' => 'foto_profile', 'id_event' => $id_event])}}" class="btn btn-primary btn-sm">Download Pas Foto</a>
+		<a href="{{\Request::url().'/excel'}}" class="btn btn-primary btn-sm">Download Excel</a>
 		<div class="mt-3">
 			@csrf
 			<div class="table-responsive">

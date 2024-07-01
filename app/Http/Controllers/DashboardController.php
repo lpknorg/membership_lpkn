@@ -283,6 +283,7 @@ class DashboardController extends Controller
             $data = \Helper::getRespApiWithParam($endpoint, 'get');
             $data = $data['list_regis_sertif'];
         }
+        dd($data);
         return Excel::download(new ExportAlumniByEvent($data, $tipe),"alumnievent-{$tipe}.xlsx");
     }
 

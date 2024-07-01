@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\{User, UserEvent};
+use App\Exports\ExportDataFormByEvent;
 
 class ViewMemberController extends Controller
 {
@@ -44,5 +45,10 @@ class ViewMemberController extends Controller
                 'messages' => "Berhasil update data"
             ], 200);
         }        
+    }
+
+    public function downloadExcelByEvent($id_event){
+        $userse = UserEvent::where('event_id', $id_event)->get();
+        return Excel::download(new ExportDataFormByEvent($userse),"data-peserta.xlsx");
     }
 }

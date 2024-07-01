@@ -79,6 +79,9 @@ class LoginController extends Controller
 
 
         if (auth()->attempt(array('email' => $request->email, 'password' => $request->password))){
+            if (\Auth::user()->roles->isEmpty()) {
+                \Auth::user()->syncRoles(['member']);
+            }
             if ($request->slug_log) {
                 session(['key_slug' => $request->slug_log]);
                 $redirect = '/';

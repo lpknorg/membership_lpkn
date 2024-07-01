@@ -48,6 +48,7 @@ use App\Http\Controllers\Artikel\{
 |
 */
 Route::get('ea', function(){
+	dd(\Hash::make('lpkn1234'));
 	$a = \Helper::passHashedDecrypt('kiZtTiHOg3g0LyPvAVcoekN2UkJNNmp5Y3dUZlV0ZjFESGdzOGc9PQ==');
 	dd($a);
 });
@@ -151,6 +152,7 @@ Route::get('member_profile/Kta', [ProfileController::class, 'download_kta'])->na
 Route::get('/import_member', [HomeController::class, 'viewImportMember']);
 Route::get('/download_zip/{tipe}/{id_event}', [ViewMemberController::class, 'downloadZip'])->name('downloadZip');
 Route::get('/import_member/{id_event}', [ViewMemberController::class, 'viewByEvent']);
+Route::get('/import_member/{id_event}/excel', [ViewMemberController::class, 'downloadExcelByEvent']);
 Route::post('/import_member/{nik}/store', [ViewMemberController::class, 'updateDataMember']);
 Route::post('/import_member', [HomeController::class, 'importMember']);
 Route::get('/import_member_datatable', [HomeController::class, 'importMemberDatatable']);
