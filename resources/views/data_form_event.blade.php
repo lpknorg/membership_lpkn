@@ -52,8 +52,13 @@
                 <?php
                 $bulan = \Helper::changeFormatDate($u->userDetail->member->tgl_lahir, 'n');
                 $expl = explode("-", $u->userDetail->member->tgl_lahir);
+                if(count($expl) > 1){
+                    $content = $expl[2].' '.\Helper::bulanIndo($bulan).' '.$expl[0];
+                }else{
+                    $content = $u->userDetail->member->tgl_lahir;
+                }
                 ?>
-                {{$expl[2].' '.\Helper::bulanIndo($bulan).' '.$expl[0]}}
+                {{$content}}
                 </td>
             <td>{{$u->userDetail->member->pendidikan_terakhir}}</td>
             <td>{{$u->userDetail->member->nama_pendidikan_terakhir}}</td>

@@ -30,20 +30,46 @@ class ViewMemberController extends Controller
         return \Helper::downloadZip($filePaths, $tipe);
     }
     public function viewByEvent($id_event){
-        $users = UserEvent::where('event_id', $id_event)->get();
+        $users = UserEvent::where('event_id', $id_event)->orderBy('id', 'desc')->get();
         return view('detail_member_event', compact('users', 'id_event'));
     }
 
     public function updateDataMember(Request $request){
+        if ($request->isi_field == "Click to edit") {
+            $request['isi_field'] = null;
+        }
         $u = User::whereNik($request->nik)->first();
         if($u){
-            $u->update([
-                'password_lkpp' => \Helper::passHashedEncrypt($request->password)
-            ]);
-            return response()->json([
-                'status'   => 'ok',
-                'messages' => "Berhasil update data"
-            ], 200);
+            // ini kalo isinya engga kosong
+            $_field = $request->nama_field;
+            if ($request->isi_field) {
+                // ini kalo users dan data sebelumnya tidak sama dengan data yang sekarang diupdate
+                if ($request->tipe == 'users' && $request->isi_field != $u->$_field) {                    
+                    if ($request->nama_field == "password_lkpp") {
+                        $u->update([
+                            $_field => \Helper::passHashedEncrypt($request->isi_field)
+                        ]);
+                    }else{
+                        $u->update([
+                            $_field => $request->isi_field
+                        ]);
+                    }                    
+                }
+                if ($request->tipe == 'member' && $request->isi_field != $u->member->$_field) {
+                    $u->member->update([
+                        $_field => $request->isi_field
+                    ]);                 
+                }
+                if ($request->tipe == 'member_kantor' && $request->isi_field != $u->member->memberKantor->$_field) {
+                    $u->member->memberKantor->update([
+                        $_field => $request->isi_field
+                    ]);                 
+                }
+            }            
+            // return response()->json([
+            //     'status'   => 'ok',
+            //     'messages' => "Berhasil update data"
+            // ], 200);
         }        
     }
 

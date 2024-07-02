@@ -36,9 +36,9 @@
 <body>
 	<div class="mx-1">
 		<h2 class="mb-4">Data Detail </h2>
-		<a href="{{route('downloadZip', ['tipe' => 'foto_ktp', 'id_event' => $id_event])}}" class="btn btn-primary btn-sm">Download KTP</a>
-		<a href="{{route('downloadZip', ['tipe' => 'file_sk_pengangkatan_asn', 'id_event' => $id_event])}}" class="btn btn-primary btn-sm">Download SK Pengangkatan ASN</a>
-		<a href="{{route('downloadZip', ['tipe' => 'foto_profile', 'id_event' => $id_event])}}" class="btn btn-primary btn-sm">Download Pas Foto</a>
+		<!-- <a href="{{route('downloadZip', ['tipe' => 'foto_ktp', 'id_event' => $id_event])}}" class="btn btn-primary btn-sm">Download KTP</a> -->
+		<!-- <a href="{{route('downloadZip', ['tipe' => 'file_sk_pengangkatan_asn', 'id_event' => $id_event])}}" class="btn btn-primary btn-sm">Download SK Pengangkatan ASN</a> -->
+		<!-- <a href="{{route('downloadZip', ['tipe' => 'foto_profile', 'id_event' => $id_event])}}" class="btn btn-primary btn-sm">Download Pas Foto</a> -->
 		<a href="{{\Request::url().'/excel'}}" class="btn btn-primary btn-sm">Download Excel</a>
 		<div class="mt-3">
 			@csrf
@@ -75,27 +75,27 @@
 					<tbody>
 						@foreach($users as $u)
 						<tr>
-							<td><div data-nik="{{$u->userDetail->nik}}" class="editable" data-placeholder="Click to edit">{{\Helper::passHashedDecrypt($u->userDetail->password_lkpp)}}</div></td>
-							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->name}}</div></td>
-							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->nama_lengkap_gelar}}</div></td>
-							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->nik}}</div></td>
-							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->email}}</div></td>
-							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->no_hp}}</div></td>
-							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tempat_lahir}}</div></td>
-							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tgl_lahir}}</div></td>
-							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->pendidikan_terakhir}}</div></td>
-							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->nama_pendidikan_terakhir}}</div></td>
-							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->status_kepegawaian}}</div></td>
-							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->posisi_pelaku_pengadaan}}</div></td>
-							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->jenis_jabatan}}</div></td>
-							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->nama_jabatan}}</div></td>
-							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->golongan_terakhir}}</div></td>
-							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->nip}}</div></td>
-							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->nrp}}</div></td>
-							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->nama_instansi}}</div></td>
-							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->unit_organisasi}}</div></td>
-							<td><div class="editable" data-placeholder="Click to edit" data-is_alamat="{{$u->userDetail->member->memberKantor->alamat_kantor_lengkap}}">{{\Helper::cutString($u->userDetail->member->memberKantor->alamat_kantor_lengkap, 15)}}</div></td>
-							<td><div class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->kode_pos}}</div></td>
+							<td><div data-nik="{{$u->userDetail->nik}}" class="editable" data-tipe="users" data-field="password_lkpp" data-placeholder="Click to edit">{{\Helper::passHashedDecrypt($u->userDetail->password_lkpp)}}</div></td>
+							<td><div class="editable" data-tipe="users" data-field="name" data-placeholder="Click to edit">{{$u->userDetail->name}}</div></td>
+							<td><div class="editable" data-tipe="member" data-field="nama_lengkap_gelar" data-placeholder="Click to edit">{{$u->userDetail->member->nama_lengkap_gelar}}</div></td>
+							<td><div data-placeholder="Click to edit">{{$u->userDetail->nik}}</div></td>
+							<td><div data-placeholder="Click to edit">{{$u->userDetail->email}}</div></td>
+							<td><div data-tipe="member" data-field="no_hp" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->no_hp}}</div></td>
+							<td><div data-tipe="member" data-field="tempat_lahir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tempat_lahir}}</div></td>
+							<td><div data-tipe="member" data-field="tgl_lahir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tgl_lahir}}</div></td>
+							<td><div data-tipe="member" data-field="pendidikan_terakhir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->pendidikan_terakhir}}</div></td>
+							<td><div data-tipe="member" data-field="nama_pendidikan_terakhir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->nama_pendidikan_terakhir}}</div></td>
+							<td><div data-tipe="member_kantor" data-field="status_kepegawaian" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->status_kepegawaian}}</div></td>
+							<td><div data-tipe="member_kantor" data-field="posisi_pelaku_pengadaan" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->posisi_pelaku_pengadaan}}</div></td>
+							<td><div data-tipe="member_kantor" data-field="jenis_jabatan" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->jenis_jabatan}}</div></td>
+							<td><div data-tipe="member_kantor" data-field="nama_jabatan" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->nama_jabatan}}</div></td>
+							<td><div data-tipe="member_kantor" data-field="golongan_terakhir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->golongan_terakhir}}</div></td>
+							<td><div data-tipe="users" data-field="nip" class="editable" data-placeholder="Click to edit">{{$u->userDetail->nip}}</div></td>
+							<td><div data-tipe="users" data-field="nrp" class="editable" data-placeholder="Click to edit">{{$u->userDetail->nrp}}</div></td>
+							<td><div data-tipe="member_kantor" data-field="nama_instansi" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->nama_instansi}}</div></td>
+							<td><div data-tipe="member_kantor" data-field="unit_organisasi" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->unit_organisasi}}</div></td>
+							<td><div data-tipe="member_kantor" data-field="alamat_kantor_lengkap" class="editable" data-placeholder="Click to edit" data-is_alamat="{{$u->userDetail->member->memberKantor->alamat_kantor_lengkap}}">{{\Helper::cutString($u->userDetail->member->memberKantor->alamat_kantor_lengkap, 15)}}</div></td>
+							<td><div data-tipe="member_kantor" data-field="kode_pos" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->kode_pos}}</div></td>
 							<td><a href="{{\Helper::showImage($u->userDetail->member->foto_profile, 'poto_profile')}}" target="_blank">Lihat Dokumen</a></td>
 							<td>
 								@if($u->userDetail->member->foto_ktp)	
@@ -187,17 +187,20 @@
 					if($this.text().trim() === ''){
 						$this.text(placeholder).addClass('placeholder');
 					}
-					if(typeof($this.attr('data-is_alamat')) !== "undefined"){
-						let fixalamat = $this.attr('data-is_alamat').substr(0, 15)+'...'
-						$this.text(fixalamat)
+					// if(typeof($this.attr('data-is_alamat')) !== "undefined"){
+					// 	let fixalamat = $this.attr('data-is_alamat').substr(0, 15)+'...'
+					// 	$this.text(fixalamat)
+					// }
+					var _tipe = $this.data('tipe')
+					var _field = $this.data('field')
+					var _nik = $(this).closest('tr').find('div[data-nik]').data('nik');
+					let sendData = {
+						nik        : _nik,
+						tipe       : _tipe,
+						nama_field : _field,
+						isi_field  : $this.text()
 					}
-					if(typeof($this.data('nik')) !== "undefined"){
-						let sendData = {
-							nik: $this.data('nik'),
-							password : $this.text()
-						}
-						updateData(sendData)
-					}					
+					updateData(sendData)	
 					$this.parent().removeClass('editing');
 				}).on('dblclick', function(){
 					var range = document.createRange();

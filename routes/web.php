@@ -48,6 +48,9 @@ use App\Http\Controllers\Artikel\{
 |
 */
 Route::get('ea', function(){
+	$a = base64_decode('TURBMU1qTTFMMUJRU3kxRExsTk1MMUJRVTBSTlVFSktMekl3TWpRPQ==');
+	$b = base64_decode($a);
+	dd($b);
 	dd(\Hash::make('lpkn1234'));
 	$a = \Helper::passHashedDecrypt('kiZtTiHOg3g0LyPvAVcoekN2UkJNNmp5Y3dUZlV0ZjFESGdzOGc9PQ==');
 	dd($a);

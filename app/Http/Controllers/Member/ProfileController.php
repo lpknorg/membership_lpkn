@@ -41,7 +41,7 @@ class ProfileController extends Controller
 
     public function index()
     {        
-    	$new_event = $this->getRespApi(env('API_EVENT').'member/event');
+        $new_event = $this->getRespApi(env('API_EVENT').'member/event');
         $user = \Auth::user();        
         return view('member.profile.index', compact('user', 'new_event'));
     }
@@ -183,7 +183,7 @@ class ProfileController extends Controller
                 'messages' => $validator->errors()->first(),
             ], 422);
         }
-        if(\Auth::check()){
+        if(\Auth::check() && \Auth::user()->getRoleNames()[0] != 'admin'){
             $_email = \Auth::user()->email;
         }else{
             $_email = $request->email;
@@ -258,12 +258,12 @@ class ProfileController extends Controller
         }
         $request['nama_untuk_sertifikat'] = $request->nama_tanpa_gelar;
         
-        // $npas_foto3x4 = $user->member->pas_foto3x4;
+        $npas_foto3x4 = $user->member->foto_profile;
         $nfoto_ktp = $user->member->foto_ktp;
         $nfile_sk_pengangkatan_asn = null;
-        // if ($request->hasFile('pas_foto')){
-        //     $npas_foto3x4 = \Helper::storeFile('pas_foto', $request->pas_foto);
-        // }
+        if ($request->hasFile('pas_foto')){
+            $npas_foto3x4 = \Helper::storeFile('poto_profile', $request->pas_foto);
+        }
         if ($request->hasFile('foto_ktp')){
             $nfoto_ktp = \Helper::storeFile('foto_ktp', $request->foto_ktp);
         }
@@ -297,7 +297,8 @@ class ProfileController extends Controller
                 'kecamatan_id'=> $request->rumah_kecamatan,
                 'kelurahan_id'=> $request->rumah_kelurahan,
                 // 'kelurahan_id'=> $request->rumah_kelurahan,
-                // 'pas_foto3x4' => $npas_foto3x4,
+                'pas_foto3x4' => $npas_foto3x4,
+                'foto_profile' => $npas_foto3x4,
                 'foto_ktp' => $nfoto_ktp,
                 'file_sk_pengangkatan_asn' => $nfile_sk_pengangkatan_asn,
                 'updated_at' => now()
