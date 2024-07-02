@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Admin\Member;
-use App\Models\UserSosialMedia;
+use App\Models\{UserSosialMedia, UserEvent};
 use Carbon\Carbon;
 use App\Http\Controllers\Member\{EventKamuController, SertifikatKamuController};
 
@@ -84,5 +84,9 @@ class User extends Authenticatable
     }
     public function getTglBergabungAttribute(){
         return Carbon::parse($this->created_at)->timezone('Asia/Jakarta')->format('d-M-Y');
+    }
+
+    public function userEvent(){
+        return $this->belongsTo(UserEvent::class, 'id', 'user_id');
     }
 }
