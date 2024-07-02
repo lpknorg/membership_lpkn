@@ -22,19 +22,31 @@ class FormPesertaController extends Controller
             session(['api_detail_event'.$id_events => $list_api]);
         }
         $list_event = session('api_detail_event'.$id_events);
-        // dd($list_event);
-        $provinsi = Provinsi::select('id', 'nama')->orderBy('nama')->get();
-        if ($request->ajax()) {            
+        return view('form_peserta.create', compact('id_events', 'list_event'));
+    }
+
+    public function createAjax($id_events, Request $request){
+        if ($request->ajax()) {   
+            $list_event = session('api_detail_event'.$id_events);
+
+            // cek apakah email tersebut sudah melakukan pendaftaran pada event dan sudah valid melakukan pembayaran serta dilakukan konfirmasi oleh panitia
+            $endpointcek = env('API_EVENT').'member/Regis_event/cek_status_bayar';
+            $cekEvent = \Helper::getRespApiWithParam($endpointcek, 'POST', ['email' => $request->email, 'id_kelas_event' => $id_events]);
+            if ($cekEvent == 0) {
+                return view('form_peserta.resp_from_event');   
+            }            
+
             $user = User::with('member.memberKantor')->where('email', $request->email)->first();
             $golongan = \Helper::getGolongan();
+            $provinsi = Provinsi::select('id', 'nama')->orderBy('nama')->get();
+
             if ($user) {
                 $selKota = Kota::where('id_provinsi', $user->member->memberKantor->kantor_prov_id)->get();
                 return view('form_peserta.resp_get_memberby_email', compact('user', 'list_event', 'provinsi', 'selKota', 'golongan'));
             }else{
                 return view('form_peserta.resp_get_member_not_email', compact('user', 'list_event', 'provinsi', 'golongan'));
-            }
-        }        
-        return view('form_peserta.create', compact('id_events', 'list_event'));
+            }   
+        }
     }
 
     public function store(Request $request)

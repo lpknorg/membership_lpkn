@@ -374,3 +374,4 @@
 	
 </div>
 @endif
+<button type="submit" class="btn btn-primary w-100 mt-2">Kirim</button>

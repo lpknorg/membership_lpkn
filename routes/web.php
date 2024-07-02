@@ -58,6 +58,7 @@ Route::get('ea', function(){
 
 // Route::resource('form_peserta', FormPesertaController::class);
 Route::get('/form_peserta/{id}', [App\Http\Controllers\FormPesertaController::class, 'create'])->name('form_peserta.create');
+Route::get('/form_peserta_ajax/{id}', [App\Http\Controllers\FormPesertaController::class, 'createAjax'])->name('form_peserta.createAjax');
 Route::get('/form_peserta/{id}/list_peserta', [App\Http\Controllers\FormPesertaController::class, 'index'])->name('form_peserta.index');
 Route::post('/form_peserta_store', [App\Http\Controllers\FormPesertaController::class, 'store'])->name('form_peserta_store');
 

@@ -22,7 +22,7 @@ class PanitiaSeeder extends Seeder
                 'name' => ucfirst($value),
                 'email' => "{$value}@mail.com",
                 'is_confirm' => 1,
-                'password' => \Hash::make(123123)
+                'password' => \Hash::make('lpkn1234')
             ]);
             $panitia->syncRoles('panitia');
         }

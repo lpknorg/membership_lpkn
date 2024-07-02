@@ -130,7 +130,7 @@
                             <div id="divContent">
 
                             </div>                            
-                            <button type="submit" class="btn btn-primary w-100 d-none mt-2">Kirim</button>
+                            
                         </form>
                     </div>
                 </div>
@@ -273,7 +273,7 @@
                 }
                 e.preventDefault()
                 $.ajax({
-                    url: '{{url('form_peserta', $id_events)}}',
+                    url: '{{url('form_peserta_ajax', $id_events)}}',
                     type: 'get',
                     data: {
                         email: _email
@@ -306,7 +306,7 @@
                             $('[name=konfirmasi_paket]').select2({
                                 width : '100%'
                             })
-                            $('button[type=submit]').removeClass('d-none')
+                            // $('button[type=submit]').removeClass('d-none')
 
                             var today = new Date();
                             var dd = String(today.getDate()).padStart(2, '0');
@@ -326,7 +326,7 @@
                         $('#btnCekData').attr('disabled', false).css('cursor', 'pointer').text('Cek Data')   
                         toastr.error('Ada kesalahan saat ambil data', 'Error');  
                         $('#divContent').html('')
-                        $('button[type=submit]').addClass('d-none')     
+                        // $('button[type=submit]').addClass('d-none')     
                     },
                     complete: function(){
                         $('#btnCekData').attr('disabled', false).css('cursor', 'pointer').text('Cek Data')
