@@ -15,9 +15,10 @@
 <body>
 
 	<div class="container mt-5">
+		<h5>Halo, {{\Auth::user()->name}}</h5>
 		<div class="card mb-2">
 			<div class="card-body">
-				<h2>Upload File Peserta</h2>
+				<h3>Upload File Peserta</h3>
 				<a class="btn btn-secondary btn-sm mb-2" href="{{asset('excel/format_pbj/template_awal.xlsx')}}" download>Download Template</a>
 				<form id="uploadForm" enctype="multipart/form-data">
 					@csrf
@@ -90,10 +91,10 @@
 	<script>
 		$(document).ready(function() {
 			$('body').on('change', '[name=event_id]', function(e) {
-                let val = $(this).find(':selected').val()
-                let _link = '{{url('import_member')}}' + `/${val}`
-                $('#btnLihatDetailData').attr('href', _link)
-            })
+				let val = $(this).find(':selected').val()
+				let _link = '{{url('import_member')}}' + `/${val}`
+				$('#btnLihatDetailData').attr('href', _link)
+			})
 			$('[name=event_id]').select2({
 				width : '100%'
 			})

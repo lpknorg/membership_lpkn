@@ -169,7 +169,8 @@ class MemberNewImport implements ToArray, WithHeadingRow
                         ['user_id' => $userId, 'event_id' => $this->idEvent],
                         [
                             'updated_at' => now(),
-                            'paket_kontribusi' => isset($v['paket_kontribusi']) ? $v['paket_kontribusi'] : null
+                            'paket_kontribusi' => isset($v['paket_kontribusi']) ? $v['paket_kontribusi'] : null,
+                            'createdBy' => \Auth::user()->id
                         ]
                     );
                 }

@@ -81,7 +81,8 @@ class LoginController extends Controller
         if (auth()->attempt(array('email' => $request->email, 'password' => $request->password))){
             if (\Auth::user()->roles->isEmpty()) {
                 \Auth::user()->syncRoles(['member']);
-            }
+            }            
+
             if ($request->slug_log) {
                 session(['key_slug' => $request->slug_log]);
                 $redirect = '/';
@@ -98,6 +99,10 @@ class LoginController extends Controller
                 }else{
                     $redirect = '/member_profile';
                 }
+            }
+            // ngecek panitia atau bukan
+            if (\Auth::user()->getRoleNames()[0] == 'panitia') {
+                $redirect = '/import_member';
             }
             $_user = User::where('email', $request->email)->with(['member.alamatProvinsi', 'member.alamatKota', 'member.alamatKecamatan', 'member.alamatKelurahan', 'member.memberKantor'])->first();
             return response()->json([

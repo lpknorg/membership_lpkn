@@ -85,7 +85,7 @@ Route::get('/home', function(){
 Route::get('/download_file/{file}/{folder?}', [HomeController::class, 'downloadFile'])->name('downloadFile');
 // Route::view('dashboard', 'dashboard');
 
-Route::group(['prefix' => 'dashboard2', 'as' => 'dashboard2.'], function () {
+Route::group(['prefix' => 'dashboard2', 'as' => 'dashboard2.', 'middleware' => 'auth'], function () {
 	Route::get('/', [DashboardController::class, 'index2'])->name('index');
 	Route::get('/lulus_pbj', [DashboardController::class, 'lulusPbj'])->name('lulusPbj');
 	Route::get('resp_tahun', [DashboardController::class, 'responseByBulan'])->name('responseByBulan');
@@ -152,15 +152,17 @@ Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middlewa
 });
 Route::get('member_profile/Kta', [ProfileController::class, 'download_kta'])->name('member_profile.download_kta');
 
-Route::get('/import_member', [HomeController::class, 'viewImportMember']);
-Route::get('/download_zip/{tipe}/{id_event}', [ViewMemberController::class, 'downloadZip'])->name('downloadZip');
-Route::get('/import_member/{id_event}', [ViewMemberController::class, 'viewByEvent']);
-Route::get('/import_member/{id_event}/excel', [ViewMemberController::class, 'downloadExcelByEvent']);
-Route::post('/import_member/{nik}/store', [ViewMemberController::class, 'updateDataMember']);
-Route::post('/import_member', [HomeController::class, 'importMember']);
-Route::get('/import_member_datatable', [HomeController::class, 'importMemberDatatable']);
-Route::get('/import_member2', [HomeController::class, 'importMember2']);
 
+Route::group(['middleware' => ['auth', 'role:panitia']], function () {
+	Route::get('/import_member', [HomeController::class, 'viewImportMember']);
+	Route::get('/download_zip/{tipe}/{id_event}', [ViewMemberController::class, 'downloadZip'])->name('downloadZip');
+	Route::get('/import_member/{id_event}', [ViewMemberController::class, 'viewByEvent']);
+	Route::get('/import_member/{id_event}/excel', [ViewMemberController::class, 'downloadExcelByEvent']);
+	Route::post('/import_member/{nik}/store', [ViewMemberController::class, 'updateDataMember']);
+	Route::post('/import_member', [HomeController::class, 'importMember']);
+	Route::get('/import_member_datatable', [HomeController::class, 'importMemberDatatable']);
+	Route::get('/import_member2', [HomeController::class, 'importMember2']);
+});
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 	Route::get('/provinsi/dataTables', [ProvinsiController::class, 'getDatatable'])->name('provinsi.dataTables');
