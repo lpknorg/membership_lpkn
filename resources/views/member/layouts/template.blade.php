@@ -45,7 +45,7 @@
 							</li>
 						</ul>
 
-						<a href="{{ route('member_profile.download_kta') }}" class="btn btn-primary btn-block"><b>Download KTA</b></a>
+						<!-- <a href="{{ route('member_profile.download_kta') }}" class="btn btn-primary btn-block"><b>Download KTA</b></a> -->
 					</div>
 					<!-- /.card-body -->
 				</div>

@@ -23,10 +23,13 @@ class HomeController extends Controller
 
     public function viewImportMember(){     
     //    User::where('user_has_update_dateimport', 1)->delete();   
+        $role = \Auth::user()->getRoleNames()[0];
         $users = User::where('user_has_update_dateimport', 1)
-        ->whereHas('userEvent', function($q){
-            $q->where('createdBy', \Auth::user()->id);
-        })
+        ->when($role == 'panitia', function($q2){
+            $q2->whereHas('userEvent', function($q){
+                $q->where('createdBy', \Auth::user()->id);
+            });
+        })        
         ->select('id','name','email','nip')->orderBy('updated_at', 'desc')->get();
         $list_event = \Helper::getRespApiWithParam(env('API_EVENT').'member/event/list_all_event', 'get');
         return view('import_member_pbj', compact('users', 'list_event'));
@@ -67,7 +70,7 @@ class HomeController extends Controller
     }
 
     public function importMember2(Request $request){
-     echo date('d-m-Y H:i:s');
+       echo date('d-m-Y H:i:s');
         ini_set('max_execution_time', 7000); // 10 minutes
         $client = new \GuzzleHttp\Client();
         $endpoint = env('API_LPKN_ID').'Member/member_accept';

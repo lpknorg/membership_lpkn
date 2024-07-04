@@ -39,11 +39,22 @@ class ViewMemberController extends Controller
             $request['isi_field'] = null;
         }
         $u = User::whereNik($request->nik)->first();
+        // return $u->userEvent;
         if($u){
             // ini kalo isinya engga kosong
             $_field = $request->nama_field;
-            if ($request->isi_field) {
+            if (!is_null($request->isi_field)) {
                 // ini kalo users dan data sebelumnya tidak sama dengan data yang sekarang diupdate
+                if ($request->tipe == 'user_event' && $request->isi_field != $u->userEvent->$_field) {
+                    $uv = UserEvent::where('user_id', $u->id)
+                    ->where('event_id', $request->id_event)
+                    ->first();
+                    if ($uv) {
+                        $uv->update([
+                            $_field => $request->isi_field
+                        ]);     
+                    }                                
+                }
                 if ($request->tipe == 'users' && $request->isi_field != $u->$_field) {                    
                     if ($request->nama_field == "password_lkpp") {
                         $u->update([
@@ -65,11 +76,7 @@ class ViewMemberController extends Controller
                         $_field => $request->isi_field
                     ]);                 
                 }
-            }            
-            // return response()->json([
-            //     'status'   => 'ok',
-            //     'messages' => "Berhasil update data"
-            // ], 200);
+            }                        
         }        
     }
 

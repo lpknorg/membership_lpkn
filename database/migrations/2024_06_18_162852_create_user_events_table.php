@@ -19,6 +19,10 @@ class CreateUserEventsTable extends Migration
             $table->integer('event_id');
             $table->string('paket_kontribusi')->nullable();
             $table->integer('createdBy');
+            $table->string('keterangan')->nullable();
+            $table->string('marketing')->nullable();
+            $table->string('bg_color')->nullable();
+            $table->string('font_color')->nullable();
             $table->timestamps();
         });
     }
