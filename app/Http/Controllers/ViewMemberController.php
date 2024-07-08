@@ -80,6 +80,16 @@ class ViewMemberController extends Controller
         }        
     }
 
+    public function updateCss(Request $request){
+        $uv = UserEvent::whereIn('id', $request->idArr)
+        ->when($request->tipe == "background-color", function($q2)use($request){
+            $q2->update(['bg_color' => $request->color]);
+        })
+        ->when($request->tipe == "font-color", function($q2)use($request){
+            $q2->update(['font_color' => $request->color]);
+        });
+    }
+
     public function downloadExcelByEvent($id_event){
         $userse = UserEvent::where('event_id', $id_event)->get();
         return Excel::download(new ExportDataFormByEvent($userse),"data-peserta.xlsx");

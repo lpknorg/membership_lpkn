@@ -160,6 +160,7 @@ Route::group(['middleware' => ['auth', 'role:panitia|admin']], function () {
 	Route::get('/import_member/{id_event}', [ViewMemberController::class, 'viewByEvent']);
 	Route::get('/import_member/{id_event}/excel', [ViewMemberController::class, 'downloadExcelByEvent']);
 	Route::post('/import_member/{nik}/store', [ViewMemberController::class, 'updateDataMember']);
+	Route::post('/import_member/update_css/{tipe}', [ViewMemberController::class, 'updateCss']);
 	Route::post('/import_member', [HomeController::class, 'importMember']);
 	Route::get('/import_member_datatable', [HomeController::class, 'importMemberDatatable']);
 	Route::get('/import_member2', [HomeController::class, 'importMember2']);
