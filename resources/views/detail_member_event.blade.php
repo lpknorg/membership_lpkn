@@ -31,6 +31,16 @@
 		.placeholder {
 			color: #ccc;
 		}
+		table thead th{
+			font-weight: 600;
+			font-size: 15px;
+		}
+		tbody tr td{
+			max-width: 100px; /* Sesuaikan dengan lebar maksimum yang diinginkan */
+			overflow: hidden;
+			text-overflow: ellipsis; /* Menampilkan elipsis (...) jika teks terpotong */
+			white-space: nowrap;
+		}
 	</style>
 </head>
 <body>
@@ -53,7 +63,7 @@
 					<div class="col-md-2">
 						<div class="form-group">
 							<label>Warna Teks</label>
-							<input type="color" name="css-font_color" class="form-control" value="#000" />
+							<input type="color" name="css-font_color" class="form-control" value="#000000" />
 						</div>
 					</div>
 				</div>	
@@ -61,30 +71,30 @@
 					<thead>
 						<tr>
 							<th></th>
-							<th>Password LKPP</th>
-							<th>Marketing</th>
-							<th>Keterangan</th>
-							<th width="20%">Nama Lengkap(tanpa gelar)</th>
-							<th>Nama Lengkap(dengan gelar)</th>
-							<th>NIK</th>
-							<th>Email Aktif</th>
-							<th>No Whatsapp</th>
-							<th>Tempat Lahir</th>
+							<th style="min-width: 120px;">Password LKPP</th>
+							<th style="min-width: 100px;">Marketing</th>
+							<th style="min-width: 140px;">Keterangan</th>
+							<th style="min-width: 210px;">Nama Lengkap(tanpa gelar)</th>
+							<th style="min-width: 205px;">Nama Lengkap(dgn gelar)</th>
+							<th style="min-width: 140px;">NIK</th>
+							<th style="min-width: 180px;">Email Aktif</th>
+							<th style="min-width: 110px;">No WA</th>
+							<th style="min-width: 120px;">Tempat Lahir</th>
 							<th>Tgl Lahir</th>
-							<th>Pendidikan Terakhir</th>
-							<th>Nama Pendidikan Terakhir</th>
-							<th>Status Kepegawaian</th>
-							<th>Posisi Pelaku Pengadaan</th>
-							<th>Jenis Jabatan</th>
-							<th>Nama Jabatan</th>
-							<th>Golongan Terakhir</th>
-							<th>NIP</th>
-							<th>NRP</th>
-							<th>Nama Instansi Lengkap</th>
-							<th>Unit Organisasi</th>
-							<th>Alamat Lengkap Kantor</th>
-							<th>Kode Pos</th>
-							<th>Paket Kontribusi</th>
+							<th style="min-width: 150px;">Pendidikan Terakhir</th>
+							<th style="min-width: 210px;">Nama Pendidikan Terakhir</th>
+							<th style="min-width: 150px;">Status Kepegawaian</th>
+							<th style="min-width: 190px;">Posisi Pelaku Pengadaan</th>
+							<th style="min-width: 120px;">Jenis Jabatan</th>
+							<th style="min-width: 120px;">Nama Jabatan</th>
+							<th style="min-width: 120px;">Gol Terakhir</th>
+							<th style="min-width: 140px;">NIP</th>
+							<th style="min-width: 140px;">NRP</th>
+							<th style="min-width: 190px;">Nama Instansi Lengkap</th>
+							<th style="min-width: 190px;">Unit Organisasi</th>
+							<th style="min-width: 190px;">Alamat Lengkap Kantor</th>
+							<th style="min-width: 80px;">Kode Pos</th>
+							<th style="min-width: 140px;">Paket Kontribusi</th>
 							<th>Pas Foto</th>
 							<th>KTP</th>
 							<th>SK ASN</th>
@@ -103,8 +113,8 @@
 							<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="user_event" data-field="keterangan" data-placeholder="Click to edit">{{$u->keterangan}}</div></td>
 							<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="users" data-field="name" data-placeholder="Click to edit">{{$u->userDetail->name}}</div></td>
 							<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="member" data-field="nama_lengkap_gelar" data-placeholder="Click to edit">{{$u->userDetail->member->nama_lengkap_gelar}}</div></td>
-							<td style="color: {{$u->font_color}};"><div data-placeholder="Click to edit">{{$u->userDetail->nik}}</div></td>
-							<td style="color: {{$u->font_color}};"><div data-placeholder="Click to edit">{{$u->userDetail->email}}</div></td>
+							<td style="color: {{$u->font_color}};"><div data-placeholder="Click to edit" class="not-editable">{{$u->userDetail->nik}}</div></td>
+							<td style="color: {{$u->font_color}};"><div class="not-editable" data-placeholder="Click to edit">{{$u->userDetail->email}}</div></td>
 							<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="no_hp" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->no_hp}}</div></td>
 							<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="tempat_lahir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tempat_lahir}}</div></td>
 							<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="tgl_lahir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tgl_lahir}}</div></td>
@@ -258,10 +268,25 @@
 			}
 			var table = $('#users-table').DataTable({
 				"columnDefs": [
-					{ "width": "300px", "targets": 1 }, // Mengatur lebar kolom pertama
-					{ "width": "150px", "targets": 2 }  // Mengatur lebar kolom kedua
+					{ "width": "300px", "targets": 2 },
+					{ "width": "150px", "targets": 3 }
 					],
 				"autoWidth": false 
+			})
+			$('body').on('dblclick', '[class=not-editable]', function(e) {
+				var range = document.createRange();
+				range.selectNodeContents(this);
+				var selection = window.getSelection();
+				selection.removeAllRanges();
+				selection.addRange(range);
+				var textToCopy = $(this).text().trim();
+
+				try {
+					document.execCommand('copy');
+					toastr.success(`Berhasil salin teks ${textToCopy}`, 'Berhasil');
+				} catch (err) {
+					console.log('Whoops, teks gagal disalin');
+				}
 			})
 			$('.editable').each(function(){
 				var $this = $(this);
@@ -302,7 +327,7 @@
 						id_event   : '{{$id_event}}'
 					}
 					updateData(sendData)	
-					$this.parent().removeClass('editing');
+					$this.parent().removeClass('editing');					
 				}).on('dblclick', function(){
 					var range = document.createRange();
 					range.selectNodeContents(this);

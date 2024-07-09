@@ -28,8 +28,8 @@ class FormPesertaController extends Controller
     public function createAjax($id_events, Request $request){
         if ($request->ajax()) {   
             $list_event = session('api_detail_event'.$id_events);
-
-            if($list_event['event']['jenis_kelas'] == "0"){
+            // kalau kelas nya itu online dan bukan inhouse
+            if($list_event['event']['jenis_kelas'] == "0" && $list_event['event']['inhouse'] == "0"){
                 // cek apakah email tersebut sudah melakukan pendaftaran pada event dan sudah valid melakukan pembayaran serta dilakukan konfirmasi oleh panitia
                 $endpointcek = env('API_EVENT').'member/Regis_event/cek_status_bayar';
                 $cekEvent = \Helper::getRespApiWithParam($endpointcek, 'POST', ['email' => $request->email, 'id_kelas_event' => $id_events]);
