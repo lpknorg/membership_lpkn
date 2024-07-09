@@ -75,26 +75,26 @@
 							<th style="min-width: 100px;">Marketing</th>
 							<th style="min-width: 140px;">Keterangan</th>
 							<th style="min-width: 210px;">Nama Lengkap(tanpa gelar)</th>
-							<th style="min-width: 205px;">Nama Lengkap(dgn gelar)</th>
+							<th style="min-width: 265px;">Nama Lengkap(dgn gelar)</th>
 							<th style="min-width: 140px;">NIK</th>
-							<th style="min-width: 180px;">Email Aktif</th>
+							<th style="min-width: 190px;">Email Aktif</th>
 							<th style="min-width: 110px;">No WA</th>
 							<th style="min-width: 120px;">Tempat Lahir</th>
-							<th>Tgl Lahir</th>
+							<th style="min-width: 80px;">Tgl Lahir</th>
 							<th style="min-width: 150px;">Pendidikan Terakhir</th>
 							<th style="min-width: 210px;">Nama Pendidikan Terakhir</th>
 							<th style="min-width: 150px;">Status Kepegawaian</th>
-							<th style="min-width: 190px;">Posisi Pelaku Pengadaan</th>
+							<th style="min-width: 280px;">Posisi Pelaku Pengadaan</th>
 							<th style="min-width: 120px;">Jenis Jabatan</th>
-							<th style="min-width: 120px;">Nama Jabatan</th>
+							<th style="min-width: 280px;">Nama Jabatan</th>
 							<th style="min-width: 120px;">Gol Terakhir</th>
 							<th style="min-width: 140px;">NIP</th>
-							<th style="min-width: 140px;">NRP</th>
-							<th style="min-width: 190px;">Nama Instansi Lengkap</th>
-							<th style="min-width: 190px;">Unit Organisasi</th>
-							<th style="min-width: 190px;">Alamat Lengkap Kantor</th>
+							<th style="min-width: 80px;">NRP</th>
+							<th style="min-width: 290px;">Nama Instansi Lengkap</th>
+							<th style="min-width: 290px;">Unit Organisasi</th>
+							<th style="min-width: 290px;">Alamat Lengkap Kantor</th>
 							<th style="min-width: 80px;">Kode Pos</th>
-							<th style="min-width: 140px;">Paket Kontribusi</th>
+							<th style="min-width: 570px;">Paket Kontribusi</th>
 							<th>Pas Foto</th>
 							<th>KTP</th>
 							<th>SK ASN</th>
@@ -129,7 +129,7 @@
 							<td style="color: {{$u->font_color}};"><div data-tipe="users" data-field="nrp" class="editable" data-placeholder="Click to edit">{{$u->userDetail->nrp}}</div></td>
 							<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="nama_instansi" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->nama_instansi}}</div></td>
 							<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="unit_organisasi" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->unit_organisasi}}</div></td>
-							<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="alamat_kantor_lengkap" class="editable" data-placeholder="Click to edit" data-is_alamat="{{$u->userDetail->member->memberKantor->alamat_kantor_lengkap}}">{{\Helper::cutString($u->userDetail->member->memberKantor->alamat_kantor_lengkap, 15)}}</div></td>
+							<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="alamat_kantor_lengkap" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->alamat_kantor_lengkap}}</div></td>
 							<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="kode_pos" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->kode_pos}}</div></td>
 							<td style="color: {{$u->font_color}};"><div>{{$u->paket_kontribusi}}</div></td>
 							<td><a href="{{\Helper::showImage($u->userDetail->member->foto_profile, 'poto_profile')}}" target="_blank">Lihat Dokumen</a></td>
@@ -271,7 +271,8 @@
 					{ "width": "300px", "targets": 2 },
 					{ "width": "150px", "targets": 3 }
 					],
-				"autoWidth": false 
+				"autoWidth": false,
+				"pageLength": 50
 			})
 			$('body').on('dblclick', '[class=not-editable]', function(e) {
 				var range = document.createRange();
@@ -302,10 +303,6 @@
 				$this.on('focus', function(){
 					if($this.text() === placeholder){
 						$this.text('').removeClass('placeholder');
-					}
-					if(typeof($this.attr('data-is_alamat')) !== "undefined"){
-						let fixalamat = $this.attr('data-is_alamat')
-						$this.text(fixalamat)
 					}
 					$this.parent().addClass('editing');
 				}).on('blur', function(){
