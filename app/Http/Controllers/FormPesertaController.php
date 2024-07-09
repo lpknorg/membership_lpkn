@@ -193,7 +193,7 @@ class FormPesertaController extends Controller
                 'unit_organisasi' => 'required|string',
                 'alamat_kantor' => 'required|string',
                 'kode_pos' => 'required|string',
-                'konfirmasi_paket' => 'required|string'
+                // 'konfirmasi_paket' => 'required|string'
                 // 'posisi_pengadaan' => 'required|string',
                 // 'jenis_jabatan' => 'required|string',                                       
             ]);
@@ -355,7 +355,27 @@ class FormPesertaController extends Controller
                 'tgl_lahir' => \Helper::changeFormatDate($request->tanggal_lahir, 'Y-m-d'),
                 'foto_diri' => $request->hasFile('pas_foto') ? \Helper::imageToBase64('poto_profile/'.$pas_foto3x4, 'local') : null,
                 'nik' => $request->nik
-            ];         
+            ];   
+            //hit ke event
+            $arrPeserta = [];
+            array_push($arrPeserta, [
+                'id_kelas_event'    => $request->id_event,
+                'nama_lengkap'      => $namaSertif,
+                'no_hp'             => $request->no_hp,
+                'email'             => $request->email,
+                'instansi'          => $namaInstansi,
+                'unit_organisasi'   => $request->unit_organisasi,
+                'alamat'            => $alamat_lengkap,
+                'nik'               => $request->nik,
+                'tempat_lahir'      => $tempatLahir,
+                'tgl_lahir'         => \Helper::changeFormatDate($request->tanggal_lahir, 'Y-m-d'),
+                'status_pembayaran' => 1,
+                'bukti'             => 'default_form_member.jpg'
+            ]);
+            $endpointEv = env('API_EVENT').'member/Regis_event/import_regis_event';
+            $datapostEv = ['data_peserta'=>$arrPeserta];
+            \Helper::getRespApiWithParam($endpointEv, 'post', $datapostEv);
+            //end hit ke event      
             $endpointsertif = env('API_SSERTIFIKAT').'membership/storeDatFromMembership';
             $eventData = \Helper::getRespApiWithParam($endpointsertif, 'POST', $datapost);
             // var_dump($eventData);die;   

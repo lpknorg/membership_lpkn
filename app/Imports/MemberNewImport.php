@@ -54,7 +54,8 @@ class MemberNewImport implements ToArray, WithHeadingRow
                         'nik'               => $v['nik'],
                         'tempat_lahir'      => $fixTglLahir,
                         'tgl_lahir'         => $fixTglLahir,
-                        'status_pembayaran' => 1
+                        'status_pembayaran' => 1,                        
+                        'bukti'             => 'default_import_excel.jpg'
                     ]);
                     $checkUser = User::where('email', $v['email'])->first();
                     $checkKodePos = KodePos::where('kode_pos', $v['kode_pos'])->select('id', 'kode_pos', 'id_kecamatan')->first();                    

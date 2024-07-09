@@ -302,10 +302,11 @@
 	@endif
 </div>
 <div class="row">
+	@if($list_event['event']['inhouse'] == "0")
 	<div class="col-md-6">
 		<div class="form-group">
 			<label class="form-label" for="konfirmasi_paket">Konfirmasi Paket Kontribusi:</label><span class="text-danger"> *</span>
-			<select class="form-control" name="konfirmasi_paket">
+			<select class="form-control" name="konfirmasi_paket" required>
 				<option value="">Pilih Paket Kontribusi</option>
 				@foreach($list_event['biaya'] as $b)
 				<option value="{{\Helper::showNominal($b['nominal_biaya']).',- ('.$b['nama_biaya'].')'}}">{{\Helper::showNominal($b['nominal_biaya']).',- ('.$b['nama_biaya'].')'}}</option>
@@ -313,6 +314,7 @@
 			</select><br>
 		</div>
 	</div>
+	@endif
 	@if($list_event['event']['jenis_pelatihan'] == "lkpp")	
 	<div class="col-md-6">
 		<div class="form-group">

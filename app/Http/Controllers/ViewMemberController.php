@@ -30,8 +30,15 @@ class ViewMemberController extends Controller
         return \Helper::downloadZip($filePaths, $tipe);
     }
     public function viewByEvent($id_event){
-        $users = UserEvent::where('event_id', $id_event)->orderBy('id', 'desc')->get();
-        return view('detail_member_event', compact('users', 'id_event'));
+        $users = UserEvent::where([
+            ['event_id', $id_event],
+            ['is_deleted', 0]
+        ])->orderBy('id', 'desc')->get();
+        $users_deleted = UserEvent::where([
+            ['event_id', $id_event],
+            ['is_deleted', 1]
+        ])->orderBy('updated_at', 'desc')->get();
+        return view('detail_member_event', compact('users', 'users_deleted', 'id_event'));
     }
 
     public function updateDataMember(Request $request){
@@ -78,6 +85,19 @@ class ViewMemberController extends Controller
                 }
             }                        
         }        
+    }
+
+    public function deletePeserta(Request $request){
+        $query = UserEvent::whereIn('id', $request->idArr);
+        $queryCount = $query->count();
+        $query->update([
+            'is_deleted' => $request->is_deleted,
+            'updated_at' => now()
+        ]);
+        return response()->json([
+            'status'   => 'ok',
+            'messages' => "{$queryCount} peserta berhasil diupdate."
+        ], 200);
     }
 
     public function updateCss(Request $request){
