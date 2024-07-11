@@ -4,8 +4,8 @@ namespace App\Exports;
 
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\{
-	FromView,
-	WithColumnWidths,
+    FromView,
+    WithColumnWidths,
     WithEvents
 };
 use Maatwebsite\Excel\Events\AfterSheet;
@@ -17,36 +17,37 @@ class ExportDataFormByEvent implements FromView, WithColumnWidths,WithEvents
         $this->alData = $data;
     }
 
-	public function columnWidths(): array
+    public function columnWidths(): array
     {
-    	return [
-    		'A' => 5,
-    		'B' => 20,
-    		'C' => 35,
-    		'D' => 35,
-    		'E' => 20,
+        return [
+            'A' => 5,
+            'B' => 20,
+            'C' => 35,
+            'D' => 35,
+            'E' => 20,
             'F' => 30,
             'G' => 20,
             'H' => 30,
-            'I' => 15,
+            'I' => 20,
             'J' => 25,
             'K' => 25,
-            'L' => 20,
-            'M' => 30,
+            'L' => 23,
+            'M' => 35,
             'N' => 20,
-            'O' => 23,
+            'O' => 45,
             'P' => 20,
-            'Q' => 20,
+            'Q' => 23,
             'R' => 20,
-            'S' => 40,
-            'T' => 40,
-            'U' => 50,
+            'S' => 70,
+            'T' => 60,
+            'U' => 70,
             'V' => 10,
-            'W' => 30,
-            'X' => 30,
-            'Y' => 30,
-            'Z' => 30
-    	];
+            'W' => 50,
+            'X' => 20,
+            'Y' => 20,
+            'Z' => 20,
+            'AA' => 28
+        ];
     }
 
     public function registerEvents(): array
@@ -54,7 +55,7 @@ class ExportDataFormByEvent implements FromView, WithColumnWidths,WithEvents
         return [
             AfterSheet::class    => function(AfterSheet $event) {
 
-                $event->sheet->getDelegate()->getStyle('A1:Z1')
+                $event->sheet->getDelegate()->getStyle('A1:AA1')
                 ->getFill()
                 ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                 ->getStartColor()

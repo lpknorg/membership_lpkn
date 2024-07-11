@@ -27,6 +27,7 @@
             <th>Pas Foto</th>
             <th>KTP</th>
             <th>SK ASN</th>
+            <th>Waktu Dibuat</th>
         </tr>
     </thead>
     <tbody>       
@@ -67,13 +68,13 @@
             <td>{{$u->userDetail->member->memberKantor->jenis_jabatan}}</td>
             <td>{{$u->userDetail->member->memberKantor->nama_jabatan}}</td>
             <td>{{$u->userDetail->member->memberKantor->golongan_terakhir}}</td>
-            <td>{{$u->userDetail->nip}}</td>
-            <td>{{$u->userDetail->nrp}}</td>
+            <td>{{ $u->userDetail->nip ? "'".$u->userDetail->nip : '-'}}</td>
+            <td>{{ $u->userDetail->nrp ? "'".$u->userDetail->nrp : '-'}}</td>
             <td>{{$u->userDetail->member->memberKantor->nama_instansi}}</td>
             <td>{{$u->userDetail->member->memberKantor->unit_organisasi}}</td>
-            <td><div class="editable" data-placeholder="Click to edit" data-is_alamat="{{$u->userDetail->member->memberKantor->alamat_kantor_lengkap}}">{{\Helper::cutString($u->userDetail->member->memberKantor->alamat_kantor_lengkap, 15)}}</td>
+            <td>{{$u->userDetail->member->memberKantor->alamat_kantor_lengkap}}</td>
             <td>{{$u->userDetail->member->memberKantor->kode_pos}}</td>
-            <td>Paket Kontribusi</td>
+            <td>{{$u->paket_kontribusi}}</td>
             <td><a href="{{\Helper::showImage($u->userDetail->member->foto_profile, 'poto_profile')}}" target="_blank">Lihat Dokumen</a></td>
             <td>
                 @if($u->userDetail->member->foto_ktp)   
@@ -89,6 +90,7 @@
                 -
                 @endif
             </td>
+            <td>{{\Helper::changeFormatDate($u->created_at, 'd-m-Y H:i:s')}}</td>
         </tr>
         @endforeach
     </tbody>
