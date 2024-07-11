@@ -51,8 +51,10 @@ class FormPesertaController extends Controller
         }
     }
 
+    
+
     public function store(Request $request)
-    {        
+    {
         $checkUser = User::where('email', $request->email)->first();
         $foto_ktp = null;
         $pas_foto3x4 = null;
@@ -343,22 +345,14 @@ class FormPesertaController extends Controller
 
             //update member dan store sertifikat
             $selKota = Kota::select('id', 'kota', 'kabupaten')->where('id', $request->kota)->first();
-            $contKota = ($selKota->kabupaten == 0 ? 'Kota ' : 'Kabupaten ').$selKota->kota;
-            $datapost = [
-                'id_event' => $request->id_event,
-                'email' => $request->email,
-                'nama_sertif' => $namaSertif,
-                'hp' => $request->no_hp,
-                'instansi' => $namaInstansi,
-                'nama_pemerintahan' => $contKota,
-                'tempat_lahir' => $tempatLahir,
-                'tgl_lahir' => \Helper::changeFormatDate($request->tanggal_lahir, 'Y-m-d'),
-                'foto_diri' => $request->hasFile('pas_foto') ? \Helper::imageToBase64('poto_profile/'.$pas_foto3x4, 'local') : null,
-                'nik' => $request->nik
-            ];   
+            $contKota = ($selKota->kabupaten == 0 ? 'Kota ' : 'Kabupaten ').$selKota->kota;  
             //hit ke event
-            $arrPeserta = [];
-            array_push($arrPeserta, [
+            $alamat_lengkap = $request->alamat_kantor;
+            $namaSertif = ucwords($request->nama_tanpa_gelar);
+            $namaLengkapDgnGelar = ucwords($request->nama_dengan_gelar);
+            $namaInstansi = ucwords($request->nama_instansi);
+            $tempatLahir = ucwords($request->tempat_lahir);
+            $dataRegis = [
                 'id_kelas_event'    => $request->id_event,
                 'nama_lengkap'      => $namaSertif,
                 'no_hp'             => $request->no_hp,
@@ -370,34 +364,27 @@ class FormPesertaController extends Controller
                 'tempat_lahir'      => $tempatLahir,
                 'tgl_lahir'         => \Helper::changeFormatDate($request->tanggal_lahir, 'Y-m-d'),
                 'status_pembayaran' => 1,
-                'bukti'             => 'default_form_member.jpg'
-            ]);
-            $endpointEv = env('API_EVENT').'member/Regis_event/import_regis_event';
-            $datapostEv = ['data_peserta'=>$arrPeserta];
-            \Helper::getRespApiWithParam($endpointEv, 'post', $datapostEv);
-            //end hit ke event      
-            $endpointsertif = env('API_SSERTIFIKAT').'membership/storeDatFromMembership';
-            $eventData = \Helper::getRespApiWithParam($endpointsertif, 'POST', $datapost);
-            // var_dump($eventData);die;   
-            if ($eventData && $eventData['status'] == 'error') {
+                'bukti'             => 'default_form_member.jpg',
+
+            // ini ke sertif
+                'nama_pemerintahan' => $contKota,
+                'foto_diri' => $request->hasFile('pas_foto') ? \Helper::imageToBase64('poto_profile/'.$pas_foto3x4) : null
+            // end ke sertif
+            ];
+            $endpointnew = env('API_SSERTIFIKAT').'membership/storeNewDataFromMembership';
+            $response = \Helper::getRespApiWithParam($endpointnew, 'post', $dataRegis);            
+            if ($response && $response['status'] == 'error') {
                 return response()->json([
                     'status'   => "fail",
                     'messages' => $eventData['message'],
                 ], 422);
             }
-
-            // dapatkan list sertif                     
-            $endpoint = env('API_SSERTIFIKAT').'member/list_sertif';
-            $list_sertif = \Helper::getRespApiWithParam($endpoint, 'post', [
-                'email'     => $request->email,
-                'id_event'  => $request->id_event
-            ]);
-            // \DB::commit();
             return response()->json([
                 'status'   => 'ok',
                 'messages' => "Data berhasil disimpan",
-                'data_sertif' => $list_sertif
+                'data_sertif' => $response
             ], 200);
+            // \DB::commit();            
         } catch (\Exception $e) {
             return response()->json([
                 'status'   => 'fail',

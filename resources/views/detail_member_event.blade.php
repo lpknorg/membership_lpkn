@@ -107,9 +107,10 @@
 											<th style="min-width: 290px;">Alamat Lengkap Kantor</th>
 											<th style="min-width: 80px;">Kode Pos</th>
 											<th style="min-width: 570px;">Paket Kontribusi</th>
-											<th>Pas Foto</th>
-											<th>KTP</th>
-											<th>SK ASN</th>
+											<th style="min-width: 100px">Pas Foto</th>
+											<th style="min-width: 100px">KTP</th>
+											<th style="min-width: 100px">SK ASN</th>
+											<th style="min-width: 125px;">Waktu Dibuat</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -159,6 +160,7 @@
 												-
 												@endif
 											</td>
+											<td>{{\Helper::changeFormatDate($u->created_at, 'd-m-Y H:i:s')}}</td>
 										</tr>
 										@endforeach
 									</tbody>
@@ -200,9 +202,10 @@
 											<th style="min-width: 290px;">Alamat Lengkap Kantor</th>
 											<th style="min-width: 80px;">Kode Pos</th>
 											<th style="min-width: 570px;">Paket Kontribusi</th>
-											<th>Pas Foto</th>
-											<th>KTP</th>
-											<th>SK ASN</th>
+											<th style="min-width: 100px">Pas Foto</th>
+											<th style="min-width: 100px">KTP</th>
+											<th style="min-width: 100px">SK ASN</th>
+											<th style="min-width: 125px;">Waktu Dibuat</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -252,6 +255,7 @@
 												-
 												@endif
 											</td>
+											<td>{{\Helper::changeFormatDate($u->created_at, 'd-m-Y H:i:s')}}</td>
 										</tr>
 										@endforeach
 									</tbody>

@@ -95,8 +95,33 @@ class ViewMemberController extends Controller
             \Helper::getRespApiWithParam($endpointsertif, 'POST', [
                 'email' => $request->emailArr,
                 'id_event' => $request->id_event
-            ]);   
-        }        
+            ]);
+        }else{
+            $arrPeserta = [];
+            foreach($query->get() as $u){
+                array_push($arrPeserta, [
+                    'id_kelas_event'    => $request->id_event,
+                    'nama_lengkap'      => $u->userDetail->name,
+                    'no_hp'             => $u->userDetail->member->no_hp,
+                    'email'             => $u->userDetail->email,
+                    'instansi'          => $u->userDetail->member->memberKantor->nama_instansi,
+                    'unit_organisasi'   => $u->userDetail->member->memberKantor->unit_organisasi,
+                    'alamat'            => $u->userDetail->member->alamat_lengkap,
+                    'nik'               => $u->userDetail->nik,
+                    'tempat_lahir'      => $u->userDetail->member->tempat_lahir,
+                    'tgl_lahir'         => $u->userDetail->member->tgl_lahir,
+                    'status_pembayaran' => 1,                        
+                    'bukti'             => 'default_restore_data.jpg'
+                ]);
+            }
+            $endpoint = env('API_EVENT').'member/Regis_event/import_regis_event';
+            $datapost = ['data_peserta'=>$arrPeserta];
+            $xxx = \Helper::getRespApiWithParam($endpoint, 'post', $datapost);
+            return response()->json([
+                'status'   => 'ok',
+                'data'     => $xxx
+            ], 200);
+        }     
 
         $query->update([
             'is_deleted' => $request->is_deleted,
