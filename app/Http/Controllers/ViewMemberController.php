@@ -90,6 +90,14 @@ class ViewMemberController extends Controller
     public function deletePeserta(Request $request){
         $query = UserEvent::whereIn('id', $request->idArr);
         $queryCount = $query->count();
+        if ($request->is_deleted == 1) {
+            $endpointsertif = env('API_SSERTIFIKAT').'member/hapusMemberSertifikat';
+            \Helper::getRespApiWithParam($endpointsertif, 'POST', [
+                'email' => $request->emailArr,
+                'id_event' => $request->id_event
+            ]);   
+        }        
+
         $query->update([
             'is_deleted' => $request->is_deleted,
             'updated_at' => now()

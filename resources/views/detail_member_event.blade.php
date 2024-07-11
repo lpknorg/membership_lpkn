@@ -117,7 +117,7 @@
 										<tr id="custom{{$u->id}}" style="background-color: {{$u->bg_color}}">
 											<td>
 												<div class="form-group form-check">
-													<input type="checkbox" class="form-check-input" id="cb-{{$u->id}}">
+													<input type="checkbox" class="form-check-input" id="cb-{{$u->id}}" data-email="{{$u->userDetail->email}}">
 												</div>
 											</td>
 											<td style="color: {{$u->font_color}};"><div data-nik="{{$u->userDetail->nik}}" class="editable" data-tipe="users" data-field="password_lkpp" data-placeholder="Click to edit">{{\Helper::passHashedDecrypt($u->userDetail->password_lkpp)}}</div></td>
@@ -210,7 +210,7 @@
 										<tr id="custom{{$u->id}}" style="background-color: {{$u->bg_color}}">
 											<td>
 												<div class="form-group form-check">
-													<input type="checkbox" class="form-check-input" id="cb-{{$u->id}}">
+													<input type="checkbox" class="form-check-input" id="cb-{{$u->id}}" data-email="{{$u->userDetail->email}}">
 												</div>
 											</td>
 											<td style="color: {{$u->font_color}};"><div data-nik="{{$u->userDetail->nik}}" class="editable" data-tipe="users" data-field="password_lkpp" data-placeholder="Click to edit">{{\Helper::passHashedDecrypt($u->userDetail->password_lkpp)}}</div></td>
@@ -284,11 +284,13 @@
 
 			function deleteRestoreData(is_deleted=1){
 				var idArr = []
+				var emailArr = []
 				$('input[type="checkbox"][id^="cb-"]:checked').each(function(){
 
 					let id = $(this).attr('id')
 					id = id.replace(/\D/g, '');
 					idArr.push(id)
+					emailArr.push($(this).attr('data-email'))
 				})
 				if (idArr.length < 1) {
 					alert('Minimal checklist 1 row pada table')
@@ -305,27 +307,30 @@
 					url: '{{url("import_member/delete_peserta")}}',
 					data: {
 						idArr,
-						is_deleted
+						is_deleted,
+						emailArr,
+						id_event: '{{$id_event}}'
 					},
 					dataType: 'json',
 					beforeSend: function(){
-						if (is_deleted == 0) {
+						if (is_deleted == 1) {
 							$('#btnHapusPeserta').attr('disabled', true).css('cursor', 'not-allowed').text('Load ...')
 						}else{
 							$('#btnPulihkanPeserta').attr('disabled', true).css('cursor', 'not-allowed').text('Load ...')
 						}
 					},
 					success: function(data) {
+						console.log(data)
 						toastr.success(data.messages, 'Berhasil');
 						setTimeout(() => {
-							location.reload()
-						}, 500)
+							// location.reload()
+						}, 200)
 					},
 					error: function(data) {
 						console.log(data)
 					},
 					complete: function(){
-						if (is_deleted == 0) {
+						if (is_deleted == 1) {
 							$('#btnHapusPeserta').attr('disabled', false).css('cursor', 'cursor').text('Hapus Data')
 						}else{
 							$('#btnPulihkanPeserta').attr('disabled', false).css('cursor', 'cursor').text('Pulihkan Data')
