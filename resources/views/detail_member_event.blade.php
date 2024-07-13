@@ -90,26 +90,28 @@
 											<th style="min-width: 265px;">Nama Lengkap(dgn gelar)</th>
 											<th style="min-width: 140px;">NIK</th>
 											<th style="min-width: 190px;">Email Aktif</th>
-											<th style="min-width: 110px;">No WA</th>
 											<th style="min-width: 120px;">Tempat Lahir</th>
 											<th style="min-width: 80px;">Tgl Lahir</th>
+											<th style="min-width: 110px;">No WA</th>	
+											<th style="min-width: 100px">Pas Foto</th>										
 											<th style="min-width: 150px;">Pendidikan Terakhir</th>
 											<th style="min-width: 210px;">Nama Pendidikan Terakhir</th>
 											<th style="min-width: 150px;">Status Kepegawaian</th>
+											<th style="min-width: 140px;">NIP</th>
+											<th style="min-width: 80px;">NRP</th>
+											<th style="min-width: 100px">SK ASN</th>
+											<th style="min-width: 290px;">Nama Instansi Lengkap</th>
+											<th style="min-width: 290px;">Alamat Lengkap Kantor</th>
+											<th style="min-width: 150px;">Provinsi</th>
+											<th style="min-width: 150px;">Kota/Kabupaten</th>
+											<th style="min-width: 80px;">Kode Pos</th>
 											<th style="min-width: 280px;">Posisi Pelaku Pengadaan</th>
 											<th style="min-width: 120px;">Jenis Jabatan</th>
 											<th style="min-width: 280px;">Nama Jabatan</th>
 											<th style="min-width: 120px;">Gol Terakhir</th>
-											<th style="min-width: 140px;">NIP</th>
-											<th style="min-width: 80px;">NRP</th>
-											<th style="min-width: 290px;">Nama Instansi Lengkap</th>
-											<th style="min-width: 290px;">Unit Organisasi</th>
-											<th style="min-width: 290px;">Alamat Lengkap Kantor</th>
-											<th style="min-width: 80px;">Kode Pos</th>
+											<th style="min-width: 290px;">Unit Organisasi</th>																						
 											<th style="min-width: 570px;">Paket Kontribusi</th>
-											<th style="min-width: 100px">Pas Foto</th>
-											<th style="min-width: 100px">KTP</th>
-											<th style="min-width: 100px">SK ASN</th>
+											<th style="min-width: 100px">KTP</th>											
 											<th style="min-width: 125px;">Waktu Dibuat</th>
 										</tr>
 									</thead>
@@ -128,31 +130,15 @@
 											<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="member" data-field="nama_lengkap_gelar" data-placeholder="Click to edit">{{$u->userDetail->member->nama_lengkap_gelar}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-placeholder="Click to edit" class="not-editable">{{$u->userDetail->nik}}</div></td>
 											<td style="color: {{$u->font_color}};"><div class="not-editable" data-placeholder="Click to edit">{{$u->userDetail->email}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="no_hp" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->no_hp}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="tempat_lahir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tempat_lahir}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="tgl_lahir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tgl_lahir}}</div></td>
+											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="no_hp" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->no_hp}}</div></td>	
+											<td><a href="{{\Helper::showImage($u->userDetail->member->foto_profile, 'poto_profile')}}" target="_blank">Lihat Dokumen</a></td>										
 											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="pendidikan_terakhir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->pendidikan_terakhir}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="nama_pendidikan_terakhir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->nama_pendidikan_terakhir}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="status_kepegawaian" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->status_kepegawaian}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="posisi_pelaku_pengadaan" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->posisi_pelaku_pengadaan}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="jenis_jabatan" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->jenis_jabatan}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="nama_jabatan" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->nama_jabatan}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="golongan_terakhir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->golongan_terakhir}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="users" data-field="nip" class="editable" data-placeholder="Click to edit">{{$u->userDetail->nip}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="users" data-field="nrp" class="editable" data-placeholder="Click to edit">{{$u->userDetail->nrp}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="nama_instansi" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->nama_instansi}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="unit_organisasi" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->unit_organisasi}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="alamat_kantor_lengkap" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->alamat_kantor_lengkap}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="kode_pos" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->kode_pos}}</div></td>
-											<td style="color: {{$u->font_color}};"><div>{{$u->paket_kontribusi}}</div></td>
-											<td><a href="{{\Helper::showImage($u->userDetail->member->foto_profile, 'poto_profile')}}" target="_blank">Lihat Dokumen</a></td>
-											<td>
-												@if($u->userDetail->member->foto_ktp)	
-												<a href="{{\Helper::showImage($u->userDetail->member->foto_ktp, 'foto_ktp')}}" target="_blank">Lihat Dokumen</a>
-												@else
-												-
-												@endif
-											</td>
 											<td>
 												@if($u->userDetail->member->file_sk_pengangkatan_asn)
 												<a href="{{\Helper::showImage($u->userDetail->member->file_sk_pengangkatan_asn, 'file_sk_pengangkatan_asn')}}" target="_blank">Lihat Dokumen</a>
@@ -160,6 +146,25 @@
 												-
 												@endif
 											</td>
+											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="nama_instansi" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->nama_instansi}}</div></td>
+											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="alamat_kantor_lengkap" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->alamat_kantor_lengkap}}</div></td>
+											<td><div class="not-editable" data-placeholder="Click to edit">{{$u->userDetail->member->prov_id ? $u->userDetail->member->alamatProvinsi->nama : '-'}}</div></td>
+											<td><div class="not-editable" data-placeholder="Click to edit">{{$u->userDetail->member->kota_id ? $u->userDetail->member->alamatKota->kota : '-'}}</div></td>
+											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="kode_pos" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->kode_pos}}</div></td>
+											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="posisi_pelaku_pengadaan" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->posisi_pelaku_pengadaan}}</div></td>
+											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="jenis_jabatan" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->jenis_jabatan}}</div></td>
+											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="nama_jabatan" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->nama_jabatan}}</div></td>
+											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="golongan_terakhir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->golongan_terakhir}}</div></td>																						
+											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="unit_organisasi" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->unit_organisasi}}</div></td>																						
+											<td style="color: {{$u->font_color}};"><div>{{$u->paket_kontribusi}}</div></td>											
+											<td>
+												@if($u->userDetail->member->foto_ktp)	
+												<a href="{{\Helper::showImage($u->userDetail->member->foto_ktp, 'foto_ktp')}}" target="_blank">Lihat Dokumen</a>
+												@else
+												-
+												@endif
+											</td>
+											
 											<td>{{\Helper::changeFormatDate($u->created_at, 'd-m-Y H:i:s')}}</td>
 										</tr>
 										@endforeach
@@ -185,26 +190,28 @@
 											<th style="min-width: 265px;">Nama Lengkap(dgn gelar)</th>
 											<th style="min-width: 140px;">NIK</th>
 											<th style="min-width: 190px;">Email Aktif</th>
-											<th style="min-width: 110px;">No WA</th>
 											<th style="min-width: 120px;">Tempat Lahir</th>
 											<th style="min-width: 80px;">Tgl Lahir</th>
+											<th style="min-width: 110px;">No WA</th>	
+											<th style="min-width: 100px">Pas Foto</th>										
 											<th style="min-width: 150px;">Pendidikan Terakhir</th>
 											<th style="min-width: 210px;">Nama Pendidikan Terakhir</th>
 											<th style="min-width: 150px;">Status Kepegawaian</th>
+											<th style="min-width: 140px;">NIP</th>
+											<th style="min-width: 80px;">NRP</th>
+											<th style="min-width: 100px">SK ASN</th>
+											<th style="min-width: 290px;">Nama Instansi Lengkap</th>
+											<th style="min-width: 290px;">Alamat Lengkap Kantor</th>
+											<th style="min-width: 150px;">Provinsi</th>
+											<th style="min-width: 150px;">Kota/Kabupaten</th>
+											<th style="min-width: 80px;">Kode Pos</th>
 											<th style="min-width: 280px;">Posisi Pelaku Pengadaan</th>
 											<th style="min-width: 120px;">Jenis Jabatan</th>
 											<th style="min-width: 280px;">Nama Jabatan</th>
 											<th style="min-width: 120px;">Gol Terakhir</th>
-											<th style="min-width: 140px;">NIP</th>
-											<th style="min-width: 80px;">NRP</th>
-											<th style="min-width: 290px;">Nama Instansi Lengkap</th>
-											<th style="min-width: 290px;">Unit Organisasi</th>
-											<th style="min-width: 290px;">Alamat Lengkap Kantor</th>
-											<th style="min-width: 80px;">Kode Pos</th>
-											<th style="min-width: 570px;">Paket Kontribusi</th>
-											<th style="min-width: 100px">Pas Foto</th>
-											<th style="min-width: 100px">KTP</th>
-											<th style="min-width: 100px">SK ASN</th>
+											<th style="min-width: 290px;">Unit Organisasi</th>																						
+											<th style="min-width: 570px;">Paket Kontribusi</th>											
+											<th style="min-width: 100px">KTP</th>											
 											<th style="min-width: 125px;">Waktu Dibuat</th>
 										</tr>
 									</thead>
@@ -223,31 +230,15 @@
 											<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="member" data-field="nama_lengkap_gelar" data-placeholder="Click to edit">{{$u->userDetail->member->nama_lengkap_gelar}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-placeholder="Click to edit" class="not-editable">{{$u->userDetail->nik}}</div></td>
 											<td style="color: {{$u->font_color}};"><div class="not-editable" data-placeholder="Click to edit">{{$u->userDetail->email}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="no_hp" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->no_hp}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="tempat_lahir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tempat_lahir}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="tgl_lahir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tgl_lahir}}</div></td>
+											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="no_hp" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->no_hp}}</div></td>	
+											<td><a href="{{\Helper::showImage($u->userDetail->member->foto_profile, 'poto_profile')}}" target="_blank">Lihat Dokumen</a></td>										
 											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="pendidikan_terakhir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->pendidikan_terakhir}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="nama_pendidikan_terakhir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->nama_pendidikan_terakhir}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="status_kepegawaian" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->status_kepegawaian}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="posisi_pelaku_pengadaan" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->posisi_pelaku_pengadaan}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="jenis_jabatan" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->jenis_jabatan}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="nama_jabatan" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->nama_jabatan}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="golongan_terakhir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->golongan_terakhir}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="users" data-field="nip" class="editable" data-placeholder="Click to edit">{{$u->userDetail->nip}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="users" data-field="nrp" class="editable" data-placeholder="Click to edit">{{$u->userDetail->nrp}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="nama_instansi" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->nama_instansi}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="unit_organisasi" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->unit_organisasi}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="alamat_kantor_lengkap" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->alamat_kantor_lengkap}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="kode_pos" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->kode_pos}}</div></td>
-											<td style="color: {{$u->font_color}};"><div>{{$u->paket_kontribusi}}</div></td>
-											<td><a href="{{\Helper::showImage($u->userDetail->member->foto_profile, 'poto_profile')}}" target="_blank">Lihat Dokumen</a></td>
-											<td>
-												@if($u->userDetail->member->foto_ktp)	
-												<a href="{{\Helper::showImage($u->userDetail->member->foto_ktp, 'foto_ktp')}}" target="_blank">Lihat Dokumen</a>
-												@else
-												-
-												@endif
-											</td>
 											<td>
 												@if($u->userDetail->member->file_sk_pengangkatan_asn)
 												<a href="{{\Helper::showImage($u->userDetail->member->file_sk_pengangkatan_asn, 'file_sk_pengangkatan_asn')}}" target="_blank">Lihat Dokumen</a>
@@ -255,6 +246,25 @@
 												-
 												@endif
 											</td>
+											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="nama_instansi" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->nama_instansi}}</div></td>
+											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="alamat_kantor_lengkap" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->alamat_kantor_lengkap}}</div></td>
+											<td><div class="not-editable" data-placeholder="Click to edit">{{$u->userDetail->member->prov_id ? $u->userDetail->member->alamatProvinsi->nama : '-'}}</div></td>
+											<td><div class="not-editable" data-placeholder="Click to edit">{{$u->userDetail->member->kota_id ? $u->userDetail->member->alamatKota->kota : '-'}}</div></td>
+											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="kode_pos" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->kode_pos}}</div></td>
+											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="posisi_pelaku_pengadaan" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->posisi_pelaku_pengadaan}}</div></td>
+											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="jenis_jabatan" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->jenis_jabatan}}</div></td>
+											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="nama_jabatan" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->nama_jabatan}}</div></td>
+											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="golongan_terakhir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->golongan_terakhir}}</div></td>																						
+											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="unit_organisasi" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->unit_organisasi}}</div></td>																						
+											<td style="color: {{$u->font_color}};"><div>{{$u->paket_kontribusi}}</div></td>
+											
+											<td>
+												@if($u->userDetail->member->foto_ktp)	
+												<a href="{{\Helper::showImage($u->userDetail->member->foto_ktp, 'foto_ktp')}}" target="_blank">Lihat Dokumen</a>
+												@else
+												-
+												@endif
+											</td>											
 											<td>{{\Helper::changeFormatDate($u->created_at, 'd-m-Y H:i:s')}}</td>
 										</tr>
 										@endforeach
@@ -277,6 +287,18 @@
 	<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 	<script>
 		$(document).ready(function(){
+			$('body').on('change', 'input[type="checkbox"][id^="cb-"]', function() {
+				if ($(this).is(':checked')) {
+					var parentTR = $(this).closest('tr');
+					var nextTD = $(this).closest('td').next('td');
+					parentTR = parentTR.attr('style')
+					nextTD 	 = nextTD.attr('style')
+					var bgColor = parentTR.match(/background-color:\s*([^;]+)/)[1];
+					var fontColor = nextTD.match(/color:\s*([^;]+)/)[1];
+					$('[name=css-bg_color]').val(bgColor)
+					$('[name=css-font_color]').val(fontColor)
+				}
+			});
 			$('body').on('click', '[id=btnHapusPeserta]', function(e) {
 				e.preventDefault()
 				deleteRestoreData()
@@ -327,7 +349,7 @@
 						console.log(data)
 						toastr.success(data.messages, 'Berhasil');
 						setTimeout(() => {
-							// location.reload()
+							location.reload()
 						}, 200)
 					},
 					error: function(data) {

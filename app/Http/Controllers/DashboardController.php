@@ -287,7 +287,7 @@ class DashboardController extends Controller
         return Excel::download(new ExportAlumniByEvent($data, $tipe),"alumnievent-{$tipe}.xlsx");
     }
 
-    public function detailAlumni ($email){
+    public function detailAlumni($email){
         $user = User::where('email', $email)->first();
         $endpoint = env('API_EVENT').'member/event/dashboard_detail_alumni?email='.$email;
         $my_event = \Helper::getRespApiWithParam($endpoint, 'get');

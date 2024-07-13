@@ -117,16 +117,13 @@ class ViewMemberController extends Controller
             $endpoint = env('API_EVENT').'member/Regis_event/import_regis_event';
             $datapost = ['data_peserta'=>$arrPeserta];
             $xxx = \Helper::getRespApiWithParam($endpoint, 'post', $datapost);
-            return response()->json([
-                'status'   => 'ok',
-                'data'     => $xxx
-            ], 200);
         }     
 
         $query->update([
             'is_deleted' => $request->is_deleted,
             'updated_at' => now()
         ]);
+        \Helper::storeHistoryUserEvent($request->idArr, $request->is_deleted);
         return response()->json([
             'status'   => 'ok',
             'messages' => "{$queryCount} peserta berhasil diupdate."

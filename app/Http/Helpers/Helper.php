@@ -2,6 +2,7 @@
 
 namespace App\Http\Helpers;
 use \ZipArchive;
+use App\Models\UserEventHistory;
 
 class Helper {
 	public static function storeFile($folder, $file, $oldFile=null){
@@ -276,5 +277,16 @@ class Helper {
 		// return $response;
 		$data = json_decode($response, true);
 		return $data;
+	}
+
+	public static function storeHistoryUserEvent($arr_uv_id, $status=0, $event_id_tujuan=null){
+		foreach($arr_uv_id as $u => $uv_id){
+			UserEventHistory::create([
+				'user_event_id'   => $uv_id,
+				'createdBy' 	  => \Auth::user()->id,
+				'status_id'		  => $status,
+				'event_id_tujuan' => $event_id_tujuan
+			]);
+		}		
 	}
 }
