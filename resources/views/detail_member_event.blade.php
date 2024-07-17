@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" href="{{asset('template/coloris/coloris.min.css')}}">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<style>
 		.table td {
@@ -100,13 +101,13 @@
 									<div class="col-md-2">
 										<div class="form-group">
 											<label>Warna Background</label>
-											<input type="color" name="css-bg_color" class="form-control" value="#ffffff" />
+											<input type="text" data-coloris name="css-bg_color" class="form-control" value="#ffffff" />
 										</div>
 									</div>
 									<div class="col-md-2">
 										<div class="form-group">
 											<label>Warna Teks</label>
-											<input type="color" name="css-font_color" class="form-control" value="#000000" />
+											<input type="text" data-coloris name="css-font_color" class="form-control" value="#000000" />
 										</div>
 									</div>
 								</div>
@@ -114,7 +115,9 @@
 								<table class="table table-bordered table-responsive table-hover" id="users-table">
 									<thead>
 										<tr>
-											<th></th>
+											<th><div class="form-group form-check">
+												<input type="checkbox" class="form-check-input" id="allPesertaCb" style="width: 31px;height: 22px;margin-left: -24px;margin-top:0;">
+											</div></th>
 											<th style="min-width: 120px;">Password LKPP</th>
 											<th style="min-width: 100px;">Marketing</th>
 											<th style="min-width: 140px;">Keterangan</th>
@@ -315,8 +318,24 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 	<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 	<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+	<script src="{{asset('template/coloris/coloris.min.js')}}"></script>
 	<script>
 		$(document).ready(function(){
+			Coloris({
+				format: 'hex',
+				selectInput: true,
+				swatchesOnly: true,
+				swatches: [
+					'#FFFFFF',
+					'#f25e68',
+					'#fad050',
+					'#fafa75',
+					'#92D050',
+					'#6dd3f7',
+					'#4e8dba',
+					'#000000'
+					]
+			})
 			function rgbStringToHex(rgb) {
 				var result = rgb.match(/\d+/g);
 				if (result.length !== 3) {
@@ -351,10 +370,21 @@
 						fontColor = rgbStringToHex(fontColor)
 					}
 
+					$('input[name="css-bg_color"]').prevAll('button').first().css('color', bgColor)
+					$('input[name="css-font_color"]').prevAll('button').first().css('color', fontColor)
+
+
 					$('[name=css-bg_color]').val(bgColor)
 					$('[name=css-font_color]').val(fontColor)
 				}
 			});
+			$('body').on('change', 'input[type="checkbox"][id="allPesertaCb"]', function() {
+				if ($(this).is(':checked')) {
+					$('#users-table input[type="checkbox"][id^="cb-"]').prop('checked', true);
+				}else{
+					$('#users-table input[type="checkbox"][id^="cb-"]').prop('checked', false);
+				}
+			})
 			$('body').on('click', '[id=btnHapusPeserta]', function(e) {
 				e.preventDefault()
 				deleteRestoreData()
@@ -422,23 +452,17 @@
 			}
 			$('body').on('input', '[name=css-bg_color]', function(e) {
 				let _val = $(this).val()
-				$('input[type="checkbox"][id^="cb-"]:checked').each(function(){
-					let id = $(this).attr('id')
-					id = id.replace(/\D/g, '');
-					$(`#custom${id}`).css('background-color', _val)
-				})
-			})
-			$('body').on('blur', '[name=css-bg_color]', function(e) {
 				var arrBgColor = []
 				$('input[type="checkbox"][id^="cb-"]:checked').each(function(){
-
 					let id = $(this).attr('id')
 					id = id.replace(/\D/g, '');
 					arrBgColor.push(id)
+					$('input[name="css-bg_color"]').prevAll('button').first().css('color', _val)
+					$(`#custom${id}`).css('background-color', _val)
 				})
 				if (arrBgColor.length < 1) {
-					alert('Minimal checklist 1 row pada table untuk melakukan perubahan warna background')
-					return
+					// alert('Minimal checklist 1 row pada table untuk melakukan perubahan warna background')
+					// return
 				}
 				let sendCssData = {
 					color 	   : $(this).val(),
@@ -449,20 +473,14 @@
 			})
 			$('body').on('input', '[name=css-font_color]', function(e) {
 				let _val = $(this).val()
-				$('input[type="checkbox"][id^="cb-"]:checked').each(function(){
-					let id = $(this).attr('id')
-					id = id.replace(/\D/g, '');
-					$(`#custom${id} td`).css('color', _val)
-				});				
-			})
-			$('body').on('blur', '[name=css-font_color]', function(e) {
 				var arrFontColor = []
 				$('input[type="checkbox"][id^="cb-"]:checked').each(function(){
-
 					let id = $(this).attr('id')
-					id = id.replace(/\D/g, '');
+					id = id.replace(/\D/g, '');					
 					arrFontColor.push(id)
-				})
+					$(`#custom${id} td`).css('color', _val)
+					$('input[name="css-font_color"]').prevAll('button').first().css('color', _val)
+				});				
 				if (arrFontColor.length < 1) {
 					alert('Minimal checklist 1 row pada table untuk melakukan perubahan warna teks')
 					return
@@ -524,7 +542,10 @@
 				});
 			}
 			var table = $('#users-table').DataTable({
-				"pageLength": 50
+				"columnDefs": [
+                    { "orderable": false, "targets": 0 } // Menonaktifkan sorting pada kolom pertama
+                ],
+				"pageLength": 50,
 			})
 			var table2 = $('#users-table2').DataTable({
 				"pageLength": 50
