@@ -101,7 +101,7 @@
 	<div class="col-md-3">
 		<div class="form-group">
 			<label class="form-label" for="no_hp">No Whatsapp:</label><span class="text-danger"> *</span>
-			<input placeholder="Jawaban Anda" autocomplete="off" type="number" class="form-control" name="no_hp" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="15"><br>
+			<input placeholder="Jawaban Anda" autocomplete="off" type="number" class="form-control" name="no_hp" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="14"><br>
 		</div>
 	</div>
 	<div class="col-md-3">

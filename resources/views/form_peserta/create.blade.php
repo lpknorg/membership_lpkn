@@ -154,6 +154,22 @@
 
     <script>
         $(document).ready(function(){
+            // reload broser tiap 30 menit jika tidak ada aktivitas pada browser
+            var timer;
+            var interval = 20 * 60 * 1000; // 30 menit dalam milidetik
+
+            function resetTimer() {
+                clearTimeout(timer);
+                timer = setTimeout(function() {
+                    alert(123)
+                    location.reload();
+                }, interval);
+            }
+
+            $(document).on('mousemove keydown click scroll', function() {
+                resetTimer();
+            });
+            resetTimer();
 
             function validateEmail(email) {
                 const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;

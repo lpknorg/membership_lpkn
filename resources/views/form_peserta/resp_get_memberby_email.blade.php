@@ -81,7 +81,13 @@
 		</div>
 	</div>
 	@endif
-	<div class="col-md-6">
+	<div class="col-md-6 mt-2">
+		<div class="form-group">
+			<label class="form-label" for="no_hp">No Whatsapp:</label><span class="text-danger"> *</span>
+			<input placeholder="Jawaban Anda" autocomplete="off" type="number" class="form-control" name="no_hp" value="{{$user->member->no_hp}}" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="14" required><br>
+		</div>
+	</div>
+	<div class="col-md-6 mt-2">
 		<div class="form-group">
 			<label class="form-label" for="pas_foto">Upload Pas Foto:</label><span class="text-danger"> *</span>
 			<input type="file" class="form-control" name="pas_foto">
@@ -122,7 +128,7 @@
 	<div class="col-md-3">
 		<div class="form-group">
 			<label class="form-label" for="no_hp">No Whatsapp:</label><span class="text-danger"> *</span>
-			<input placeholder="Jawaban Anda" autocomplete="off" type="number" class="form-control" name="no_hp" value="{{$user->member->no_hp}}" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="15"><br>
+			<input placeholder="Jawaban Anda" autocomplete="off" type="number" class="form-control" name="no_hp" value="{{$user->member->no_hp}}" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="14"><br>
 		</div>
 	</div>
 	<div class="col-md-3">

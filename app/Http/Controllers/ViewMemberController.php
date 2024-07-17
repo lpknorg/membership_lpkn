@@ -13,7 +13,9 @@ class ViewMemberController extends Controller
         $users = UserEvent::where('event_id', $id_event)->get();
         $filePaths = [];
         foreach($users as $u){       
-            $tipe = 'foto_profile';
+            if($tipe == 'poto_profile'){
+                $tipe = 'foto_profile';   
+            }
             $_file = $u->userDetail->member->$tipe;
             // ini karena beda path
             if($tipe == 'foto_profile'){

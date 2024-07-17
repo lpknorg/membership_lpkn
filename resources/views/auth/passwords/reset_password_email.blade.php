@@ -117,8 +117,7 @@ table.body .article {
                   	<tr>
                   		<td style="text-align: center;vertical-align: middle">
                         <!-- <img height="90" src="{{asset('img/logolpkn.png')}}" alt=""> -->
-                        <img src="https://lpkn.id/front_assets/lpkn_iso_putih.png" height="90">
-                  			<p style="margin: 0 0 20px 0;font-weight: 600;color: #898989">Lembaga Pengembangan dan Konsultasi Nasional</p>
+                        <img src="https://lpkn.id/front_assets/logolpkn2.png" height="90">
                   		</td>
                   	</tr>
                     <tr>

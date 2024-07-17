@@ -45,7 +45,7 @@
       <div class="modal-body">
         <form method="POST" action="{{route('lupa_password.send_link')}}" id="formLupaPassword">
           <div class="input-group mb-4 mt-4">
-            <input type="email" name="email" placeholder="Masukan email terdaftar" required>
+            <input type="email" name="email" placeholder="Masukan email terdaftar" required autocomplete="off">
             <i class="m-i fa-regular fa-envelope"></i>
           </div>
           <button type="submit" class="btn btn-primary">Kirim</button>
@@ -58,6 +58,10 @@
 
 @section('log_reg_js')
 <script>
+  function validateEmail(email) {
+    const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return re.test(String(email).toLowerCase());
+  }
     // Set the options that I want
   $('.auth__form').submit(function(e) {
     e.preventDefault();
@@ -111,6 +115,10 @@
   @endif
   $('#modalLupaPassword #formLupaPassword').submit(function(e) {
     e.preventDefault();
+    if (!validateEmail($('#modalLupaPassword [name=email]').val())) {
+      showAlert('Format email tidak valid', "error")
+      return
+    }
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('[name=_token]').val()
@@ -131,7 +139,7 @@
           showAlert(data.messages)
           setTimeout(function() {
             window.location.reload()
-          }, 1000);
+          }, 1500);
         }
       },
       error: function(data) {

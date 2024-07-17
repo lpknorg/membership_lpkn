@@ -90,7 +90,7 @@
                 <div class="auth__form_body">
                     <h3 class="auth__form_title">Reset Password</h3>
                     <div>
-                        <input type="hidden" value="{{$user->id}}" name="user_id">
+                        <input type="hidden" value="{{$user->token_reset_password}}" name="user_id">
                         <div class="form-group">
                             <label class="text-uppercase small">Password Baru</label>
                             <input id="password" type="password" class="form-control" name="password" placeholder="Masukkan Password">

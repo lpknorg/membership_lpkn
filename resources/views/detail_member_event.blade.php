@@ -42,6 +42,38 @@
 			text-overflow: ellipsis; /* Menampilkan elipsis (...) jika teks terpotong */
 			white-space: nowrap;
 		}
+		table#users-table{
+			max-height:700px;
+			overflow-y: auto;
+			overflow-x: auto;
+
+		}
+		#users-table thead th {
+			position: sticky;
+			top: 0;
+			z-index: 2; /* Ensure it stays on top of other content */
+			background-color: #f8f9fa; /* Optional: Background color for the sticky header */
+		}
+
+		/* Custom vertical and horizontal scrollbar styles */
+		.table-responsive::-webkit-scrollbar {
+			width: 12px; /* Width of vertical scrollbar */
+			height: 12px; /* Height of horizontal scrollbar */            
+		}
+
+		.table-responsive::-webkit-scrollbar-track {
+			background: #f1f1f1; /* Track color */            
+		}
+
+		.table-responsive::-webkit-scrollbar-thumb {
+			background-color: #888; /* Thumb color */
+			border-radius: 10px; /* Rounded corners */
+			border: 3px solid #f1f1f1; /* Optional: Add padding around thumb */
+		}
+
+		.table-responsive::-webkit-scrollbar-thumb:hover {
+			background: #555; /* Hover color */
+		}
 	</style>
 </head>
 <body>
@@ -63,7 +95,7 @@
 				<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 					<div class="card">
 						<div class="card-body">
-							<div class="table-responsive">
+							<div>
 								<div class="row">
 									<div class="col-md-2">
 										<div class="form-group">
@@ -79,7 +111,7 @@
 									</div>
 								</div>
 								<a href="" id="btnHapusPeserta" class="btn btn-danger btn-sm mb-2">Hapus Data</a>	
-								<table class="table table-bordered table-hover" id="users-table">
+								<table class="table table-bordered table-responsive table-hover" id="users-table">
 									<thead>
 										<tr>
 											<th></th>
@@ -106,10 +138,10 @@
 											<th style="min-width: 150px;">Kota/Kabupaten</th>
 											<th style="min-width: 80px;">Kode Pos</th>
 											<th style="min-width: 280px;">Posisi Pelaku Pengadaan</th>
+											<th style="min-width: 290px;">Unit Organisasi</th>	
 											<th style="min-width: 120px;">Jenis Jabatan</th>
 											<th style="min-width: 280px;">Nama Jabatan</th>
-											<th style="min-width: 120px;">Gol Terakhir</th>
-											<th style="min-width: 290px;">Unit Organisasi</th>																						
+											<th style="min-width: 120px;">Gol Terakhir</th>																																
 											<th style="min-width: 570px;">Paket Kontribusi</th>
 											<th style="min-width: 100px">KTP</th>											
 											<th style="min-width: 125px;">Waktu Dibuat</th>
@@ -120,7 +152,7 @@
 										<tr id="custom{{$u->id}}" style="background-color: {{$u->bg_color}}">
 											<td>
 												<div class="form-group form-check">
-													<input type="checkbox" class="form-check-input" id="cb-{{$u->id}}" data-email="{{$u->userDetail->email}}">
+													<input type="checkbox" class="form-check-input" id="cb-{{$u->id}}" data-email="{{$u->userDetail->email}}"  style="width: 31px;height: 22px;margin-left: -24px;margin-top:0;">
 												</div>
 											</td>
 											<td style="color: {{$u->font_color}};"><div data-nik="{{$u->userDetail->nik}}" class="editable" data-tipe="users" data-field="password_lkpp" data-placeholder="Click to edit">{{\Helper::passHashedDecrypt($u->userDetail->password_lkpp)}}</div></td>
@@ -152,11 +184,11 @@
 											<td><div class="not-editable" data-placeholder="Click to edit">{{$u->userDetail->member->kota_id ? $u->userDetail->member->alamatKota->kota : '-'}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="kode_pos" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->kode_pos}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="posisi_pelaku_pengadaan" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->posisi_pelaku_pengadaan}}</div></td>
+											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="unit_organisasi" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->unit_organisasi}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="jenis_jabatan" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->jenis_jabatan}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="nama_jabatan" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->nama_jabatan}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="golongan_terakhir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->golongan_terakhir}}</div></td>																						
-											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="unit_organisasi" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->unit_organisasi}}</div></td>																						
-											<td style="color: {{$u->font_color}};"><div>{{$u->paket_kontribusi}}</div></td>											
+											<td style="color: {{$u->font_color}};"><div data-tipe="user_event" data-field="paket_kontribusi" class="editable" data-placeholder="Click to edit">{{$u->paket_kontribusi}}</div></td>								
 											<td>
 												@if($u->userDetail->member->foto_ktp)	
 												<a href="{{\Helper::showImage($u->userDetail->member->foto_ktp, 'foto_ktp')}}" target="_blank">Lihat Dokumen</a>
@@ -177,100 +209,98 @@
 				<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 					<div class="card">
 						<div class="card-body">
-							<div class="table-responsive">
-								<a href="" id="btnPulihkanPeserta" class="btn btn-success btn-sm mb-2">Pulihkan Data</a>
-								<table class="table table-bordered table-hover" id="users-table2">
-									<thead>
-										<tr>
-											<th></th>
-											<th style="min-width: 120px;">Password LKPP</th>
-											<th style="min-width: 100px;">Marketing</th>
-											<th style="min-width: 140px;">Keterangan</th>
-											<th style="min-width: 210px;">Nama Lengkap(tanpa gelar)</th>
-											<th style="min-width: 265px;">Nama Lengkap(dgn gelar)</th>
-											<th style="min-width: 140px;">NIK</th>
-											<th style="min-width: 190px;">Email Aktif</th>
-											<th style="min-width: 120px;">Tempat Lahir</th>
-											<th style="min-width: 80px;">Tgl Lahir</th>
-											<th style="min-width: 110px;">No WA</th>	
-											<th style="min-width: 100px">Pas Foto</th>										
-											<th style="min-width: 150px;">Pendidikan Terakhir</th>
-											<th style="min-width: 210px;">Nama Pendidikan Terakhir</th>
-											<th style="min-width: 150px;">Status Kepegawaian</th>
-											<th style="min-width: 140px;">NIP</th>
-											<th style="min-width: 80px;">NRP</th>
-											<th style="min-width: 100px">SK ASN</th>
-											<th style="min-width: 290px;">Nama Instansi Lengkap</th>
-											<th style="min-width: 290px;">Alamat Lengkap Kantor</th>
-											<th style="min-width: 150px;">Provinsi</th>
-											<th style="min-width: 150px;">Kota/Kabupaten</th>
-											<th style="min-width: 80px;">Kode Pos</th>
-											<th style="min-width: 280px;">Posisi Pelaku Pengadaan</th>
-											<th style="min-width: 120px;">Jenis Jabatan</th>
-											<th style="min-width: 280px;">Nama Jabatan</th>
-											<th style="min-width: 120px;">Gol Terakhir</th>
-											<th style="min-width: 290px;">Unit Organisasi</th>																						
-											<th style="min-width: 570px;">Paket Kontribusi</th>											
-											<th style="min-width: 100px">KTP</th>											
-											<th style="min-width: 125px;">Waktu Dibuat</th>
-										</tr>
-									</thead>
-									<tbody>
-										@foreach($users_deleted as $u)
-										<tr id="custom{{$u->id}}" style="background-color: {{$u->bg_color}}">
-											<td>
-												<div class="form-group form-check">
-													<input type="checkbox" class="form-check-input" id="cb-{{$u->id}}" data-email="{{$u->userDetail->email}}">
-												</div>
-											</td>
-											<td style="color: {{$u->font_color}};"><div data-nik="{{$u->userDetail->nik}}" class="editable" data-tipe="users" data-field="password_lkpp" data-placeholder="Click to edit">{{\Helper::passHashedDecrypt($u->userDetail->password_lkpp)}}</div></td>
-											<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="user_event" data-field="marketing" data-placeholder="Click to edit">{{$u->marketing}}</div></td>
-											<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="user_event" data-field="keterangan" data-placeholder="Click to edit">{{$u->keterangan}}</div></td>
-											<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="users" data-field="name" data-placeholder="Click to edit">{{$u->userDetail->name}}</div></td>
-											<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="member" data-field="nama_lengkap_gelar" data-placeholder="Click to edit">{{$u->userDetail->member->nama_lengkap_gelar}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-placeholder="Click to edit" class="not-editable">{{$u->userDetail->nik}}</div></td>
-											<td style="color: {{$u->font_color}};"><div class="not-editable" data-placeholder="Click to edit">{{$u->userDetail->email}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="tempat_lahir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tempat_lahir}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="tgl_lahir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tgl_lahir}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="no_hp" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->no_hp}}</div></td>	
-											<td><a href="{{\Helper::showImage($u->userDetail->member->foto_profile, 'poto_profile')}}" target="_blank">Lihat Dokumen</a></td>										
-											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="pendidikan_terakhir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->pendidikan_terakhir}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="nama_pendidikan_terakhir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->nama_pendidikan_terakhir}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="status_kepegawaian" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->status_kepegawaian}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="users" data-field="nip" class="editable" data-placeholder="Click to edit">{{$u->userDetail->nip}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="users" data-field="nrp" class="editable" data-placeholder="Click to edit">{{$u->userDetail->nrp}}</div></td>
-											<td>
-												@if($u->userDetail->member->file_sk_pengangkatan_asn)
-												<a href="{{\Helper::showImage($u->userDetail->member->file_sk_pengangkatan_asn, 'file_sk_pengangkatan_asn')}}" target="_blank">Lihat Dokumen</a>
-												@else
-												-
-												@endif
-											</td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="nama_instansi" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->nama_instansi}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="alamat_kantor_lengkap" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->alamat_kantor_lengkap}}</div></td>
-											<td><div class="not-editable" data-placeholder="Click to edit">{{$u->userDetail->member->prov_id ? $u->userDetail->member->alamatProvinsi->nama : '-'}}</div></td>
-											<td><div class="not-editable" data-placeholder="Click to edit">{{$u->userDetail->member->kota_id ? $u->userDetail->member->alamatKota->kota : '-'}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="kode_pos" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->kode_pos}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="posisi_pelaku_pengadaan" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->posisi_pelaku_pengadaan}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="jenis_jabatan" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->jenis_jabatan}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="nama_jabatan" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->nama_jabatan}}</div></td>
-											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="golongan_terakhir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->golongan_terakhir}}</div></td>																						
-											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="unit_organisasi" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->unit_organisasi}}</div></td>																						
-											<td style="color: {{$u->font_color}};"><div>{{$u->paket_kontribusi}}</div></td>
-											
-											<td>
-												@if($u->userDetail->member->foto_ktp)	
-												<a href="{{\Helper::showImage($u->userDetail->member->foto_ktp, 'foto_ktp')}}" target="_blank">Lihat Dokumen</a>
-												@else
-												-
-												@endif
-											</td>											
-											<td>{{\Helper::changeFormatDate($u->created_at, 'd-m-Y H:i:s')}}</td>
-										</tr>
-										@endforeach
-									</tbody>
-								</table>
-							</div>
+							<a href="" id="btnPulihkanPeserta" class="btn btn-success btn-sm mb-2">Pulihkan Data</a>
+							<table class="table table-bordered table-responsive table-hover" id="users-table2">
+								<thead>
+									<tr>
+										<th></th>
+										<th style="min-width: 120px;">Password LKPP</th>
+										<th style="min-width: 100px;">Marketing</th>
+										<th style="min-width: 140px;">Keterangan</th>
+										<th style="min-width: 210px;">Nama Lengkap(tanpa gelar)</th>
+										<th style="min-width: 265px;">Nama Lengkap(dgn gelar)</th>
+										<th style="min-width: 140px;">NIK</th>
+										<th style="min-width: 190px;">Email Aktif</th>
+										<th style="min-width: 120px;">Tempat Lahir</th>
+										<th style="min-width: 80px;">Tgl Lahir</th>
+										<th style="min-width: 110px;">No WA</th>	
+										<th style="min-width: 100px">Pas Foto</th>										
+										<th style="min-width: 150px;">Pendidikan Terakhir</th>
+										<th style="min-width: 210px;">Nama Pendidikan Terakhir</th>
+										<th style="min-width: 150px;">Status Kepegawaian</th>
+										<th style="min-width: 140px;">NIP</th>
+										<th style="min-width: 80px;">NRP</th>
+										<th style="min-width: 100px">SK ASN</th>
+										<th style="min-width: 290px;">Nama Instansi Lengkap</th>
+										<th style="min-width: 290px;">Alamat Lengkap Kantor</th>
+										<th style="min-width: 150px;">Provinsi</th>
+										<th style="min-width: 150px;">Kota/Kabupaten</th>
+										<th style="min-width: 80px;">Kode Pos</th>
+										<th style="min-width: 280px;">Posisi Pelaku Pengadaan</th>
+										<th style="min-width: 290px;">Unit Organisasi</th>	
+										<th style="min-width: 120px;">Jenis Jabatan</th>
+										<th style="min-width: 280px;">Nama Jabatan</th>
+										<th style="min-width: 120px;">Gol Terakhir</th>																																
+										<th style="min-width: 570px;">Paket Kontribusi</th>											
+										<th style="min-width: 100px">KTP</th>											
+										<th style="min-width: 125px;">Waktu Dibuat</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach($users_deleted as $u)
+									<tr id="custom{{$u->id}}" style="background-color: {{$u->bg_color}}">
+										<td>
+											<div class="form-group form-check">
+												<input type="checkbox" class="form-check-input" id="cb-{{$u->id}}" data-email="{{$u->userDetail->email}}">
+											</div>
+										</td>
+										<td style="color: {{$u->font_color}};"><div data-nik="{{$u->userDetail->nik}}" class="editable" data-tipe="users" data-field="password_lkpp" data-placeholder="Click to edit">{{\Helper::passHashedDecrypt($u->userDetail->password_lkpp)}}</div></td>
+										<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="user_event" data-field="marketing" data-placeholder="Click to edit">{{$u->marketing}}</div></td>
+										<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="user_event" data-field="keterangan" data-placeholder="Click to edit">{{$u->keterangan}}</div></td>
+										<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="users" data-field="name" data-placeholder="Click to edit">{{$u->userDetail->name}}</div></td>
+										<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="member" data-field="nama_lengkap_gelar" data-placeholder="Click to edit">{{$u->userDetail->member->nama_lengkap_gelar}}</div></td>
+										<td style="color: {{$u->font_color}};"><div data-placeholder="Click to edit" class="not-editable">{{$u->userDetail->nik}}</div></td>
+										<td style="color: {{$u->font_color}};"><div class="not-editable" data-placeholder="Click to edit">{{$u->userDetail->email}}</div></td>
+										<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="tempat_lahir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tempat_lahir}}</div></td>
+										<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="tgl_lahir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tgl_lahir}}</div></td>
+										<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="no_hp" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->no_hp}}</div></td>	
+										<td><a href="{{\Helper::showImage($u->userDetail->member->foto_profile, 'poto_profile')}}" target="_blank">Lihat Dokumen</a></td>										
+										<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="pendidikan_terakhir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->pendidikan_terakhir}}</div></td>
+										<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="nama_pendidikan_terakhir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->nama_pendidikan_terakhir}}</div></td>
+										<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="status_kepegawaian" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->status_kepegawaian}}</div></td>
+										<td style="color: {{$u->font_color}};"><div data-tipe="users" data-field="nip" class="editable" data-placeholder="Click to edit">{{$u->userDetail->nip}}</div></td>
+										<td style="color: {{$u->font_color}};"><div data-tipe="users" data-field="nrp" class="editable" data-placeholder="Click to edit">{{$u->userDetail->nrp}}</div></td>
+										<td>
+											@if($u->userDetail->member->file_sk_pengangkatan_asn)
+											<a href="{{\Helper::showImage($u->userDetail->member->file_sk_pengangkatan_asn, 'file_sk_pengangkatan_asn')}}" target="_blank">Lihat Dokumen</a>
+											@else
+											-
+											@endif
+										</td>
+										<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="nama_instansi" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->nama_instansi}}</div></td>
+										<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="alamat_kantor_lengkap" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->alamat_kantor_lengkap}}</div></td>
+										<td><div class="not-editable" data-placeholder="Click to edit">{{$u->userDetail->member->prov_id ? $u->userDetail->member->alamatProvinsi->nama : '-'}}</div></td>
+										<td><div class="not-editable" data-placeholder="Click to edit">{{$u->userDetail->member->kota_id ? $u->userDetail->member->alamatKota->kota : '-'}}</div></td>
+										<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="kode_pos" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->kode_pos}}</div></td>
+										<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="posisi_pelaku_pengadaan" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->posisi_pelaku_pengadaan}}</div></td>
+										<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="unit_organisasi" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->unit_organisasi}}</div></td>
+										<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="jenis_jabatan" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->jenis_jabatan}}</div></td>
+										<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="nama_jabatan" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->nama_jabatan}}</div></td>
+										<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="golongan_terakhir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->golongan_terakhir}}</div></td>																																	
+										<td style="color: {{$u->font_color}};"><div>{{$u->paket_kontribusi}}</div></td>
+										
+										<td>
+											@if($u->userDetail->member->foto_ktp)	
+											<a href="{{\Helper::showImage($u->userDetail->member->foto_ktp, 'foto_ktp')}}" target="_blank">Lihat Dokumen</a>
+											@else
+											-
+											@endif
+										</td>											
+										<td>{{\Helper::changeFormatDate($u->created_at, 'd-m-Y H:i:s')}}</td>
+									</tr>
+									@endforeach
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>
@@ -287,6 +317,24 @@
 	<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 	<script>
 		$(document).ready(function(){
+			function rgbStringToHex(rgb) {
+				var result = rgb.match(/\d+/g);
+				if (result.length !== 3) {
+					throw new Error("Format RGB tidak valid");
+				}
+
+				var r = parseInt(result[0]);
+				var g = parseInt(result[1]);
+				var b = parseInt(result[2]);
+
+				return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+			}
+
+			function componentToHex(c) {
+				var hex = c.toString(16);
+				return hex.length == 1 ? "0" + hex : hex;
+			}
+
 			$('body').on('change', 'input[type="checkbox"][id^="cb-"]', function() {
 				if ($(this).is(':checked')) {
 					var parentTR = $(this).closest('tr');
@@ -295,6 +343,14 @@
 					nextTD 	 = nextTD.attr('style')
 					var bgColor = parentTR.match(/background-color:\s*([^;]+)/)[1];
 					var fontColor = nextTD.match(/color:\s*([^;]+)/)[1];
+
+					if (bgColor.substr(0,3) == 'rgb') {
+						bgColor = rgbStringToHex(bgColor)
+					}
+					if (fontColor.substr(0,3) == 'rgb') {
+						fontColor = rgbStringToHex(fontColor)
+					}
+
 					$('[name=css-bg_color]').val(bgColor)
 					$('[name=css-font_color]').val(fontColor)
 				}

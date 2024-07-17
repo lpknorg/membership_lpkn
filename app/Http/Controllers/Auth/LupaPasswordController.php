@@ -90,7 +90,7 @@ class LupaPasswordController extends Controller
                 'messages' => $validator->errors()->first(),
             ], 422);
         }
-        $user = User::findOrFail($request->user_id);
+        $user = User::where('token_reset_password', $request->user_id)->first();
         $user->password = \Hash::make($request->password);
         $user->save();
         return response()->json([
