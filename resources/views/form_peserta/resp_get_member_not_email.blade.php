@@ -67,6 +67,12 @@
 	</div>
 	<div class="col-md-6">
 		<div class="form-group">
+			<label class="form-label" for="no_hp">No Whatsapp:</label><span class="text-danger"> *</span>
+			<input placeholder="Jawaban Anda" autocomplete="off" type="number" class="form-control" name="no_hp" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="14"><br>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="form-group">
 			<label class="form-label" for="pas_foto">Upload Pas Foto:</label><span class="text-danger"> *</span>
 			<input type="file" class="form-control" name="pas_foto">
 			<img src="" id="displayImagePasFoto" class="img-fluid mt-1 mb-3" alt="" style="width: 100px;display: none;border-radius: 5px;">

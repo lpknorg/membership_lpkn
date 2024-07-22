@@ -347,11 +347,6 @@ class FormPesertaController extends Controller
             $selKota = Kota::select('id', 'kota', 'kabupaten')->where('id', $request->kota)->first();
             $contKota = ($selKota->kabupaten == 0 ? 'Kota ' : 'Kabupaten ').$selKota->kota;  
             //hit ke event
-            $alamat_lengkap = $request->alamat_kantor;
-            $namaSertif = ucwords($request->nama_tanpa_gelar);
-            $namaLengkapDgnGelar = ucwords($request->nama_dengan_gelar);
-            $namaInstansi = ucwords($request->nama_instansi);
-            $tempatLahir = ucwords($request->tempat_lahir);
             $dataRegis = [
                 'id_kelas_event'    => $request->id_event,
                 'nama_lengkap'      => $namaSertif,

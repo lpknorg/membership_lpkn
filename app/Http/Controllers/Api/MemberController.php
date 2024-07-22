@@ -252,5 +252,16 @@ class MemberController extends Controller{
 		}
 		return redirect('login')->with('exception_verify_password', 'Url Link verify email tidak valid');
 	}
+	
+	public function updatePasswordAlumni(Request $request){
+		//var_dump($request->email);die;
+		$user = User::where('email', $request->email)->first();
+		$user->password = bcrypt($request->password);
+		$user->save();
+		return response()->json([
+			'status'    => "ok",
+			'messages' => "Berhasil melakukan ubah password"
+		], 200);
+	}
 
 }

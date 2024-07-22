@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Form Biodata Pelatihan</title>
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ asset('template/select2/css/select2.css') }}">
@@ -54,6 +56,8 @@
             border: 1px solid rgb(70, 2, 101);
             transition: 0.6s;
             font-weight: bold;
+	    width: 200px !important;
+	    font-size: 16px;
         }
         #btnCekData:hover{
             color: #fff;
@@ -161,7 +165,6 @@
             function resetTimer() {
                 clearTimeout(timer);
                 timer = setTimeout(function() {
-                    alert(123)
                     location.reload();
                 }, interval);
             }
@@ -410,6 +413,11 @@
                             toastr.error(err_.messages, 'Error');
                         }else{
                             toastr.error('Terjadi kesalahan saat kirim data.', 'Error');
+                            Swal.fire({
+                                icon: "error",
+                                title: 'Error',
+                                text: 'Terjadi kesalahan saat kirim data'
+                            });
                         }
                         $('button[type=submit]').attr('disabled', false).text('Kirim')                        
                     },

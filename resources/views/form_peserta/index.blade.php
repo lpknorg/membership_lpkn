@@ -5,9 +5,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>List Event</title>
 	<!-- Bootstrap CSS -->
-	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+	<link href="{{ asset('bootstraps/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+	<!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">-->
 	<!-- Toastr CSS -->
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+	<!--<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">-->
 
 </head>
 <body>
@@ -43,12 +45,17 @@
 	</div>
 
 	<!-- jQuery -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="{{ asset('jquery/jquery.min.js') }}" defer></script>
+	<script src="{{ asset('bootstraps/js/bootstrap.min.js') }}" defer></script>
+	<script src="{{ asset('datatables/jquery/jquery.dataTables.min.js') }}" defer></script>
+	<script src="{{ asset('datatables/js/dataTables.bootstrap4.min.js') }}" defer></script>
+
+	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
 	<!-- Bootstrap JS -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>-->
 	<!-- Toastr JS -->
-	<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-	<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+	<!--<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>-->
+	<!--<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>-->
 	<!-- Custom JS -->
 	<script>
 		$(document).ready(function() {

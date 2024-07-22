@@ -161,7 +161,7 @@
 											<td style="color: {{$u->font_color}};"><div data-nik="{{$u->userDetail->nik}}" class="editable" data-tipe="users" data-field="password_lkpp" data-placeholder="Click to edit">{{\Helper::passHashedDecrypt($u->userDetail->password_lkpp)}}</div></td>
 											<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="user_event" data-field="marketing" data-placeholder="Click to edit">{{$u->marketing}}</div></td>
 											<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="user_event" data-field="keterangan" data-placeholder="Click to edit">{{$u->keterangan}}</div></td>
-											<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="users" data-field="name" data-placeholder="Click to edit">{{$u->userDetail->name}}</div></td>
+											<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="users" data-field="name" data-placeholder="Click to edit">{{ucwords(strtolower($u->userDetail->name))}}</div></td>
 											<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="member" data-field="nama_lengkap_gelar" data-placeholder="Click to edit">{{$u->userDetail->member->nama_lengkap_gelar}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-placeholder="Click to edit" class="not-editable">{{$u->userDetail->nik}}</div></td>
 											<td style="color: {{$u->font_color}};"><div class="not-editable" data-placeholder="Click to edit">{{$u->userDetail->email}}</div></td>
@@ -260,7 +260,7 @@
 										<td style="color: {{$u->font_color}};"><div data-nik="{{$u->userDetail->nik}}" class="editable" data-tipe="users" data-field="password_lkpp" data-placeholder="Click to edit">{{\Helper::passHashedDecrypt($u->userDetail->password_lkpp)}}</div></td>
 										<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="user_event" data-field="marketing" data-placeholder="Click to edit">{{$u->marketing}}</div></td>
 										<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="user_event" data-field="keterangan" data-placeholder="Click to edit">{{$u->keterangan}}</div></td>
-										<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="users" data-field="name" data-placeholder="Click to edit">{{$u->userDetail->name}}</div></td>
+										<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="users" data-field="name" data-placeholder="Click to edit">{{ucwords(strtolower($u->userDetail->name))}}</div></td>
 										<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="member" data-field="nama_lengkap_gelar" data-placeholder="Click to edit">{{$u->userDetail->member->nama_lengkap_gelar}}</div></td>
 										<td style="color: {{$u->font_color}};"><div data-placeholder="Click to edit" class="not-editable">{{$u->userDetail->nik}}</div></td>
 										<td style="color: {{$u->font_color}};"><div class="not-editable" data-placeholder="Click to edit">{{$u->userDetail->email}}</div></td>
@@ -321,18 +321,19 @@
 	<script src="{{asset('template/coloris/coloris.min.js')}}"></script>
 	<script>
 		$(document).ready(function(){
+
 			Coloris({
 				format: 'hex',
 				selectInput: true,
 				swatchesOnly: true,
 				swatches: [
 					'#FFFFFF',
-					'#f25e68',
+					'#ef838a',
 					'#fad050',
 					'#fafa75',
 					'#92D050',
-					'#6dd3f7',
-					'#4e8dba',
+					'#99d4e8',
+					'#6a9fc4',
 					'#000000'
 					]
 			})
@@ -461,8 +462,8 @@
 					$(`#custom${id}`).css('background-color', _val)
 				})
 				if (arrBgColor.length < 1) {
-					// alert('Minimal checklist 1 row pada table untuk melakukan perubahan warna background')
-					// return
+					alert('Minimal checklist 1 row pada table untuk melakukan perubahan warna background')
+					return
 				}
 				let sendCssData = {
 					color 	   : $(this).val(),

@@ -3,6 +3,8 @@
         <tr>
             <th>No</th>
             <th>Password LKPP</th>
+	    <th>Marketing</th>
+	    <th>Keterangan</th>
             <th width="20%">Nama Lengkap(tanpa gelar)</th>
             <th>Nama Lengkap(dengan gelar)</th>
             <th>NIK</th>
@@ -37,6 +39,8 @@
         <tr>
             <td>{{ $no++ }}</td>
             <td>{{\Helper::passHashedDecrypt($u->userDetail->password_lkpp)}}</td>
+            <td>{{$u->marketing}}</td>
+	    <td>{{$u->keterangan}}</td>
             <td>{{$u->userDetail->name}}</td>
             <td>{{$u->userDetail->member->nama_lengkap_gelar}}</td>
             <td>{{"'".$u->userDetail->nik}}</td>
