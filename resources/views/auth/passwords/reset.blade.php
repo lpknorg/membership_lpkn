@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" type="text/css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <title>Reset Password</title>
 </head>
 <style>
@@ -94,10 +95,12 @@
                         <div class="form-group">
                             <label class="text-uppercase small">Password Baru</label>
                             <input id="password" type="password" class="form-control" name="password" placeholder="Masukkan Password">
+                            <i class="m-i far fa-eye" id="togglePassword" style="cursor: pointer;"></i>
                         </div>
                         <div class="form-group">
                             <label class="text-uppercase small">Konfirmasi Password</label>
-                            <input id="password" type="password" class="form-control" name="password_konfirmasi" placeholder="Masukkan Password Konfirmasi">
+                            <input id="password_konfirmasi" type="password" class="form-control" name="password_konfirmasi" placeholder="Masukkan Password Konfirmasi">
+                            <i class="m-i far fa-eye" id="togglePassword2" style="cursor: pointer;"></i>
                         </div>
                     </div>
                 </div>
@@ -115,6 +118,38 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="{{asset('js/custom.js')}}"></script>
 <script>
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#password');
+    
+    togglePassword.addEventListener('click', function (e) {
+        // toggle the type attribute
+        if(password.getAttribute('type') === 'password'){
+            this.classList.remove('fa-eye');
+            this.classList.add('fa-eye-slash');
+        }else{
+            this.classList.add('fa-eye');
+            this.classList.remove('fa-eye-slash');
+        }   
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);             
+    });
+
+    const togglePassword2 = document.querySelector('#togglePassword2');
+    const password_k = document.querySelector('#password_konfirmasi');
+    
+    togglePassword2.addEventListener('click', function (e) {
+        // toggle the type attribute
+        if(password_k.getAttribute('type') === 'password'){
+            this.classList.remove('fa-eye');
+            this.classList.add('fa-eye-slash');
+        }else{
+            this.classList.add('fa-eye');
+            this.classList.remove('fa-eye-slash');
+        }   
+        const type = password_k.getAttribute('type') === 'password' ? 'text' : 'password';
+        password_k.setAttribute('type', type);
+              
+    });
     $('form').submit(function(e) {
         e.preventDefault();
         $.ajaxSetup({

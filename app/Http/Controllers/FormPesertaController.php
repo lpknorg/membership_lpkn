@@ -66,7 +66,7 @@ class FormPesertaController extends Controller
         }
         // ini kalo ada
         if ($checkUser) {
-            if($checkUser->member->memberKantor->status_kepegawaian == 'POLRI' || substr($checkUser->member->memberKantor->status_kepegawaian, 0, 3) == 'TNI'){
+            if($request->status_kepegawaian == 'POLRI' || substr($request->status_kepegawaian, 0, 3) == 'TNI'){
                 $validator = Validator::make($request->all(), [
                     'nrp' => 'required|string'
                 ]);
