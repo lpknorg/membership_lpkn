@@ -149,12 +149,12 @@
 
         </div>
     </div>
-    <script src="{{ asset('jquery/jquery.min.js') }}" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="{{ asset('bootstraps/js/bootstrap.min.js') }}" defer></script>
 	<script src="{{ asset('js/toastr.min.js') }}" defer></script>
 	<script src="{{ asset('datatables/jquery/jquery.dataTables.min.js') }}" defer></script>
 	<script src="{{ asset('datatables/js/dataTables.bootstrap4.min.js') }}" defer></script>
-	<script src="{{ asset('datatables/js/bootstrap-datepicker.min.js') }}" defer></script>
+	<script src="{{ asset('js/bootstrap-datepicker.min.js') }}" defer></script>
 
     {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
     <!-- Bootstrap JS -->

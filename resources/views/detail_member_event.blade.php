@@ -44,7 +44,7 @@
 			white-space: nowrap;
 		}
 		table#users-table{
-			max-height:700px;
+			max-height:600px;
 			overflow-y: auto;
 			overflow-x: auto;
 
