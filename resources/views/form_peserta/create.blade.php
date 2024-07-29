@@ -128,12 +128,12 @@
                 </div>
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ route('form_peserta_store') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ $methodForm }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="id_event" value="{{ $list_event['event']['id'] }}">
                             <div class="form-group">
                                 <label class="form-label" for="email">Email Aktif:</label><span class="text-danger"> *</span>
-                                <input placeholder="Jawaban Anda" autocomplete="off" type="email" class="form-control" name="email">
+                                <input placeholder="Jawaban Anda" autocomplete="off" type="email" class="form-control" name="email" value="wdinda375@gmail.com">
                             </div>
                             <a class="btn btn-outline-primary btn-sm w-25 mt-2" id="btnCekData" href="javascript:void(0)">Cek Data</a>
                             <div id="divContent">
@@ -374,7 +374,7 @@
                 formData.append('sk_pengangkatan_asn', $('[name=sk_pengangkatan_asn]').prop('files')[0]);
                 @endif                
                 $.ajax({
-                    url: '{{url('form_peserta_store')}}',
+                    url: $(this).attr('action'),
                     type: 'POST',
                     data: formData,
                     contentType: false,

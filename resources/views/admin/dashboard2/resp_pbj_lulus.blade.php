@@ -21,7 +21,7 @@
 				<td>{{$totPbj[2]}}</td>
 				<td>{{$totPbj[1]}}</td>
 				<td>{{$totPbj[0]}}</td>
-				<td>{{round($totPbj[1] / $totPbj[0] * 100, 2)}}%</td>
+				<td>{{round($totPbj[1] / $totPbj[2] * 100, 2)}}%</td>
 			</tr>
 		</tbody>
 	</table>

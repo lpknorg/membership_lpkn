@@ -60,7 +60,8 @@ Route::get('ea', function(){
 Route::get('/form_peserta/{id}', [App\Http\Controllers\FormPesertaController::class, 'create'])->name('form_peserta.create');
 Route::get('/form_peserta_ajax/{id}', [App\Http\Controllers\FormPesertaController::class, 'createAjax'])->name('form_peserta.createAjax');
 Route::get('/form_peserta/{id}/list_peserta', [App\Http\Controllers\FormPesertaController::class, 'index'])->name('form_peserta.index');
-Route::post('/form_peserta_store', [App\Http\Controllers\FormPesertaController::class, 'store'])->name('form_peserta_store');
+Route::post('/form_peserta_store_online', [App\Http\Controllers\FormPesertaController::class, 'storeOnline'])->name('form_peserta_store_online');
+Route::post('/form_peserta_store_tatapmuka', [App\Http\Controllers\FormPesertaController::class, 'storeTatapMuka'])->name('form_peserta_store_tatapmuka');
 
 
 Route::get('/verify_email/{token}', [App\Http\Controllers\Api\MemberController::class, 'updateVerifyEmail'])->name('updateVerifyEmail');

@@ -20,9 +20,15 @@ class FormPesertaController extends Controller
             $endpoint = env('API_EVENT').'member/event/detailevent_by_id?id_event='.$id_events;
             $list_api = \Helper::getRespApiWithParam($endpoint, 'get');        
             session(['api_detail_event'.$id_events => $list_api]);
-        }
+        }        
         $list_event = session('api_detail_event'.$id_events);
-        return view('form_peserta.create', compact('id_events', 'list_event'));
+        if ($list_event['event']['jenis_kelas'] == 0) {
+            $methodForm = route('form_peserta_store_online');
+        }else{
+            $methodForm = route('form_peserta_store_tatapmuka');
+        }
+        // dd($methodForm);
+        return view('form_peserta.create', compact('id_events', 'list_event', 'methodForm'));
     }
 
     public function createAjax($id_events, Request $request){
@@ -53,19 +59,193 @@ class FormPesertaController extends Controller
 
     
 
-    public function store(Request $request)
+    public function storeOnline(Request $request)
+    {
+        $checkUser = User::where('email', $request->email)->first();
+        $pas_foto3x4 = null;
+        if ($checkUser) {
+            $pas_foto3x4 = $checkUser->member->foto_profile;
+            if (is_null($checkUser->member->foto_profile)) {
+                $validator = Validator::make($request->all(), [
+                    'pas_foto' => 'required|mimes:jpeg,png,jpg'
+                ]);
+                if ($validator->fails()) {
+                    return response()->json([
+                        'status'   => "fail",
+                        'messages' => $validator->errors()->first(),
+                    ], 422);
+                }
+            }
+        }else{
+            $validator = Validator::make($request->all(), [
+                'pas_foto' => 'required|mimes:jpeg,png,jpg'
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status'   => "fail",
+                    'messages' => $validator->errors()->first(),
+                ], 422);
+            }
+        }
+        
+        $id_event = $request->id_event;
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'nama_tanpa_gelar' => 'required|string',
+            'nama_dengan_gelar' => 'required|string',
+            'nik' => 'required|string',
+            'tempat_lahir' => 'required|string',
+            'tanggal_lahir' => 'required|date', 
+            'nama_instansi' => 'required|string',
+            'provinsi' => 'required|string',
+            'kota' => 'required|string'
+        ]);
+        
+        if ($validator->fails()) {
+            return response()->json([
+                'status'   => "fail",
+                'messages' => $validator->errors()->first(),
+            ], 422);
+        }
+
+        if ($request->hasFile('pas_foto')) {
+            $pas_foto3x4 = \Helper::storeFile('poto_profile', $request->pas_foto);
+        }
+        $namaSertif = ucwords($request->nama_tanpa_gelar);
+        $namaLengkapDgnGelar = ucwords($request->nama_dengan_gelar);
+        $namaInstansi = ucwords($request->nama_instansi);
+        $tempatLahir = ucwords($request->tempat_lahir);
+
+        // \DB::beginTransaction();
+        try {
+            if ($checkUser) {
+                $checkUser->update([
+                    'name' => $namaSertif,
+                    'nik' => $request->nik,
+                    'email' => $request->email,
+                    'email_verified_at' => now()
+                ]);
+                $checkUser->syncRoles(['member']);
+                $request['user_id'] = $checkUser->id;
+
+                $checkUser->member->update([
+                    'no_hp'=>$request->no_hp,
+                    'nama_lengkap_gelar' => $namaLengkapDgnGelar,
+                    'nama_untuk_sertifikat'=>$namaSertif,
+                    'tempat_lahir'=>$tempatLahir,
+                    'prov_id'=>$request->provinsi,
+                    'kota_id'=>$request->kota,
+                    'foto_profile'=>$pas_foto3x4,
+                    'pas_foto3x4'=>$pas_foto3x4,
+                    'updated_at'=>date('Y-m-d H:i:s'),
+                    'tgl_lahir' => \Helper::changeFormatDate($request->tanggal_lahir, 'Y-m-d'),
+                    'user_id' => $checkUser->id
+                ]);
+
+                $checkUser->member->memberKantor->update([
+                    'member_id' => $checkUser->member->id,
+                    'nama_instansi' => $namaInstansi,
+                    'kantor_prov_id'=>$request->provinsi,
+                    'kantor_kota_id'=>$request->kota,
+                    'updated_at'=>date('Y-m-d H:i:s')
+                ]);
+            }else{
+                $user = User::create([
+                    'name' => $namaSertif,
+                    'nik' => $request->nik,
+                    'email' => $request->email,
+                    'email_verified_at' => now(),
+                    'password' => \Hash::make('lpkn1234'),
+                    'email_verified_at' => now()
+                ]);
+                $user->syncRoles(['member']);
+                $request['user_id'] = $user->id;
+                $member = Member::create([
+                    'no_hp'=>$request->no_hp,
+                    'nama_lengkap_gelar' => $namaLengkapDgnGelar,
+                    'nama_untuk_sertifikat'=>$namaSertif,
+                    'tempat_lahir'=>$tempatLahir,
+                    'prov_id'=>$request->provinsi,
+                    'kota_id'=>$request->kota,
+                    'foto_profile'=>$pas_foto3x4,
+                    'pas_foto3x4'=>$pas_foto3x4,
+                    'updated_at'=>date('Y-m-d H:i:s'),
+                    'tgl_lahir' => \Helper::changeFormatDate($request->tanggal_lahir, 'Y-m-d'),
+                    'user_id' => $user->id
+                ]);
+
+                MemberKantor::create([
+                    'member_id' => $user->member->id,
+                    'nama_instansi' => $namaInstansi,
+                    'kantor_prov_id'=>$request->provinsi,
+                    'kantor_kota_id'=>$request->kota,
+                    'updated_at'=>date('Y-m-d H:i:s')
+                ]);
+            }
+            UserEvent::updateOrCreate(
+                ['user_id' => $request->user_id, 'event_id' => $request->id_event],
+                [
+                    'updated_at' => now(),
+                    'paket_kontribusi' => $request->konfirmasi_paket
+                ]
+            );
+
+            //update member dan store sertifikat
+            $selKota = Kota::select('id', 'kota', 'kabupaten')->where('id', $request->kota)->first();
+            $contKota = ($selKota->kabupaten == 0 ? 'Kota ' : 'Kabupaten ').$selKota->kota;  
+            //hit ke event
+            $dataRegis = [
+                'id_kelas_event'    => $request->id_event,
+                'nama_lengkap'      => $namaSertif,
+                'no_hp'             => $request->no_hp,
+                'email'             => $request->email,
+                'instansi'          => $namaInstansi,
+                'unit_organisasi'   => $request->unit_organisasi,
+                'alamat'            => null,
+                'nik'               => $request->nik,
+                'tempat_lahir'      => $tempatLahir,
+                'tgl_lahir'         => \Helper::changeFormatDate($request->tanggal_lahir, 'Y-m-d'),
+                'status_pembayaran' => 1,
+                'bukti'             => 'default_form_member.jpg',
+
+            // ini ke sertif
+                'nama_pemerintahan' => $contKota,
+                'foto_diri' => $request->hasFile('pas_foto') ? \Helper::imageToBase64('poto_profile/'.$pas_foto3x4) : null
+            // end ke sertif
+            ];
+            $endpointnew = env('API_SSERTIFIKAT').'membership/storeNewDataFromMembership';
+            $response = \Helper::getRespApiWithParam($endpointnew, 'post', $dataRegis);            
+            if ($response && $response['status'] == 'error') {
+                return response()->json([
+                    'status'   => "fail",
+                    'messages' => $eventData['message'],
+                ], 422);
+            }
+            return response()->json([
+                'status'   => 'ok',
+                'messages' => "Data berhasil disimpan",
+                'data_sertif' => $response
+            ], 200);
+            // \DB::commit();            
+        } catch (\Exception $e) {
+            return response()->json([
+                'status'   => 'fail',
+                'messages' => $e->getMessage()
+            ], 422);
+        }
+    }
+
+    public function storeTatapMuka(Request $request)
     {
         $checkUser = User::where('email', $request->email)->first();
         $foto_ktp = null;
         $pas_foto3x4 = null;
         $sk_pengangkatan_asn = null;
+        // ini kalo ada
         if ($checkUser) {
             $foto_ktp = $checkUser->member->foto_ktp;
             $pas_foto3x4 = $checkUser->member->foto_profile;
             $sk_pengangkatan_asn = $checkUser->member->file_sk_pengangkatan_asn;
-        }
-        // ini kalo ada
-        if ($checkUser) {
             if($request->status_kepegawaian == 'POLRI' || substr($request->status_kepegawaian, 0, 3) == 'TNI'){
                 $validator = Validator::make($request->all(), [
                     'nrp' => 'required|string'
@@ -174,45 +354,29 @@ class FormPesertaController extends Controller
                 ], 422);
             }
         }
-        // ini kalau offline
-        if ($request->jenis_kelas == '1') {
-            $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
                 // user
-                'nama_tanpa_gelar' => 'required|string',
-                'nama_dengan_gelar' => 'required|string',
-                'email' => 'required|email',
-                'no_hp' => 'required|string',
-                'jenis_kelamin' => 'required|string', 
-                'tempat_lahir' => 'required|string',
-                'tanggal_lahir' => 'required|date', 
-                'pendidikan_terakhir' => 'required|string',
-                'nama_pendidikan_terakhir' => 'required|string',
-                'nik' => 'required|string',
-                'status_kepegawaian' => 'required|string',
-                'nama_instansi' => 'required|string',
-                'provinsi' => 'required|string',
-                'kota' => 'required|string',
-                'unit_organisasi' => 'required|string',
-                'alamat_kantor' => 'required|string',
-                'kode_pos' => 'required|string',
-                // 'konfirmasi_paket' => 'required|string'
-                // 'posisi_pengadaan' => 'required|string',
-                // 'jenis_jabatan' => 'required|string',                                       
-            ]);
-        }else{
-            // ini kalau online
-            $validator = Validator::make($request->all(), [
-                'email' => 'required|email',
-                'nama_tanpa_gelar' => 'required|string',
-                'nama_dengan_gelar' => 'required|string',
-                'nik' => 'required|string',
-                'tempat_lahir' => 'required|string',
-                'tanggal_lahir' => 'required|date', 
-                'nama_instansi' => 'required|string',
-                'provinsi' => 'required|string',
-                'kota' => 'required|string'
-            ]);
-        }
+            'nama_tanpa_gelar' => 'required|string',
+            'nama_dengan_gelar' => 'required|string',
+            'email' => 'required|email',
+            'no_hp' => 'required|string',
+            'jenis_kelamin' => 'required|string', 
+            'tempat_lahir' => 'required|string',
+            'tanggal_lahir' => 'required|date', 
+            'pendidikan_terakhir' => 'required|string',
+            'nama_pendidikan_terakhir' => 'required|string',
+            'nik' => 'required|string',
+            'status_kepegawaian' => 'required|string',
+            'nama_instansi' => 'required|string',
+            'provinsi' => 'required|string',
+            'kota' => 'required|string',
+            'unit_organisasi' => 'required|string',
+            'alamat_kantor' => 'required|string',
+            'kode_pos' => 'required|string',
+            // 'konfirmasi_paket' => 'required|string'
+            // 'posisi_pengadaan' => 'required|string',
+            // 'jenis_jabatan' => 'required|string',                                       
+        ]);
         
         if ($validator->fails()) {
             return response()->json([
