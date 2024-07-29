@@ -29,8 +29,8 @@
             <nav class="login-image-footer">
                 <ul>
                     <li>
-                        <a href="https://wa.me/628111464659?text=Hallo%20Admin.">
-                            <span class="text-white">Admin 1: </span><span class="warna-biru font-weight-semi-bold">0811-1464-659</span>
+                        <a href="https://wa.me/628111326000?text=Hallo%20Admin">
+                            <span class="text-white">Admin 1: </span><span class="warna-biru font-weight-semi-bold">0811-1326-000</span>
                         </a>
                     </li>
                     <li>

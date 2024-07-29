@@ -49,7 +49,7 @@
 			<td>{{$l['total_peserta']}}</td>
 			<td>{{$l['peserta_lulus']}}</td>
 			<td>{{$l['peserta_tidak_lulus']}}</td>
-			<td>{{round($l['peserta_lulus'] / $l['peserta_tidak_lulus'] * 100, 2)}}%</td>
+			<td>{{round($l['peserta_lulus'] / $l['total_peserta'] * 100, 2)}}%</td>
 		</tr>
 		@endforeach
 	</table>
