@@ -133,7 +133,7 @@
                             <input type="hidden" name="id_event" value="{{ $list_event['event']['id'] }}">
                             <div class="form-group">
                                 <label class="form-label" for="email">Email Aktif:</label><span class="text-danger"> *</span>
-                                <input placeholder="Jawaban Anda" autocomplete="off" type="email" class="form-control" name="email" value="wdinda375@gmail.com">
+                                <input placeholder="Jawaban Anda" autocomplete="off" type="email" class="form-control" name="email">
                             </div>
                             <a class="btn btn-outline-primary btn-sm w-25 mt-2" id="btnCekData" href="javascript:void(0)">Cek Data</a>
                             <div id="divContent">

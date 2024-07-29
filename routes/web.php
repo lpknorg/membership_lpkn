@@ -36,6 +36,7 @@ use App\Http\Controllers\Artikel\{
 	ArtikelKomentarController,
 	ArtikelLikeController
 };
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,7 +48,23 @@ use App\Http\Controllers\Artikel\{
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('ea', function(){
+use Carbon\Carbon;
+Route::get('ea', function(Request $request){
+	$date = Carbon::now()->format('Y-m-d');
+	$logFolder = storage_path("logs/requests-form");
+	$logFile = "{$logFolder}/request-{$date}.log";
+	if (!File::exists($logFolder)) {
+		File::makeDirectory($logFolder, 0755, true);
+	}
+
+	$logData = [
+		'time' => date('d-M-Y H:i:s'),
+		'body' => $request->all(),
+	];
+
+	\File::append($logFile, json_encode($logData) . PHP_EOL);
+	dd('done');
+
 	$a = base64_decode('TURBMU1qTTFMMUJRU3kxRExsTk1MMUJRVTBSTlVFSktMekl3TWpRPQ==');
 	$b = base64_decode($a);
 	dd($b);
@@ -88,6 +105,7 @@ Route::get('/download_file/{file}/{folder?}', [HomeController::class, 'downloadF
 // Route::view('dashboard', 'dashboard');
 
 Route::group(['prefix' => 'dashboard2', 'as' => 'dashboard2.', 'middleware' => 'auth'], function () {
+	Route::get('/download_files/{id_user}/{folder}/{file}', [HomeController::class, 'downloadFiles'])->name('downloadFiles');
 	Route::get('/', [DashboardController::class, 'index2'])->name('index');
 	Route::get('/lulus_pbj', [DashboardController::class, 'lulusPbj'])->name('lulusPbj');
 	Route::get('resp_tahun', [DashboardController::class, 'responseByBulan'])->name('responseByBulan');

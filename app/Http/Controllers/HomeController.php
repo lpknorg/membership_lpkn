@@ -138,4 +138,15 @@ class HomeController extends Controller
             // Atur header response untuk men-download file
         return response()->download($filePath);
     }
+
+    public function downloadFiles($userid, $folder, $file){
+        $filePath = public_path("uploaded_files/{$folder}/".$file);
+        $_ext = pathinfo($filePath);
+        if (!file_exists($filePath)) {
+            abort(404);
+        }
+        $sel = User::findOrFail($userid);
+        $newFileName = ucwords($folder)."-".$sel->name.'.'.$_ext['extension'];
+        return response()->download($filePath, $newFileName);
+    }
 }
