@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Models\{User, UserEvent};
+use App\Models\{User, UserEvent, HistoryKelasDiklatOnline};
 use App\Exports\ExportDataFormByEvent;
 
 class ViewMemberController extends Controller
@@ -35,6 +35,12 @@ class ViewMemberController extends Controller
         return \Helper::downloadZip($filePaths, $tipe);
     }
     public function viewByEvent($id_event){
+        if (!session()->has('kelas_diklatonline')) {
+            $endpoint = env('API_DIKLATONLINE').'Membership/listKelas';
+            $list_api = \Helper::getRespApiWithParam($endpoint, 'get');        
+            session(['kelas_diklatonline' => $list_api]);
+        }
+        $list_kelasdo = session('kelas_diklatonline');
         $users = UserEvent::where([
             ['event_id', $id_event],
             ['is_deleted', 0]
@@ -43,7 +49,7 @@ class ViewMemberController extends Controller
             ['event_id', $id_event],
             ['is_deleted', 1]
         ])->orderBy('updated_at', 'desc')->get();
-        return view('detail_member_event', compact('users', 'users_deleted', 'id_event'));
+        return view('detail_member_event', compact('users', 'users_deleted', 'list_kelasdo',  'id_event'));
     }
 
     public function updateDataMember(Request $request){
@@ -135,6 +141,39 @@ class ViewMemberController extends Controller
         ], 200);
     }
 
+    public function storeToDiklatOnline(Request $request){
+        $selUser = User::whereIn('email', $request->emailArr)->get();
+        foreach($selUser as $u){
+            $arrayData[] = [
+                'nama'              => $u->name,
+                'instansi'          => $u->member->memberKantor->nama_instansi,
+                'email'             => $u->email,
+                'no_hp'             => $u->member->no_hp,
+                'id_kelas'          => $request->id_kelas
+            ];
+        }
+        $endpoint = env('API_DIKLATONLINE').'Membership/process_data';
+        $datapost = ['data_peserta'=>$arrayData];
+        $xxx = \Helper::getRespApiWithParam($endpoint, 'post', $datapost);
+        if($xxx['message'] == 'success'){
+            $uv = UserEvent::whereIn('id', $request->idArr)
+            ->update(['idkelas_diklatonline' => $request->id_kelas]);
+            foreach($request->idArr as $key => $value){
+                HistoryKelasDiklatOnline::updateOrCreate(
+                    ['user_event_id' => $value,'idkelas_diklatonline' => $request->id_kelas],
+                    [
+                        'createdBy' => \Auth::user()->id,
+                        'updated_at' => now()
+                    ]
+                );
+            }            
+            return response()->json([
+                'status'   => 'ok',
+                'messages' => "Berhasil submit data ke Diklatonline"
+            ], 200);
+        }
+    }
+
     public function updateCss(Request $request){
         $uv = UserEvent::whereIn('id', $request->idArr)
         ->when($request->tipe == "background-color", function($q2)use($request){
@@ -147,6 +186,6 @@ class ViewMemberController extends Controller
 
     public function downloadExcelByEvent($id_event){
         $userse = UserEvent::where('event_id', $id_event)->get();
-        return Excel::download(new ExportDataFormByEvent($userse),"data-peserta.xlsx");
+        return Excel::download(new ExportDataFormByEvent($userse),"data-peserta-{$id_event}.xlsx");
     }
 }

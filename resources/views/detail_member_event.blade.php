@@ -98,20 +98,38 @@
 						<div class="card-body">
 							<div>
 								<div class="row">
-									<div class="col-md-2">
-										<div class="form-group">
-											<label>Warna Background</label>
-											<input type="text" data-coloris name="css-bg_color" class="form-control" value="#ffffff" />
+									<div class="col-md-4">
+										<div class="card">
+											<div class="card-body" style="padding: 15px;">
+												<div class="form-group" style="margin-bottom: 5px;">
+													<label>Warna Background</label>
+													<input type="text" data-coloris name="css-bg_color" class="form-control" value="#ffffff" />
+												</div>
+												<div class="form-group" style="margin-bottom: 5px;">
+													<label style="margin-right: 53px;">Warna Teks</label>
+													<input type="text" data-coloris name="css-font_color" class="form-control" value="#000000" />
+												</div>
+											</div>
 										</div>
 									</div>
-									<div class="col-md-2">
-										<div class="form-group">
-											<label>Warna Teks</label>
-											<input type="text" data-coloris name="css-font_color" class="form-control" value="#000000" />
+									<div class="col-md">
+										<div class="card">
+											<div class="card-body">
+												<div class="form-group" style="margin-bottom: 5px;">
+													<label>Pilih Kelas DiklatOnline</label>
+													<select name="id_kelas" class="form-control">
+														<option value="">Pilih Kelas</option>
+														@foreach($list_kelasdo as $l)
+														<option value="{{$l['id']}}">{{$l['nama']}}</option>
+														@endforeach
+													</select>
+													<a href="" id="btnStoreDiklatOnline" class="btn btn-success btn-sm mt-2">Submit</a>	
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
-								<a href="" id="btnHapusPeserta" class="btn btn-danger btn-sm mb-2">Hapus Data</a>	
+								<a href="" id="btnHapusPeserta" class="btn btn-danger btn-sm my-2">Hapus Data</a>	
 								<table class="table table-bordered table-responsive table-hover" id="users-table">
 									<thead>
 										<tr>
@@ -386,6 +404,59 @@
 					$('#users-table input[type="checkbox"][id^="cb-"]').prop('checked', false);
 				}
 			})
+			$('body').on('click', '[id=btnStoreDiklatOnline]', function(e) {
+				e.preventDefault()
+				var idArr = []
+				var emailArr = []
+				var id_kelas = $('[name=id_kelas]').find(":selected").val()
+				$('input[type="checkbox"][id^="cb-"]:checked').each(function(){
+
+					let id = $(this).attr('id')
+					id = id.replace(/\D/g, '');
+					idArr.push(id)
+					emailArr.push($(this).attr('data-email'))
+				})
+				if (idArr.length < 1) {
+					alert('Minimal checklist 1 row pada table')
+					return
+				}
+				if (id_kelas == '') {
+					alert('Pilih kelas terlebih dahulu')
+					return
+				}
+				$.ajaxSetup({
+					headers: {
+						'X-CSRF-TOKEN': $('[name=_token]').val()
+					}
+				});
+				$.ajax({
+					type: 'post',
+					url: '{{url('import_member')}}' + '/store_diklat_online',
+					data: {emailArr, id_kelas, idArr},
+					dataType: 'json',
+					beforeSend: function(){
+						$('#btnStoreDiklatOnline').attr('disabled', true).css('cursor', 'not-allowed').text('Load ...')
+					},
+					success: function(data) {
+						console.log(data)
+						if (data.status == "ok") {
+							toastr.success(data.messages, 'Berhasil');
+						}
+					},
+					error: function(data) {
+						var data = data.responseJSON;
+						if (data.status == "fail") {
+							toastr.error(data.messages, 'Error');
+						}else{
+							toastr.error('Terdapat kesalahan saat submit ke diklat online', 'Error');
+						}
+					},
+					complete: function(){
+						$('#btnStoreDiklatOnline').attr('disabled', false).css('cursor', 'pointer').text('Submit')
+					}
+				});
+				console.log(emailArr)
+			})
 			$('body').on('click', '[id=btnHapusPeserta]', function(e) {
 				e.preventDefault()
 				deleteRestoreData()
@@ -545,8 +616,8 @@
 			var table = $('#users-table').DataTable({
 				"columnDefs": [
                     { "orderable": false, "targets": 0 } // Menonaktifkan sorting pada kolom pertama
-                ],
-				"pageLength": 50,
+                    ],
+				"pageLength": 100,
 			})
 			var table2 = $('#users-table2').DataTable({
 				"pageLength": 50

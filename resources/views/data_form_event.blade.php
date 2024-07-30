@@ -3,8 +3,8 @@
         <tr>
             <th>No</th>
             <th>Password LKPP</th>
-	    <th>Marketing</th>
-	    <th>Keterangan</th>
+            <th>Marketing</th>
+            <th>Keterangan</th>
             <th width="20%">Nama Lengkap(tanpa gelar)</th>
             <th>Nama Lengkap(dengan gelar)</th>
             <th>NIK</th>
@@ -36,11 +36,11 @@
         <?php $no = 1;        
         ?>
         @foreach($data as $u)
-        <tr>
+        <tr style="background-color: #ef838a !important;">
             <td>{{ $no++ }}</td>
             <td>{{\Helper::passHashedDecrypt($u->userDetail->password_lkpp)}}</td>
             <td>{{$u->marketing}}</td>
-	    <td>{{$u->keterangan}}</td>
+            <td>{{$u->keterangan}}</td>
             <td>{{$u->userDetail->name}}</td>
             <td>{{$u->userDetail->member->nama_lengkap_gelar}}</td>
             <td>{{"'".$u->userDetail->nik}}</td>
@@ -64,7 +64,7 @@
                 }
                 ?>
                 {{$content}}
-                </td>
+            </td>
             <td>{{$u->userDetail->member->pendidikan_terakhir}}</td>
             <td>{{$u->userDetail->member->nama_pendidikan_terakhir}}</td>
             <td>{{$u->userDetail->member->memberKantor->status_kepegawaian}}</td>
