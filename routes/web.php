@@ -48,22 +48,31 @@ use Illuminate\Http\Request;
 | contains the "web" middleware group. Now create something great!
 |
 */
-use Carbon\Carbon;
+use App\Jobs\PersonJob2;
+use Faker\Factory;
 Route::get('ea', function(Request $request){
-	$date = Carbon::now()->format('Y-m-d');
-	$logFolder = storage_path("logs/requests-form");
-	$logFile = "{$logFolder}/request-{$date}.log";
-	if (!File::exists($logFolder)) {
-		File::makeDirectory($logFolder, 0755, true);
-	}
+	$starttime = microtime(true);
 
-	$logData = [
-		'time' => date('d-M-Y H:i:s'),
-		'body' => $request->all(),
-	];
+	PersonJob2::dispatch();
+	// try {
+	// 	$faker = Factory::create();
+	// 	$jumlahData = 5000;
+	// 	for ($i=0; $i < $jumlahData; $i++) { 
+	// 		$data = [
+	// 			'nama' => $faker->name,
+	// 			'email' => $faker->unique()->email()
+	// 		];
+	// 		\App\Models\PersonFaker::create($data);
+	// 	}
+	// } catch (\Exception $e) {
+	// 	Log::error('Failed to generate fake data: ' . $e->getMessage());
+	// 	$this->fail($e);
+	// }
 
-	\File::append($logFile, json_encode($logData) . PHP_EOL);
-	dd('done');
+	$endtime = microtime(true);
+
+	$timediff = $endtime - $starttime;
+	return "Halaman diproses dalam ".sprintf('%0.2f', $timediff). " detik";
 
 	$a = base64_decode('TURBMU1qTTFMMUJRU3kxRExsTk1MMUJRVTBSTlVFSktMekl3TWpRPQ==');
 	$b = base64_decode($a);
