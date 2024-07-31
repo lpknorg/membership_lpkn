@@ -123,7 +123,7 @@
 														<option value="{{$l['id']}}">{{$l['nama']}}</option>
 														@endforeach
 													</select>
-													<a href="" id="btnStoreDiklatOnline" class="btn btn-success btn-sm mt-2">Submit</a>	
+													<a href="" id="btnStoreDiklatOnline" class="btn btn-success btn-sm mt-2">Submit E-Learning</a>	
 												</div>
 											</div>
 										</div>
@@ -166,6 +166,7 @@
 											<th style="min-width: 570px;">Paket Kontribusi</th>
 											<th style="min-width: 100px">KTP</th>											
 											<th style="min-width: 125px;">Waktu Dibuat</th>
+											<th style="min-width: 125px;">E-Learning LPKN</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -219,6 +220,7 @@
 											</td>
 											
 											<td>{{\Helper::changeFormatDate($u->created_at, 'd-m-Y H:i:s')}}</td>
+											<td>{{$u->learning_lpkn}}</td>
 										</tr>
 										@endforeach
 									</tbody>

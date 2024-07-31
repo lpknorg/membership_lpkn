@@ -48,7 +48,8 @@ class ExportDataFormByEvent implements FromView, WithColumnWidths,WithEvents
             'Z' => 20,
             'AA' => 20,
             'AB' => 20,
-            'AC' => 28
+            'AC' => 28,
+            'AD' => 20
         ];
     }
 
@@ -57,7 +58,7 @@ class ExportDataFormByEvent implements FromView, WithColumnWidths,WithEvents
         return [
             AfterSheet::class    => function(AfterSheet $event) {
 
-                $event->sheet->getDelegate()->getStyle('A1:AC1')
+                $event->sheet->getDelegate()->getStyle('A1:AD1')
                 ->getFill()
                 ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                 ->getStartColor()

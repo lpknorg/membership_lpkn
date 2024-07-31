@@ -51,26 +51,7 @@ use Illuminate\Http\Request;
 use App\Jobs\PersonJob2;
 use Faker\Factory;
 Route::get('ea', function(Request $request){
-	$starttime = microtime(true);
-
-	PersonJob2::dispatch();
-	// try {
-	// 	$faker = Factory::create();
-	// 	$jumlahData = 5000;
-	// 	for ($i=0; $i < $jumlahData; $i++) { 
-	// 		$data = [
-	// 			'nama' => $faker->name,
-	// 			'email' => $faker->unique()->email()
-	// 		];
-	// 		\App\Models\PersonFaker::create($data);
-	// 	}
-	// } catch (\Exception $e) {
-	// 	Log::error('Failed to generate fake data: ' . $e->getMessage());
-	// 	$this->fail($e);
-	// }
-
-	$endtime = microtime(true);
-
+	// PersonJob2::dispatch();
 	$timediff = $endtime - $starttime;
 	return "Halaman diproses dalam ".sprintf('%0.2f', $timediff). " detik";
 

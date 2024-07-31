@@ -30,6 +30,7 @@
             <th>KTP</th>
             <th>SK ASN</th>
             <th>Waktu Dibuat</th>
+            <th>E-Learning LPKN</th>
         </tr>
     </thead>
     <tbody>       
@@ -95,6 +96,7 @@
                 @endif
             </td>
             <td>{{\Helper::changeFormatDate($u->created_at, 'd-m-Y H:i:s')}}</td>
+            <td>{{$u->learning_lpkn}}</td>
         </tr>
         @endforeach
     </tbody>

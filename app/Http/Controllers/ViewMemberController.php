@@ -145,10 +145,10 @@ class ViewMemberController extends Controller
         $selUser = User::whereIn('email', $request->emailArr)->get();
         foreach($selUser as $u){
             $arrayData[] = [
-                'nama'              => $u->name,
-                'instansi'          => $u->member->memberKantor->nama_instansi,
+                'nama'              => $u->name ?? '-',
+                'instansi'          => $u->member->memberKantor->nama_instansi ?? '-',
                 'email'             => $u->email,
-                'no_hp'             => $u->member->no_hp,
+                'no_hp'             => $u->member->no_hp ?? '-',
                 'id_kelas'          => $request->id_kelas
             ];
         }
