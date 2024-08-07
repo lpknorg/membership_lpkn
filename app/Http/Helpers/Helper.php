@@ -10,9 +10,13 @@ class Helper {
 			if (!is_null($oldFile)) {
 				self::deleteFile($folder, $oldFile);
 			}
-			$time = time();
-			$filename = "{$time}_{$file->getClientOriginalName()}";
-			// $userId = \Auth::user()->id;
+			$time = time();			
+			$fileInfo = pathinfo($file->getClientOriginalName());
+			$filename = $fileInfo['filename'];
+			$extension = $fileInfo['extension'];
+			$sanitizedFileName = preg_replace('/[^A-Za-z0-9]/', '', $filename);
+			$filename = "{$time}_{$sanitizedFileName}.{$extension}";
+			// $filename = "{$time}_{$file->getClientOriginalName()}";
 			$file->move(public_path("uploaded_files/{$folder}"), $filename);
 			return $filename;
 		}

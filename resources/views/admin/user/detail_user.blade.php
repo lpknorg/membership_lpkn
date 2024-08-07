@@ -276,7 +276,7 @@
 											?>
 											{!! $span !!}
 										</td>
-										<td>{{$e['lulus'] == '1' ? 'Lulus ges' : 'Tidak'}}</td>
+										<td>{{$e['lulus'] == '1' ? 'Lulus' : 'Tidak'}}</td>
 									</tr>
 									@endforeach
 								</tbody>

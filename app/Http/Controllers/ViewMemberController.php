@@ -26,7 +26,6 @@ class ViewMemberController extends Controller
                 $cekk2 = explode(".", $_file);
                 $_ext = ".".$_ext['extension'];                
                 if (count($cekk2) > 1) {
-                    // $_ext = ".".$_ext[1];
                     $filePaths[public_path("uploaded_files/{$tipe}/$_file")] = $u->userDetail->name.$_ext;
                 } 
             }

@@ -191,7 +191,7 @@ class UserController extends Controller
             ->when($request->ketidaklulusan_event, function($q)use($emailArrTdkLulus){
                 $q->whereIn('email', $emailArrTdkLulus);
             })   
-            ->limit(100)         
+            // ->limit(100)         
             ->orderBy('updated_at', 'DESC');
             return \DataTables::of($data)
             ->addIndexColumn()

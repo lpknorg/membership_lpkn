@@ -25,6 +25,9 @@ class HomeController extends Controller
     //    User::where('user_has_update_dateimport', 1)->delete();   
         $role = \Auth::user()->getRoleNames()[0];
         $users = User::where('user_has_update_dateimport', 1)
+        ->orWhereHas('member', function($qq){
+            $qq->whereNotNull('foto_profile');
+        })
         ->when($role == 'panitia', function($q2){
             $q2->whereHas('userEvent', function($q){
                 $q->where('createdBy', \Auth::user()->id);
@@ -140,6 +143,7 @@ class HomeController extends Controller
     }
 
     public function downloadFiles($userid, $folder, $file){
+        dd($userid);
         $filePath = public_path("uploaded_files/{$folder}/".$file);
         $_ext = pathinfo($filePath);
         if (!file_exists($filePath)) {

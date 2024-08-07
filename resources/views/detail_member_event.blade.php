@@ -123,6 +123,7 @@
 														<option value="{{$l['id']}}">{{$l['nama']}}</option>
 														@endforeach
 													</select>
+													<span class="text-info d-block" style="display: block;font-size: 15px;margin-left: 10px;">* password default nya adalah: lpkn1234</span>
 													<a href="" id="btnStoreDiklatOnline" class="btn btn-success btn-sm mt-2">Submit E-Learning</a>	
 												</div>
 											</div>
@@ -139,10 +140,10 @@
 											<th style="min-width: 120px;">Password LKPP</th>
 											<th style="min-width: 100px;">Marketing</th>
 											<th style="min-width: 140px;">Keterangan</th>
-											<th style="min-width: 210px;">Nama Lengkap(tanpa gelar)</th>
-											<th style="min-width: 265px;">Nama Lengkap(dgn gelar)</th>
+											<th style="min-width: 210px;">Nama Lengkap(tanpa gelar)</th>											
 											<th style="min-width: 140px;">NIK</th>
 											<th style="min-width: 190px;">Email Aktif</th>
+											<th style="min-width: 265px;">Nama Lengkap(dgn gelar)</th>
 											<th style="min-width: 120px;">Tempat Lahir</th>
 											<th style="min-width: 80px;">Tgl Lahir</th>
 											<th style="min-width: 110px;">No WA</th>	
@@ -180,14 +181,14 @@
 											<td style="color: {{$u->font_color}};"><div data-nik="{{$u->userDetail->nik}}" class="editable" data-tipe="users" data-field="password_lkpp" data-placeholder="Click to edit">{{\Helper::passHashedDecrypt($u->userDetail->password_lkpp)}}</div></td>
 											<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="user_event" data-field="marketing" data-placeholder="Click to edit">{{$u->marketing}}</div></td>
 											<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="user_event" data-field="keterangan" data-placeholder="Click to edit">{{$u->keterangan}}</div></td>
-											<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="users" data-field="name" data-placeholder="Click to edit">{{ucwords(strtolower($u->userDetail->name))}}</div></td>
-											<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="member" data-field="nama_lengkap_gelar" data-placeholder="Click to edit">{{$u->userDetail->member->nama_lengkap_gelar}}</div></td>
+											<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="users" data-field="name" data-placeholder="Click to edit">{{ucwords(strtolower($u->userDetail->name))}}</div></td>											
 											<td style="color: {{$u->font_color}};"><div data-placeholder="Click to edit" class="not-editable">{{$u->userDetail->nik}}</div></td>
 											<td style="color: {{$u->font_color}};"><div class="not-editable" data-placeholder="Click to edit">{{$u->userDetail->email}}</div></td>
+											<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="member" data-field="nama_lengkap_gelar" data-placeholder="Click to edit">{{$u->userDetail->member->nama_lengkap_gelar}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="tempat_lahir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tempat_lahir}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="tgl_lahir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tgl_lahir}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="no_hp" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->no_hp}}</div></td>	
-											<td><a href="{{route('dashboard2.downloadFiles', ['id_user' => $u->userDetail->id, 'folder' => 'poto_profile', 'file' => $u->userDetail->member->foto_profile ])}}" target="_blank"><i class="fa fa-download"></i> Download</a></td>										
+											<td><a href="{{\Helper::showImage($u->userDetail->member->foto_profile, 'poto_profile')}}" target="_blank">Lihat Dokumen</a></td>									
 											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="pendidikan_terakhir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->pendidikan_terakhir}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="nama_pendidikan_terakhir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->nama_pendidikan_terakhir}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="status_kepegawaian" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->status_kepegawaian}}</div></td>
@@ -195,7 +196,7 @@
 											<td style="color: {{$u->font_color}};"><div data-tipe="users" data-field="nrp" class="editable" data-placeholder="Click to edit">{{$u->userDetail->nrp}}</div></td>
 											<td>
 												@if($u->userDetail->member->file_sk_pengangkatan_asn)
-												<a href="{{route('dashboard2.downloadFiles', ['id_user' => $u->userDetail->id, 'folder' => 'file_sk_pengangkatan_asn', 'file' => $u->userDetail->member->file_sk_pengangkatan_asn ])}}" target="_blank"><i class="fa fa-download"></i> Download</a>
+												<a href="{{\Helper::showImage($u->userDetail->member->file_sk_pengangkatan_asn, 'file_sk_pengangkatan_asn')}}" target="_blank">Lihat Dokumen</a>
 												@else
 												-
 												@endif
@@ -213,7 +214,7 @@
 											<td style="color: {{$u->font_color}};"><div data-tipe="user_event" data-field="paket_kontribusi" class="editable" data-placeholder="Click to edit">{{$u->paket_kontribusi}}</div></td>								
 											<td>
 												@if($u->userDetail->member->foto_ktp)	
-												<a href="{{route('dashboard2.downloadFiles', ['id_user' => $u->userDetail->id, 'folder' => 'foto_ktp', 'file' => $u->userDetail->member->foto_ktp ])}}" target="_blank"><i class="fa fa-download"></i> Download</a>
+												<a href="{{\Helper::showImage($u->userDetail->member->foto_ktp, 'foto_ktp')}}" target="_blank">Lihat Dokumen</a>
 												@else
 												-
 												@endif
@@ -287,7 +288,7 @@
 										<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="tempat_lahir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tempat_lahir}}</div></td>
 										<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="tgl_lahir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tgl_lahir}}</div></td>
 										<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="no_hp" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->no_hp}}</div></td>	
-										<td><a href="{{route('dashboard2.downloadFiles', ['id_user' => $u->userDetail->id, 'folder' => 'poto_profile', 'file' => $u->userDetail->member->foto_profile ])}}" target="_blank"><i class="fa fa-download"></i> Download</a></td>											
+										<td><a href="{{\Helper::showImage($u->userDetail->member->foto_profile, 'poto_profile')}}" target="_blank">Lihat Dokumen</a></td>
 										<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="pendidikan_terakhir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->pendidikan_terakhir}}</div></td>
 										<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="nama_pendidikan_terakhir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->nama_pendidikan_terakhir}}</div></td>
 										<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="status_kepegawaian" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->status_kepegawaian}}</div></td>
@@ -295,7 +296,7 @@
 										<td style="color: {{$u->font_color}};"><div data-tipe="users" data-field="nrp" class="editable" data-placeholder="Click to edit">{{$u->userDetail->nrp}}</div></td>
 										<td>
 											@if($u->userDetail->member->file_sk_pengangkatan_asn)
-											<a href="{{route('dashboard2.downloadFiles', ['id_user' => $u->userDetail->id, 'folder' => 'file_sk_pengangkatan_asn', 'file' => $u->userDetail->member->file_sk_pengangkatan_asn ])}}" target="_blank"><i class="fa fa-download"></i> Download</a>
+											<a href="{{\Helper::showImage($u->userDetail->member->file_sk_pengangkatan_asn, 'file_sk_pengangkatan_asn')}}" target="_blank">Lihat Dokumen</a>
 											@else
 											-
 											@endif
@@ -314,7 +315,7 @@
 										
 										<td>
 											@if($u->userDetail->member->foto_ktp)	
-											<a href="{{route('dashboard2.downloadFiles', ['id_user' => $u->userDetail->id, 'folder' => 'foto_ktp', 'file' => $u->userDetail->member->foto_ktp ])}}" target="_blank"><i class="fa fa-download"></i> Download</a>
+											<a href="{{\Helper::showImage($u->userDetail->member->foto_ktp, 'foto_ktp')}}" target="_blank">Lihat Dokumen</a>
 											@else
 											-
 											@endif

@@ -130,9 +130,9 @@ Route::group(['prefix' => 'p'], function () {
 	Route::get('/artikel/delete/{id}', [ArtikelController::class, 'delete'])->name('artikel.delete');
 });
 Route::get('member_profile/page/get_event/{id_eventt}', [ProfileController::class, 'getEventModal'])->name('member_profile.get_event.modal');
+Route::get('member_profile/page/get_video_materi/{slug}', [ProfileController::class, 'getVideoMateri'])->name('member_profile.get_video_materi');
 Route::group(['prefix' => 'member_profile', 'as' => 'member_profile.', 'middleware' => 'auth'], function () {
-	Route::get('/', [ProfileController::class, 'index'])->name('index');
-	Route::get('/page/get_video_materi/{slug}', [ProfileController::class, 'getVideoMateri'])->name('get_video_materi');
+	Route::get('/', [ProfileController::class, 'index'])->name('index');	
 	Route::post('/page/regis_event', [ProfileController::class, 'regisEvent'])->name('regis_event');
 	Route::post('/page/upload_bukti', [ProfileController::class, 'uploadBukti'])->name('upload_bukti');
 	Route::get('/edit_profile', [ProfileController::class, 'editProfile'])->name('edit_profile');
