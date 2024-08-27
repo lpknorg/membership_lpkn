@@ -122,6 +122,7 @@ class FormPesertaController extends Controller
                 $checkUser->update([
                     'name' => $namaSertif,
                     'nik' => $request->nik,
+                    'nip' => $request->nip,
                     'email' => $request->email,
                     'email_verified_at' => now()
                 ]);
@@ -130,6 +131,7 @@ class FormPesertaController extends Controller
 
                 $checkUser->member->update([
                     'no_hp'=>$request->no_hp,
+                    'alamat_lengkap'=>$request->alamat_rumah,
                     'nama_lengkap_gelar' => $namaLengkapDgnGelar,
                     'nama_untuk_sertifikat'=>$namaSertif,
                     'tempat_lahir'=>$tempatLahir,
@@ -153,6 +155,7 @@ class FormPesertaController extends Controller
                 $user = User::create([
                     'name' => $namaSertif,
                     'nik' => $request->nik,
+                    'nip' => $request->nip,
                     'email' => $request->email,
                     'email_verified_at' => now(),
                     'password' => \Hash::make('lpkn1234'),
@@ -163,6 +166,7 @@ class FormPesertaController extends Controller
                 $member = Member::create([
                     'no_hp'=>$request->no_hp,
                     'nama_lengkap_gelar' => $namaLengkapDgnGelar,
+                    'alamat_lengkap'=>$request->alamat_rumah,
                     'nama_untuk_sertifikat'=>$namaSertif,
                     'tempat_lahir'=>$tempatLahir,
                     'prov_id'=>$request->provinsi,
@@ -201,7 +205,7 @@ class FormPesertaController extends Controller
                 'email'             => $request->email,
                 'instansi'          => $namaInstansi,
                 'unit_organisasi'   => $request->unit_organisasi,
-                'alamat'            => null,
+                'alamat'            => $request->alamat_rumah,
                 'nik'               => $request->nik,
                 'tempat_lahir'      => $tempatLahir,
                 'tgl_lahir'         => \Helper::changeFormatDate($request->tanggal_lahir, 'Y-m-d'),
@@ -394,7 +398,11 @@ class FormPesertaController extends Controller
         if ($request->hasFile('sk_pengangkatan_asn')) {
             $sk_pengangkatan_asn = \Helper::storeFile('file_sk_pengangkatan_asn', $request->sk_pengangkatan_asn);
         }
-        $alamat_lengkap = $request->alamat_kantor;
+        if ($request->jenis_pelatihan == 'bnsp') {
+            $alamat_lengkap = $request->alamat_rumah;
+        }else{
+            $alamat_lengkap = $request->alamat_kantor;
+        }
         $namaSertif = ucwords($request->nama_tanpa_gelar);
         $namaLengkapDgnGelar = ucwords($request->nama_dengan_gelar);
         $namaInstansi = ucwords($request->nama_instansi);

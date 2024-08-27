@@ -78,6 +78,20 @@
 			<img src="" id="displayImagePasFoto" class="img-fluid mt-1 mb-3" alt="" style="width: 100px;display: none;border-radius: 5px;">
 		</div>
 	</div>
+	@if($list_event['event']['jenis_pelatihan'] == "bnsp" || $list_event['event']['jenis_pelatihan'] == "bimtek")
+	<div class="col-md-6">
+		<div class="form-group">
+			<label class="form-label" for="nip">NIP:</label><span class="text-danger"> *</span>
+			<input placeholder="Jawaban Anda" autocomplete="off" type="number" required class="form-control" name="nip" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="18"><br>
+		</div>
+	</div>
+	<div class="col-md-12">
+		<div class="form-group">
+			<label class="form-label" for="alamat_rumah">Alamat Pengiriman Sertifikat:</label><span class="text-danger"> *</span>
+			<textarea rows="3" placeholder="Jawaban Anda" class="form-control" name="alamat_rumah" required></textarea><br>
+		</div>
+	</div>
+	@endif
 </div>
 @else
 <div class="row">

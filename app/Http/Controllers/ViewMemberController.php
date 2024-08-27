@@ -21,6 +21,7 @@ class ViewMemberController extends Controller
             if($tipe == 'foto_profile'){
                 $tipe = 'poto_profile';   
             }
+            // echo $_file.'</br>';
             if ($_file) {
                 $_ext = pathinfo($_file);
                 $cekk2 = explode(".", $_file);
@@ -184,7 +185,17 @@ class ViewMemberController extends Controller
     }
 
     public function downloadExcelByEvent($id_event){
-        $userse = UserEvent::where('event_id', $id_event)->get();
+        // $userse = UserEvent::with(['userDetail' => function($q){
+        //     $q->orderBy('name', 'asc');
+        // }])
+        // ->where('event_id', $id_event)->get();
+        $userse = UserEvent::join('users', 'user_events.user_id', '=', 'users.id')
+        ->where('user_events.event_id', $id_event)
+        ->orderBy('users.name', 'asc')
+        ->select('user_events.*') // pastikan hanya memilih kolom yang diperlukan
+        ->with('userDetail')
+        ->get();
+        // dd($userse);
         return Excel::download(new ExportDataFormByEvent($userse),"data-peserta-{$id_event}.xlsx");
     }
 }

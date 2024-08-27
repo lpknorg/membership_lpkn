@@ -98,6 +98,20 @@
 			@endif
 		</div>
 	</div>
+	@if($list_event['event']['jenis_pelatihan'] == "bnsp" || $list_event['event']['jenis_pelatihan'] == "bimtek")
+	<div class="col-md-6">
+		<div class="form-group">
+			<label class="form-label" for="nip">NIP:</label><span class="text-danger"> *</span>
+			<input placeholder="Jawaban Anda" autocomplete="off" type="number" required class="form-control" name="nip" value="{{$user->nip}}" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="18"><br>
+		</div>
+	</div>
+	<div class="col-md-12">
+		<div class="form-group">
+			<label class="form-label" for="alamat_rumah">Alamat Pengiriman Sertifikat:</label><span class="text-danger"> *</span>
+			<textarea rows="3" placeholder="Jawaban Anda" class="form-control" name="alamat_rumah" required>{{$user->member->alamat_lengkap}}</textarea><br>
+		</div>
+	</div>
+	@endif
 </div>
 @else
 <input type="hidden" name="jenis_kelas" value="{{$list_event['event']['jenis_kelas']}}">
