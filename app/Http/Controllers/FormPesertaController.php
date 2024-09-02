@@ -27,7 +27,6 @@ class FormPesertaController extends Controller
         }else{
             $methodForm = route('form_peserta_store_tatapmuka');
         }
-        // dd($methodForm);
         return view('form_peserta.create', compact('id_events', 'list_event', 'methodForm'));
     }
 
@@ -241,15 +240,47 @@ class FormPesertaController extends Controller
 
     public function storeTatapMuka(Request $request)
     {
-        $checkUser = User::where('email', $request->email)->first();
+        $checkUser = User::select('id')->where('email', $request->email)->first();
         $foto_ktp = null;
         $pas_foto3x4 = null;
         $sk_pengangkatan_asn = null;
+        $dokumen_pak = null;
+
+        // ini buat jabfung
+        if ($checkUser) {
+            $dokumen_pak = $checkUser->member->file_penilaian_angka_kredit_terakhir;
+        }        
+
+        if (substr($request->judul, 0, 18) == 'jabatan fungsional') {
+            if (is_null($dokumen_pak)) {
+                $validator = Validator::make($request->all(), [
+                    'file_penilaian_angka_kredit_terakhir' => 'required|mimes:pdf,jpeg,png,jpg'
+                ]);
+                if ($validator->fails()) {
+                    return response()->json([
+                        'status'   => "fail",
+                        'messages' => $validator->errors()->first(),
+                    ], 422);
+                }
+            }
+            $validator = Validator::make($request->only(['tmt_pangkat_pns_terakhir', 'tmt_sk_jf_pbj_terakhir']), [
+                'tmt_pangkat_pns_terakhir' => 'required|string', 
+                'tmt_sk_jf_pbj_terakhir' => 'required|string'
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status'   => "fail",
+                    'messages' => $validator->errors()->first(),
+                ], 422);
+            }
+        }
+        // end buat jabfung
         // ini kalo ada
         if ($checkUser) {
             $foto_ktp = $checkUser->member->foto_ktp;
             $pas_foto3x4 = $checkUser->member->foto_profile;
             $sk_pengangkatan_asn = $checkUser->member->file_sk_pengangkatan_asn;
+
             if($request->status_kepegawaian == 'POLRI' || substr($request->status_kepegawaian, 0, 3) == 'TNI'){
                 $validator = Validator::make($request->all(), [
                     'nrp' => 'required|string'
@@ -398,6 +429,9 @@ class FormPesertaController extends Controller
         if ($request->hasFile('sk_pengangkatan_asn')) {
             $sk_pengangkatan_asn = \Helper::storeFile('file_sk_pengangkatan_asn', $request->sk_pengangkatan_asn);
         }
+        if ($request->hasFile('file_penilaian_angka_kredit_terakhir')) {
+            $dokumen_pak = \Helper::storeFile('file_penilaian_angka_kredit_terakhir', $request->file_penilaian_angka_kredit_terakhir);
+        }
         if ($request->jenis_pelatihan == 'bnsp') {
             $alamat_lengkap = $request->alamat_rumah;
         }else{
@@ -441,6 +475,13 @@ class FormPesertaController extends Controller
                     'tgl_lahir' => \Helper::changeFormatDate($request->tanggal_lahir, 'Y-m-d'),
                     'user_id' => $checkUser->id
                 ]);
+                if (substr($request->judul, 0, 18) == 'jabatan fungsional') {
+                    $checkUser->member->update([
+                        'tmt_pangkat_pns_terakhir' => $request->tmt_pangkat_pns_terakhir,
+                        'tmt_sk_jf_pbj_terakhir' => $request->tmt_sk_jf_pbj_terakhir,
+                        'file_penilaian_angka_kredit_terakhir' => $dokumen_pak
+                    ]);
+                }
 
                 $checkUser->member->memberKantor->update([
                     'member_id' => $checkUser->member->id,
@@ -489,6 +530,14 @@ class FormPesertaController extends Controller
                     'tgl_lahir' => \Helper::changeFormatDate($request->tanggal_lahir, 'Y-m-d'),
                     'user_id' => $user->id
                 ]);
+
+                if (substr($request->judul, 0, 18) == 'jabatan fungsional') {
+                    $member->update([
+                        'tmt_pangkat_pns_terakhir' => $request->tmt_pangkat_pns_terakhir,
+                        'tmt_sk_jf_pbj_terakhir' => $request->tmt_sk_jf_pbj_terakhir,
+                        'file_penilaian_angka_kredit_terakhir' => $dokumen_pak
+                    ]);
+                }
 
                 MemberKantor::create([
                     'member_id' => $member->id,
@@ -539,7 +588,7 @@ class FormPesertaController extends Controller
             // end ke sertif
             ];
             $endpointnew = env('API_SSERTIFIKAT').'membership/storeNewDataFromMembership';
-            $response = \Helper::getRespApiWithParam($endpointnew, 'post', $dataRegis);            
+            $response = \Helper::getRespApiWithParam($endpointnew, 'post', $dataRegis);    
             if ($response && $response['status'] == 'error') {
                 return response()->json([
                     'status'   => "fail",

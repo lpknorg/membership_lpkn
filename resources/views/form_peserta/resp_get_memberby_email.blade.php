@@ -395,5 +395,31 @@
 		@endif
 
 	</div>
+	@if(strtolower(substr($list_event['event']['judul'], 0, 18)) == 'jabatan fungsional')
+	<hr>
+	<div class="row">
+		<div class="col-md-6">
+			<div class="form-group">
+				<label class="form-label" for="tmt_pangkat_pns_terakhir">TMT Pangkat PNS Terakhir:</label><span class="text-danger"> *</span>
+				<input type="date" class="form-control" required name="tmt_pangkat_pns_terakhir" value="{{$user->member->tmt_pangkat_pns_terakhir}}">
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="form-group">
+				<label class="form-label" for="tmt_sk_jf_pbj_terakhir">TMT SK JF PPBJ Terakhir:</label><span class="text-danger"> *</span>
+				<input type="date" class="form-control" required name="tmt_sk_jf_pbj_terakhir" value="{{$user->member->tmt_sk_jf_pbj_terakhir}}">
+			</div>
+		</div>
+		<div class="col-md-12 mt-3">
+			<div class="form-group">                    
+				<label class="form-label" for="file_penilaian_angka_kredit_terakhir">Upload Melampirkan dokumen Penilaian Angka Kredit (PAK) Terakhir:</label><span class="text-danger"> *</span>
+				<input type="file" class="form-control" name="file_penilaian_angka_kredit_terakhir">
+				@if($user->member->file_penilaian_angka_kredit_terakhir)
+				<a class="mt-2" href="{{\Helper::showImage($user->member->file_penilaian_angka_kredit_terakhir, 'file_penilaian_angka_kredit_terakhir')}}" target="_blank">Lihat Dokumen</a>
+				@endif
+			</div>
+		</div>
+	</div>
+	@endif
 	@endif
 	<button type="submit" class="btn btn-primary w-100 mt-2">Kirim</button>

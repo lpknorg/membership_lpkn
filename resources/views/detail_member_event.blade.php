@@ -168,6 +168,9 @@
 											<th style="min-width: 100px">KTP</th>											
 											<th style="min-width: 125px;">Waktu Dibuat</th>
 											<th style="min-width: 125px;">E-Learning LPKN</th>
+											<th style="min-width: 185px;">TMT Pangkat PNS Terakhir</th>
+											<th style="min-width: 185px;">TMT SK JF PPBJ Terakhir</th>
+											<th style="min-width: 290px;">Dok Penilaian Angka Kredit (PAK) Terakhir</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -222,6 +225,15 @@
 											
 											<td>{{\Helper::changeFormatDate($u->created_at, 'd-m-Y H:i:s')}}</td>
 											<td>{{$u->learning_lpkn}}</td>
+											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="tmt_pangkat_pns_terakhir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tmt_pangkat_pns_terakhir}}</div></td>
+											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="tmt_sk_jf_pbj_terakhir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tmt_sk_jf_pbj_terakhir}}</div></td>
+											<td>
+												@if($u->userDetail->member->file_penilaian_angka_kredit_terakhir)	
+												<a href="{{\Helper::showImage($u->userDetail->member->file_penilaian_angka_kredit_terakhir, 'file_penilaian_angka_kredit_terakhir')}}" target="_blank">Lihat Dokumen</a>
+												@else
+												-
+												@endif
+											</td>
 										</tr>
 										@endforeach
 									</tbody>

@@ -131,9 +131,10 @@
                         <form action="{{ $methodForm }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="id_event" value="{{ $list_event['event']['id'] }}">
+                            <input type="hidden" name="judul" value="{{ strtolower($list_event['event']['judul']) }}">
                             <div class="form-group">
                                 <label class="form-label" for="email">Email Aktif:</label><span class="text-danger"> *</span>
-                                <input placeholder="Jawaban Anda" autocomplete="off" type="email" class="form-control" name="email">
+                                <input placeholder="Jawaban Anda" autocomplete="off" type="email" class="form-control" name="email" value="wdinda375@gmail.com">
                             </div>
                             <a class="btn btn-outline-primary btn-sm w-25 mt-2" id="btnCekData" href="javascript:void(0)">Cek Data</a>
                             <div id="divContent">
@@ -350,6 +351,21 @@
                                 endDate: today
                             });
 
+                            @if(strtolower(substr($list_event['event']['judul'], 0, 18)) == 'jabatan fungsional')
+                            $('[name=tmt_pangkat_pns_terakhir]').datepicker({
+                                format: 'yyyy-mm-dd',
+                                todayHighlight: true,
+                                autoclose: true,
+                                endDate: today
+                            });
+                            $('[name=tmt_sk_jf_pbj_terakhir]').datepicker({
+                                format: 'yyyy-mm-dd',
+                                todayHighlight: true,
+                                autoclose: true,
+                                endDate: today
+                            });
+                            @endif
+
                         }, 500)
                     },
                     error: function(err) {
@@ -372,6 +388,9 @@
                 @if($list_event['event']['jenis_pelatihan'] == "lkpp")
                 formData.append('foto_ktp', $('[name=foto_ktp]').prop('files')[0]);
                 formData.append('sk_pengangkatan_asn', $('[name=sk_pengangkatan_asn]').prop('files')[0]);
+                @endif      
+                @if(strtolower(substr($list_event['event']['judul'], 0, 18)) == 'jabatan fungsional')
+                formData.append('file_penilaian_angka_kredit_terakhir', $('[name=file_penilaian_angka_kredit_terakhir]').prop('files')[0]);
                 @endif                
                 $.ajax({
                     url: $(this).attr('action'),
