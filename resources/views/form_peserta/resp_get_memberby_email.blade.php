@@ -90,7 +90,7 @@
 	<div class="col-md-6 mt-2">
 		<div class="form-group">
 			<label class="form-label" for="pas_foto">Upload Pas Foto:</label><span class="text-danger"> *</span>
-			<input type="file" class="form-control" name="pas_foto">
+			<input type="file" class="form-control" name="pas_foto" accept=".jpeg, .png, .jpg">
 			@if($user->member->foto_profile)
 			<img src="{{\Helper::showImage($user->member->foto_profile, 'poto_profile')}}" id="displayImagePasFoto" class="img-fluid mt-1 mb-3" alt="" style="width: 100px;border-radius: 5px;">
 			@else
@@ -170,7 +170,7 @@
 	<div class="col-md-6">
 		<div class="form-group">
 			<label class="form-label" for="pas_foto">Upload Pas Foto:</label><span class="text-danger"> *</span>
-			<input type="file" class="form-control" name="pas_foto">
+			<input type="file" class="form-control" name="pas_foto" accept=".jpeg, .png, .jpg">
 			@if($user->member->foto_profile)
 			<img src="{{\Helper::showImage($user->member->foto_profile, 'poto_profile')}}" id="displayImagePasFoto" class="img-fluid mt-1 mb-3" alt="" style="width: 100px;border-radius: 5px;">
 			@else
@@ -230,7 +230,7 @@
 		<div class="col-md-6">
 			<div class="form-group">                    
 				<label class="form-label" for="sk_pengangkatan_asn">Upload SK Pengangkatan ASN:</label><span class="text-danger"> *</span>
-				<input type="file" class="form-control" name="sk_pengangkatan_asn">
+				<input type="file" class="form-control" name="sk_pengangkatan_asn" accept=".pdf, .jpeg, .png, .jpg">
 				@if($user->member->file_sk_pengangkatan_asn)
 				<a class="mt-2" href="{{\Helper::showImage($user->member->file_sk_pengangkatan_asn, 'file_sk_pengangkatan_asn')}}" target="_blank">Lihat Dokumen</a>
 				@endif
@@ -382,7 +382,7 @@
 		<div class="col-md-6">
 			<div class="form-group">
 				<label class="form-label" for="foto_ktp">Upload Foto KTP:</label><span class="text-danger"> *</span>
-				<input type="file" class="form-control" name="foto_ktp">
+				<input type="file" class="form-control" name="foto_ktp" accept=".jpeg, .png, .jpg">
 				@if($user->member->foto_ktp)
 				<img src="{{\Helper::showImage($user->member->foto_ktp, 'foto_ktp')}}" id="displayImageKtp" class="img-fluid mt-1 mb-3" alt="" style="width: 100px;border-radius: 5px;">
 				@else
@@ -413,9 +413,23 @@
 		<div class="col-md-12 mt-3">
 			<div class="form-group">                    
 				<label class="form-label" for="file_penilaian_angka_kredit_terakhir">Upload Melampirkan dokumen Penilaian Angka Kredit (PAK) Terakhir:</label><span class="text-danger"> *</span>
-				<input type="file" class="form-control" name="file_penilaian_angka_kredit_terakhir">
+				<input type="file" class="form-control" name="file_penilaian_angka_kredit_terakhir" accept=".pdf, .jpeg, .png, .jpg">
 				@if($user->member->file_penilaian_angka_kredit_terakhir)
 				<a class="mt-2" href="{{\Helper::showImage($user->member->file_penilaian_angka_kredit_terakhir, 'file_penilaian_angka_kredit_terakhir')}}" target="_blank">Lihat Dokumen</a>
+				@endif
+			</div>
+		</div>
+	</div>
+	@endif
+	@if($list_event['event']['judul_pelatihan'] == "ppk_tipe_c")
+	<hr>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="form-group">                    
+				<label class="form-label" for="file_sertifikat_pbj_level1">Upload Sertifikat PBJ Level 1:</label>
+				<input type="file" class="form-control" name="file_sertifikat_pbj_level1" accept=".pdf, .jpeg, .png, .jpg">
+				@if($user->member->file_sertifikat_pbj_level1)
+				<a class="mt-2" href="{{\Helper::showImage($user->member->file_sertifikat_pbj_level1, 'file_sertifikat_pbj_level1')}}" target="_blank">Lihat Dokumen</a>
 				@endif
 			</div>
 		</div>

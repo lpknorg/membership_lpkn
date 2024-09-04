@@ -40,7 +40,14 @@ class ViewMemberController extends Controller
             $list_api = \Helper::getRespApiWithParam($endpoint, 'get');        
             session(['kelas_diklatonline' => $list_api]);
         }
+        if (!session()->has('api_detail_event'.$id_event)) {
+            $endpoint = env('API_EVENT').'member/event/detailevent_by_id?id_event='.$id_event;
+            $list_api = \Helper::getRespApiWithParam($endpoint, 'get');        
+            session(['api_detail_event'.$id_event => $list_api]);
+        }        
+        $list_event = session('api_detail_event'.$id_event);
         $list_kelasdo = session('kelas_diklatonline');
+        // dd($list_event);
         $users = UserEvent::where([
             ['event_id', $id_event],
             ['is_deleted', 0]
@@ -49,7 +56,7 @@ class ViewMemberController extends Controller
             ['event_id', $id_event],
             ['is_deleted', 1]
         ])->orderBy('updated_at', 'desc')->get();
-        return view('detail_member_event', compact('users', 'users_deleted', 'list_kelasdo',  'id_event'));
+        return view('detail_member_event', compact('users', 'users_deleted', 'list_kelasdo', 'list_event',  'id_event'));
     }
 
     public function updateDataMember(Request $request){

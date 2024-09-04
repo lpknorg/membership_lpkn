@@ -131,10 +131,11 @@
                         <form action="{{ $methodForm }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="id_event" value="{{ $list_event['event']['id'] }}">
+                            <input type="hidden" name="judul_pelatihan" value="{{ $list_event['event']['judul_pelatihan'] }}">
                             <input type="hidden" name="judul" value="{{ strtolower($list_event['event']['judul']) }}">
                             <div class="form-group">
                                 <label class="form-label" for="email">Email Aktif:</label><span class="text-danger"> *</span>
-                                <input placeholder="Jawaban Anda" autocomplete="off" type="email" class="form-control" name="email">
+                                <input placeholder="Jawaban Anda" autocomplete="off" type="email" class="form-control" name="email" value="wdinda375@gmail.com">
                             </div>
                             <a class="btn btn-outline-primary btn-sm w-25 mt-2" id="btnCekData" href="javascript:void(0)">Cek Data</a>
                             <div id="divContent">
@@ -392,6 +393,9 @@
                 @if(strtolower(substr($list_event['event']['judul'], 0, 18)) == 'jabatan fungsional')
                 formData.append('file_penilaian_angka_kredit_terakhir', $('[name=file_penilaian_angka_kredit_terakhir]').prop('files')[0]);
                 @endif                
+                @if($list_event['event']['judul_pelatihan'] == "ppk_tipe_c")
+                formData.append('file_sertifikat_pbj_level1', $('[name=file_sertifikat_pbj_level1]').prop('files')[0]);
+                @endif
                 $.ajax({
                     url: $(this).attr('action'),
                     type: 'POST',

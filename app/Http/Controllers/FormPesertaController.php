@@ -15,13 +15,14 @@ class FormPesertaController extends Controller
     }
     public function create($id_events, Request $request)
     {
-        session()->forget('api_detail_event'.$id_events);
+        // session()->forget('api_detail_event'.$id_events);
         if (!session()->has('api_detail_event'.$id_events)) {
             $endpoint = env('API_EVENT').'member/event/detailevent_by_id?id_event='.$id_events;
             $list_api = \Helper::getRespApiWithParam($endpoint, 'get');        
             session(['api_detail_event'.$id_events => $list_api]);
         }        
         $list_event = session('api_detail_event'.$id_events);
+        // dd($list_event);
         if ($list_event['event']['jenis_kelas'] == 0) {
             $methodForm = route('form_peserta_store_online');
         }else{
@@ -61,8 +62,8 @@ class FormPesertaController extends Controller
     public function storeOnline(Request $request)
     {
         $checkUser = User::where('email', $request->email)->first();
-        $pas_foto3x4 = null;
-        if ($checkUser) {
+        $pas_foto3x4 = null;             
+        if ($checkUser) {                    
             $pas_foto3x4 = $checkUser->member->foto_profile;
             if (is_null($checkUser->member->foto_profile)) {
                 $validator = Validator::make($request->all(), [
@@ -76,6 +77,7 @@ class FormPesertaController extends Controller
                 }
             }
         }else{
+            
             $validator = Validator::make($request->all(), [
                 'pas_foto' => 'required|mimes:jpeg,png,jpg'
             ]);
@@ -136,7 +138,7 @@ class FormPesertaController extends Controller
                     'tempat_lahir'=>$tempatLahir,
                     'prov_id'=>$request->provinsi,
                     'kota_id'=>$request->kota,
-                    'foto_profile'=>$pas_foto3x4,
+                    'foto_profile'=>$pas_foto3x4,                    
                     'pas_foto3x4'=>$pas_foto3x4,
                     'updated_at'=>date('Y-m-d H:i:s'),
                     'tgl_lahir' => \Helper::changeFormatDate($request->tanggal_lahir, 'Y-m-d'),
@@ -245,10 +247,25 @@ class FormPesertaController extends Controller
         $pas_foto3x4 = null;
         $sk_pengangkatan_asn = null;
         $dokumen_pak = null;
+        $sertifpbjlevel1 = null;   
 
         // ini buat jabfung
         if ($checkUser) {
             $dokumen_pak = $checkUser->member->file_penilaian_angka_kredit_terakhir;
+            $sertifpbjlevel1 = $checkUser->member->file_sertifikat_pbj_level1;
+            // ngecek kalau kegiatannya tipe c, harus upload file sertifikat pbj
+            if ($request->judul_pelatihan == 'ppk_tipe_c' && $request->hasFile('file_sertifikat_pbj_level1')) {
+                $validator = Validator::make($request->only(['file_sertifikat_pbj_level1']), [
+                    'file_sertifikat_pbj_level1' => 'required|mimes:pdf,jpeg,png,jpg'
+                ]);
+                if ($validator->fails()) {
+                    return response()->json([
+                        'status'   => "fail",
+                        'messages' => $validator->errors()->first(),
+                    ], 422);
+                }
+                $sertifpbjlevel1 = \Helper::storeFile('file_sertifikat_pbj_level1', $request->file_sertifikat_pbj_level1);
+            }    
         }        
 
         if (substr($request->judul, 0, 18) == 'jabatan fungsional') {
@@ -340,6 +357,20 @@ class FormPesertaController extends Controller
                 }
             }         
         }else{
+            // ngecek kalau kegiatannya tipe c, harus upload file sertifikat pbj
+            if ($request->judul_pelatihan == 'ppk_tipe_c' && $request->hasFile('file_sertifikat_pbj_level1')) {
+                $validator = Validator::make($request->only(['file_sertifikat_pbj_level1']), [
+                    'file_sertifikat_pbj_level1' => 'required|mimes:pdf,jpeg,png,jpg'
+                ]);
+                if ($validator->fails()) {
+                    return response()->json([
+                        'status'   => "fail",
+                        'messages' => $validator->errors()->first(),
+                    ], 422);
+                }
+                $sertifpbjlevel1 = \Helper::storeFile('file_sertifikat_pbj_level1', $request->file_sertifikat_pbj_level1);
+            } 
+            // end cek
             if ($request->status_kepegawaian == 'PNS') {
                 $validator = Validator::make($request->all(), [
                     'sk_pengangkatan_asn' => 'required|mimes:pdf,jpeg,png,jpg'
@@ -469,6 +500,7 @@ class FormPesertaController extends Controller
                     'kota_id'=>$request->kota,
                     'foto_profile'=>$pas_foto3x4,
                     'pas_foto3x4'=>$pas_foto3x4,
+                    'file_sertifikat_pbj_level1'=>$sertifpbjlevel1,
                     'foto_ktp'=>$foto_ktp,
                     'file_sk_pengangkatan_asn'=>$sk_pengangkatan_asn,
                     'updated_at'=>date('Y-m-d H:i:s'),
@@ -523,6 +555,7 @@ class FormPesertaController extends Controller
                     'alamat_lengkap'=>$alamat_lengkap,
                     'foto_profile'=>$pas_foto3x4,
                     'pas_foto3x4'=>$pas_foto3x4,
+                    'file_sertifikat_pbj_level1'=>$sertifpbjlevel1,
                     'foto_ktp'=>$foto_ktp,
                     'file_sk_pengangkatan_asn'=>$sk_pengangkatan_asn,
                     'created_at'=>date('Y-m-d H:i:s'),
@@ -587,18 +620,18 @@ class FormPesertaController extends Controller
                 'foto_diri' => $request->hasFile('pas_foto') ? \Helper::imageToBase64('poto_profile/'.$pas_foto3x4) : null
             // end ke sertif
             ];
-            $endpointnew = env('API_SSERTIFIKAT').'membership/storeNewDataFromMembership';
-            $response = \Helper::getRespApiWithParam($endpointnew, 'post', $dataRegis);    
-            if ($response && $response['status'] == 'error') {
-                return response()->json([
-                    'status'   => "fail",
-                    'messages' => $eventData['message'],
-                ], 422);
-            }
+            // $endpointnew = env('API_SSERTIFIKAT').'membership/storeNewDataFromMembership';
+            // $response = \Helper::getRespApiWithParam($endpointnew, 'post', $dataRegis);    
+            // if ($response && $response['status'] == 'error') {
+            //     return response()->json([
+            //         'status'   => "fail",
+            //         'messages' => $eventData['message'],
+            //     ], 422);
+            // }
             return response()->json([
                 'status'   => 'ok',
                 'messages' => "Data berhasil disimpan",
-                'data_sertif' => $response
+                'data_sertif' => '$response'
             ], 200);
             // \DB::commit();            
         } catch (\Exception $e) {

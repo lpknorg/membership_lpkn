@@ -168,9 +168,14 @@
 											<th style="min-width: 100px">KTP</th>											
 											<th style="min-width: 125px;">Waktu Dibuat</th>
 											<th style="min-width: 125px;">E-Learning LPKN</th>
+											@if(strtolower(substr($list_event['event']['judul'], 0, 18)) == 'jabatan fungsional')
 											<th style="min-width: 185px;">TMT Pangkat PNS Terakhir</th>
 											<th style="min-width: 185px;">TMT SK JF PPBJ Terakhir</th>
 											<th style="min-width: 290px;">Dok Penilaian Angka Kredit (PAK) Terakhir</th>
+											@endif
+											@if($list_event['event']['judul_pelatihan'] == "ppk_tipe_c")
+											<th style="min-width: 150px;">Sertif PBJ Level 1</th>
+											@endif
 										</tr>
 									</thead>
 									<tbody>
@@ -225,6 +230,8 @@
 											
 											<td>{{\Helper::changeFormatDate($u->created_at, 'd-m-Y H:i:s')}}</td>
 											<td>{{$u->learning_lpkn}}</td>
+
+											@if(strtolower(substr($list_event['event']['judul'], 0, 18)) == 'jabatan fungsional')
 											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="tmt_pangkat_pns_terakhir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tmt_pangkat_pns_terakhir}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="tmt_sk_jf_pbj_terakhir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tmt_sk_jf_pbj_terakhir}}</div></td>
 											<td>
@@ -234,6 +241,16 @@
 												-
 												@endif
 											</td>
+											@endif
+											@if($list_event['event']['judul_pelatihan'] == "ppk_tipe_c")
+											<td>
+												@if($u->userDetail->member->file_sertifikat_pbj_level1)	
+												<a href="{{\Helper::showImage($u->userDetail->member->file_sertifikat_pbj_level1, 'file_sertifikat_pbj_level1')}}" target="_blank">Lihat Dokumen</a>
+												@else
+												-
+												@endif
+											</td>
+											@endif
 										</tr>
 										@endforeach
 									</tbody>
