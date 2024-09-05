@@ -38,7 +38,7 @@ $nomor_kta = "LPKN-".$users->id.date('d',$date).date('m',$date).date('Y',$date)
                                                     </td>
                                                     @if($users->member->foto_profile)
                                                     <td width="70%">
-                                                        <img src="{{public_path('uploaded_files/poto_profile/'.$users->member->foto_profile)}}" alt="foto_profile" style="width:71px;height:90px;padding-left:8px;padding-top:45px;">
+                                                        <img src="{{public_path('uploaded_files/foto_profile/'.$users->member->foto_profile)}}" alt="foto_profile" style="width:71px;height:90px;padding-left:8px;padding-top:45px;">
                                                     </td>
                                                     @else
                                                     <td width="70%">

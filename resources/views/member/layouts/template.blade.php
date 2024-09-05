@@ -28,7 +28,7 @@
 					<div class="card-body box-profile">
                         <div class="">
                             <div class="out_img mb-2" style="padding: 0px; margin: 0 auto;position: relative">
-                                <img class="in_img" src="{{\Helper::showImage(\Auth::user()->member->foto_profile, 'poto_profile')}}" alt="User profile picture">
+                                <img class="in_img" src="{{\Helper::showImage(\Auth::user()->member->foto_profile, 'foto_profile')}}" alt="User profile picture">
                                 <button type="button" class="btn_change_image_profile btn btn-sm" data-toggle="modal" data-target="#update_foto">
                                         <i class="fa fa-camera"></i>
                                 </button>

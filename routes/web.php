@@ -51,16 +51,8 @@ use Illuminate\Http\Request;
 use App\Jobs\PersonJob2;
 use Faker\Factory;
 Route::get('ea', function(Request $request){
-	// PersonJob2::dispatch();
-	$timediff = $endtime - $starttime;
-	return "Halaman diproses dalam ".sprintf('%0.2f', $timediff). " detik";
-
-	$a = base64_decode('TURBMU1qTTFMMUJRU3kxRExsTk1MMUJRVTBSTlVFSktMekl3TWpRPQ==');
-	$b = base64_decode($a);
-	dd($b);
-	dd(\Hash::make('lpkn1234'));
-	$a = \Helper::passHashedDecrypt('kiZtTiHOg3g0LyPvAVcoekN2UkJNNmp5Y3dUZlV0ZjFESGdzOGc9PQ==');
-	dd($a);
+	$gambar = 'https://drive.google.com/open?id=1eERqq8o_u4n5zLVop8hokxpBvajsBEfC';
+	return \Helper::downloadImageFromGoogleDrive($gambar, 'test_download');
 });
 
 // Route::resource('form_peserta', FormPesertaController::class);

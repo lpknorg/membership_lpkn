@@ -92,7 +92,7 @@
 			<label class="form-label" for="pas_foto">Upload Pas Foto:</label><span class="text-danger"> *</span>
 			<input type="file" class="form-control" name="pas_foto" accept=".jpeg, .png, .jpg">
 			@if($user->member->foto_profile)
-			<img src="{{\Helper::showImage($user->member->foto_profile, 'poto_profile')}}" id="displayImagePasFoto" class="img-fluid mt-1 mb-3" alt="" style="width: 100px;border-radius: 5px;">
+			<img src="{{\Helper::showImage($user->member->foto_profile, 'foto_profile')}}" id="displayImagePasFoto" class="img-fluid mt-1 mb-3" alt="" style="width: 100px;border-radius: 5px;">
 			@else
 			<img src="" id="displayImagePasFoto" class="img-fluid mt-1 mb-3" alt="" style="width: 100px;display: none;border-radius: 5px;">
 			@endif
@@ -172,7 +172,7 @@
 			<label class="form-label" for="pas_foto">Upload Pas Foto:</label><span class="text-danger"> *</span>
 			<input type="file" class="form-control" name="pas_foto" accept=".jpeg, .png, .jpg">
 			@if($user->member->foto_profile)
-			<img src="{{\Helper::showImage($user->member->foto_profile, 'poto_profile')}}" id="displayImagePasFoto" class="img-fluid mt-1 mb-3" alt="" style="width: 100px;border-radius: 5px;">
+			<img src="{{\Helper::showImage($user->member->foto_profile, 'foto_profile')}}" id="displayImagePasFoto" class="img-fluid mt-1 mb-3" alt="" style="width: 100px;border-radius: 5px;">
 			@else
 			<img src="" id="displayImagePasFoto" class="img-fluid mt-1 mb-3" alt="" style="width: 100px;display: none;border-radius: 5px;">
 			@endif

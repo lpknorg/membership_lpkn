@@ -2,7 +2,7 @@
 <div class="row my-2">
     <div class="col-2 col-sm-1 d-none d-sm-block">
         <div class="artikel_comment_out_image">
-            <img class="artikel_comment_in_image" src="{{\Helper::showImage($d->user->member->foto_profile, 'poto_profile')}}" alt="User profile picture">
+            <img class="artikel_comment_in_image" src="{{\Helper::showImage($d->user->member->foto_profile, 'foto_profile')}}" alt="User profile picture">
         </div>
     </div>
     <div class="col-10 col-sm-11">

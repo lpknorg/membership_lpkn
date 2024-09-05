@@ -13,14 +13,15 @@ class ViewMemberController extends Controller
         $users = UserEvent::where('event_id', $id_event)->get();
         $filePaths = [];
         foreach($users as $u){       
-            if($tipe == 'poto_profile'){
-                $tipe = 'foto_profile';   
-            }
-            $_file = $u->userDetail->member->$tipe;
-            // ini karena beda path
-            if($tipe == 'foto_profile'){
-                $tipe = 'poto_profile';   
-            }
+            if (substr($_file, 0, 13) == 'https://drive') {
+                $nama = \Helper::downloadImageFromGoogleDrive($_file, $tipe);
+                if ($nama) {
+                    $u->userDetail->member->update([
+                        $tipe => $nama
+                    ]);                 
+                }
+                $_file = $u->userDetail->member->$tipe;
+            }       
             // echo $_file.'</br>';
             if ($_file) {
                 $_ext = pathinfo($_file);

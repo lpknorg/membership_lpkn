@@ -161,7 +161,7 @@
     <div class="row">
         <div class="col-sm-2 col-3 d-none d-sm-flex justify-content-center">
             <div class="artikel_detail_out_image">
-                <img class="artikel_detail_in_image" src="{{\Helper::showImage(\Auth::user()->member->foto_profile, 'poto_profile')}}" alt="User profile picture">
+                <img class="artikel_detail_in_image" src="{{\Helper::showImage(\Auth::user()->member->foto_profile, 'foto_profile')}}" alt="User profile picture">
             </div>
         </div>
         <div class="col-sm-10 col-12">

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Helpers;
+use Illuminate\Support\Facades\Http;
 use \ZipArchive;
 use App\Models\UserEventHistory;
 
@@ -116,11 +117,12 @@ class Helper {
 	}
 
 	public static function downloadZip($filePaths, $tipe){
+		dd($filePaths);
 		// $filePaths = [
 		// 	public_path('uploaded_files/foto_ktp/1691057213_flazz1.png') => 'custom_name1.png',
 		// 	public_path('uploaded_files/foto_ktp/1691480733_AdventureTime.jpg') => 'custom_name2.png',
 		// ];
-		// dd($filePaths);
+		dd($filePaths);
 		$rand = rand(1,99999);
 		$zipFileName = "{$tipe}_{$rand}.zip";
 
@@ -142,17 +144,48 @@ class Helper {
 		}
 	}
 
+	public static function showImageFromGdrive($img){
+		if (strpos($img, '?id=') !== false) {
+			$getId = explode("id=", $img);
+			$getId = $getId[1];
+		}elseif(strpos($img, 'file/d/') !== false) {
+			$getId = explode("/", $img);
+			$getId = $getId[5];
+		}		
+		return "https://drive.google.com/thumbnail?id={$getId}&sz=w1000";
+	}
+
+	public static function downloadImageFromGoogleDrive($url_drive, $folder)
+	{
+		$url_drive = \Helper::showImageFromGdrive($url_drive);
+		$response = Http::get($url_drive);
+		$contentType = $response->header('Content-Type');		
+		$mimeToExt = [
+			'image/jpeg' => 'jpg',
+			'image/png' => 'png',
+			'application/pdf' => 'pdf'
+		];
+		$extension = $mimeToExt[$contentType] ?? 'unknown';
+		$time = time();$rnd = rand(1,9999);
+		$filename = "{$time}-gd{$rnd}.{$extension}";
+		if ($response->ok()) {
+			$pathh = public_path("uploaded_files/{$folder}/");
+			if (!\File::exists($pathh)) {
+				\File::makeDirectory($pathh, 0755, true, true);
+			}
+			$path = $pathh.$filename;
+			file_put_contents($path, $response->body());
+
+			return $filename;
+		}
+
+		return null;
+	}
+
 	public static function showImage($img, $fold=null){
 		// akses foto dari google drive
 		if (substr($img, 0, 13) == 'https://drive') {
-			if (strpos($img, '?id=') !== false) {
-				$getId = explode("id=", $img);
-				$getId = $getId[1];
-			}elseif(strpos($img, 'file/d/') !== false) {
-				$getId = explode("/", $img);
-				$getId = $getId[5];
-			}		
-			return "https://drive.google.com/thumbnail?id={$getId}&sz=w1000";
+			return self::showImageFromGdrive($img);
 		}
 		if (is_null($img)) {
 			return asset("default.png");

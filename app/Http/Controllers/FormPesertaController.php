@@ -110,7 +110,7 @@ class FormPesertaController extends Controller
         }
 
         if ($request->hasFile('pas_foto')) {
-            $pas_foto3x4 = \Helper::storeFile('poto_profile', $request->pas_foto);
+            $pas_foto3x4 = \Helper::storeFile('foto_profile', $request->pas_foto);
         }
         $namaSertif = ucwords($request->nama_tanpa_gelar);
         $namaLengkapDgnGelar = ucwords($request->nama_dengan_gelar);
@@ -215,7 +215,7 @@ class FormPesertaController extends Controller
 
             // ini ke sertif
                 'nama_pemerintahan' => $contKota,
-                'foto_diri' => $request->hasFile('pas_foto') ? \Helper::imageToBase64('poto_profile/'.$pas_foto3x4) : null
+                'foto_diri' => $request->hasFile('pas_foto') ? \Helper::imageToBase64('foto_profile/'.$pas_foto3x4) : null
             // end ke sertif
             ];
             $endpointnew = env('API_SSERTIFIKAT').'membership/storeNewDataFromMembership';
@@ -455,7 +455,7 @@ class FormPesertaController extends Controller
             $foto_ktp = \Helper::storeFile('foto_ktp', $request->foto_ktp);
         }
         if ($request->hasFile('pas_foto')) {
-            $pas_foto3x4 = \Helper::storeFile('poto_profile', $request->pas_foto);
+            $pas_foto3x4 = \Helper::storeFile('foto_profile', $request->pas_foto);
         }
         if ($request->hasFile('sk_pengangkatan_asn')) {
             $sk_pengangkatan_asn = \Helper::storeFile('file_sk_pengangkatan_asn', $request->sk_pengangkatan_asn);
@@ -617,7 +617,7 @@ class FormPesertaController extends Controller
 
             // ini ke sertif
                 'nama_pemerintahan' => $contKota,
-                'foto_diri' => $request->hasFile('pas_foto') ? \Helper::imageToBase64('poto_profile/'.$pas_foto3x4) : null
+                'foto_diri' => $request->hasFile('pas_foto') ? \Helper::imageToBase64('foto_profile/'.$pas_foto3x4) : null
             // end ke sertif
             ];
             // $endpointnew = env('API_SSERTIFIKAT').'membership/storeNewDataFromMembership';

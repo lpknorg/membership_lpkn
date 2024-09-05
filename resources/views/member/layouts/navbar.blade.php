@@ -57,7 +57,7 @@
             </div>
         </div> -->
         @if(\Auth::check() && \Auth::user()->member)
-        <img class="in_nav navbar-toggler" data-toggle="collapse" data-target="#dropNavbar" aria-controls="dropNavbar" aria-expanded="false" aria-label="Toggle navigation" src="{{\Helper::showImage(\Auth::user()->member->foto_profile, 'poto_profile')}}" alt="User profile picture" style="width:40px;height:40px;border-radius:50%;padding:0px">
+        <img class="in_nav navbar-toggler" data-toggle="collapse" data-target="#dropNavbar" aria-controls="dropNavbar" aria-expanded="false" aria-label="Toggle navigation" src="{{\Helper::showImage(\Auth::user()->member->foto_profile, 'foto_profile')}}" alt="User profile picture" style="width:40px;height:40px;border-radius:50%;padding:0px">
         @else
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#dropNavbar" aria-controls="dropNavbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -187,7 +187,7 @@
                 <li class="nav-item dropdown d-none d-lg-block">
                     <a class="nav-link m-0 p-0 out_nav" data-toggle="dropdown" href="#">
                         @if(\Auth::user()->member)
-                        <img class="in_nav" src="{{\Helper::showImage(\Auth::user()->member->foto_profile, 'poto_profile')}}" alt="User profile picture" style="width:40px;height:40px;border-radius:50%;">
+                        <img class="in_nav" src="{{\Helper::showImage(\Auth::user()->member->foto_profile, 'foto_profile')}}" alt="User profile picture" style="width:40px;height:40px;border-radius:50%;">
                         @else
                         <img class="in_nav" src="{{asset('default.png')}}" alt="User profile picture" style="width:40px;height:40px;border-radius:50%;">
                         @endif

@@ -10,7 +10,7 @@
                 <div class="posting-out-topik"><span class="posting_short_topik">{{$d->kategoris->nama ?? '-'}}</span></div>
                 <div class="d-flex align-items-center my-2">
                     <div>
-                        <a href="{{route('artikel.indexProfile', ['uname' => \Helper::getUname($d->user)])}}" class="posting_out"><img class="posting_in" src="{{\Helper::showImage($d->user->member->foto_profile, 'poto_profile')}}" alt="User profile picture"></a>
+                        <a href="{{route('artikel.indexProfile', ['uname' => \Helper::getUname($d->user)])}}" class="posting_out"><img class="posting_in" src="{{\Helper::showImage($d->user->member->foto_profile, 'foto_profile')}}" alt="User profile picture"></a>
                     </div>
                     <a href="{{route('artikel.indexProfile', ['uname' => \Helper::getUname($d->user)])}}" style="color: #fff">
                         <div class="posting_short_name px-2">{{ucfirst(\Helper::cutString($d->user->name, 50))}}</div>

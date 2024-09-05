@@ -164,10 +164,10 @@ class MemberController extends Controller{
 			$reqMember['foto_profile'] = null;
 			$reqMember['no_member'] = $request->no_member;
 			if (base64_decode($request->upload_foto)) {
-				$reqMember['foto_profile'] = \Helper::storeBase64File('poto_profile', $request->upload_foto, \Helper::generateRandString());
+				$reqMember['foto_profile'] = \Helper::storeBase64File('foto_profile', $request->upload_foto, \Helper::generateRandString());
 			}
 			// if ($request->hasFile('upload_foto')) {
-			// 	$reqMember['foto_profile'] = \Helper::storeFile('poto_profile', $request->upload_foto);
+			// 	$reqMember['foto_profile'] = \Helper::storeFile('foto_profile', $request->upload_foto);
 			// }
 			$reqMember['profil_singkat'] = $request->profil_singkat;
 			if (!$userExists) {

@@ -102,7 +102,7 @@
               <div class="p-2 d-flex align-items-stretch flex-wrap list_artikel_sm_7">
                 <div class="d-flex align-items-center">
                   <div>
-                    <a class="list_artikel_out"><img class="list_artikel_in" src="{{\Helper::showImage($d->user->member->foto_profile, 'poto_profile')}}" alt="User profile picture"></a>
+                    <a class="list_artikel_out"><img class="list_artikel_in" src="{{\Helper::showImage($d->user->member->foto_profile, 'foto_profile')}}" alt="User profile picture"></a>
                   </div>
                   <div class="">
                     <div class="artikel_short_name px-2">{{$d->user->name}}</div>

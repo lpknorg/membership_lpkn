@@ -81,7 +81,7 @@
 					<div class="card">
 						<div class="card-body">
 							<div class="d-flex flex-column align-items-center text-center">
-								<img class="in_img" src="{{\Helper::showImage($user->member->foto_profile, 'poto_profile')}}" alt="User profile picture" style="max-width: inherit;
+								<img class="in_img" src="{{\Helper::showImage($user->member->foto_profile, 'foto_profile')}}" alt="User profile picture" style="max-width: inherit;
 								max-height: inherit;
 								height: inherit;
 								width: inherit;

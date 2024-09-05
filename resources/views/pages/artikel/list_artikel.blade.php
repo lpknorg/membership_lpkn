@@ -50,9 +50,9 @@
                                 <div>
                                     <a class="list_artikel_out">
                                         @if($d->user->member)
-                                        <img class="list_artikel_in" src="{{\Helper::showImage($d->user->member->foto_profile, 'poto_profile')}}" alt="User profile picture">
+                                        <img class="list_artikel_in" src="{{\Helper::showImage($d->user->member->foto_profile, 'foto_profile')}}" alt="User profile picture">
                                         @else
-                                        <img class="list_artikel_in" src="{{\Helper::showImage(123123, 'poto_profile')}}" alt="User profile picture">
+                                        <img class="list_artikel_in" src="{{\Helper::showImage(123123, 'foto_profile')}}" alt="User profile picture">
                                         @endif
                                     </a>
                                 </div>

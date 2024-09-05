@@ -2,7 +2,7 @@
 	<div class="card card-primary card-outline">
 		<div class="card-body box-profile">
 			<div class="out_img mb-2" style="padding: 0px; margin: 0 auto">
-				<img class="in_img" src="{{\Helper::showImage(\Auth::user()->member->foto_profile, 'poto_profile')}}" alt="User profile picture">
+				<img class="in_img" src="{{\Helper::showImage(\Auth::user()->member->foto_profile, 'foto_profile')}}" alt="User profile picture">
 			</div>
 			<div class="text-center">
 				<button type="button" class="text-dark btn btn-transparent btn-sm" data-toggle="modal" data-target="#update_foto">

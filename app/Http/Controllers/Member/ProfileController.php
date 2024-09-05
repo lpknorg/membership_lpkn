@@ -48,7 +48,7 @@ class ProfileController extends Controller
 
     public function editProfile(){
         $user = \Auth::user();
-        $path = \Helper::showImage(\Auth::user()->member->foto_profile, 'poto_profile');        
+        $path = \Helper::showImage(\Auth::user()->member->foto_profile, 'foto_profile');        
         // dd('file gaada');
         $endpoint = env('API_EVENT').'member/event/event_kelulusan';
         $datapost = ['email' => \Auth::user()->email];
@@ -262,7 +262,7 @@ class ProfileController extends Controller
         $nfoto_ktp = $user->member->foto_ktp;
         $nfile_sk_pengangkatan_asn = null;
         if ($request->hasFile('pas_foto')){
-            $npas_foto3x4 = \Helper::storeFile('poto_profile', $request->pas_foto);
+            $npas_foto3x4 = \Helper::storeFile('foto_profile', $request->pas_foto);
         }
         if ($request->hasFile('foto_ktp')){
             $nfoto_ktp = \Helper::storeFile('foto_ktp', $request->foto_ktp);
@@ -325,7 +325,7 @@ class ProfileController extends Controller
                 'updated_at' => now()
             ]);
             $sertif = new SertifikatKamuController();
-            $path = public_path('uploaded_files/poto_profile/'.$user->member->foto_profile);
+            $path = public_path('uploaded_files/foto_profile/'.$user->member->foto_profile);
             if($user->member->foto_profile){
                 if (file_exists($path)) {
                     $img = file_get_contents($path);
@@ -382,7 +382,7 @@ class ProfileController extends Controller
         }
 
         if ($request->hasFile('foto_profile')){
-            $nfoto_profile = \Helper::storeFile('poto_profile', $request->foto_profile);
+            $nfoto_profile = \Helper::storeFile('foto_profile', $request->foto_profile);
         }
         $user->member->update([
             'foto_profile' => $nfoto_profile

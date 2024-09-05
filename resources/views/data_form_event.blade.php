@@ -80,7 +80,7 @@
             <td>{{$u->userDetail->member->memberKantor->alamat_kantor_lengkap}}</td>
             <td>{{$u->userDetail->member->memberKantor->kode_pos}}</td>
             <td>{{$u->paket_kontribusi}}</td>
-            <td><a href="{{\Helper::showImage($u->userDetail->member->foto_profile, 'poto_profile')}}" target="_blank">Lihat Dokumen</a></td>
+            <td><a href="{{\Helper::showImage($u->userDetail->member->foto_profile, 'foto_profile')}}" target="_blank">Lihat Dokumen</a></td>
             <td>
                 @if($u->userDetail->member->foto_ktp)   
                 <a href="{{\Helper::showImage($u->userDetail->member->foto_ktp, 'foto_ktp')}}" target="_blank">Lihat Dokumen</a>
