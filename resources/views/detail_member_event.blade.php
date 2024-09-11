@@ -142,6 +142,7 @@
 											<th style="min-width: 140px;">Keterangan</th>
 											<th style="min-width: 210px;">Nama Lengkap(tanpa gelar)</th>											
 											<th style="min-width: 140px;">NIK</th>
+											<th style="min-width: 50px;">Jenis Kelamin</th>
 											<th style="min-width: 190px;">Email Aktif</th>
 											<th style="min-width: 265px;">Nama Lengkap(dgn gelar)</th>
 											<th style="min-width: 120px;">Tempat Lahir</th>
@@ -191,6 +192,7 @@
 											<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="user_event" data-field="keterangan" data-placeholder="Click to edit">{{$u->keterangan}}</div></td>
 											<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="users" data-field="name" data-placeholder="Click to edit">{{ucwords(strtolower($u->userDetail->name))}}</div></td>											
 											<td style="color: {{$u->font_color}};"><div data-placeholder="Click to edit" class="not-editable">{{$u->userDetail->nik}}</div></td>
+											<td style="color: {{$u->font_color}};">{{$u->userDetail->member->jenis_kelamin}}</td>
 											<td style="color: {{$u->font_color}};"><div class="not-editable" data-placeholder="Click to edit">{{$u->userDetail->email}}</div></td>
 											<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="member" data-field="nama_lengkap_gelar" data-placeholder="Click to edit">{{$u->userDetail->member->nama_lengkap_gelar}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="tempat_lahir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tempat_lahir}}</div></td>

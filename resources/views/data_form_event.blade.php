@@ -31,6 +31,7 @@
             <th>SK ASN</th>
             <th>Waktu Dibuat</th>
             <th>E-Learning LPKN</th>
+            <th>Jenis Kelamin</th>
         </tr>
     </thead>
     <tbody>       
@@ -80,23 +81,30 @@
             <td>{{$u->userDetail->member->memberKantor->alamat_kantor_lengkap}}</td>
             <td>{{$u->userDetail->member->memberKantor->kode_pos}}</td>
             <td>{{$u->paket_kontribusi}}</td>
-            <td><a href="{{\Helper::showImage($u->userDetail->member->foto_profile, 'foto_profile')}}" target="_blank">Lihat Dokumen</a></td>
+            <td>
+                @if($u->userDetail->member->foto_profile)   
+                <a href="{{\Helper::showImage($u->userDetail->member->foto_profile, 'foto_profile')}}" target="_blank">{{$u->userDetail->member->foto_profile}}</a>
+                @else
+                -
+                @endif
+            </td>
             <td>
                 @if($u->userDetail->member->foto_ktp)   
-                <a href="{{\Helper::showImage($u->userDetail->member->foto_ktp, 'foto_ktp')}}" target="_blank">Lihat Dokumen</a>
+                <a href="{{\Helper::showImage($u->userDetail->member->foto_ktp, 'foto_ktp')}}" target="_blank">{{$u->userDetail->member->foto_ktp}}</a>
                 @else
                 -
                 @endif
             </td>
             <td>
                 @if($u->userDetail->member->file_sk_pengangkatan_asn)
-                <a href="{{\Helper::showImage($u->userDetail->member->file_sk_pengangkatan_asn, 'file_sk_pengangkatan_asn')}}" target="_blank">Lihat Dokumen</a>
+                <a href="{{\Helper::showImage($u->userDetail->member->file_sk_pengangkatan_asn, 'file_sk_pengangkatan_asn')}}" target="_blank">{{$u->userDetail->member->file_sk_pengangkatan_asn}}</a>
                 @else
                 -
                 @endif
             </td>
             <td>{{\Helper::changeFormatDate($u->created_at, 'd-m-Y H:i:s')}}</td>
             <td>{{$u->learning_lpkn}}</td>
+            <td>{{$u->userDetail->member->jenis_kelamin == 'P' ? 'Perempuan' : 'Laki-Laki'}}</td>
         </tr>
         @endforeach
     </tbody>

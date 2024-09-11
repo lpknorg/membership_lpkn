@@ -378,9 +378,6 @@
 		<div class="form-group">                    
 			<label class="form-label" for="file_sertifikat_pbj_level1">Upload Sertifikat PBJ Level 1:</label>
 			<input type="file" class="form-control" name="file_sertifikat_pbj_level1" accept=".pdf, .jpeg, .png, .jpg">
-			@if($user->member->file_sertifikat_pbj_level1)
-			<a class="mt-2" href="{{\Helper::showImage($user->member->file_sertifikat_pbj_level1, 'file_sertifikat_pbj_level1')}}" target="_blank">Lihat Dokumen</a>
-			@endif
 		</div>
 	</div>
 </div>

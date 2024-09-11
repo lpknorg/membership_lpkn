@@ -117,12 +117,11 @@ class Helper {
 	}
 
 	public static function downloadZip($filePaths, $tipe){
-		dd($filePaths);
 		// $filePaths = [
 		// 	public_path('uploaded_files/foto_ktp/1691057213_flazz1.png') => 'custom_name1.png',
 		// 	public_path('uploaded_files/foto_ktp/1691480733_AdventureTime.jpg') => 'custom_name2.png',
 		// ];
-		dd($filePaths);
+		// dd($filePaths);
 		$rand = rand(1,99999);
 		$zipFileName = "{$tipe}_{$rand}.zip";
 
@@ -158,14 +157,17 @@ class Helper {
 	public static function downloadImageFromGoogleDrive($url_drive, $folder)
 	{
 		$url_drive = \Helper::showImageFromGdrive($url_drive);
-		$response = Http::get($url_drive);
-		$contentType = $response->header('Content-Type');		
+		$response = Http::get($url_drive);		
+		$contentType = $response->header('Content-Type');				
 		$mimeToExt = [
 			'image/jpeg' => 'jpg',
 			'image/png' => 'png',
 			'application/pdf' => 'pdf'
 		];
 		$extension = $mimeToExt[$contentType] ?? 'unknown';
+		if ($extension == 'unknown') {
+			return null;
+		}
 		$time = time();$rnd = rand(1,9999);
 		$filename = "{$time}-gd{$rnd}.{$extension}";
 		if ($response->ok()) {
@@ -178,8 +180,6 @@ class Helper {
 
 			return $filename;
 		}
-
-		return null;
 	}
 
 	public static function showImage($img, $fold=null){

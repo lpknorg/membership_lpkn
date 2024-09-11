@@ -620,18 +620,18 @@ class FormPesertaController extends Controller
                 'foto_diri' => $request->hasFile('pas_foto') ? \Helper::imageToBase64('foto_profile/'.$pas_foto3x4) : null
             // end ke sertif
             ];
-            // $endpointnew = env('API_SSERTIFIKAT').'membership/storeNewDataFromMembership';
-            // $response = \Helper::getRespApiWithParam($endpointnew, 'post', $dataRegis);    
-            // if ($response && $response['status'] == 'error') {
-            //     return response()->json([
-            //         'status'   => "fail",
-            //         'messages' => $eventData['message'],
-            //     ], 422);
-            // }
+            $endpointnew = env('API_SSERTIFIKAT').'membership/storeNewDataFromMembership';
+            $response = \Helper::getRespApiWithParam($endpointnew, 'post', $dataRegis);    
+            if ($response && $response['status'] == 'error') {
+                return response()->json([
+                    'status'   => "fail",
+                    'messages' => $eventData['message'],
+                ], 422);
+            }
             return response()->json([
                 'status'   => 'ok',
                 'messages' => "Data berhasil disimpan",
-                'data_sertif' => '$response'
+                'data_sertif' => $response
             ], 200);
             // \DB::commit();            
         } catch (\Exception $e) {

@@ -12,17 +12,19 @@ class ViewMemberController extends Controller
     public function downloadZip($tipe, $id_event){
         $users = UserEvent::where('event_id', $id_event)->get();
         $filePaths = [];
-        foreach($users as $u){       
-            if (substr($_file, 0, 13) == 'https://drive') {
+        foreach($users as $u){ 
+            $_file = $u->userDetail->member->$tipe;      
+            if (substr($u->userDetail->member->$tipe, 0, 13) == 'https://drive') {
                 $nama = \Helper::downloadImageFromGoogleDrive($_file, $tipe);
                 if ($nama) {
                     $u->userDetail->member->update([
                         $tipe => $nama
-                    ]);                 
+                    ]);
+                }else{
+                    return 'ada link google yang masih private';
                 }
                 $_file = $u->userDetail->member->$tipe;
             }       
-            // echo $_file.'</br>';
             if ($_file) {
                 $_ext = pathinfo($_file);
                 $cekk2 = explode(".", $_file);
@@ -35,6 +37,7 @@ class ViewMemberController extends Controller
         }
         return \Helper::downloadZip($filePaths, $tipe);
     }
+
     public function viewByEvent($id_event){
         if (!session()->has('kelas_diklatonline')) {
             $endpoint = env('API_DIKLATONLINE').'Membership/listKelas';
