@@ -25,7 +25,6 @@ class MemberImport2 implements ToCollection, WithHeadingRow
         ini_set('max_execution_time', 3000);
         try {
             DB::beginTransaction();
-            // dd($rows);
             foreach ($rows->chunk(5) as $v) {
                 foreach ($v as $value) {
                     if (strpos($value['email'], "@") !== false) {

@@ -87,7 +87,6 @@ class HomeController extends Controller
 
         $response = $request->getBody()->getContents();
         $data = json_decode($response, true);
-        //dd($data);
         foreach($data as $d){
             $user = User::updateOrCreate(
                 [
@@ -143,7 +142,6 @@ class HomeController extends Controller
     }
 
     public function downloadFiles($userid, $folder, $file){
-        dd($userid);
         $filePath = public_path("uploaded_files/{$folder}/".$file);
         $_ext = pathinfo($filePath);
         if (!file_exists($filePath)) {

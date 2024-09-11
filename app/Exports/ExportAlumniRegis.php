@@ -48,7 +48,6 @@ class ExportAlumniRegis implements FromView, WithColumnWidths,WithEvents
     public function view(): View
     {
         $data = $this->alData;
-        // dd($data);
         return view('admin.dashboard2.export_alumni_regis', compact('data'));
     }
 }

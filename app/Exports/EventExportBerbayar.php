@@ -50,7 +50,6 @@ class EventExportBerbayar implements FromView, WithColumnWidths,WithEvents
     public function view(): View
     {
         $data = $this->evData;
-        // dd($data);
         return view('admin.dashboard2.export_event_berbayar', compact('data'));
     }
 }

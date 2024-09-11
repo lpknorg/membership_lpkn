@@ -19,7 +19,6 @@ class VoucherController extends Controller
         $datapost = ['email'=>$email];
         $endpoint = env('API_EVENT').'member/event/my_event';
         $my_event = \Helper::getRespApiWithParam($endpoint, 'post', $datapost);
-        // dd($my_event);
 
         $detailevent = [];
         foreach($my_event['event'] as $myevent){
@@ -44,7 +43,6 @@ class VoucherController extends Controller
                 'waktu_event' => \Helper::changeFormatDate($event['event']['tgl_start']).' s/d '.\Helper::changeFormatDate($event['event']['tgl_end'])
             );
         }
-        // dd($detailevent);
         return view('member.profile.voucher', compact('detailevent'));
     }
 

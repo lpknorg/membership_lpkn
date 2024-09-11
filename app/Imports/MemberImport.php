@@ -23,7 +23,6 @@ class MemberImport implements ToCollection, WithHeadingRow
     public function collection(Collection $rows){        
         try {
             DB::beginTransaction();
-            // dd($rows);
             foreach ($rows->chunk(5) as $v) {
                 foreach ($v as $value) {
                     if (strpos($value['email_aktif'], "@") !== false) {

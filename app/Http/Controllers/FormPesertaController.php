@@ -22,7 +22,6 @@ class FormPesertaController extends Controller
             session(['api_detail_event'.$id_events => $list_api]);
         }        
         $list_event = session('api_detail_event'.$id_events);
-        // dd($list_event);
         if ($list_event['event']['jenis_kelas'] == 0) {
             $methodForm = route('form_peserta_store_online');
         }else{

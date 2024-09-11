@@ -195,7 +195,6 @@ class DashboardController extends Controller
 
     public function dataTableEvent(Request $request){
         $eventData = $this->hitApi("member/event/dashboard_all_event?tanggal_awal={$request->tanggal_awal}&tanggal_akhir={$request->tanggal_akhir}&kategori_event={$request->kategori_event}&jenis_event={$request->jenis_event}");
-        // dd($eventData);
         return \DataTables::of($eventData)
         ->addIndexColumn()
         ->addColumn('link_event', function($row){
@@ -238,7 +237,6 @@ class DashboardController extends Controller
             $endpoint_ = env('API_FORM_SERTIFIKAT')."kelas_sertif/{$request->tgl1}/{$request->tgl2}";
         }
         $event_gratis = \Helper::getRespApiWithParam($endpoint_);
-        // dd($event_gratis);
         return \DataTables::of($event_gratis)
         ->addIndexColumn()
         ->addColumn('created_at', function($row){
@@ -283,7 +281,6 @@ class DashboardController extends Controller
             $data = \Helper::getRespApiWithParam($endpoint, 'get');
             $data = $data['list_regis_sertif'];
         }
-        dd($data);
         return Excel::download(new ExportAlumniByEvent($data, $tipe),"alumnievent-{$tipe}.xlsx");
     }
 

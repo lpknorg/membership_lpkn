@@ -16,7 +16,6 @@ class EventController extends Controller
         }
         $p = new ProfileController();
         $event = $p->getRespApi($url);
-        // dd($event);
         return view('pages.event.index', compact('event'));
     }
 }

@@ -121,7 +121,6 @@ class Helper {
 		// 	public_path('uploaded_files/foto_ktp/1691057213_flazz1.png') => 'custom_name1.png',
 		// 	public_path('uploaded_files/foto_ktp/1691480733_AdventureTime.jpg') => 'custom_name2.png',
 		// ];
-		// dd($filePaths);
 		$rand = rand(1,99999);
 		$zipFileName = "{$tipe}_{$rand}.zip";
 

@@ -51,7 +51,6 @@ class ViewMemberController extends Controller
         }        
         $list_event = session('api_detail_event'.$id_event);
         $list_kelasdo = session('kelas_diklatonline');
-        // dd($list_event);
         $users = UserEvent::where([
             ['event_id', $id_event],
             ['is_deleted', 0]
@@ -206,7 +205,6 @@ class ViewMemberController extends Controller
         ->select('user_events.*') // pastikan hanya memilih kolom yang diperlukan
         ->with('userDetail')
         ->get();
-        // dd($userse);
         return Excel::download(new ExportDataFormByEvent($userse),"data-peserta-{$id_event}.xlsx");
     }
 }

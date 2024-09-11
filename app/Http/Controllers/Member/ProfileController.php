@@ -49,7 +49,6 @@ class ProfileController extends Controller
     public function editProfile(){
         $user = \Auth::user();
         $path = \Helper::showImage(\Auth::user()->member->foto_profile, 'foto_profile');        
-        // dd('file gaada');
         $endpoint = env('API_EVENT').'member/event/event_kelulusan';
         $datapost = ['email' => \Auth::user()->email];
         $list_event_ujian = \Helper::getRespApiWithParam($endpoint, 'post', $datapost);
@@ -480,7 +479,6 @@ class ProfileController extends Controller
             $member = \Auth::user();
             $datapost = ['slug' => $slug, 'email' => $member->email];
             $event = $this->detailEvent($datapost);
-            // dd($event);
             $data['detail_event'] = $event;
             $data['member'] = $member;
             if ($event['status'] == 0) {
@@ -508,7 +506,6 @@ class ProfileController extends Controller
         $data = $data['materi'];
         $_data = $data[0]['video'];
         $arr = explode("\r\n", $_data);
-        // dd($arr);
         echo json_encode($arr);
         // return $data;
     }

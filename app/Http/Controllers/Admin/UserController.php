@@ -268,7 +268,6 @@ class UserController extends Controller
         ->orderBy('updated_at', 'DESC')
         ->limit(10)
         ->get();
-        // dd($data);
         $a = date('d-M-Y');
         // return view('admin.user.export_alumni', compact('data'));
         return Excel::download(new ExportAlumni($data),"alumni-{$a}.xlsx");
