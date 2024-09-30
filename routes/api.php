@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 	return $request->user();
 });
+Route::post('/check_alumni', [App\Http\Controllers\Api\MemberController::class, 'checkAlumni2'])->name('api.checkAlumni');
+Route::post('/check_alumni2', [App\Http\Controllers\Api\MemberController::class, 'checkAlumni2'])->name('api.checkAlumni');
 Route::get('all_alumni', function(){
 	$results = \DB::select("select email from users where email != '' ");
 	$emails = array_map(function($item) {

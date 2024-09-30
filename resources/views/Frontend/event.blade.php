@@ -11,6 +11,7 @@
                                 </div>
                             </form> -->
 			<div class="blog-post">
+                @if($event)
                 @foreach($event['newArr'] as $evt)
                 <h3 class="text-light text-center">{{\Helper::bulanIndo($evt['bulan']).' '.$evt['tahun']}}</h3>
                 <div class="row" id="content-event">
@@ -27,6 +28,7 @@
                     @endforeach
                 </div>
                 @endforeach
+                @endif
           </div>
       </div>
 </div>

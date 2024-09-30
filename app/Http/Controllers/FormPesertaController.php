@@ -222,7 +222,7 @@ class FormPesertaController extends Controller
             if ($response && $response['status'] == 'error') {
                 return response()->json([
                     'status'   => "fail",
-                    'messages' => $eventData['message'],
+                    'messages' => $response['message'],
                 ], 422);
             }
             return response()->json([
@@ -624,7 +624,7 @@ class FormPesertaController extends Controller
             if ($response && $response['status'] == 'error') {
                 return response()->json([
                     'status'   => "fail",
-                    'messages' => $eventData['message'],
+                    'messages' => $response['message'],
                 ], 422);
             }
             return response()->json([

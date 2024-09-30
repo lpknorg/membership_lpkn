@@ -14,9 +14,27 @@ use App\Http\Controllers\Member\SertifikatKamuController;
 
 class ProfileController extends Controller
 {
-    public function getRespApi($endpoint){
-        $client = new \GuzzleHttp\Client(['verify' => false]);
-        $request = $client->get($endpoint);
+    public function getRespApi($endpoint){        
+        $client = new \GuzzleHttp\Client(['verify' => false, 'cookies' => true]);
+        $userAgent = isset($_SERVER['HTTP_USER_AGENT']) 
+		? strtolower($_SERVER['HTTP_USER_AGENT']) : '';
+        $request = $client->get($endpoint, [
+            'headers' => [
+                'User-Agent' => $userAgent,
+                'Cookie' => '_fbp=fb.1.1700624670015.964411063; __gads=ID=0a4a1262dcb75535:T=1719536920:RT=1724654088:S=ALNI_MZW_b3LnBb88WBPbdee5iHP4M5NKw; __gpi=UID=00000e67d9e7eb56:T=1719536920:RT=1724654088:S=ALNI_Ma2wTPjibIHsgiPCFDk3ewFnDdUog; __eoi=ID=4aeec2197aa95750:T=1719536920:RT=1724654088:S=AA-Afjb9D4_jaqx5gkLNsCcxDUVv; _gid=GA1.2.521436857.1726709801; lwrid=AgGSDTGtDA6ojpOBu2oKX39uI3lp; cna=hcdzH3zgPFUCAXTFgMGKaq9u; xlly_s=1; epssw=5*mmLsGEDLjEipBWNm_usH3Gxx1XZ19vvMQ6H_rWLeNKxJHluWhTEsA7nh0Dmm2JGDgTmIVVjdMoqXX2nduc6VXXy4m68IbPCF_A5ibFl8hf9OICJlkRcCskyjjTtV_xaYiQ5mv29Em3QhIyTDr2mNdSVcdOmeQEmNVitKdShkI-8mmQmms2fQix888bf2mZisG8WjABlfY8dETh1Lxga0NqUU03s_tLUOw7RmmBrfQJE2mvZbv8mmmmpmsNScb9OumHPzm8eXEYVZbbDzz5Eyh9QmmHw.; isg=BEhIJev_uofi2NYDa2x8L2bkGbZa8az7uZA0MwL5gUO23ehHowJQikuUUK2tLWTT; tfstk=fnqtt2V1j6fMAf9pJE_nolkzevWhqoeNI5yWmjcMlWFLT-iio-aiHWFTTqVifrVxG-My1fZY3nHbhSWZiO73QRoqc_flZg2aQ1dlHwfnctwIb21TrgjuQR9QgnB5qtrOEwcrGmgsleOITxd6cST_d9HjnCTXfS6LdXkD5FiXfDTIHxTjcmNfA9HqiRbti6cyDrrjvW9J5MdJwkHdQXetCvkUvXgtNyhpcxEKBVh7CllBehHQxk3o-KftA8z31vnRXQkTR8nsHoWWkj3YbDHb6gJ-OleYvVzHE3wKkfUQf2pXcRij_4UY61LZ1PVKzvgBHgk3ZXwafyB2ORNo6cMI-g68dqa3b4rGOhn7zRmgl71HSfa-hg8Tqup-lQmI_F6dpE8q5voMgcEJDIypWvhlK9Y2u2FtpbXdpE8q5vkKZ9XHuEuL6; _ga_VEKE891B15=GS1.1.1726932859.130.0.1726932859.0.0.0; _ga_4KK5EDXW9S=GS1.1.1726938228.114.0.1726938241.47.0.0; _ga_SBN7PQ4QSD=GS1.1.1726938228.107.0.1726938241.47.0.0; _ga=GA1.2.1952274619.1673409926; twk_uuid_62a9db28b0d10b6f3e777f3b=%7B%22uuid%22%3A%221.1UiWZOkrZX3AWHe14l8gDFS09Id7U2zJZ1QtA8Pcy8tX6gSIefmpDXHllS9a2qKiRFTpBACycOAlYBmBa2rsf6eC5kvuuQH6qEn6rke1fTAASQp%22%2C%22version%22%3A3%2C%22domain%22%3A%22lpkn.id%22%2C%22ts%22%3A1726939419356%7D; cf_clearance=TUKKOmxRc82vrXOo.kBdShRrMgcjCttOtm3UhnBwUHo-1726939581-1.2.1.1-cm69mVU5J9D9UAdacAA_FDBERkI3XZ_eSIH4fyk7sySUG9cvyR.Bhfd62gEhXBCWUcL5KH_mB5OjopIaRgnLI7DPjZ9knhCt1HSRKpDQoUOUchISHTO4WiBg1JHy3_rhywoTp5cOGX5g_4jxolk2xyo6E5fH30QTbi8PR6qRSGRj_YacjijGJma1WF95BGIBS490WlS6ozm9VZ_W3Vuq3a9.K.nJ0nfiWJ_ubDxaBJgj_aTIlgJADdcRotq_41t4bWL9DFJHIBfx081de_6y6E2A3LmEzIjqZfK.emOau5sscZQxsmUGfr1W2xEDTzq3XdRSN0U0r4BTJWuHFYESp3toL1H3RlML.TGvAXyBE.ELO7VsYT01P4DWjI58Uvo7bSQUNpqGnYaNX.IXwcv93NzjiLAvs.QrBbD9AM2l_Tuf_Ts9mR8fZLK1Xr3gsIZN; ci_session=28559c6a228d81e851680e97ee1f9c8aefebe79a',
+                'Origin' => 'https://event.lpkn.id',
+                'accept' => '*/*',
+                'accept-encoding' => 'gzip, deflate, br, zstd',
+                'accept-language' => 'en-US,en;q=0.9',
+                // 'content-length' => '16417',
+                'content-type' => 'application/json',
+                'priority' => 'u=1, i',
+                'sec-ch-ua' => '"Chromium";v="128", "Not;A=Brand";v="24", "Google Chrome";v="128"',
+                'sec-ch-ua-mobile' => '?1',
+                'sec-ch-ua-platform' => '"Android"',
+            ]
+        ]);
+
         $response = $request->getBody()->getContents();
         $data = json_decode($response, true);
         return $data;

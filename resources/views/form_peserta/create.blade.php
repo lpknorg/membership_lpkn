@@ -114,9 +114,14 @@
             <div class="col-md-8">
                 <div class="card mb-3">
                     <div class="card-body" id="top">
-
-
+                        <?php
+                        $sjudul = strtolower($list_event['event']['judul']);
+                        ?>
+                        @if (strpos($sjudul, 'tipe b') !== false)
+                        <h2>Biodata Peserta Pelatihan {{$list_event['event']['judul']}}</h2>
+                        @else
                         <h2>Biodata Peserta Pelatihan dan Ujian {{$list_event['event']['judul']}}</h2>
+                        @endif
                         <h6>Bapak/Ibu dimohon untuk mengisi dengan hati - hati agar tidak terjadi Kesalahan Data 🙏🏻</h6>
                         <h6>Pelaksanaan :
                             @if($list_event['event']['tgl_start'] == $list_event['event']['tgl_end'])

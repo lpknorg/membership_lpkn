@@ -10,6 +10,40 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 class MemberController extends Controller{
+	public function checkAlumni(Request $request){
+		$check = User::whereEmail($request->email)->with('member.memberKantor')->first();
+		if ($check) {
+			return response()->json([
+				'status'       => "ok",
+				'messages'     => "Data alumni ditemukan",
+				'data'         =>  $check
+			], 200);
+		}
+		return response()->json([
+			'status'    => "fail",
+			'messages'     => "Data alumni tidak ditemukan",
+		],422);
+	}
+
+	public function checkAlumni2(Request $request){
+		// $check = User::whereEmail($request->email)->with('member.memberKantor')->first();
+		$check = \DB::selectOne('SELECT u.id, u.email, u.name, m.no_hp, mk.nama_instansi, mk.unit_organisasi FROM `users` u
+		LEFT JOIN members m ON m.user_id = u.id
+		LEFT JOIN member_kantors mk ON mk.member_id = m.id
+		where u.email=?', [$request->email]);
+		if ($check) {
+			return response()->json([
+				'status'       => "ok",
+				'messages'     => "Data alumni ditemukan",
+				'data'         =>  $check
+			], 200);
+		}
+		return response()->json([
+			'status'    => "fail",
+			'messages'     => "Data alumni tidak ditemukan",
+		],422);
+	}
+
 	public function daftar(Request $request){
 		$validator = Validator::make($request->all(),[
 			'nama_lengkap'    => 'required|string|max:255',

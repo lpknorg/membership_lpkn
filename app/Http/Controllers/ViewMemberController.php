@@ -201,6 +201,7 @@ class ViewMemberController extends Controller
         // ->where('event_id', $id_event)->get();
         $userse = UserEvent::join('users', 'user_events.user_id', '=', 'users.id')
         ->where('user_events.event_id', $id_event)
+        ->where('user_events.is_deleted', 0)
         ->orderBy('users.name', 'asc')
         ->select('user_events.*') // pastikan hanya memilih kolom yang diperlukan
         ->with('userDetail')

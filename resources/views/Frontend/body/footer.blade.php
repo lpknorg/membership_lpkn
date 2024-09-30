@@ -69,13 +69,13 @@
                             </a>
                         </div>
                         <div>
-                            <a target="blank_" class="text-decoration-none text-white" href="https://chat.whatsapp.com/Beal77y0Any1sUNJS2No4L">
-                                <img class="icon-info" src="{{  asset('icon/wa.png')  }}" alt=""><p class="mt-1">ASN</p>
+                            <a target="blank_" class="text-decoration-none text-white" href="https://whatsapp.com/channel/0029VaGRtPI6LwHrnJwxYJ27">
+                                <img class="icon-info" src="{{  asset('icon/wa.png')  }}" alt=""><p class="mt-1">Wa Channel</p>
                             </a>
                         </div>
                         <div>
-                            <a target="blank_" class="text-decoration-none text-white" href="https://chat.whatsapp.com/It8Q4Hfs9sk7clPPlFOIeC">
-                                <img class="icon-info" src="{{  asset('icon/wa.png')  }}" alt=""><p class="mt-1">Umum</p>
+                            <a target="blank_" class="text-decoration-none text-white" href="https://wa.me/628111326000">
+                                <img class="icon-info" src="{{  asset('icon/wa.png')  }}" alt=""><p class="mt-1">Wa Only</p>
                             </a>
                         </div>
                     </div>
