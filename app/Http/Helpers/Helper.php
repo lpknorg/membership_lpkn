@@ -4,6 +4,7 @@ namespace App\Http\Helpers;
 use Illuminate\Support\Facades\Http;
 use \ZipArchive;
 use App\Models\UserEventHistory;
+use Image;
 
 class Helper {
 	public static function storeFile($folder, $file, $oldFile=null){
@@ -118,24 +119,69 @@ class Helper {
 
 	public static function downloadZip($filePaths, $tipe){
 		// $filePaths = [
-		// 	public_path('uploaded_files/foto_ktp/1691057213_flazz1.png') => 'custom_name1.png',
-		// 	public_path('uploaded_files/foto_ktp/1691480733_AdventureTime.jpg') => 'custom_name2.png',
+		// 	public_path('uploaded_files/test_compress/1.jpeg') => '1.jpeg',
+		// 	public_path('uploaded_files/test_compress/2.jpg') => '2.jpg',
+		// 	public_path('uploaded_files/test_compress/3.jpg') => '3.jpg',
+		// 	public_path('uploaded_files/test_compress/4.jpg') => '4.jpg',
+		// 	public_path('uploaded_files/test_compress/5.jpg') => '5.jpg',
+		// 	public_path('uploaded_files/test_compress/6.JPG') => '6.JPG',
+		// 	public_path('uploaded_files/test_compress/7.jpeg') => '7.jpeg',
+		// 	public_path('uploaded_files/test_compress/8.jepg') => '8.jpeg',
+		// 	public_path('uploaded_files/test_compress/9.pdf') => '9.pdf',
+		// 	public_path('uploaded_files/test_compress/10.jpg') => '10.jpg',
+		// 	public_path('uploaded_files/test_compress/11.JPG') => '11.JPG',
 		// ];
+		$filePaths = [
+			public_path('uploaded_files/test_compress/9.pdf') => '9.pdf',
+			public_path('uploaded_files/test_compress/10.pdf') => '10.pdf',
+			public_path('uploaded_files/test_compress/11.pdf') => '11.pdf',
+			public_path('uploaded_files/test_compress/12.pdf') => '12.pdf',
+			public_path('uploaded_files/test_compress/13.pdf') => '13.pdf',
+		];
+		dd($filePaths);
 		$rand = rand(1,99999);
 		$zipFileName = "{$tipe}_{$rand}.zip";
 
 		$zip = new ZipArchive;
+		$maxSize = 2 * 1024 * 1024; // 2MB in bytes
+		$minSize = 100 * 1024; //100KB
+		$allowedExtensionsImg = ['jpeg', 'jpg', 'png', 'svg'];
 
 		if ($zip->open(public_path($zipFileName), ZipArchive::CREATE) === TRUE) {
 			foreach ($filePaths as $filePath => $zipEntryName) {
+				$extension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
 				if (file_exists($filePath)) {
+					$fileSize = filesize($filePath);
+
+					// ini pengecekan gambar
+					if (in_array($extension, $allowedExtensionsImg)) {
+						// jika sizenya melebihi 2mb, maka akan dikompress
+						if ($fileSize < $minSize) {
+							$image = Image::make($filePath);
+
+					        // Menentukan ukuran baru (misalnya, meningkatkannya menjadi 150% dari ukuran asli)
+					        $width = $image->width();
+					        $height = $image->height();
+
+					        // Meningkatkan ukuran gambar (contoh 150% dari ukuran asli)
+					        $newWidth = (int) ($width * 2);
+					        $newHeight = (int) ($height * 2);
+
+					        // Mengubah ukuran gambar
+					        $image->resize($newWidth, $newHeight);
+
+					        // Menyimpan gambar yang sudah diubah ukurannya
+					        $image->save($filePath);
+						}
+						if ($fileSize > $maxSize) {
+							$compressImage = Image::make($filePath);
+							$compressImage->save($filePath, 60);
+						}
+					}
 					$zip->addFile($filePath, ucwords($zipEntryName));
-				}else{
-					// var_dump(123);
 				}
 			}
 			$zip->close();
-
 			return response()->download(public_path($zipFileName));
 		} else {
 			return 'Gagal membuat file zip';

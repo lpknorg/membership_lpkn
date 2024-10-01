@@ -170,6 +170,7 @@ return [
         Yajra\DataTables\DataTablesServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -243,7 +244,7 @@ return [
         'PDF' => Barryvdh\DomPDF\Facade::class,
 
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
-
+        'Image' => Intervention\Image\Facades\Image::class,
     ],
 
 ];
