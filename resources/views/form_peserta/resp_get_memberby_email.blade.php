@@ -205,7 +205,7 @@
 	<div class="col-md-6">
 		<div class="form-group">
 			<label class="form-label" for="status_kepegawaian">Status Kepegawaian:</label><span class="text-danger"> *</span>
-			<?php $arr = ['PNS/PPPK', 'POLRI', 'TNI AL', 'TNI AD', 'TNI AU', 'BUMN/BUMD', 'SWASTA', 'HONORER / KONTRAK', 'PRIBADI/INDIVIDU']; ?>
+			<?php $arr = ['PNS/PPPK', 'POLRI', 'TNI AL', 'TNI AD', 'TNI AU', 'BUMN/BUMD', 'SWASTA', 'HONORER / KONTRAK', 'PRIBADI/INDIVIDU', 'PEGAWAI PEMERINTAH NON ASN']; ?>
 			<select class="form-control" name="status_kepegawaian">
 				<option value="">Pilih Status Kepegawaian</option>
 				@foreach($arr as $k => $v)
@@ -227,6 +227,8 @@
 				<input placeholder="Jawaban Anda" autocomplete="off" type="number" class="form-control" name="nip" value="{{$user->nip}}" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="18"><br>
 			</div>
 		</div>
+		@if($list_event['event']['jenis_pelatihan'] != "bimtek")
+
 		<div class="col-md-6">
 			<div class="form-group">                    
 				<label class="form-label" for="sk_pengangkatan_asn">Upload SK Pengangkatan ASN:</label><span class="text-danger"> *</span>
@@ -254,7 +256,9 @@
 				</select><br>
 			</div>
 		</div>
+		@endif
 	</div>
+	
 	<div class="row" id="divPolriTni" style="display: {{$user->member->memberKantor->status_kepegawaian == 'POLRI' || substr($user->member->memberKantor->status_kepegawaian, 0, 3) == 'TNI' ? 'flex' : 'none'}}">
 		<div class="col-md-6">
 			<div class="form-group">

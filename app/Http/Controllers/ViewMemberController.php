@@ -5,12 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\{User, UserEvent, HistoryKelasDiklatOnline};
-use App\Exports\ExportDataFormByEvent;
+use App\Exports\{
+    ExportDataFormByEvent,
+    ExportPresensiPelatihan
+};
 
 class ViewMemberController extends Controller
 {
     public function downloadZip($tipe, $id_event){
-        $users = UserEvent::where('event_id', $id_event)->get();
+        $users = UserEvent::where([
+            ['event_id', $id_event],
+            ['is_deleted', 0]
+        ])
+        ->get();
         $filePaths = [];
         foreach($users as $u){ 
             $_file = $u->userDetail->member->$tipe;      
@@ -60,6 +67,57 @@ class ViewMemberController extends Controller
             ['is_deleted', 1]
         ])->orderBy('updated_at', 'desc')->get();
         return view('detail_member_event', compact('users', 'users_deleted', 'list_kelasdo', 'list_event',  'id_event'));
+    }
+
+    public function updateDataMemberKredens($id, Request $request){
+        $selUser = User::where('id', $id)->first();
+        if ($selUser) {
+            if (isset($request->nik)) {
+                $countCar = strlen($request->nik);
+                if ($countCar != 16) {
+                    return response()->json([
+                        'status'   => 'fail',
+                        'messages' => "NIK harus 16 digit"
+                    ], 422);
+                }
+                $cekNik = User::where([
+                    ['id', '!=', $id],
+                    ['nik', $request->nik]
+                ])->first();
+                if ($cekNik) {
+                    return response()->json([
+                        'status'   => 'fail',
+                        'messages' => "NIK tersebut sudah digunakan dengan a/n {$cekNik->name}"
+                    ], 422);
+                }
+                $selUser->update([
+                    'nik' => $request->nik
+                ]);
+            }else if (isset($request->email)) {
+                $cekEmail = User::where([
+                    ['id', '!=', $id],
+                    ['email', $request->email]
+                ])->first();
+                if ($cekEmail) {
+                    return response()->json([
+                        'status'   => 'fail',
+                        'messages' => "Email tersebut sudah digunakan dengan a/n {$cekEmail->name}"
+                    ], 422);
+                }
+                $selUser->update([
+                    'email' => $request->email
+                ]);
+            }
+            return response()->json([
+                'status'   => 'ok',
+                'messages' => "Berhasil update data atas nama {$selUser->name}"
+            ], 200);
+        }else{
+            return response()->json([
+                'status'   => 'fail',
+                'messages' => "Data member tidak ditemukan, silakan coba lagi"
+            ], 422);
+        }
     }
 
     public function updateDataMember(Request $request){
@@ -208,4 +266,19 @@ class ViewMemberController extends Controller
         ->get();
         return Excel::download(new ExportDataFormByEvent($userse),"data-peserta-{$id_event}.xlsx");
     }
+    public function downloadPresensiPelatihan($id_event){
+        $userse = UserEvent::join('users', 'user_events.user_id', '=', 'users.id')
+        ->join('members', 'users.id', '=', 'members.user_id')
+        ->join('member_kantors', 'members.id', '=', 'member_kantors.member_id')
+        ->where('user_events.event_id', $id_event)
+        ->where('user_events.is_deleted', 0)
+        ->orderBy('users.name', 'asc')
+        ->select('user_events.*', 'members.foto_profile', 'member_kantors.nama_instansi') // pastikan hanya memilih kolom yang diperlukan
+        ->with('userDetail')
+        ->limit(3)
+        ->get();
+        dd($userse);
+        return Excel::download(new ExportPresensiPelatihan($userse),"data-presensi_pelatihan-{$id_event}.xlsx");
+    }
+
 }

@@ -7,7 +7,7 @@
     <link href="{{ asset('bootstraps/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/toastr.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
-	<link href="{{ asset('datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 
     {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous"> --}}
     {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"> --}}
@@ -61,8 +61,8 @@
             border: 1px solid rgb(70, 2, 101);
             transition: 0.6s;
             font-weight: bold;
-	    width: 200px !important;
-	    font-size: 16px;
+        width: 200px !important;
+        font-size: 16px;
         }
         #btnCekData:hover{
             color: #fff;
@@ -114,10 +114,11 @@
             <div class="col-md-8">
                 <div class="card mb-3">
                     <div class="card-body" id="top">
+            <input type="hidden" name="jenis_pelatihan" id="jenis_pelatihan" value="{{ $list_event['event']['jenis_pelatihan'] }}" >
                         <?php
                         $sjudul = strtolower($list_event['event']['judul']);
                         ?>
-                        @if (strpos($sjudul, 'tipe b') !== false)
+                        @if (strpos($sjudul, 'tipe b') !== false || strpos($sjudul, 'tipe c') !== false)
                         <h2>Biodata Peserta Pelatihan {{$list_event['event']['judul']}}</h2>
                         @else
                         <h2>Biodata Peserta Pelatihan dan Ujian {{$list_event['event']['judul']}}</h2>
@@ -157,11 +158,11 @@
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="{{ asset('bootstraps/js/bootstrap.min.js') }}" defer></script>
-	<script src="{{ asset('js/toastr.min.js') }}" defer></script>
-	<script src="{{ asset('datatables/jquery/jquery.dataTables.min.js') }}" defer></script>
-	<script src="{{ asset('datatables/js/dataTables.bootstrap4.min.js') }}" defer></script>
-	<script src="{{ asset('js/bootstrap-datepicker.min.js') }}" defer></script>
+    <script src="{{ asset('bootstraps/js/bootstrap.min.js') }}" defer></script>
+    <script src="{{ asset('js/toastr.min.js') }}" defer></script>
+    <script src="{{ asset('datatables/jquery/jquery.dataTables.min.js') }}" defer></script>
+    <script src="{{ asset('datatables/js/dataTables.bootstrap4.min.js') }}" defer></script>
+    <script src="{{ asset('js/bootstrap-datepicker.min.js') }}" defer></script>
 
     {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
     <!-- Bootstrap JS -->

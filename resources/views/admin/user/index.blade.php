@@ -88,7 +88,7 @@
 					</div>
 				</div>
 			</form>
-			<table class="table table-hover table-bordered table-responsive-sm" id="table-Datatable" style="width: 100%;">
+			<!-- <table class="table table-hover table-bordered table-responsive-sm" id="table-Datatable" style="width: 100%;">
 				<thead>
 					<tr>
 						<th width="10px">No</th>
@@ -101,7 +101,7 @@
 				<tbody>
 
 				</tbody>
-			</table>
+			</table> -->
 		</div>
 	</div>
 </div>
@@ -316,32 +316,32 @@
 			}
 		}
 
-		var table = $('#table-Datatable').DataTable({
-			processing: true,
-			serverSide: true,
-			ajax: {
-				"url" : "{{ route('admin.user.dataTables') }}",
-				data: function(d){
-					d.tanggal_awal = $('[name=tanggal_awal]').val()
-					d.tanggal_akhir = $('[name=tanggal_akhir]').val()
-					d.status_kepegawaian = $('[name=status_kepegawaian]').find(":selected").val()
-					d.kelulusan_event = $('[name=kelulusan_event]').find(":selected").val()
-					d.ketidaklulusan_event = $('[name=ketidaklulusan_event]').find(":selected").val()
-				}
-			},
-			columns: [
-				{data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-				{data: 'email_', 'name': 'name'},
-				{data: 'email', name: 'users.email'},
-				{data: 'nip', name: 'nip'},
-				{
-					data: 'action',
-					name: 'action',
-					orderable: true,
-					searchable: false
-				},
-				]
-		});
+		// var table = $('#table-Datatable').DataTable({
+			// processing: true,
+			// serverSide: true,
+			// ajax: {
+				// "url" : "{{ route('admin.user.dataTables') }}",
+				// data: function(d){
+					// d.tanggal_awal = $('[name=tanggal_awal]').val()
+					// d.tanggal_akhir = $('[name=tanggal_akhir]').val()
+					// d.status_kepegawaian = $('[name=status_kepegawaian]').find(":selected").val()
+					// d.kelulusan_event = $('[name=kelulusan_event]').find(":selected").val()
+					// d.ketidaklulusan_event = $('[name=ketidaklulusan_event]').find(":selected").val()
+				// }
+			// },
+			// columns: [
+				// {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+				// {data: 'email_', 'name': 'name'},
+				// {data: 'email', name: 'users.email'},
+				// {data: 'nip', name: 'nip'},
+				// {
+					// data: 'action',
+					// name: 'action',
+					// orderable: true,
+					// searchable: false
+				// },
+				// ]
+		// });
 	})
 </script>
 @endsection

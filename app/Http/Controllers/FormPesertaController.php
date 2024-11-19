@@ -15,7 +15,7 @@ class FormPesertaController extends Controller
     }
     public function create($id_events, Request $request)
     {
-        // session()->forget('api_detail_event'.$id_events);
+        session()->forget('api_detail_event'.$id_events);
         if (!session()->has('api_detail_event'.$id_events)) {
             $endpoint = env('API_EVENT').'member/event/detailevent_by_id?id_event='.$id_events;
             $list_api = \Helper::getRespApiWithParam($endpoint, 'get');        
@@ -330,7 +330,8 @@ class FormPesertaController extends Controller
                             'messages' => $validator->errors()->first(),
                         ], 422);
                     }
-                }     
+                }
+             
                 if (is_null($checkUser->member->file_sk_pengangkatan_asn) && $request->status_kepegawaian == 'PNS') {
                     $validator = Validator::make($request->all(), [
                         'sk_pengangkatan_asn' => 'required|file|mimes:pdf,jpeg,png,jpg'
@@ -370,17 +371,19 @@ class FormPesertaController extends Controller
                 $sertifpbjlevel1 = \Helper::storeFile('file_sertifikat_pbj_level1', $request->file_sertifikat_pbj_level1);
             } 
             // end cek
-            if ($request->status_kepegawaian == 'PNS') {
-                $validator = Validator::make($request->all(), [
-                    'sk_pengangkatan_asn' => 'required|mimes:pdf,jpeg,png,jpg'
-                ]);
-                if ($validator->fails()) {
-                    return response()->json([
-                        'status'   => "fail",
-                        'messages' => $validator->errors()->first(),
-                    ], 422);
+       if ($request->jenis_pelatihan != 'bimtek') {
+                if ($request->status_kepegawaian == 'PNS') {
+                    $validator = Validator::make($request->all(), [
+                            'sk_pengangkatan_asn' => 'required|mimes:pdf,jpeg,png,jpg'
+                    ]);
+                    if ($validator->fails()) {
+                            return response()->json([
+                                'status'   => "fail",
+                                'messages' => $validator->errors()->first(),
+                            ], 422);
+                    }
                 }
-            }
+       }
             if ($request->jenis_pelatihan == 'lkpp') {
                 $validator = Validator::make($request->all(), [
                     'pas_foto' => 'required|mimes:jpeg,png,jpg',
@@ -406,19 +409,36 @@ class FormPesertaController extends Controller
         }
         
         $id_event = $request->id_event;
-        if ($request->status_kepegawaian == 'PNS') {
-            $validator = Validator::make($request->all(), [
-                'nip' => 'required|string',                
-                'nama_jabatan' => 'required|string', 
-                'golongan_terakhir' => 'required|string',
-            ]);
-            if ($validator->fails()) {
-                return response()->json([
-                    'status'   => "fail",
-                    'messages' => $validator->errors()->first(),
-                ], 422);
+    if ($request->jenis_pelatihan != 'bimtek') {
+            if ($request->status_kepegawaian == 'PNS') {
+                    $validator = Validator::make($request->all(), [
+                        'nip' => 'required|string',                
+                        'nama_jabatan' => 'required|string', 
+                        'golongan_terakhir' => 'required|string',
+                    ]);
+                    if ($validator->fails()) {
+                        return response()->json([
+                            'status'   => "fail",
+                            'messages' => $validator->errors()->first(),
+                        ], 422);
+                    }
             }
-        }
+    }else{
+        if ($request->status_kepegawaian == 'PNS') {
+                    $validator = Validator::make($request->all(), [
+                        'nip' => 'required|string',              
+                        
+                    ]);
+                    if ($validator->fails()) {
+                        return response()->json([
+                            'status'   => "fail",
+                            'messages' => $validator->errors()->first(),
+                        ], 422);
+                    }
+            }
+        
+    }
+
         $validator = Validator::make($request->all(), [
                 // user
             'nama_tanpa_gelar' => 'required|string',

@@ -75,14 +75,48 @@
 		.table-responsive::-webkit-scrollbar-thumb:hover {
 			background: #555; /* Hover color */
 		}
+		.fa-edit:hover{
+			cursor: pointer;
+		}
+		.fa-edit{
+			float: right;
+			color: #ffa500;
+			font-weight: 600;
+			margin-top: 5px;
+		}
 	</style>
 </head>
 <body>
+	<div class="modal fade" id="modalEditData" tabindex="-1" aria-labelledby="modalEditDataLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form action="">
+					@csrf
+					<div class="modal-header">
+						<h5 class="modal-title" id="modalEditDataLabel">Modal Update Data</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Batal</button>
+						<button type="submit" class="btn btn-sm btn-primary" id="btnSimpanMember">Simpan</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 	<div class="mx-3">
 		<h2 class="mb-4">Data Detail </h2>
 		<a href="{{route('downloadZip', ['tipe' => 'foto_ktp', 'id_event' => $id_event])}}" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> KTP</a>
 		<a href="{{route('downloadZip', ['tipe' => 'file_sk_pengangkatan_asn', 'id_event' => $id_event])}}" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> SK ASN</a>
 		<a href="{{route('downloadZip', ['tipe' => 'foto_profile', 'id_event' => $id_event])}}" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> Pas Foto</a>
+		@if($list_event['event']['judul_pelatihan'] == "ppk_tipe_c" || $list_event['event']['judul_pelatihan'] == "ppk_tipe_b")
+		<a href="{{route('downloadZip', ['tipe' => 'file_sertifikat_pbj_level1', 'id_event' => $id_event])}}" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> Sertifikat PBJ Level 1</a>
+		@endif
 		<a href="{{\Request::url().'/excel'}}" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> Excel</a>
 		<div class="mt-3">
 			@csrf
@@ -143,7 +177,7 @@
 											<th style="min-width: 210px;">Nama Lengkap(tanpa gelar)</th>											
 											<th style="min-width: 140px;">NIK</th>
 											<th style="min-width: 50px;">Jenis Kelamin</th>
-											<th style="min-width: 190px;">Email Aktif</th>
+											<th style="min-width: 225px;">Email Aktif</th>
 											<th style="min-width: 265px;">Nama Lengkap(dgn gelar)</th>
 											<th style="min-width: 120px;">Tempat Lahir</th>
 											<th style="min-width: 80px;">Tgl Lahir</th>
@@ -174,7 +208,7 @@
 											<th style="min-width: 185px;">TMT SK JF PPBJ Terakhir</th>
 											<th style="min-width: 290px;">Dok Penilaian Angka Kredit (PAK) Terakhir</th>
 											@endif
-											@if($list_event['event']['judul_pelatihan'] == "ppk_tipe_c")
+											@if($list_event['event']['judul_pelatihan'] == "ppk_tipe_c" || $list_event['event']['judul_pelatihan'] == "ppk_tipe_b")
 											<th style="min-width: 150px;">Sertif PBJ Level 1</th>
 											@endif
 										</tr>
@@ -191,9 +225,9 @@
 											<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="user_event" data-field="marketing" data-placeholder="Click to edit">{{$u->marketing}}</div></td>
 											<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="user_event" data-field="keterangan" data-placeholder="Click to edit">{{$u->keterangan}}</div></td>
 											<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="users" data-field="name" data-placeholder="Click to edit">{{ucwords(strtolower($u->userDetail->name))}}</div></td>											
-											<td style="color: {{$u->font_color}};"><div data-placeholder="Click to edit" class="not-editable">{{$u->userDetail->nik}}</div></td>
+											<td style="color: {{$u->font_color}};"><div data-placeholder="Click to edit" class="not-editable">{{$u->userDetail->nik}}<i data-toggle="tooltip" data-placement="top" title="update data" class="fa fa-edit" data-user_id="{{$u->userDetail->id}}" data-value="{{$u->userDetail->nik}}" data-field="nik"></i></div></td>
 											<td style="color: {{$u->font_color}};">{{$u->userDetail->member->jenis_kelamin}}</td>
-											<td style="color: {{$u->font_color}};"><div class="not-editable" data-placeholder="Click to edit">{{$u->userDetail->email}}</div></td>
+											<td style="color: {{$u->font_color}};"><div class="not-editable" data-placeholder="Click to edit">{{$u->userDetail->email}}<i data-toggle="tooltip" data-placement="top" title="update data" class="fa fa-edit" data-user_id="{{$u->userDetail->id}}" data-value="{{$u->userDetail->email}}" data-field="email"></i></div></td>
 											<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="member" data-field="nama_lengkap_gelar" data-placeholder="Click to edit">{{$u->userDetail->member->nama_lengkap_gelar}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="tempat_lahir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tempat_lahir}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="tgl_lahir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tgl_lahir}}</div></td>
@@ -244,7 +278,7 @@
 												@endif
 											</td>
 											@endif
-											@if($list_event['event']['judul_pelatihan'] == "ppk_tipe_c")
+											@if($list_event['event']['judul_pelatihan'] == "ppk_tipe_c" || $list_event['event']['judul_pelatihan'] == "ppk_tipe_b")
 											<td>
 												@if($u->userDetail->member->file_sertifikat_pbj_level1)	
 												<a href="{{\Helper::showImage($u->userDetail->member->file_sertifikat_pbj_level1, 'file_sertifikat_pbj_level1')}}" target="_blank">Lihat Dokumen</a>
@@ -373,6 +407,58 @@
 	<script src="{{asset('template/coloris/coloris.min.js')}}"></script>
 	<script>
 		$(document).ready(function(){
+			$('body').on('click', '[class~=fa-edit]', function(e) {
+				let vall = $(this).attr('data-value')
+				let fieldd = $(this).attr('data-field')
+				let _user_id = $(this).attr('data-user_id')
+				$('#modalEditData').modal('show')				
+				if (fieldd == 'nik') {
+					var contt = `<input type="text" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '')"  class="form-control" name="${fieldd}" value="${vall}">`
+				}else{
+					var contt = `<input type="text" class="form-control" name="${fieldd}" value="${vall}">`
+				}
+				contt += `<input type="hidden" class="form-control" name="user_id" value="${_user_id}"><span class="text-danger" style="font-size: 13px;">* pastikan data sudah benar</span>`
+				$('#modalEditData .modal-body').html(contt)
+			})
+			$('#modalEditData form').on('submit', function(e) {
+				e.preventDefault();
+
+				let _user_id = $('#modalEditData .modal-body [name=user_id]').val();
+
+				var form_data = new FormData(this);
+
+				$.ajax({
+					type: 'POST',
+					url: '{{url('import_member')}}' + `/${_user_id}/update`,
+					data: form_data,
+					processData: false, 
+					contentType: false, 
+					beforeSend: function() {
+						$('#btnSimpanMember').attr('disabled', true).css('cursor', 'not-allowed').text('Load ...');
+					},
+					success: function(data) {
+						if (data.status === "ok") {
+							toastr.success(data.messages, 'Berhasil');
+							setTimeout(() => {
+								location.reload()
+							}, 1500)
+						}
+
+					},
+					error: function(data) {
+						var data = data.responseJSON;
+						if (data.status === "fail") {
+							toastr.error(data.messages, 'Error');
+						} else {
+							toastr.error('Terdapat kesalahan saat update data member', 'Error');
+						}
+					},
+					complete: function() {
+						$('#btnSimpanMember').attr('disabled', false).css('cursor', 'pointer').text('Simpan');
+					}
+				});
+			});
+
 
 			Coloris({
 				format: 'hex',
@@ -489,7 +575,6 @@
 						$('#btnStoreDiklatOnline').attr('disabled', false).css('cursor', 'pointer').text('Submit')
 					}
 				});
-				console.log(emailArr)
 			})
 			$('body').on('click', '[id=btnHapusPeserta]', function(e) {
 				e.preventDefault()
