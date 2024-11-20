@@ -10,7 +10,8 @@ use Maatwebsite\Excel\Concerns\{
     WithDrawings
 };
 use Maatwebsite\Excel\Events\AfterSheet;
-use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use PhpOffice\PhpSpreadsheet\Worksheet\{Drawing, MemoryDrawing};
+use Intervention\Image\Facades\Image;
 
 class ExportPresensiPelatihan implements FromView, WithColumnWidths,WithEvents, WithDrawings
 {
@@ -23,7 +24,7 @@ class ExportPresensiPelatihan implements FromView, WithColumnWidths,WithEvents, 
     {
         return [
             'A' => 5,
-            'B' => 50,
+            'B' => 30,
         ];
     }
 
@@ -31,35 +32,33 @@ class ExportPresensiPelatihan implements FromView, WithColumnWidths,WithEvents, 
     {
         return [
             AfterSheet::class    => function(AfterSheet $event) {
-
                 $event->sheet->getDelegate()->getStyle('A1:B1')
                 ->getFill()
                 ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                 ->getStartColor()
-                ->setARGB('f06e5d');
+                ->setARGB('f2f2f2');
+                $event->sheet->getDelegate()->getRowDimension(1)->setRowHeight(20);
 
-                // Atur tinggi baris (contoh: baris 1 untuk header)
-                $event->sheet->getDelegate()->getRowDimension(1)->setRowHeight(30);
-
-                // Jika ingin mengatur tinggi baris data (contoh: mulai dari baris ke-2)
                 $users = $this->alData;
-                $row = 2; // Baris awal data
-                foreach ($users as $user) {
-                    $event->sheet->getDelegate()->getRowDimension($row)->setRowHeight(100); // Tinggi baris disesuaikan dengan gambar
+                $row = 2;
+                foreach ($users as $index => $user) {
+                    $currentRow = $row + $index;
+                    $event->sheet->getDelegate()->getRowDimension($row)->setRowHeight(90); 
+                    $event->sheet->getDelegate()->getStyle("B{$currentRow}")
+                        ->getFont()
+                        ->setBold(true);
                     $row += 4;
                 }
 
-                // Atur alignment untuk seluruh kolom
-                $highestRow = $event->sheet->getDelegate()->getHighestRow(); // Dapatkan baris terakhir
-                $highestColumn = $event->sheet->getDelegate()->getHighestColumn(); // Dapatkan kolom terakhir
+                $highestRow = $event->sheet->getDelegate()->getHighestRow();
+                $highestColumn = $event->sheet->getDelegate()->getHighestColumn();
 
                 $event->sheet->getDelegate()->getStyle("A1:{$highestColumn}{$highestRow}")
                     ->getAlignment()
-                    // ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER) // Tengah horizontal
-                    ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);   // Tengah vertikal
+                    ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
                 $event->sheet->getDelegate()->getStyle("B1:{$highestColumn}{$highestRow}")
                     ->getAlignment()
-                    ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER); // Tengah horizontal
+                    ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
             },
         ];
     }
@@ -77,25 +76,32 @@ class ExportPresensiPelatihan implements FromView, WithColumnWidths,WithEvents, 
         $row = 2; // Baris awal data (setelah heading)
 
         foreach ($users as $user) {
-            $drawing = new Drawing();
-            $drawing->setName('Profile Picture');
-            $drawing->setDescription('User Profile Picture');
+            $image = Image::make(public_path('uploaded_files/foto_profile/'.$user->foto_profile))
+            ->resize(200, 150, function ($constraint) {
+                $constraint->aspectRatio(); // Menjaga aspek rasio gambar
+                // $constraint->upsize();     // Tidak memperbesar gambar kecil
+            });
 
-            // Pastikan `profile_picture` berisi path ke gambar (misalnya public/storage/images).            
-            $drawing->setPath(public_path('uploaded_files/foto_profile/'.$user->foto_profile));
-            $drawing->setHeight(100); // Tinggi gambar dalam piksel
-            $drawing->setWidth(70); // Lebar gambar dalam piksel
-            $drawing->setCoordinates('B' . $row); // Kolom untuk gambar
+            //memory
+            $memoryImage = new MemoryDrawing();
+            $memoryImage->setName('Profile Picture');
+            $memoryImage->setDescription('User Profile Picture');
+            $memoryImage->setImageResource($image->getCore()); // Ambil resource gambar
+            $memoryImage->setRenderingFunction(MemoryDrawing::RENDERING_PNG); // Atur format gambar
+            $memoryImage->setMimeType(MemoryDrawing::MIMETYPE_PNG); // Atur MIME type
+            $memoryImage->setHeight(110); // Atur tinggi gambar
+            $memoryImage->setCoordinates('B' . $row); // Lokasi gambar di Excel
+            // end memory
 
-            $cellHeight = 20; // Tinggi sel dalam satuan Excel (dalam poin, sesuaikan dengan `setRowHeight`)
-            $cellWidth = 50;  // Lebar sel dalam satuan Excel (estimasi, tergantung ukuran kolom)
-            $imageHeight = 100; // Tinggi gambar (harus sama dengan setHeight)
-            $imageWidth = 70;
+            $cellHeight = 15; // Tinggi sel dalam satuan Excel (dalam poin, sesuaikan dengan `setRowHeight`)
+            $cellWidth = 30;  // Lebar sel dalam satuan Excel (estimasi, tergantung ukuran kolom)
+            $imageHeight = 80; // Tinggi gambar (harus sama dengan setHeight)
+            $imageWidth = 80;
 
-            $drawing->setOffsetX(($cellWidth * 7.5 - $imageWidth) / 2); // 7.5 poin per unit Excel
-            $drawing->setOffsetY(($cellHeight * 6 - $imageHeight) / 2); // 0.75 poin per unit Excel
+            $memoryImage->setOffsetX(($cellWidth * 6.7 - $imageWidth) / 2); // 7.5 poin per unit Excel
+            $memoryImage->setOffsetY(($cellHeight * 6 - $imageHeight) / 2); // 0.75 poin per unit Excel
 
-            $drawings[] = $drawing;
+            $drawings[] = $memoryImage;
             $row += 4;
         }
 

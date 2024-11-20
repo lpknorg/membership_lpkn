@@ -9,6 +9,7 @@ use App\Exports\{
     ExportDataFormByEvent,
     ExportPresensiPelatihan
 };
+use Illuminate\Support\Facades\Validator;
 
 class ViewMemberController extends Controller
 {
@@ -106,6 +107,52 @@ class ViewMemberController extends Controller
                 }
                 $selUser->update([
                     'email' => $request->email
+                ]);
+            }else if (isset($request->foto_ktp)) {
+                $validator = Validator::make($request->only(['foto_ktp']), [
+                    'foto_ktp' => 'required|mimes:jpeg,png,jpg',
+                ]);
+                if ($validator->fails()) {
+                    return response()->json([
+                        'status'   => "fail",
+                        'messages' => $validator->errors()->first(),
+                    ], 422);
+                }
+                $foto_ktp = \Helper::storeFile('foto_ktp', $request->foto_ktp, $selUser->member->foto_ktp);
+
+                $selUser->member->update([
+                    'foto_ktp' => $foto_ktp
+                ]);
+            }else if (isset($request->foto_profile)) {
+                $validator = Validator::make($request->only(['foto_profile']), [
+                    'foto_profile' => 'required|mimes:jpeg,png,jpg',
+                ]);
+                if ($validator->fails()) {
+                    return response()->json([
+                        'status'   => "fail",
+                        'messages' => $validator->errors()->first(),
+                    ], 422);
+                }
+                $foto_profile = \Helper::storeFile('foto_profile', $request->foto_profile, $selUser->member->foto_profile);
+
+                $selUser->member->update([
+                    'foto_profile' => $foto_profile,
+                    'pas_foto3x4'=>$foto_profile,
+                ]);
+            }else if (isset($request->file_sk_pengangkatan_asn)) {
+                $validator = Validator::make($request->only(['file_sk_pengangkatan_asn']), [
+                    'file_sk_pengangkatan_asn' => 'required|mimes:jpeg,png,jpg',
+                ]);
+                if ($validator->fails()) {
+                    return response()->json([
+                        'status'   => "fail",
+                        'messages' => $validator->errors()->first(),
+                    ], 422);
+                }
+                $file_sk_pengangkatan_asn = \Helper::storeFile('file_sk_pengangkatan_asn', $request->file_sk_pengangkatan_asn, $selUser->member->file_sk_pengangkatan_asn);
+
+                $selUser->member->update([
+                    'file_sk_pengangkatan_asn' => $file_sk_pengangkatan_asn
                 ]);
             }
             return response()->json([
@@ -277,7 +324,7 @@ class ViewMemberController extends Controller
         ->with('userDetail')
         ->limit(3)
         ->get();
-        dd($userse);
+        // dd($userse);
         return Excel::download(new ExportPresensiPelatihan($userse),"data-presensi_pelatihan-{$id_event}.xlsx");
     }
 

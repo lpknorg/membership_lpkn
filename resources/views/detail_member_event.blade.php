@@ -232,7 +232,7 @@
 											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="tempat_lahir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tempat_lahir}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="tgl_lahir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tgl_lahir}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="no_hp" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->no_hp}}</div></td>	
-											<td><a href="{{\Helper::showImage($u->userDetail->member->foto_profile, 'foto_profile')}}" target="_blank">Lihat Dokumen</a></td>									
+											<td><a href="{{\Helper::showImage($u->userDetail->member->foto_profile, 'foto_profile')}}" target="_blank">Lihat Dokumen</a><i data-toggle="tooltip" data-placement="top" title="update pas foto" class="fa fa-edit" data-user_id="{{$u->userDetail->id}}" data-field="foto_profile"></i></td>				
 											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="pendidikan_terakhir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->pendidikan_terakhir}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="nama_pendidikan_terakhir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->nama_pendidikan_terakhir}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="member_kantor" data-field="status_kepegawaian" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->memberKantor->status_kepegawaian}}</div></td>
@@ -240,7 +240,7 @@
 											<td style="color: {{$u->font_color}};"><div data-tipe="users" data-field="nrp" class="editable" data-placeholder="Click to edit">{{$u->userDetail->nrp}}</div></td>
 											<td>
 												@if($u->userDetail->member->file_sk_pengangkatan_asn)
-												<a href="{{\Helper::showImage($u->userDetail->member->file_sk_pengangkatan_asn, 'file_sk_pengangkatan_asn')}}" target="_blank">Lihat Dokumen</a>
+												<a href="{{\Helper::showImage($u->userDetail->member->file_sk_pengangkatan_asn, 'file_sk_pengangkatan_asn')}}" target="_blank">Lihat Dokumen</a><i data-toggle="tooltip" data-placement="top" title="update file sk asn" class="fa fa-edit" data-user_id="{{$u->userDetail->id}}" data-field="file_sk_pengangkatan_asn"></i>
 												@else
 												-
 												@endif
@@ -258,7 +258,7 @@
 											<td style="color: {{$u->font_color}};"><div data-tipe="user_event" data-field="paket_kontribusi" class="editable" data-placeholder="Click to edit">{{$u->paket_kontribusi}}</div></td>								
 											<td>
 												@if($u->userDetail->member->foto_ktp)	
-												<a href="{{\Helper::showImage($u->userDetail->member->foto_ktp, 'foto_ktp')}}" target="_blank">Lihat Dokumen</a>
+												<a href="{{\Helper::showImage($u->userDetail->member->foto_ktp, 'foto_ktp')}}" target="_blank">Lihat Dokumen</a><i data-toggle="tooltip" data-placement="top" title="update foto ktp" class="fa fa-edit" data-user_id="{{$u->userDetail->id}}" data-field="foto_ktp"></i>
 												@else
 												-
 												@endif
@@ -410,12 +410,16 @@
 			$('body').on('click', '[class~=fa-edit]', function(e) {
 				let vall = $(this).attr('data-value')
 				let fieldd = $(this).attr('data-field')
+				console.log(fieldd)
 				let _user_id = $(this).attr('data-user_id')
 				$('#modalEditData').modal('show')				
+				var contt = ''
 				if (fieldd == 'nik') {
-					var contt = `<input type="text" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '')"  class="form-control" name="${fieldd}" value="${vall}">`
+					contt += `<input type="text" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '')"  class="form-control" name="${fieldd}" value="${vall}">`
+				}else if(fieldd == 'email') {
+					contt += `<input type="text" class="form-control" name="${fieldd}" value="${vall}">`
 				}else{
-					var contt = `<input type="text" class="form-control" name="${fieldd}" value="${vall}">`
+					contt += `<input type="file" class="form-control" name="${fieldd}" required>`
 				}
 				contt += `<input type="hidden" class="form-control" name="user_id" value="${_user_id}"><span class="text-danger" style="font-size: 13px;">* pastikan data sudah benar</span>`
 				$('#modalEditData .modal-body').html(contt)
@@ -423,9 +427,19 @@
 			$('#modalEditData form').on('submit', function(e) {
 				e.preventDefault();
 
+
 				let _user_id = $('#modalEditData .modal-body [name=user_id]').val();
 
 				var form_data = new FormData(this);
+				if ($('#modalEditData [name=foto_ktp]').length > 0) {
+					form_data.append('foto_ktp', $('#modalEditData [name=foto_ktp]').prop('files')[0]);
+				}
+				if ($('#modalEditData [name=foto_profile]').length > 0) {
+					form_data.append('foto_profile', $('#modalEditData [name=foto_profile]').prop('files')[0]);
+				}
+				if ($('#modalEditData [name=file_sk_pengangkatan_asn]').length > 0) {
+					form_data.append('file_sk_pengangkatan_asn', $('#modalEditData [name=file_sk_pengangkatan_asn]').prop('files')[0]);
+				}
 
 				$.ajax({
 					type: 'POST',
