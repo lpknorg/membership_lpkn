@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Table with Grid Position</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .container {
+            display: grid;
+            grid-template-columns: repeat(10, 30px); /* 10 kolom */
+            gap: 5px;
+        }
+        .square {
+            width: 30px;
+            height: 30px;
+            background-color: #ddd;
+            border: 1px solid #ccc;
+            user-select: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .selected {
+            background-color: #6c6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Generate 100 kotak -->
+        <script>
+            for (let i = 0; i < 100; i++) {
+                document.write(`<div class="square" data-index="${i + 1}"></div>`);
+            }
+        </script>
+    </div>
+
+    <button id="generateTable">Generate Table</button>
+    <table id="outputTable" border="1"></table>
+
+    <script>
+        $(document).ready(function () {
+            // Data yang sudah ada
+            const data = [
+                { name: "Ali", class: "10A" },
+                { name: "Budi", class: "10B" },
+                { name: "Citra", class: "10C" },
+                { name: "Dewi", class: "10D" }
+            ];
+
+            const numColumns = 10; // Jumlah kolom dalam grid
+            let isDragging = false;
+            const selectedIndexes = []; // Array untuk menyimpan urutan kotak yang dipilih
+
+            // Event untuk memulai drag
+            $('.square').mousedown(function () {
+                isDragging = true;
+                const square = $(this);
+                toggleSquare(square);
+            });
+
+            // Event untuk melakukan drag
+            $('.square').mouseenter(function () {
+                if (isDragging) {
+                    const square = $(this);
+                    toggleSquare(square);
+                }
+            });
+
+            // Hentikan drag
+            $(document).mouseup(function () {
+                isDragging = false;
+            });
+
+            // Fungsi toggle untuk kotak
+            function toggleSquare(square) {
+                const index = square.data('index');
+                if (square.hasClass('selected')) {
+                    square.removeClass('selected');
+                    const idx = selectedIndexes.indexOf(index);
+                    if (idx !== -1) selectedIndexes.splice(idx, 1); // Hapus jika sudah dipilih
+                } else {
+                    square.addClass('selected');
+                    selectedIndexes.push(index); // Tambah jika dipilih
+                }
+            }
+
+            // Generate tabel dari kotak yang dipilih
+            $('#generateTable').click(function () {
+                const table = $('#outputTable');
+                table.empty(); // Bersihkan tabel lama
+
+                // Urutkan indeks yang dipilih dari terkecil ke terbesar
+                const sortedIndexes = selectedIndexes.sort((a, b) => a - b);
+
+                // Buat array kosong untuk seluruh grid (100 kotak)
+                const grid = new Array(100).fill(null);
+
+                // Isi grid dengan data berdasarkan kotak yang dipilih
+                let dataIndex = 0; // Penunjuk data
+                for (const index of sortedIndexes) {
+                    grid[index - 1] = data[dataIndex % data.length]; // Isi kotak dengan data
+                    dataIndex++;
+                }
+
+                // Buat tabel berdasarkan grid
+                for (let i = 0; i < grid.length; i += numColumns) {
+                    const row = $('<tr></tr>');
+                    for (let j = 0; j < numColumns; j++) {
+                        const cellData = grid[i + j];
+                        if (cellData) {
+                            row.append(
+                                `<td><strong>${cellData.name}</strong><br>${cellData.class}</td>`
+                            );
+                        } else {
+                            row.append('<td></td>');
+                        }
+                    }
+                    table.append(row);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
