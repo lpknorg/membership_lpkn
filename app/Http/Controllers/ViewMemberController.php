@@ -7,7 +7,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Models\{User, UserEvent, HistoryKelasDiklatOnline};
 use App\Exports\{
     ExportDataFormByEvent,
-    ExportPresensiPelatihan
+    ExportPresensiPelatihan,
+    ExportDataTo
 };
 use Illuminate\Support\Facades\Validator;
 
@@ -300,10 +301,6 @@ class ViewMemberController extends Controller
     }
 
     public function downloadExcelByEvent($id_event){
-        // $userse = UserEvent::with(['userDetail' => function($q){
-        //     $q->orderBy('name', 'asc');
-        // }])
-        // ->where('event_id', $id_event)->get();
         $userse = UserEvent::join('users', 'user_events.user_id', '=', 'users.id')
         ->where('user_events.event_id', $id_event)
         ->where('user_events.is_deleted', 0)
@@ -313,6 +310,18 @@ class ViewMemberController extends Controller
         ->get();
         return Excel::download(new ExportDataFormByEvent($userse),"data-peserta-{$id_event}.xlsx");
     }
+
+    public function downloadExcelTo($id_event){
+        $userse = UserEvent::join('users', 'user_events.user_id', '=', 'users.id')
+        ->where('user_events.event_id', $id_event)
+        ->where('user_events.is_deleted', 0)
+        ->orderBy('users.name', 'asc')
+        ->select('user_events.*') // pastikan hanya memilih kolom yang diperlukan
+        ->with('userDetail')
+        ->get();
+        return Excel::download(new ExportDataTo($userse),"data-peserta_to-{$id_event}.xlsx");
+    }
+
     public function downloadPresensiPelatihan($id_event){
         $userse = UserEvent::join('users', 'user_events.user_id', '=', 'users.id')
         ->join('members', 'users.id', '=', 'members.user_id')

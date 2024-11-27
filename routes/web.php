@@ -161,7 +161,8 @@ Route::group(['middleware' => ['auth', 'role:panitia|admin']], function () {
 	Route::get('/import_member/{id_event}', [ViewMemberController::class, 'viewByEvent']);
 	Route::post('/import_member/delete_peserta', [ViewMemberController::class, 'deletePeserta']);
 	Route::post('/import_member/store_diklat_online', [ViewMemberController::class, 'storeToDiklatOnline']);
-	Route::get('/import_member/{id_event}/excel', [ViewMemberController::class, 'downloadExcelByEvent']);
+	Route::get('/import_member/{id_event}/excel_peserta', [ViewMemberController::class, 'downloadExcelByEvent']);
+	Route::get('/import_member/{id_event}/excel_to', [ViewMemberController::class, 'downloadExcelTo']);
 	Route::get('/import_member/{id_event}/presensi_pelatihan', [ViewMemberController::class, 'downloadPresensiPelatihan']);
 	Route::post('/import_member/{nik}/store', [ViewMemberController::class, 'updateDataMember']);
 	Route::post('/import_member/{user_id}/update', [ViewMemberController::class, 'updateDataMemberKredens']);

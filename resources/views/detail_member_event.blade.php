@@ -117,7 +117,15 @@
 		@if($list_event['event']['judul_pelatihan'] == "ppk_tipe_c" || $list_event['event']['judul_pelatihan'] == "ppk_tipe_b")
 		<a href="{{route('downloadZip', ['tipe' => 'file_sertifikat_pbj_level1', 'id_event' => $id_event])}}" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> Sertifikat PBJ Level 1</a>
 		@endif
-		<a href="{{\Request::url().'/excel'}}" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> Excel</a>
+		<div class="dropdown" style="display: inline-block;">
+			<button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<i class="fa fa-download"></i> Excel
+			</button>
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+				<a class="dropdown-item" href="{{\Request::url().'/excel_peserta'}}">Peserta</a>
+				<a class="dropdown-item" href="{{\Request::url().'/excel_to'}}">Try Out</a>
+			</div>
+		</div>
 		<div class="mt-3">
 			@csrf
 			<nav>
