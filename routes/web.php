@@ -159,6 +159,8 @@ Route::group(['middleware' => ['auth', 'role:panitia|admin']], function () {
 	Route::get('/import_member', [HomeController::class, 'viewImportMember']);
 	Route::get('/download_zip/{tipe}/{id_event}', [ViewMemberController::class, 'downloadZip'])->name('downloadZip');
 	Route::get('/import_member/{id_event}', [ViewMemberController::class, 'viewByEvent']);
+	Route::post('/import_member/{id_event}/import_pdf_lkpp', [ViewMemberController::class, 'importPdfLkpp']);
+	Route::post('/import_member/{id_event}/import_denah_lkpp', [ViewMemberController::class, 'convertDenahUjian']);
 	Route::post('/import_member/delete_peserta', [ViewMemberController::class, 'deletePeserta']);
 	Route::post('/import_member/store_diklat_online', [ViewMemberController::class, 'storeToDiklatOnline']);
 	Route::get('/import_member/{id_event}/excel_peserta', [ViewMemberController::class, 'downloadExcelByEvent']);

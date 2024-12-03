@@ -84,6 +84,29 @@
 			font-weight: 600;
 			margin-top: 5px;
 		}
+		/*		denah*/
+		.container-2 {
+			display: grid;
+			grid-template-columns: repeat(10, 30px); /* 10 kolom */
+			gap: 5px;
+			border: 1px solid #c7c0c0;
+			padding: 10px;
+			border-radius: 10px;
+		}
+		.square-2 {
+			width: 30px;
+			height: 30px;
+			background-color: #ddd;
+			border: 1px solid #ccc;
+			user-select: none;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		.selected-2 {
+			background-color: #6c6;
+		}
+		/*		end denah*/
 	</style>
 </head>
 <body>
@@ -130,12 +153,13 @@
 			@csrf
 			<nav>
 				<div class="nav nav-tabs" id="nav-tab" role="tablist">
-					<button class="nav-link active" id="nav-home-tab" data-toggle="tab" data-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Data Peserta</button>
+					<button class="nav-link" id="nav-home-tab" data-toggle="tab" data-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Data Peserta</button>
 					<button class="nav-link" id="nav-profile-tab" data-toggle="tab" data-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Data Peserta Terhapus</button>
+					<button class="nav-link active" id="nav-denahujian-tab" data-toggle="tab" data-target="#nav-denahujian" type="button" role="tab" aria-controls="nav-denahujian" aria-selected="false">Denah Ujian</button>
 				</div>
 			</nav>
 			<div class="tab-content" id="nav-tabContent">
-				<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+				<div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 					<div class="card">
 						<div class="card-body">
 							<div>
@@ -401,6 +425,28 @@
 						</div>
 					</div>
 				</div>
+				<div class="tab-pane fade show active" id="nav-denahujian" role="tabpanel" aria-labelledby="nav-denahujian-tab">
+					<div class="card">
+						<div class="card-body">
+							<div class="form-group mb-4" style="border: 1px solid #c7c0c0;padding: 10px;border-radius: 10px;">
+								<h6>Pilih Dokumen PDF LKPP</h6>
+								<a href="{{asset('lkpp_presensi/contoh_1.pdf')}}" class="d-block" target="_blank">contoh dokumen pdf</a>
+								<input type="file" class="form-control" name="dokumen_presensi_lkpp">
+								<a href="" id="btnConvertPdfLkpp" class="btn btn-success btn-sm mt-2">Submit Data</a>	
+							</div>
+							<h5>Tata Letak Tempat Duduk Peserta Ujian</h5>
+							<div class="container-2">
+								<script>
+									for (let i = 0; i < 100; i++) {
+										document.write(`<div class="square-2" data-index="${i + 1}"></div>`);
+									}
+								</script>
+							</div>
+							<button id="generateTable" class="btn btn-primary btn-sm my-2">Generate Denah Peserta ( .xlsx)</button>
+							<table id="outputTable" border="1"></table>
+						</div>
+					</div>
+				</div>
 			</div>
 			
 		</div>
@@ -413,6 +459,7 @@
 	<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 	<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 	<script src="{{asset('template/coloris/coloris.min.js')}}"></script>
+	@include('denah')
 	<script>
 		$(document).ready(function(){
 			$('body').on('click', '[class~=fa-edit]', function(e) {
@@ -545,6 +592,50 @@
 				}else{
 					$('#users-table input[type="checkbox"][id^="cb-"]').prop('checked', false);
 				}
+			})						
+			$('body').on('click', '[id=btnConvertPdfLkpp]', function(e) {
+				e.preventDefault()
+				
+				if ($('[name=dokumen_presensi_lkpp]').prop('files').length == 0) {
+					return toastr.error("Silakan pilih dokumen terlebih dahulu", 'Error');					
+				}
+				var form_data = new FormData();
+				form_data.append('dokumen_presensi_lkpp', $('[name=dokumen_presensi_lkpp]').prop('files')[0]);
+				$.ajaxSetup({
+					headers: {
+						'X-CSRF-TOKEN': $('[name=_token]').val()
+					}
+				});
+				$.ajax({
+					type: 'post',
+					url: '{{url("import_member"."/".$id_event)}}' + '/import_pdf_lkpp',
+					data: form_data,
+					processData: false, 
+					contentType: false, 
+					beforeSend: function(){
+						$('#btnConvertPdfLkpp').attr('disabled', true).css('cursor', 'not-allowed').text('Load ...')
+					},
+					success: function(data) {
+						console.log(data)
+						if (data.status == "ok") {
+							toastr.success(data.messages, 'Berhasil');
+							setTimeout(() => {
+								location.reload()
+							}, 500)
+						}
+					},
+					error: function(data) {
+						var data = data.responseJSON;
+						if (data.status == "fail") {
+							toastr.error(data.messages, 'Error');
+						}else{
+							toastr.error('Terdapat kesalahan saat submit ke diklat online', 'Error');
+						}
+					},
+					complete: function(){
+						$('#btnConvertPdfLkpp').attr('disabled', false).css('cursor', 'pointer').text('Submit')
+					}
+				});
 			})
 			$('body').on('click', '[id=btnStoreDiklatOnline]', function(e) {
 				e.preventDefault()

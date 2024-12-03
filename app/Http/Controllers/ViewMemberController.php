@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Models\{User, UserEvent, HistoryKelasDiklatOnline};
+use App\Models\{User, UserEvent, UserEventLkpp, HistoryKelasDiklatOnline};
 use App\Exports\{
     ExportDataFormByEvent,
     ExportPresensiPelatihan,
-    ExportDataTo
+    ExportDataTo,
+    ExportDenah
 };
 use Illuminate\Support\Facades\Validator;
 
@@ -68,7 +69,8 @@ class ViewMemberController extends Controller
             ['event_id', $id_event],
             ['is_deleted', 1]
         ])->orderBy('updated_at', 'desc')->get();
-        return view('detail_member_event', compact('users', 'users_deleted', 'list_kelasdo', 'list_event',  'id_event'));
+        $uv_lkpp = UserEventLkpp::where('event_id', $id_event)->get();
+        return view('detail_member_event', compact('users', 'users_deleted', 'list_kelasdo', 'list_event',  'id_event', 'uv_lkpp'));
     }
 
     public function updateDataMemberKredens($id, Request $request){
@@ -335,6 +337,106 @@ class ViewMemberController extends Controller
         ->get();
         // dd($userse);
         return Excel::download(new ExportPresensiPelatihan($userse),"data-presensi_pelatihan-{$id_event}.xlsx");
+    }
+
+    public function importPdfLkpp($id, Request $request){
+        $pdfFilePath = $request->file('dokumen_presensi_lkpp');
+        $outputFilePath = public_path('lkpp_presensi/output.csv');
+        $tabulaJarPath = public_path('lkpp_presensi/tabula-1.0.5-jar-with-dependencies.jar');
+        $command = "java -jar $tabulaJarPath -n -l -f CSV -p all -o $outputFilePath $pdfFilePath";
+        exec($command, $output, $returnVar);
+
+        if ($returnVar === 0) {
+            if (($handle = fopen($outputFilePath, 'r')) !== FALSE) {
+                $rowNumber = 0;
+                while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
+                    $rowNumber++;
+
+                    // Lewati baris pertama (header) dan baris dengan nilai "No" pada kolom pertama
+                    if ($rowNumber === 1 || $data[0] == "No" || $data[0] == "") {
+                        continue;
+                    }
+
+                    // Escape data CSV sebelum diinsert
+                    $no_urut = $data[0]; 
+                    $no_ujian = $data[1]; 
+                     // Kolom foto berisi path file
+                    $fotoData = $data[2];
+                    $nama = $data[3]; 
+                    $nik = $data[4]; 
+                    $nip = $data[5]; 
+                    $email = $data[6]; 
+                    $instansi = $data[7]; 
+                    $ttd = $data[8];
+
+                    if (!empty($fotoData)) {
+                        if (base64_encode(base64_decode($fotoData, true)) === $fotoData) {
+                            $base64Image = $fotoData; 
+                        } else {
+                            $base64Image = base64_encode($fotoData);
+                        }
+                    } else {
+                        $base64Image = null;
+                    }
+                    $selUser2 = null;
+                    $selUser = User::where('email', $email)->first();                    
+                    if ($selUser) {
+                        $selUser2 = UserEventLkpp::where('user_id', $selUser->id)
+                        ->where('event_id', $id)
+                        ->first();
+                    }else{
+                        $selUser = User::create([
+                            'email' => $email,
+                            'name' => $nama,
+                            'password' => \Hash::make('lpkn1234'),
+                            'nik' => $nik,
+                            'nip' => $nip
+                        ]);
+                    }  
+
+                    if($selUser2){
+                        $selUser2->update([
+                            'user_id' => $selUser->id,
+                            'event_id' => $id,
+                            'no_ujian' => $no_ujian,
+                            'nama' => $nama,
+                            'nik' => $nik,
+                            'nip' => $nip,
+                            'email' => $email,
+                            'asal_instansi' => $instansi
+                        ]);
+                    }else{
+                        UserEventLkpp::create([
+                            'user_id' => $selUser->id,
+                            'event_id' => $id,
+                            'no_ujian' => $no_ujian,
+                            'nama' => $nama,
+                            'nik' => $nik,
+                            'nip' => $nip,
+                            'email' => $email,
+                            'asal_instansi' => $instansi
+                        ]);
+                    }
+                }
+                fclose($handle);
+            } else {
+                echo "Gagal membuka file CSV.";
+            }
+            return response()->json([
+                'status'   => 'ok',
+                'messages' => "Berhasil upload data presensi lkpp"
+            ], 200);
+        } else {
+            return response()->json([
+                'status'   => 'fail',
+                'messages' => "Gagal upload data presensi lkpp"
+            ], 422);
+        }
+    }
+
+    public function convertDenahUjian($event_id, Request $request){
+        $detail_event = session('api_detail_event'.$event_id);
+        return Excel::download(new ExportDenah($request->tag_html, $detail_event),"data-denah-{$event_id}.xlsx");
     }
 
 }
