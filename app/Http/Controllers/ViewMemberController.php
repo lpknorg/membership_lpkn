@@ -12,6 +12,9 @@ use App\Exports\{
     ExportDenah
 };
 use Illuminate\Support\Facades\Validator;
+use Carbon\CarbonPeriod;
+use Carbon\Carbon;
+
 
 class ViewMemberController extends Controller
 {
@@ -60,6 +63,12 @@ class ViewMemberController extends Controller
             session(['api_detail_event'.$id_event => $list_api]);
         }        
         $list_event = session('api_detail_event'.$id_event);
+
+        $tgl_pelaksanaan = Carbon::parse($list_event['event']['tgl_end'])
+        ->locale('id')
+        ->translatedFormat("l, d F Y");
+        $lokasi_event = $list_event['event']['lokasi_event'];
+
         $list_kelasdo = session('kelas_diklatonline');
         $users = UserEvent::where([
             ['event_id', $id_event],
@@ -70,7 +79,7 @@ class ViewMemberController extends Controller
             ['is_deleted', 1]
         ])->orderBy('updated_at', 'desc')->get();
         $uv_lkpp = UserEventLkpp::where('event_id', $id_event)->get();
-        return view('detail_member_event', compact('users', 'users_deleted', 'list_kelasdo', 'list_event',  'id_event', 'uv_lkpp'));
+        return view('detail_member_event', compact('users', 'users_deleted', 'list_kelasdo', 'list_event',  'id_event', 'uv_lkpp', 'tgl_pelaksanaan', 'lokasi_event'));
     }
 
     public function updateDataMemberKredens($id, Request $request){
@@ -324,19 +333,26 @@ class ViewMemberController extends Controller
         return Excel::download(new ExportDataTo($userse),"data-peserta_to-{$id_event}.xlsx");
     }
 
-    public function downloadPresensiPelatihan($id_event){
-        $userse = UserEvent::join('users', 'user_events.user_id', '=', 'users.id')
-        ->join('members', 'users.id', '=', 'members.user_id')
-        ->join('member_kantors', 'members.id', '=', 'member_kantors.member_id')
-        ->where('user_events.event_id', $id_event)
-        ->where('user_events.is_deleted', 0)
-        ->orderBy('users.name', 'asc')
-        ->select('user_events.*', 'members.foto_profile', 'member_kantors.nama_instansi') // pastikan hanya memilih kolom yang diperlukan
-        ->with('userDetail')
+    public function downloadPresensiPelatihan($id_event, Request $request){        
+        $period = CarbonPeriod::create($request->tgl_mulai, $request->tgl_selesai);
+        $rangeTgl = [];
+        foreach ($period as $date) {
+            $harii = $date->translatedFormat('l');
+            $bulann = \Helper::bulanIndo((int)$date->month);
+            $rangeTgl[] = [
+                'tanggal_penuh' => "{$harii}, {$date->day} {$bulann} {$date->year}",
+                // 'hari' => $harii,    
+                // 'tanggal' => $date->day,              
+                // 'bulan' => $date->month,  
+                // 'tahun' => $date->year,          
+            ];
+        }
+        // dd($rangeTgl);
+
+        $userse = UserEventLkpp::where('event_id', $id_event)->with('userDetail.member')
         ->limit(3)
         ->get();
-        // dd($userse);
-        return Excel::download(new ExportPresensiPelatihan($userse),"data-presensi_pelatihan-{$id_event}.xlsx");
+        return Excel::download(new ExportPresensiPelatihan($userse, $rangeTgl),"data-presensi_pelatihan-{$id_event}.xlsx");
     }
 
     public function importPdfLkpp($id, Request $request){
@@ -435,8 +451,7 @@ class ViewMemberController extends Controller
     }
 
     public function convertDenahUjian($event_id, Request $request){
-        $detail_event = session('api_detail_event'.$event_id);
-        return Excel::download(new ExportDenah($request->tag_html, $detail_event),"data-denah-{$event_id}.xlsx");
+        return Excel::download(new ExportDenah($request), "data-denah-{$event_id}.xlsx");
     }
 
 }

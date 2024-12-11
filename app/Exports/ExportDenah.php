@@ -6,19 +6,24 @@ use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\{
     FromView,
     WithColumnWidths,
-    WithStyles
+    WithStyles,
+    WithEvents
 };
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Carbon\Carbon;
 
 
-class ExportDenah implements FromView, WithColumnWidths,WithStyles
+class ExportDenah implements FromView, WithColumnWidths,WithStyles, WithEvents
 {
     private $contHtml;
-    private $detailEvent;
-    public function __construct($data, $detail_event){
-        $this->contHtml = $data;
-        $this->detailEvent = $detail_event;
+    private $waktuPelaksanaan;
+    private $lokasiUjian;
+
+    public function __construct($request){
+        $this->contHtml = $request->tag_html;
+        $this->waktuPelaksanaan = $request->waktu_pelaksanaan;
+        $this->lokasiUjian = $request->lokasi_ujian;
     }
 
     public function columnWidths(): array
@@ -47,13 +52,31 @@ class ExportDenah implements FromView, WithColumnWidths,WithStyles
         ];
     }
 
+    public function registerEvents(): array
+    {
+        return [
+            AfterSheet::class => function (AfterSheet $event) {
+                $sheet = $event->sheet->getDelegate();
+                $sheet->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
+
+                // Atur margin halaman
+                $sheet->getPageMargins()->setTop(0.5);    // Margin atas
+                $sheet->getPageMargins()->setRight(0.5);  // Margin kanan
+                $sheet->getPageMargins()->setLeft(0.5);   // Margin kiri
+                $sheet->getPageMargins()->setBottom(0.5); // Margin bawah
+
+                $sheet->getPageSetup()->setHorizontalCentered(true);
+            },
+        ];
+    }
+
+
 
     public function view(): View
     {
-        $data = $this->contHtml;
-        $detail_event = $this->detailEvent;
-        $expl = explode("-", $detail_event['event']['tgl_end']);
-        $tgl_pelaksanaan = $expl[2].' '.\Helper::bulanIndo((int)$expl[1]).' '.$expl[0];
-        return view('excel_denah', compact('data', 'tgl_pelaksanaan'));
+        $data_html = $this->contHtml;
+        $data_waktu = $this->waktuPelaksanaan;
+        $data_lokasi = $this->lokasiUjian;
+        return view('excel_denah', compact('data_html', 'data_waktu', 'data_lokasi'));
     }
 }

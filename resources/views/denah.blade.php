@@ -28,18 +28,23 @@
     });
 
     // Fungsi toggle untuk kotak
+    var squareSelected = 0
     function toggleSquare(square) {
         const index = square.data('index');
         if (square.hasClass('selected-2')) {
             square.removeClass('selected-2');
+            squareSelected -= 1
             const idx = selectedIndexes.indexOf(index);
             // Hapus jika sudah dipilih
             if (idx !== -1) selectedIndexes.splice(idx, 1);
         } else {
             square.addClass('selected-2');
+            squareSelected += 1
             // Tambah jika dipilih
             selectedIndexes.push(index);
         }
+        console.log(squareSelected)
+        $('#spanDuduk').text(`${squareSelected} terpilih`)
     }
 
     $('#generateTable').click(function () {
@@ -63,7 +68,7 @@
                 const cellData = grid[i + j];
                 if (cellData) {
                     row.append(
-                        `<td><strong>${cellData.order}</strong><br>${cellData.nama}<br>${cellData.no_ujian}</td>`
+                        `<td style="border: 1px solid #000;"><strong>${cellData.order}</strong><br>${cellData.no_ujian}<br>${cellData.nama}</td>`
                         );
                 } else {
                     row.append('<td></td>');
@@ -77,13 +82,15 @@
             }
         });
         $.ajax({
-            url: '{{url('import_member')}}' + '/824/import_denah_lkpp',
+            url: '{{url('import_member')}}' + '/' + '{{\Request::segment(2)}}'+ '/import_denah_lkpp',
             method: 'POST',
             xhrFields: {
                 responseType: 'blob' 
             },
             data: {
-                tag_html: table[0].innerHTML
+                tag_html: table[0].innerHTML,
+                waktu_pelaksanaan: $('[name=waktu_pelaksanaan]').val(),
+                lokasi_ujian: $('[name=lokasi_ujian]').val()
             },
             success: function (response) {
                 const url = window.URL.createObjectURL(new Blob([response]));

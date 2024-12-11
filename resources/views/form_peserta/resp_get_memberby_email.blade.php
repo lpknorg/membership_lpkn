@@ -357,7 +357,7 @@
 		<div class="col-md-6">
 			<div class="form-group">
 				<label class="form-label" for="jenis_jabatan">Jenis Jabatan:</label><span class="text-danger"> *</span>
-				<select class="form-control" name="jenis_jabatan">
+				<select class="form-control" name="jenis_jabatan" required>
 					<?php $arr = ['Fungsional Umum', 'Fungsional Tertentu', 'Struktural', 'Rangkap', 'Bukan PNS']; ?>
 					<option value="">Pilih Jenis Jabatan</option>
 					@foreach($arr as $k => $v)

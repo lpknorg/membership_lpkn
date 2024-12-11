@@ -90,7 +90,7 @@
 			grid-template-columns: repeat(10, 30px); /* 10 kolom */
 			gap: 5px;
 			border: 1px solid #c7c0c0;
-			padding: 10px;
+			padding: 14px 20px;
 			border-radius: 10px;
 		}
 		.square-2 {
@@ -196,7 +196,8 @@
 										</div>
 									</div>
 								</div>
-								<a href="" id="btnHapusPeserta" class="btn btn-danger btn-sm my-2">Hapus Data</a>	
+								<a href="" id="btnHapusPeserta" class="btn btn-danger btn-sm my-2">Hapus Data</a>
+								<a href="" id="btnResetScroll1" class="btn btn-secondary btn-sm my-2" style="display: none;"><i class="fa fa-arrow-left"></i></a>
 								<table class="table table-bordered table-responsive table-hover" id="users-table">
 									<thead>
 										<tr>
@@ -208,8 +209,8 @@
 											<th style="min-width: 140px;">Keterangan</th>
 											<th style="min-width: 210px;">Nama Lengkap(tanpa gelar)</th>											
 											<th style="min-width: 140px;">NIK</th>
-											<th style="min-width: 50px;">Jenis Kelamin</th>
 											<th style="min-width: 225px;">Email Aktif</th>
+											<th style="min-width: 50px;">Jenis Kelamin</th>
 											<th style="min-width: 265px;">Nama Lengkap(dgn gelar)</th>
 											<th style="min-width: 120px;">Tempat Lahir</th>
 											<th style="min-width: 80px;">Tgl Lahir</th>
@@ -258,8 +259,8 @@
 											<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="user_event" data-field="keterangan" data-placeholder="Click to edit">{{$u->keterangan}}</div></td>
 											<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="users" data-field="name" data-placeholder="Click to edit">{{ucwords(strtolower($u->userDetail->name))}}</div></td>											
 											<td style="color: {{$u->font_color}};"><div data-placeholder="Click to edit" class="not-editable">{{$u->userDetail->nik}}<i data-toggle="tooltip" data-placement="top" title="update data" class="fa fa-edit" data-user_id="{{$u->userDetail->id}}" data-value="{{$u->userDetail->nik}}" data-field="nik"></i></div></td>
-											<td style="color: {{$u->font_color}};">{{$u->userDetail->member->jenis_kelamin}}</td>
 											<td style="color: {{$u->font_color}};"><div class="not-editable" data-placeholder="Click to edit">{{$u->userDetail->email}}<i data-toggle="tooltip" data-placement="top" title="update data" class="fa fa-edit" data-user_id="{{$u->userDetail->id}}" data-value="{{$u->userDetail->email}}" data-field="email"></i></div></td>
+											<td style="color: {{$u->font_color}};">{{$u->userDetail->member->jenis_kelamin}}</td>
 											<td style="color: {{$u->font_color}};"><div class="editable" data-tipe="member" data-field="nama_lengkap_gelar" data-placeholder="Click to edit">{{$u->userDetail->member->nama_lengkap_gelar}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="tempat_lahir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tempat_lahir}}</div></td>
 											<td style="color: {{$u->font_color}};"><div data-tipe="member" data-field="tgl_lahir" class="editable" data-placeholder="Click to edit">{{$u->userDetail->member->tgl_lahir}}</div></td>
@@ -434,15 +435,29 @@
 								<input type="file" class="form-control" name="dokumen_presensi_lkpp">
 								<a href="" id="btnConvertPdfLkpp" class="btn btn-success btn-sm mt-2">Submit Data</a>	
 							</div>
-							<h5>Tata Letak Tempat Duduk Peserta Ujian</h5>
-							<div class="container-2">
-								<script>
-									for (let i = 0; i < 100; i++) {
-										document.write(`<div class="square-2" data-index="${i + 1}"></div>`);
-									}
-								</script>
-							</div>
-							<button id="generateTable" class="btn btn-primary btn-sm my-2">Generate Denah Peserta ( .xlsx)</button>
+							<h5>Tata Letak Tempat Duduk Peserta Ujian - <span id="spanDuduk"></span></h5>
+							<div class="row">
+								<div class="col-md-4">
+									<div class="container-2">
+										<script>
+											for (let i = 0; i < 100; i++) {
+												document.write(`<div class="square-2" data-index="${i + 1}"></div>`);
+											}
+										</script>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Waktu Pelaksanaan</label>
+										<input type="text" class="form-control" placeholder="Waktu Pelaksanaan" value="{{$tgl_pelaksanaan}}" name="waktu_pelaksanaan">
+									</div>
+									<div class="form-group">
+										<label>Lokasi Ujian</label>
+										<input type="text" class="form-control" placeholder="Lokasi Ujian" value="{{$lokasi_event}}" name="lokasi_ujian">
+									</div>
+									<button id="generateTable" class="btn btn-primary btn-sm my-2">Generate Denah Peserta ( .xlsx)</button>
+								</div>
+							</div>							
 							<table id="outputTable" border="1"></table>
 						</div>
 					</div>
@@ -478,6 +493,20 @@
 				}
 				contt += `<input type="hidden" class="form-control" name="user_id" value="${_user_id}"><span class="text-danger" style="font-size: 13px;">* pastikan data sudah benar</span>`
 				$('#modalEditData .modal-body').html(contt)
+			})
+			const scrollTabler = document.getElementById('users-table');
+			scrollTabler.addEventListener('scroll', () => {
+				if (scrollTabler.scrollLeft > 0) {
+					$('#btnResetScroll1').show(300)
+				} else {
+					$('#btnResetScroll1').hide(300)
+				}
+			});
+
+
+			$('#btnResetScroll1').click(function(e){
+				e.preventDefault()				
+				scrollTabler.scrollLeft = 0;
 			})
 			$('#modalEditData form').on('submit', function(e) {
 				e.preventDefault();
