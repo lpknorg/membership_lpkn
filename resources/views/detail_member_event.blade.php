@@ -671,6 +671,7 @@
 				var idArr = []
 				var emailArr = []
 				var id_kelas = $('[name=id_kelas]').find(":selected").val()
+				var id_event = '{{$id_event}}'
 				$('input[type="checkbox"][id^="cb-"]:checked').each(function(){
 
 					let id = $(this).attr('id')
@@ -694,7 +695,7 @@
 				$.ajax({
 					type: 'post',
 					url: '{{url('import_member')}}' + '/store_diklat_online',
-					data: {emailArr, id_kelas, idArr},
+					data: {emailArr, id_kelas, idArr, id_event},
 					dataType: 'json',
 					beforeSend: function(){
 						$('#btnStoreDiklatOnline').attr('disabled', true).css('cursor', 'not-allowed').text('Load ...')

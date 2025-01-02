@@ -37,7 +37,8 @@ class User extends Authenticatable
         'email_verified_at',
         'user_has_update_dateimport',
         'import_batch',
-        'password_lkpp'
+        'password_lkpp',
+        'from_apps'
     ];
     protected $appends = ['total_event', 'tgl_bergabung'];
 

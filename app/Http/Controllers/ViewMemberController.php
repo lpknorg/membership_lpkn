@@ -25,9 +25,9 @@ class ViewMemberController extends Controller
         ])
         ->get();
         $filePaths = [];
-        foreach($users as $u){ 
-            $_file = $u->userDetail->member->$tipe;      
+        foreach($users as $u){               
             if (substr($u->userDetail->member->$tipe, 0, 13) == 'https://drive') {
+                $_file = $u->userDetail->member->$tipe;
                 $nama = \Helper::downloadImageFromGoogleDrive($_file, $tipe);
                 if ($nama) {
                     $u->userDetail->member->update([
@@ -276,7 +276,8 @@ class ViewMemberController extends Controller
                 'instansi'          => $u->member->memberKantor->nama_instansi ?? '-',
                 'email'             => $u->email,
                 'no_hp'             => $u->member->no_hp ?? '-',
-                'id_kelas'          => $request->id_kelas
+                'id_kelas'          => $request->id_kelas,
+                'id_event'          => $request->id_event
             ];
         }
         $endpoint = env('API_DIKLATONLINE').'Membership/process_data';
@@ -352,6 +353,7 @@ class ViewMemberController extends Controller
         $userse = UserEventLkpp::where('event_id', $id_event)->with('userDetail.member')
         ->limit(3)
         ->get();
+        // dd($userse);
         return Excel::download(new ExportPresensiPelatihan($userse, $rangeTgl),"data-presensi_pelatihan-{$id_event}.xlsx");
     }
 

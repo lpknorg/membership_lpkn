@@ -30,7 +30,7 @@ Route::post('/daftar_member/', [App\Http\Controllers\Api\MemberController::class
 Route::post('/daftar_member_lpkn/', [App\Http\Controllers\Api\MemberController::class, 'daftarLpkn'])->name('api.daftar_member_lpkn');
 Route::post('/updatePasswordAlumni/', [App\Http\Controllers\Api\MemberController::class, 'updatePasswordAlumni'])->name('api.updatePasswordAlumni');
 
-Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('api.login');
+Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'loginAplikasi'])->name('api.login');
 Route::post('/update_profile/', [App\Http\Controllers\Member\ProfileController::class, 'updateProfile'])->name('api.update_profile');
 Route::post('/update_password/', [App\Http\Controllers\Member\ProfileController::class, 'updatePassword'])->name('api.update_password');
 Route::post('/update_fotoprofile', [App\Http\Controllers\Member\ProfileController::class, 'updateFotoProfile'])->name('update_fotoprofile');

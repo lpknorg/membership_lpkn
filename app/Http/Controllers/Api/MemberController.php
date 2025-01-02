@@ -10,6 +10,49 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 class MemberController extends Controller{
+	public function loginAplikasi(Request $request){    
+        $validator = Validator::make($request->all(), array(
+            'email' => "required",
+            'password' => "required"
+        ));
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status'    => "fail",
+                'messages' => $validator->errors()->first(),
+            ], 422);
+        }
+
+        $user = User::where('email', $request->email)->first();
+        
+        if(!$user){
+            return response()->json([
+                'status'    => "fail",
+                'messages' => "User tidak terdaftar.",
+            ], 422);
+        }
+
+        if (auth()->attempt(array('email' => $request->email, 'password' => $request->password))){
+            if (\Auth::user()->roles->isEmpty()) {
+                \Auth::user()->syncRoles(['member']);
+            }
+            $user->update([
+                'from_apps' => 1
+            ]);
+            $_user = User::where('email', $request->email)->with(['member.alamatProvinsi', 'member.alamatKota', 'member.alamatKecamatan', 'member.alamatKelurahan', 'member.memberKantor'])->first();
+            return response()->json([
+                'data' => $_user,
+                'status'    => "ok",
+                'messages' => "Sukses login"
+            ], 200);
+        }else{
+            return response()->json([
+                'status'    => "fail",
+                'messages' => "Email dan password tidak cocok",
+            ], 422);
+        }   
+    }
+    
 	public function checkAlumni(Request $request){
 		$check = User::whereEmail($request->email)->with('member.memberKantor')->first();
 		if ($check) {
@@ -70,7 +113,7 @@ class MemberController extends Controller{
 		if($user){
 			return response()->json([
 				'status'    => "fail",
-				'messages' => "Email sudah digunakan",
+				'messages' => "Email sudah digunakan, silakan login dengan password default : lpkn1234"
 			], 422);
 		}
 
